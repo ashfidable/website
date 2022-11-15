@@ -1,0 +1,18 @@
+@tailwind base;
+
+@layer base {
+    :root {
+        --color-primary: #09080c;
+        --color-primary-400: #0b0a10;
+    }
+}
+
+html {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+html,
+body {
+    height: 100%;
+}
