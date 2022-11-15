@@ -1,28 +1,98 @@
-<div>
-    <!-- Logo -->
-    <h1 class="lowercase font-extrabold">Ashfid</h1>
+---
+import { Icon } from "astro-icon";
+
+const menus = [
+    {
+        name: "Home",
+        icon: "ri:home-5-fill",
+        href: "/",
+    },
+    {
+        name: "Blog",
+        icon: "ri:book-2-fill",
+        href: "/blog",
+    },
+    {
+        name: "Snippets",
+        icon: "ri:treasure-map-fill",
+        href: "/snippets",
+    },
+    {
+        name: "Uses",
+        icon: "ri:computer-fill",
+        href: "/uses",
+    },
+];
+
+const settings = [
+    {
+        name: "Theme",
+        icon: "ri:paint-fill",
+    },
+    {
+        name: "Sound",
+        icon: "ri:music-fill",
+    },
+];
+---
+
+<div class="p-4 border-r-2 bg-primary-light">
     <!-- Navbar -->
-    <nav>
+    <nav class="flex flex-col gap-4">
+        <!-- Logo -->
+        <h1 class="text-5xl font-extrabold text-center lowercase">Ashfid</h1>
         <!-- Navigation Links -->
         <section>
-            <ul class="flex flex-col">
-                <li>
-                    <a href="/" class="flex spacing-x-2">Home</a>
-                </li>
-                <li>
-                    <a href="/blog" class="flex spacing-x-2">Writings</a>
-                </li>
-                <li>
-                    <a href="/uses" class="flex spacing-x-2">Uses</a>
-                </li>
-                <li>
-                    <a href="/snippets" class="flex spacing-x-2">Snippets</a>
-                </li>
+            <h6 class="text-slate-500">Menu</h6>
+            <ul class="flex flex-col gap-[0.375rem]">
+                {
+                    menus.map((menu) => (
+                        <li>
+                            <a
+                                href={menu.href}
+                                class:list={[
+                                    "flex items-center gap-[0.375rem] p-[0.375rem] rounded-md spacing-x-2 transition-colors duration-300",
+                                    {
+                                        "bg-sky-500 font-semibold":
+                                            menu.href === Astro.url.pathname,
+                                        "hover:bg-sky-600":
+                                            menu.href !== Astro.url.pathname,
+                                    },
+                                ]}
+                            >
+                                <Icon name={menu.icon} class="w-6" />
+                                <span>{menu.name}</span>
+                            </a>
+                        </li>
+                    ))
+                }
             </ul>
         </section>
-        <!-- Utilities Links -->
+        <!-- Settings -->
         <section>
-            <ul></ul>
+            <h6 class="text-slate-500">Settings</h6>
+            <ul class="flex flex-col gap-[0.375rem]">
+                {
+                    settings.map((setting) => (
+                        <li class="flex items-center gap-[0.375rem] p-[0.375rem]">
+                            <Icon name={setting.icon} class="w-6" />
+                            {setting.name}
+                        </li>
+                    ))
+                }
+                <!-- <li class="flex">Theme</li>
+                <li class="flex">Position</li>
+                <li class="flex">Font Size</li>
+                <li class="flex">Sounds</li> -->
+            </ul>
+        </section>
+        <!-- Utilities -->
+        <section>
+            <h6 class="text-slate-500">Utilities</h6>
+            <ul>
+                <input placeholder="Ctrl + K" />
+                <li>RSS</li>
+            </ul>
         </section>
     </nav>
     <!-- Footer -->
