@@ -2,8 +2,8 @@
 
 @layer base {
     :root {
-        --color-primary: #09080c;
-        --color-primary-400: #0b0a10;
+        --color-primary: hsl(255, 20%, 4%);
+        --color-primary-light: hsl(250, 23%, 5%);
     }
 }
 
