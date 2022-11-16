@@ -2,13 +2,35 @@
 
 @layer base {
     :root {
-        --color-primary: hsl(255, 20%, 4%);
-        --color-primary-light: hsl(250, 23%, 5%);
+        --color-primary: 255 20% 4%;
+        --color-primary-light: 250 23% 5%;
+
+        --color-accent: theme(colors.sky.500);
+        --color-accent-light: theme(colors.sky.400);
+    }
+
+    .text-gradient {
+        --bg-size: 400%;
+        --color-one: theme('colors.sky.800');
+        --color-two: theme('colors.sky.500');
+        background: linear-gradient(90deg,
+                var(--color-accent-light),
+                var(--color-accent),
+                var(--color-accent-light)) 0 0 / var(--bg-size) 100%;
+        background-clip: text;
+        color: transparent;
+        animation: move-bg 12s infinite linear;
+    }
+
+    @keyframes move-bg {
+        to {
+            background-position: var(--bg-size) 0;
+        }
     }
 }
 
 html {
-    background-color: var(--color-primary);
+    background-color: hsl(var(--color-primary));
     color: white;
 }
 

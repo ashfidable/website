@@ -5,8 +5,8 @@ module.exports = {
 		extend: {
 			colors: {
 				"primary": {
-					DEFAULT: "var(--color-primary)",
-					"light": "var(--color-primary-light)"
+					DEFAULT: "hsl(var(--color-primary) / <alpha-value> )",
+					"light": "hsl(var(--color-primary-light) / <alpha-value> )"
 				}
 			}
 		},
