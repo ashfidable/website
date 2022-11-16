@@ -33,6 +33,10 @@ const settings = [
         name: "Sound",
         icon: "ri:music-fill",
     },
+    {
+        name: "Layout",
+        icon: "ri:layout-column-fill",
+    },
 ];
 ---
 
@@ -40,7 +44,9 @@ const settings = [
     <!-- Navbar -->
     <nav class="flex flex-col gap-4">
         <!-- Logo -->
-        <h1 class="text-5xl font-extrabold text-center lowercase">Ashfid</h1>
+        <h1 class="text-gradient text-5xl font-extrabold text-center lowercase">
+            Ashfid
+        </h1>
         <!-- Navigation Links -->
         <section>
             <h6 class="text-slate-500">Menu</h6>
@@ -90,7 +96,9 @@ const settings = [
         <section>
             <h6 class="text-slate-500">Utilities</h6>
             <ul>
-                <input placeholder="Ctrl + K" />
+                <div class="relative">
+                    <input class="text-sky-500 p-1" />
+                </div>
                 <li>RSS</li>
             </ul>
         </section>
