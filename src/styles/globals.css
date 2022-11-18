@@ -1,12 +1,25 @@
 @tailwind base;
 
 @layer base {
-    :root {
+    :root,
+    [data-theme="dark"] {
         --color-primary: 255 20% 4%;
         --color-primary-light: 250 23% 5%;
+        --color-primary-lighter: 248 22% 7%;
 
         --color-accent: theme(colors.sky.500);
         --color-accent-light: theme(colors.sky.400);
+        --color-accent-lighter: theme(colors.sky.300);
+    }
+
+    [data-theme="halloween"] {
+        --color-primary: 255 20% 4%;
+        --color-primary-light: 250 23% 5%;
+        --color-primary-lighter: 250 23% 2%;
+
+        --color-accent: theme(colors.orange.500);
+        --color-accent-light: theme(colors.orange.400);
+        --color-accent-lighter: theme(colors.orange.300);
     }
 
     .text-gradient {

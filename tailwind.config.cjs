@@ -6,7 +6,13 @@ module.exports = {
 			colors: {
 				"primary": {
 					DEFAULT: "hsl(var(--color-primary) / <alpha-value> )",
-					"light": "hsl(var(--color-primary-light) / <alpha-value> )"
+					"light": "hsl(var(--color-primary-light) / <alpha-value> )",
+					"lighter": "hsl(var(--color-primary-lighter) / <alpha-value> )"
+				},
+				"accent": {
+					DEFAULT: "var(--color-accent)",
+					"light": "var(--color-accent-light)",
+					"lighter": "var(--color-accent-lighter)",
 				}
 			}
 		},
