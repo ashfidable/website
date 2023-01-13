@@ -1,5 +1,7 @@
 ---
 import Navbar from "@components/Navbar.astro";
+import "@fontsource/caveat-brush";
+import "@fontsource/raleway";
 import "../styles/globals.css";
 interface Props {
     title: string;
@@ -17,9 +19,9 @@ const { title } = Astro.props as Props;
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
     </head>
-    <body class="flex">
+    <body class="flex gap-2 p-2">
         <Navbar />
-        <main class="bg-primary-light h-full">
+        <main class="flex-grow p-3 overflow-y-scroll">
             <slot />
         </main>
     </body>
