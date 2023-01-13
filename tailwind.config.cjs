@@ -3,6 +3,10 @@ module.exports = {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
 		extend: {
+			fontFamily: {
+				"stylized": 'Caveat Brush',
+				"heading": "Raleway"
+			},
 			colors: {
 				"primary": {
 					DEFAULT: "hsl(var(--color-primary) / <alpha-value> )",
