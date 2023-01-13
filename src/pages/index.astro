@@ -1,7 +1,50 @@
 ---
+import BlogCard from "@components/BlogCard.astro";
+import SnippetCard from "@components/SnippetCard.astro";
 import Main from "src/layouts/Main.astro";
 ---
 
 <Main title="Ashfid">
-	<h1>Astro</h1>
+	<div class="space-y-4">
+		<section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
+			<h1 class="font-heading font-extrabold text-2xl">Hello All 👋</h1>
+			<p>
+				Well, this site is for sharing what I studied all these years
+				related to software and web development. I really enjoy helping
+				every developer to simplify their experience and not everything
+				is about overengineering something.
+			</p>
+		</section>
+
+		<section id="featured-posts" class="space-y-4">
+			<h1 class="font-heading text-2xl font-bold">
+				<span class="text-accent font-stylized text-4xl font-normal"
+					>Featured</span
+				>
+				Posts
+			</h1>
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+				<BlogCard />
+				<BlogCard />
+				<BlogCard />
+			</div>
+			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span
+			>
+		</section>
+
+		<section id="featured-snippets" class="space-y-4">
+			<h1 class="font-heading text-2xl font-bold">
+				<span class="text-accent font-stylized text-4xl font-normal"
+					>Featured</span
+				>
+				Snippets
+			</h1>
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4">
+				<SnippetCard />
+				<SnippetCard />
+				<SnippetCard />
+				<SnippetCard />
+			</div>
+		</section>
+	</div>
 </Main>
