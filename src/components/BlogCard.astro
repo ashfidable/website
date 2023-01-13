@@ -1,0 +1,44 @@
+---
+import { Icon } from "astro-icon";
+---
+
+<a
+    class="bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:bg-primary-lighter"
+>
+    <h2 class="flex items-center gap-5 border-b-2 border-slate-600 pb-4">
+        <div
+            class="p-1 bg-gradient-to-br from-orange-500 to-orange-700 rounded-md"
+        >
+            <Icon
+                name="vscode-icons:file-type-svelte"
+                class="w-8 group-hover:animate-bounce"
+            />
+        </div>
+        <div class="flex flex-col flex-grow font-heading font-bold">
+            <span>Post Title</span>
+            <div class="flex justify-between text-slate-500">
+                <span>11 min read</span>
+                <span>26 Jan 2022</span>
+            </div>
+        </div>
+    </h2>
+    <div class="flex flex-col gap-4">
+        <p>
+            Description of the blog or excerpt here. This might have more lines
+            as we go along
+        </p>
+
+        <ul class="flex gap-4 uppercase font-semibold">
+            <li
+                class="bg-primary-lighter group-hover:bg-primary-light p-2 rounded-md transition-all duration-150"
+            >
+                WEB
+            </li>
+            <li
+                class="bg-primary-lighter group-hover:bg-primary-light p-2 rounded-md transition-all duration-150"
+            >
+                Svelte
+            </li>
+        </ul>
+    </div>
+</a>
