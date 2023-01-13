@@ -59,17 +59,21 @@ const utilities = [
 ];
 ---
 
-<div class="p-4 border-r-2 bg-primary-light flex flex-col justify-between w-64">
+<div class="p-4 bg-primary-light rounded-md flex flex-col justify-between w-64">
   <!-- Navbar -->
   <nav class="flex flex-col gap-4">
     <!-- Logo -->
-    <h1 class="text-gradient text-5xl font-extrabold text-center lowercase">
+    <h1
+      class="text-5xl font-bold font-stylized text-center flex items-center justify-center gap-2"
+    >
+      <span class="text-accent">&#60</span>
       Ashfid
+      <span class="text-accent"> &#62</span>
     </h1>
 
     <!-- Navigation Links -->
     <section>
-      <h6 class="text-slate-500">Menu</h6>
+      <h6 class="text-slate-500 font-heading">Menu</h6>
       <ul class="flex flex-col gap-[0.375rem]">
         {
           menus.map((menu) => (
@@ -94,7 +98,7 @@ const utilities = [
     </section>
     <!-- Settings -->
     <section>
-      <h6 class="text-slate-500">Settings</h6>
+      <h6 class="text-slate-500 font-heading">Settings</h6>
       <ul class="flex flex-col gap-[0.375rem]">
         {
           settings.map(({ icon, name, component }) => (
@@ -124,7 +128,7 @@ const utilities = [
     </section>
     <!-- Utilities -->
     <section>
-      <h6 class="text-slate-500">Utilities</h6>
+      <h6 class="text-slate-500 font-heading">Utilities</h6>
       <ul class="flex flex-col gap-[0.375rem]">
         {
           utilities.map((utility) => (
