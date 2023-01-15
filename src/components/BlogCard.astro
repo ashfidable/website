@@ -1,13 +1,18 @@
 ---
 import { Icon } from "astro-icon";
+
+const gradientHover =
+    "after:content-[''] after:scale-0 after:absolute after:inset-0 after:bg-gradient-to-br after:from-orange-500 after:to-orange-700 after:transition-all after:duration-150 hover:after:scale-100";
 ---
 
 <a
-    class="bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:bg-primary-lighter"
+    class="relative bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:-translate-y-2 outline outline-2 outline-primary-light hover:outline-orange-600"
 >
-    <h2 class="flex items-center gap-5 border-b-2 border-slate-600 pb-4">
+    <h2
+        class="flex items-center gap-5 border-b-2 border-slate-600 group-hover:border-orange-500 transition-all duration-150 pb-4"
+    >
         <div
-            class="p-1 bg-gradient-to-br from-orange-500 to-orange-700 rounded-md"
+            class="p-1 bg-gradient-to-br from-orange-500 to-orange-700 group-hover:from-orange-400 group-hover:to-orange-500 rounded-md"
         >
             <Icon
                 name="vscode-icons:file-type-svelte"
@@ -16,10 +21,7 @@ import { Icon } from "astro-icon";
         </div>
         <div class="flex flex-col flex-grow font-heading font-bold">
             <span>Post Title</span>
-            <div class="flex justify-between text-slate-500">
-                <span>11 min read</span>
-                <span>26 Jan 2022</span>
-            </div>
+            <div class="flex justify-between text-slate-500"></div>
         </div>
     </h2>
     <div class="flex flex-col gap-4">
@@ -28,17 +30,22 @@ import { Icon } from "astro-icon";
             as we go along
         </p>
 
-        <ul class="flex gap-4 uppercase font-semibold">
-            <li
-                class="bg-primary-lighter group-hover:bg-primary-light p-2 rounded-md transition-all duration-150"
-            >
-                WEB
-            </li>
-            <li
-                class="bg-primary-lighter group-hover:bg-primary-light p-2 rounded-md transition-all duration-150"
-            >
-                Svelte
-            </li>
-        </ul>
+        <div
+            class="flex items-center justify-between gap-4 uppercase font-semibold"
+        >
+            <ul class="flex gap-4">
+                <li
+                    class="bg-primary-lighter group-hover:bg-primary-light py-1 px-2 rounded-md transition-all duration-150"
+                >
+                    WEB
+                </li>
+                <li
+                    class="bg-primary-lighter group-hover:bg-primary-light py-1 px-2 rounded-md transition-all duration-150"
+                >
+                    Svelte
+                </li>
+            </ul>
+            <span class="text-slate-500">26 Jan 2022</span>
+        </div>
     </div>
 </a>
