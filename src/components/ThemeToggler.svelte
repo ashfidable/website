@@ -29,11 +29,11 @@
 </script>
 
 <Listbox
-  class=" p-[0.375rem] w-full"
+  class=" p-[0.375rem] w-full overflow-hidden"
   value={selectedTheme}
   on:change={changeTheme}
 >
-  <ListboxButton class="flex gap-[0.375rem] w-full">
+  <ListboxButton class="flex gap-[0.375rem] w-full overflow-hidden">
     <div><slot name="icon" /></div>
     <span>{selectedTheme.name}</span>
   </ListboxButton>
@@ -49,11 +49,11 @@
         <div class="flex gap-1">
           <div
             style:background-color="var(--color-primary)"
-            class="w-2 outline outline-1 h-full"
+            class="w-2 h-full"
           />
           <div
             style:background-color="var(--color-accent)"
-            class="w-2 outline outline-1 h-full"
+            class="w-2 h-full"
           />
         </div>
       </ListboxOption>
