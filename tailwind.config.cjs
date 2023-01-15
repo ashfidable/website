@@ -4,7 +4,7 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				"stylized": 'Caveat Brush',
+				"stylized": 'var(--font-stylized)',
 				"heading": "Raleway"
 			},
 			colors: {
