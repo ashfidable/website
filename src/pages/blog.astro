@@ -1,0 +1,24 @@
+---
+import Main from "src/layouts/Main.astro";
+---
+
+<Main title="Blog">
+    <div class="space-y-4">
+        <section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
+            <h1 class="font-heading font-extrabold text-2xl">Blog</h1>
+            <p>
+                Well, this site is for sharing what I studied all these years
+                related to software and web development. I really enjoy helping
+                every developer to simplify their experience and not everything
+                is about overengineering something.
+            </p>
+        </section>
+
+        <section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
+            <input
+                placeholder="Search"
+                class="w-full rounded-md bg-primary-lighter p-2 placeholder:text-slate-400 focus:outline-none focus:outline-accent"
+            />
+        </section>
+    </div>
+</Main>
