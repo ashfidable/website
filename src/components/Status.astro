@@ -1,0 +1,54 @@
+---
+---
+
+<div class="status flex gap-4 items-center">
+    <img class="block w-8 h-8 bg-slate-500 rounded-lg online pulse" />
+    <p>Loading</p>
+</div>
+
+<style>
+    .online {
+        --online-color: gray;
+        outline: 2px solid var(--online-color);
+    }
+    .pulse {
+        @apply bg-slate-400 animate-pulse;
+    }
+</style>
+
+<script
+    is:inline
+    src="https://cdn.jsdelivr.net/gh/xaronnn/js-lanyard/lanyard.js"
+></script>
+
+<script>
+    declare global {
+        interface Window {
+            gtag: (...args: any[]) => void;
+            lanyard: any;
+        }
+    }
+
+    const lanyard = window.lanyard;
+    const p = document.querySelector(".status > p") as HTMLParagraphElement;
+    const img = document.querySelector(".status > img") as HTMLImageElement;
+    const discordId = "394953409855488012";
+
+    lanyard({
+        userId: discordId,
+        socket: true,
+        onPresenceUpdate: async (presenceData: any) => {
+            img.style.setProperty(
+                "--online-color",
+                presenceData.discord_status === "dnd" ? "red" : "limegreen"
+            );
+            img.src = `https://api.lanyard.rest/${discordId}.png`;
+            img.classList.remove("pulse");
+            if (presenceData.activities.length > 0) {
+                p.textContent = presenceData.activities[0].name;
+            } else {
+                p.textContent = "Resting";
+            }
+        },
+    });
+</script>
