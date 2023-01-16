@@ -6,27 +6,27 @@ import Status from "./Status.astro";
 const menus = [
   {
     name: "Home",
-    icon: "ri:home-5-fill",
+    icon: "ph:house-simple",
     href: "/",
   },
   {
     name: "Blog",
-    icon: "ri:book-2-fill",
+    icon: "ph:book-open",
     href: "/blog",
   },
   {
     name: "Snippets",
-    icon: "ri:treasure-map-fill",
+    icon: "ph:sparkle",
     href: "/snippets",
   },
   {
     name: "Bookmarks",
-    icon: "ri:bookmark-3-fill",
+    icon: "ph:bookmark",
     href: "/bookmarks",
   },
   {
     name: "Uses",
-    icon: "ri:computer-fill",
+    icon: "ph:monitor",
     href: "/uses",
   },
 ];
@@ -34,17 +34,17 @@ const menus = [
 const settings = [
   {
     name: "Theme",
-    icon: "ri:paint-fill",
+    icon: "ph:paint-brush-duotone",
     component: "listbox",
   },
   {
     name: "Sound",
-    icon: "ri:music-fill",
+    icon: "ph:music-note",
     component: "checkbox",
   },
   {
     name: "Layout",
-    icon: "ri:layout-column-fill",
+    icon: "ph:layout-fill",
     component: "checkbox",
   },
 ];
@@ -52,16 +52,12 @@ const settings = [
 const utilities = [
   {
     name: "RSS",
-    icon: "ri:rss-fill",
+    icon: "ph:rss-simple",
   },
   {
     name: "Sitemap",
-    icon: "ri:organization-chart",
+    icon: "mdi-light:sitemap",
   },
-  // {
-  //   name: "Search",
-  //   icon: "ri:search-2-fill",
-  // },
 ];
 ---
 
@@ -87,11 +83,14 @@ const utilities = [
           menus.map((menu) => (
             <li>
               <a
+                id="swup"
                 href={menu.href}
                 class:list={[
                   "flex items-center gap-[0.375rem] p-[0.375rem] rounded-md spacing-x-2 transition-colors duration-300 group",
                   {
-                    "bg-accent font-semibold": menu.href === Astro.url.pathname,
+                    "bg-accent font-semibold":
+                      Astro.url.pathname === menu.href + "/" ||
+                      Astro.url.pathname === menu.href,
                     "hover:bg-accent-light": menu.href !== Astro.url.pathname,
                   },
                 ]}
@@ -101,7 +100,9 @@ const utilities = [
                   class:list={[
                     "w-6",
                     {
-                      "animate-bounce": menu.href === Astro.url.pathname,
+                      "animate-bounce":
+                        Astro.url.pathname === menu.href + "/" ||
+                        Astro.url.pathname === menu.href,
                     },
                   ]}
                 />
