@@ -1,12 +1,11 @@
 ---
 import { Icon } from "astro-icon";
 
-const gradientHover =
-    "after:content-[''] after:scale-0 after:absolute after:inset-0 after:bg-gradient-to-br after:from-orange-500 after:to-orange-700 after:transition-all after:duration-150 hover:after:scale-100";
+const { type = "svelte" } = Astro.props;
 ---
 
 <a
-    class="relative bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:-translate-y-2 outline outline-2 outline-primary-light hover:outline-orange-600"
+    class="relative bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:-translate-y-2 outline outline-0 hover:outline-2 outline-primary-light hover:outline-orange-600"
 >
     <h2
         class="flex items-center gap-5 border-b-2 border-slate-600 group-hover:border-orange-500 transition-all duration-150 pb-4"
@@ -15,7 +14,9 @@ const gradientHover =
             class="p-1 bg-gradient-to-br from-orange-500 to-orange-700 group-hover:from-orange-400 group-hover:to-orange-500 rounded-md"
         >
             <Icon
-                name="vscode-icons:file-type-svelte"
+                name={type === "svelte"
+                    ? "vscode-icons:file-type-svelte"
+                    : "vscode-icons:file-type-reactjs"}
                 class="w-8 group-hover:animate-bounce"
             />
         </div>
