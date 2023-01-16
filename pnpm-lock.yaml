@@ -8,9 +8,12 @@ specifiers:
   '@fontsource/lato': ^4.5.10
   '@fontsource/raleway': ^4.5.11
   '@rgossiaux/svelte-headlessui': ^1.0.2
+  '@swup/head-plugin': ^1.2.1
+  '@swup/scripts-plugin': ^1.1.0
   astro: ^1.9.2
   astro-icon: ^0.8.0
   svelte: ^3.55.1
+  swup: ^2.0.19
   tailwindcss: ^3.2.4
 
 dependencies:
@@ -21,9 +24,12 @@ dependencies:
   '@fontsource/lato': 4.5.10
   '@fontsource/raleway': 4.5.11
   '@rgossiaux/svelte-headlessui': 1.0.2_svelte@3.55.1
+  '@swup/head-plugin': 1.2.1
+  '@swup/scripts-plugin': 1.1.0
   astro: 1.9.2
   astro-icon: 0.8.0
   svelte: 3.55.1
+  swup: 2.0.19
   tailwindcss: 3.2.4
 
 packages:
@@ -570,6 +576,22 @@ packages:
       vitefu: 0.2.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@swup/head-plugin/1.2.1:
+    resolution: {integrity: sha512-crTX9KXkj7isGKyyRKaN+HZ293MYe92QhYWGuc2isSB3tb3EthX3IyPBIjqdhBYMFG6U2XMLWuEge/M9wXAfOw==}
+    dependencies:
+      '@swup/plugin': 1.0.1
+    dev: false
+
+  /@swup/plugin/1.0.1:
+    resolution: {integrity: sha512-QrTGn1DLx+50CNsk6oGzUFnyNyLkDK6iLb032qKImmAXS+0Dd1cwa8cSGvJ+I27J4qR8y6oJNurgHIEc6ZCTrg==}
+    dev: false
+
+  /@swup/scripts-plugin/1.1.0:
+    resolution: {integrity: sha512-/2V5cUrmzxxZH91bBk0WjsWMJhjKhb32wZ41Sw/HXAUf2gLvqebvW6Lw98HJsagNXxVqqjmzTDIfdbHGwVsG/w==}
+    dependencies:
+      '@swup/plugin': 1.0.1
     dev: false
 
   /@trysound/sax/0.2.0:
@@ -1239,6 +1261,12 @@ packages:
 
   /defined/1.0.1:
     resolution: {integrity: sha512-hsBd2qSVCRE+5PmNdHt1uzyrFu5d3RwmFDKzyNZMFq/EwDNJF7Ee5+D5oEKF0hU6LhtoUF1macFvOe4AskQC1Q==}
+    dev: false
+
+  /delegate-it/3.0.1:
+    resolution: {integrity: sha512-XU8H4pjDGBW74hFIbjdLPnvtU3HF3P9bbZvoFBSBLb5JgNaTkRb/2lvC1V+9kmZsxVR0kad4bU3rYhQ/4Ij+Gw==}
+    dependencies:
+      typed-query-selector: 2.8.0
     dev: false
 
   /dequal/2.0.3:
@@ -2842,6 +2870,11 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
+  /opencollective-postinstall/2.0.3:
+    resolution: {integrity: sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==}
+    hasBin: true
+    dev: false
+
   /ora/6.1.2:
     resolution: {integrity: sha512-EJQ3NiP5Xo94wJXIzAyOtSb0QEIAUu7m8t6UZ9krbz0vAJqr92JpcK/lEXg91q6B9pEGqrykkd2EQplnifDSBw==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -3675,6 +3708,14 @@ packages:
       stable: 0.1.8
     dev: false
 
+  /swup/2.0.19:
+    resolution: {integrity: sha512-cyqcVG5ZlIwqRjvLhZvYFBoc8vDDZ5V0OMthTOa7OE/xowzqyhGRJ2hvFr6ecnJfpiTJGN5CIq+Ep2G7ty9gcw==}
+    requiresBuild: true
+    dependencies:
+      delegate-it: 3.0.1
+      opencollective-postinstall: 2.0.3
+    dev: false
+
   /synckit/0.8.4:
     resolution: {integrity: sha512-Dn2ZkzMdSX827QbowGbU/4yjWuvNaCoScLLoMo/yKbu+P4GBR6cRGKZH27k6a9bRzdqcyd1DE96pQtQ6uNkmyw==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -3778,6 +3819,10 @@ packages:
   /type-fest/2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
+    dev: false
+
+  /typed-query-selector/2.8.0:
+    resolution: {integrity: sha512-jo9NLGQ0b7sT9TK3mxzemATQqTb/uh8TRvcOK6WSwKNewALt3AA8q2m7cdpF/uUbd/cdixaBxCGe6fpzpEWbGw==}
     dev: false
 
   /typescript/4.9.4:
