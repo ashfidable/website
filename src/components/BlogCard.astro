@@ -1,18 +1,60 @@
 ---
 import { Icon } from "astro-icon";
 
-const { type = "svelte" } = Astro.props;
+interface Props {
+    type?: string;
+}
+
+const { type = "svelte" } = Astro.props as Props;
+
+function colorTag(): string {
+    switch (type) {
+        case "svelte":
+            return "from-orange-500 to-orange-700 group-hover:from-orange-400 group-hover:to-orange-500";
+        case "react":
+            return "from-blue-500 to-blue-700 group-hover:from-blue-400 group-hover:to-blue-500";
+    }
+    return "";
+}
+
+function colorBorder(group = false): string {
+    switch (type) {
+        case "svelte":
+            return group
+                ? "group-hover:border-orange-500"
+                : "hover:border-orange-500";
+        case "react":
+            return group
+                ? "group-hover:border-blue-500"
+                : "hover:border-blue-500";
+    }
+    return "";
+}
+
+function colorOutline(group = false): string {
+    switch (type) {
+        case "svelte":
+            return group
+                ? "group-hover:outline-orange-500"
+                : "hover:outline-orange-500";
+        case "react":
+            return group
+                ? "group-hover:outline-blue-500"
+                : `hover:outline-blue-500`;
+    }
+    return "";
+}
 ---
 
 <a
-    class="relative bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:-translate-y-2 outline outline-0 hover:outline-2 outline-primary-light hover:outline-orange-600"
+    class={`relative bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:-translate-y-2 outline outline-0 hover:outline-2 outline-primary-light ${colorOutline()}`}
 >
     <h2
-        class="flex items-center gap-5 border-b-2 border-slate-600 group-hover:border-orange-500 transition-all duration-150 pb-4"
+        class={`flex items-center gap-5 border-b-2 border-slate-600 ${colorBorder(
+            true
+        )} transition-all duration-150 pb-4`}
     >
-        <div
-            class="p-1 bg-gradient-to-br from-orange-500 to-orange-700 group-hover:from-orange-400 group-hover:to-orange-500 rounded-md"
-        >
+        <div class={`p-1 bg-gradient-to-br ${colorTag()} rounded-md`}>
             <Icon
                 name={type === "svelte"
                     ? "vscode-icons:file-type-svelte"
