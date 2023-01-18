@@ -22,8 +22,10 @@ const { title } = Astro.props as Props;
     </head>
     <body class="flex gap-2 p-2">
         <Navbar />
-        <main class="flex-grow p-3 overflow-y-scroll flex flex-col">
-            <div id="swup" class="swup-transition-fade flex-grow"><slot /></div>
+        <main class="flex-grow pt-3 px-3 overflow-y-scroll flex flex-col gap-4">
+            <div id="swup" class="swup-transition-fade flex-grow">
+                <slot />
+            </div>
             <footer class="bg-primary-light rounded-md text-center p-4">
                 Copyright Ashfid
             </footer>
