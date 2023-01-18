@@ -87,7 +87,8 @@ const titleHover: string =
 ---
 
 <aside
-  class="p-4 bg-primary-light rounded-md flex flex-col justify-between flex-shrink-0 flex-grow-0 w-64"
+  id="desktop-nav"
+  class="hidden p-4 bg-primary-light rounded-md md:flex flex-col justify-between flex-shrink-0 flex-grow-0 w-64"
 >
   <!-- Navbar -->
   <nav class="flex flex-col gap-4">
@@ -201,3 +202,13 @@ const titleHover: string =
     <Status />
   </footer>
 </aside>
+
+<script>
+  var clickSound: HTMLAudioElement = new Audio("audio/click.mp3");
+
+  document.addEventListener("swup:clickLink", (event) => {
+    clickSound.pause();
+    clickSound.currentTime = 0;
+    clickSound.play();
+  });
+</script>
