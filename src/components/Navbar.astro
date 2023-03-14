@@ -84,17 +84,21 @@ const social = [
 const title: string = "Ashfid";
 const titleHover: string =
   "hover:text-accent transition-colors duration-200 ease-in-out cursor-default";
+
+function activeLink(href: string) {
+  return Astro.url.pathname === href + "/" || Astro.url.pathname === href;
+}
 ---
 
 <aside
   id="desktop-nav"
-  class="hidden p-4 bg-primary-light rounded-md md:flex flex-col justify-between flex-shrink-0 flex-grow-0 w-64"
+  class="justify-between flex-grow-0 flex-shrink-0 hidden p-4 rounded-md md:w-64 md:flex-col bg-primary-light md:flex"
 >
   <!-- Navbar -->
   <nav class="flex flex-col gap-4">
     <!-- Logo -->
     <h1
-      class="text-5xl font-normal font-stylized text-center flex items-center justify-center gap-2"
+      class="flex items-center justify-center gap-2 text-5xl font-normal text-center font-stylized"
     >
       <span class="text-accent">&#60</span>
       <span>
@@ -116,9 +120,9 @@ const titleHover: string =
                 class:list={[
                   "flex items-center gap-[0.375rem] p-[0.375rem] rounded-md spacing-x-2 transition-colors duration-300 group",
                   {
-                    "bg-accent font-semibold text-primary":
-                      Astro.url.pathname === menu.href + "/" ||
-                      Astro.url.pathname === menu.href,
+                    "bg-accent font-semibold text-primary": activeLink(
+                      menu.href
+                    ),
                     "hover:bg-accent-light": menu.href !== Astro.url.pathname,
                   },
                 ]}
@@ -147,7 +151,7 @@ const titleHover: string =
       <ul class="flex flex-col gap-[0.375rem]">
         {
           settings.map(({ icon, name, component }) => (
-            <li class="flex justify-between items-center">
+            <li class="flex items-center justify-between">
               {component == "listbox" && (
                 <ThemeToggler client:load>
                   <Icon name={icon} slot="icon" class="w-6" />
@@ -162,7 +166,7 @@ const titleHover: string =
 
                   <input
                     type="checkbox"
-                    class="checked:accent-accent w-4 cursor-pointer"
+                    class="w-4 cursor-pointer checked:accent-accent"
                   />
                 </div>
               )}
@@ -172,7 +176,7 @@ const titleHover: string =
       </ul>
     </section>
     <!-- Utilities -->
-    <!-- <section>
+    <section>
       <h6 class="text-slate-400 font-heading">Utilities</h6>
       <ul class="flex flex-col gap-[0.375rem]">
         {
@@ -184,14 +188,15 @@ const titleHover: string =
           ))
         }
       </ul>
-    </section> -->
+    </section>
   </nav>
   <!-- Footer -->
   <footer class="flex flex-col gap-4">
-    <ul class="flex gap-4 items-center justify-center">
+    <Status />
+    <ul class="flex items-center justify-center gap-4">
       {
         social.map((s) => (
-          <li class="hover:bg-accent transition-colors duration-150 group rounded-md">
+          <li class="transition-colors duration-150 rounded-md hover:bg-accent group">
             <a class="block p-1 cursor-pointer" href={s.link}>
               <Icon name={s.icon} class="w-6 h-6 group-hover:text-black" />
             </a>
@@ -199,14 +204,40 @@ const titleHover: string =
         ))
       }
     </ul>
-    <Status />
   </footer>
 </aside>
+
+<nav class="p-4 rounded-md bg-primary-light md:hidden">
+  <ul class="flex gap-1 justify-evenly">
+    {
+      menus.map((menu) => (
+        <li class="w-full" id="swup">
+          <a
+            href={menu.href}
+            class:list={[
+              "flex flex-col items-center w-full rounded-sm",
+              { "bg-accent": activeLink(menu.href) },
+            ]}
+          >
+            <Icon name={menu.icon} class="w-8" />
+            {menu.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
 
 <script>
   var clickSound: HTMLAudioElement = new Audio("audio/click.mp3");
 
   document.addEventListener("swup:clickLink", (event) => {
+    clickSound.pause();
+    clickSound.currentTime = 0;
+    clickSound.play();
+  });
+
+  document.addEventListener("swup:popState", (event) => {
     clickSound.pause();
     clickSound.currentTime = 0;
     clickSound.play();

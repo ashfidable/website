@@ -7,62 +7,35 @@ interface Props {
 
 const { type = "svelte" } = Astro.props as Props;
 
-function colorTag(): string {
-    switch (type) {
-        case "svelte":
-            return "from-orange-500 to-orange-700 group-hover:from-orange-400 group-hover:to-orange-500";
-        case "react":
-            return "from-blue-500 to-blue-700 group-hover:from-blue-400 group-hover:to-blue-500";
-    }
-    return "";
-}
-
-function colorBorder(group = false): string {
-    switch (type) {
-        case "svelte":
-            return group
-                ? "group-hover:border-orange-500"
-                : "hover:border-orange-500";
-        case "react":
-            return group
-                ? "group-hover:border-blue-500"
-                : "hover:border-blue-500";
-    }
-    return "";
-}
-
-function colorOutline(group = false): string {
-    switch (type) {
-        case "svelte":
-            return group
-                ? "group-hover:outline-orange-500"
-                : "hover:outline-orange-500";
-        case "react":
-            return group
-                ? "group-hover:outline-blue-500"
-                : `hover:outline-blue-500`;
-    }
-    return "";
-}
+const icons: any = {
+    unity: {
+        icon: "simple-icons:unity",
+    },
+    react: {
+        icon: "vscode-icons:file-type-reactjs",
+    },
+    svelte: {
+        icon: "vscode-icons:file-type-svelte",
+    },
+};
 ---
 
 <a
-    class={`relative bg-primary-light rounded-md p-3 flex flex-col gap-4 cursor-pointer transition-all duration-150 ease-in-out group hover:-translate-y-2 outline outline-0 hover:outline-2 outline-primary-light ${colorOutline()}`}
+    data-type={type}
+    class="relative flex flex-col gap-4 p-3 transition-all duration-150 ease-linear rounded-md shadow-2xl cursor-pointer bg-primary-light group hover:-translate-y-2 outline outline-0 hover:outline-2 outline-primary-light hover:outline-tag-accent"
 >
     <h2
-        class={`flex items-center gap-5 border-b-4 border-primary-lighter ${colorBorder(
-            true
-        )} transition-all duration-150 pb-4`}
+        class="flex items-center gap-5 pb-4 transition-all duration-150 ease-linear border-b-4 border-primary-lighter group-hover:border-tag-accent"
     >
-        <div class={`p-1 bg-gradient-to-br ${colorTag()} rounded-md`}>
+        <div
+            class="p-1 rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 group-hover:from-tag-primary group-hover:to-tag-secondary"
+        >
             <Icon
-                name={type === "svelte"
-                    ? "vscode-icons:file-type-svelte"
-                    : "vscode-icons:file-type-reactjs"}
+                name={icons[type].icon}
                 class="w-8 group-hover:animate-bounce"
             />
         </div>
-        <div class="flex flex-col flex-grow font-heading font-bold">
+        <div class="flex flex-col flex-grow font-bold font-heading">
             <span>Post Title</span>
             <div class="flex justify-between text-slate-500"></div>
         </div>
@@ -74,16 +47,16 @@ function colorOutline(group = false): string {
         </p>
 
         <div
-            class="flex items-center justify-between gap-4 uppercase font-semibold"
+            class="flex items-center justify-between gap-4 font-semibold uppercase"
         >
             <ul class="flex gap-4">
                 <li
-                    class="bg-primary-lighter group-hover:bg-primary-light py-1 px-2 rounded-md transition-all duration-150"
+                    class="px-2 py-1 transition-all duration-150 rounded-md bg-primary-lighter group-hover:bg-primary-light"
                 >
                     WEB
                 </li>
                 <li
-                    class="bg-primary-lighter group-hover:bg-primary-light py-1 px-2 rounded-md transition-all duration-150"
+                    class="px-2 py-1 transition-all duration-150 rounded-md bg-primary-lighter group-hover:bg-primary-light"
                 >
                     Svelte
                 </li>

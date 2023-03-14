@@ -1,11 +1,23 @@
 ---
 import BlogCard from "@components/BlogCard.astro";
 import SnippetCard from "@components/SnippetCard.astro";
+import { Icon } from "astro-icon";
 import Main from "src/layouts/Main.astro";
+
+const icons = [
+	"vscode-icons:file-type-svelte",
+	"vscode-icons:file-type-typescript-official",
+	"vscode-icons:file-type-js-official",
+	"vscode-icons:file-type-csharp2",
+	"vscode-icons:file-type-reactjs",
+	"vscode-icons:file-type-astro",
+	"vscode-icons:file-type-python",
+];
 ---
 
 <Main title="Ashfid">
 	<div class="space-y-4">
+		<!-- Header content -->
 		<section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
 			<h1 class="font-heading font-extrabold text-2xl">
 				Hello All <span>&#128075;</span>
@@ -18,6 +30,7 @@ import Main from "src/layouts/Main.astro";
 			</p>
 		</section>
 
+		<!-- Featured Posts -->
 		<section id="featured-posts" class="space-y-4">
 			<h1 class="font-heading text-2xl font-bold">
 				<span class="text-accent font-stylized text-4xl font-normal"
@@ -28,12 +41,13 @@ import Main from "src/layouts/Main.astro";
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				<BlogCard type="react" />
 				<BlogCard />
-				<BlogCard />
+				<BlogCard type="unity" />
 			</div>
 			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span
 			>
 		</section>
 
+		<!-- Featured Snippets -->
 		<section id="featured-snippets" class="space-y-4">
 			<h1 class="font-heading text-2xl font-bold">
 				<span class="text-accent font-stylized text-4xl font-normal"
@@ -46,6 +60,28 @@ import Main from "src/layouts/Main.astro";
 				<SnippetCard />
 				<SnippetCard />
 				<SnippetCard />
+			</div>
+		</section>
+
+		<!-- Things I know.  -->
+		<section id="things-i-know" class="space-y-4">
+			<h1 class="font-heading text-2xl font-bold">
+				<span class="text-accent font-stylized text-4xl font-normal"
+					>Things</span
+				>
+				I know
+			</h1>
+			<div class="flex gap-2">
+				{
+					icons.map((icon) => (
+						<div class="p-2 bg-primary-light group">
+							<Icon
+								name={icon}
+								class="w-12 h-12 group-hover:-translate-y-4 transition-transform duration-150 ease-linear"
+							/>
+						</div>
+					))
+				}
 			</div>
 		</section>
 	</div>

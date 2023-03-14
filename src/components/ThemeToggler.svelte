@@ -37,7 +37,7 @@
     <div><slot name="icon" /></div>
     <span>{selectedTheme.name}</span>
   </ListboxButton>
-  <ListboxOptions class="bg-primary-lighter/95 absolute z-50 rounded-md">
+  <ListboxOptions class="bg-primary-lighter/95 absolute z-50 rounded-md w-48">
     {#each themes as theme (theme.id)}
       <ListboxOption
         class="p-2 cursor-pointer flex justify-between gap-[0.375rem] hover:bg-primary-lighter"

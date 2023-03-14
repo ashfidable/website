@@ -14,7 +14,7 @@
         --color-accent: theme(colors.sky.500);
         --color-accent-light: theme(colors.sky.400);
         --color-accent-lighter: theme(colors.sky.300);
-        --font-stylized: 'Caveat Brush';
+        --font-stylized: 'Rancho';
     }
 
     [data-theme="halloween"] {
@@ -28,23 +28,28 @@
         --font-stylized: 'Jolly Lodger';
     }
 
-    .text-gradient {
-        --bg-size: 400%;
-        --color-one: theme('colors.sky.800');
-        --color-two: theme('colors.sky.500');
-        background: linear-gradient(90deg,
-                var(--color-accent-light),
-                var(--color-accent),
-                var(--color-accent-light)) 0 0 / var(--bg-size) 100%;
-        background-clip: text;
-        color: transparent;
-        animation: move-bg 12s infinite linear;
+    [data-type="react"] {
+        --primary-color: 217 91% 60%;
+        --secondary-color: 224 76% 48%;
+        --accent-color: var(--primary-color);
     }
 
-    @keyframes move-bg {
-        to {
-            background-position: var(--bg-size) 0;
-        }
+    [data-type="svelte"] {
+        --primary-color: 25 95% 53%;
+        --secondary-color: 17 88% 40%;
+        --accent-color: var(--primary-color);
+    }
+
+    [data-type="unity"] {
+        --primary-color: 0 0% 0%;
+        --secondary-color: 217 33% 17%;
+        --accent-color: var(--primary-color);
+    }
+
+    [data-theme="dark"] [data-type="unity"] {
+        --primary-color: 0 0% 0%;
+        --secondary-color: 217 33% 17%;
+        --accent-color: 0 0% 75%;
     }
 }
 

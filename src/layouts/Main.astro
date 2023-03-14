@@ -1,6 +1,7 @@
 ---
 import Navbar from "@components/Navbar.astro";
-import "@fontsource/caveat-brush";
+import "@fontsource/rancho";
+
 import "@fontsource/raleway";
 import "@fontsource/jolly-lodger";
 import "../styles/globals.css";
@@ -20,16 +21,13 @@ const { title } = Astro.props as Props;
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
     </head>
-    <body class="flex gap-2 p-2">
-        <Navbar />
-        <main class="flex-grow pt-3 px-3 overflow-y-scroll flex flex-col gap-4">
-            <div id="swup" class="swup-transition-fade flex-grow">
+    <body class="flex flex-col gap-2 p-2 md:flex-row-reverse">
+        <main class="flex flex-col flex-grow gap-4 px-3 overflow-y-scroll">
+            <div id="swup" class="flex-grow swup-transition-fade">
                 <slot />
             </div>
-            <footer class="bg-primary-light rounded-md text-center p-4">
-                Copyright Ashfid
-            </footer>
         </main>
+        <Navbar />
     </body>
 </html>
 <script>

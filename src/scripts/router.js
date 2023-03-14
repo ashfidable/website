@@ -6,4 +6,5 @@ const swup = new Swup({
     plugins: [
         new SwupHeadPlugin()],
     animationSelector: '[class*="swup-transition-"]',
+    animateHistoryBrowsing: true,
 });

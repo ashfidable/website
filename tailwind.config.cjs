@@ -17,6 +17,15 @@ module.exports = {
 					DEFAULT: "var(--color-accent)",
 					"light": "var(--color-accent-light)",
 					"lighter": "var(--color-accent-lighter)",
+				},
+				"tag-primary": {
+					DEFAULT: "hsl(var(--primary-color) / <alpha-value> )"
+				},
+				"tag-secondary": {
+					DEFAULT: "hsl(var(--secondary-color) / <alpha-value> )"
+				},
+				"tag-accent": {
+					DEFAULT: "hsl(var(--accent-color) / <alpha-value> )"
 				}
 			}
 		},

@@ -2,7 +2,7 @@
 import BlogCard from "@components/BlogCard.astro";
 import Main from "src/layouts/Main.astro";
 
-const tags = ["React", "Svelte", "Javascript"];
+const tags = ["All", "React", "Svelte", "Javascript", "Godot", "Unity", "C#"];
 ---
 
 <Main title="Blog">
@@ -26,13 +26,15 @@ const tags = ["React", "Svelte", "Javascript"];
             </ul>
         </section>
 
-        <section class="rounded-md space-y-4">
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
+        <section class="rounded-md flex gap-4">
+            <div class="flex-grow space-y-4">
+                <BlogCard />
+                <BlogCard />
+                <BlogCard />
+                <BlogCard />
+                <BlogCard />
+                <BlogCard />
+            </div>
         </section>
     </div>
 </Main>

@@ -8,11 +8,14 @@
 
 <style>
     .online {
-        --online-color: gray;
+        --online-color: theme("colors.sky.800");
+        outline-offset: 2px;
         outline: 2px solid var(--online-color);
     }
     .pulse {
-        @apply bg-slate-400 animate-pulse;
+        outline-offset: 2px;
+        outline: 2px solid gray;
+        @apply bg-primary-lighter animate-pulse;
     }
 </style>
 
@@ -24,7 +27,6 @@
 <script>
     declare global {
         interface Window {
-            gtag: (...args: any[]) => void;
             lanyard: any;
         }
     }
@@ -34,18 +36,28 @@
     const img = document.querySelector(".status > img") as HTMLImageElement;
     const discordId = "394953409855488012";
 
+    const statusColors: { [key: string]: string } = {
+        online: "limegreen",
+        dnd: "red",
+        idle: "yellow",
+    };
+
     lanyard({
         userId: discordId,
         socket: true,
         onPresenceUpdate: async (presenceData: any) => {
             img.style.setProperty(
                 "--online-color",
-                presenceData.discord_status === "dnd" ? "red" : "limegreen"
+                statusColors[presenceData.discord_status]
             );
-            img.src = `https://api.lanyard.rest/${discordId}.png`;
+            img.src = presenceData.listening_to_spotify
+                ? presenceData.spotify.album_art_url
+                : `https://api.lanyard.rest/${discordId}.png`;
             img.classList.remove("pulse");
             if (presenceData.activities.length > 0) {
-                p.textContent = presenceData.activities[0].name;
+                p.textContent = presenceData.listening_to_spotify
+                    ? presenceData.spotify.song
+                    : presenceData.activities[0].name;
             } else {
                 p.textContent = "Resting";
             }
