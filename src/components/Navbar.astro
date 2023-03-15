@@ -31,6 +31,19 @@ const menus = [
   },
 ];
 
+const mobileMenu = [
+  {
+    name: "Home",
+    icon: "ph:house-simple",
+    href: "/",
+  },
+  {
+    name: "Blog",
+    icon: "ph:book-open",
+    href: "/blog",
+  },
+];
+
 const settings = [
   {
     name: "Theme",
@@ -207,39 +220,73 @@ function activeLink(href: string) {
   </footer>
 </aside>
 
-<nav class="p-4 rounded-md bg-primary-light md:hidden">
+<nav class="mobile-nav">
   <ul class="flex gap-1 justify-evenly">
     {
-      menus.map((menu) => (
+      mobileMenu.map((menu) => (
         <li class="w-full" id="swup">
           <a
             href={menu.href}
             class:list={[
-              "flex flex-col items-center w-full rounded-sm",
-              { "bg-accent": activeLink(menu.href) },
+              "flex p-2 flex-col items-center w-full rounded-sm text-gray-500 hover:bg-primary-lighter",
+              { "bg-transparent": activeLink(menu.href) },
             ]}
           >
-            <Icon name={menu.icon} class="w-8" />
-            {menu.name}
+            <Icon
+              name={menu.icon}
+              class=" "
+              class:list={[
+                "w-8 p-1",
+                {
+                  "bg-accent rounded-md text-black animate-bounce": activeLink(
+                    menu.href
+                  ),
+                },
+              ]}
+            />
+            <span
+              class:list={{
+                "text-white": activeLink(menu.href),
+              }}
+            >
+              {menu.name}
+            </span>
           </a>
         </li>
       ))
     }
+    <li class="w-full" id="swup">
+      <button
+        class:list={[
+          "flex p-2 flex-col items-center w-full rounded-sm text-gray-500 hover:bg-primary-lighter",
+        ]}
+      >
+        <Icon name="cil:hamburger-menu" class="w-8 p-1" />
+        <span> Menu</span>
+      </button>
+    </li>
+    <li class="w-full" id="swup">
+      <button
+        class:list={[
+          "flex p-2 flex-col items-center w-full rounded-sm text-gray-500 hover:bg-primary-lighter",
+        ]}
+      >
+        <Icon name="iconoir:settings" class="w-8 p-1" />
+        <span>Settings</span>
+      </button>
+    </li>
   </ul>
 </nav>
 
-<script>
-  var clickSound: HTMLAudioElement = new Audio("audio/click.mp3");
+<style>
+  .mobile-nav {
+    border-radius: 0.375rem;
+    background-color: hsl(var(--color-primary-light));
+  }
 
-  document.addEventListener("swup:clickLink", (event) => {
-    clickSound.pause();
-    clickSound.currentTime = 0;
-    clickSound.play();
-  });
-
-  document.addEventListener("swup:popState", (event) => {
-    clickSound.pause();
-    clickSound.currentTime = 0;
-    clickSound.play();
-  });
-</script>
+  @media (min-width: 768px) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+</style>
