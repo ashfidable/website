@@ -5,13 +5,13 @@ import { Icon } from "astro-icon";
 import Main from "src/layouts/Main.astro";
 
 const icons = [
-	"vscode-icons:file-type-svelte",
-	"vscode-icons:file-type-typescript-official",
-	"vscode-icons:file-type-js-official",
-	"vscode-icons:file-type-csharp2",
-	"vscode-icons:file-type-reactjs",
-	"vscode-icons:file-type-astro",
-	"vscode-icons:file-type-python",
+	"simple-icons:svelte",
+	"mdi:language-typescript",
+	"mdi:language-javascript",
+	"mdi:language-csharp",
+	"ri:reactjs-line",
+	"simple-icons:astro",
+	"mdi:language-python",
 ];
 ---
 
@@ -71,13 +71,13 @@ const icons = [
 				>
 				I know
 			</h1>
-			<div class="flex gap-2">
+			<div class="flex flex-wrap gap-2">
 				{
 					icons.map((icon) => (
 						<div class="p-2 bg-primary-light group">
 							<Icon
 								name={icon}
-								class="w-12 h-12 group-hover:-translate-y-4 transition-transform duration-150 ease-linear"
+								class="opacity-50 w-12 h-12 group-hover:-translate-y-4 transition-transform duration-150 ease-linear group-hover:opacity-80"
 							/>
 						</div>
 					))
