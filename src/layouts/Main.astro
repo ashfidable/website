@@ -21,7 +21,7 @@ const { title } = Astro.props as Props;
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
     </head>
-    <body class="flex flex-col gap-2 p-2 md:flex-row-reverse">
+    <body class="flex flex-col gap-2 md:p-2 md:flex-row-reverse">
         <main class="flex flex-col flex-grow gap-4 px-3 overflow-y-scroll">
             <div id="swup" class="flex-grow swup-transition-fade">
                 <slot />
@@ -32,4 +32,18 @@ const { title } = Astro.props as Props;
 </html>
 <script>
     import "../scripts/router";
+
+    var clickSound: HTMLAudioElement = new Audio("audio/click.mp3");
+
+    document.addEventListener("swup:willReplaceContent", (event) => {
+        clickSound.pause();
+        clickSound.currentTime = 0;
+        clickSound.play();
+    });
+
+    document.addEventListener("swup:popState", (event) => {
+        clickSound.pause();
+        clickSound.currentTime = 0;
+        clickSound.play();
+    });
 </script>
