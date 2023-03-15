@@ -196,7 +196,7 @@ function activeLink(href: string) {
           utilities.map((utility) => (
             <li class="flex gap-[0.375rem] p-[0.375rem]">
               <Icon name={utility.icon} class="w-6" />
-              {utility.name}
+              <span>{utility.name}</span>
             </li>
           ))
         }
