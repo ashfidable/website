@@ -11,7 +11,9 @@
   "dependencies": {
     "@astrojs/svelte": "^4.0.2",
     "@astrojs/tailwind": "^5.0.0",
+    "@fontsource/atkinson-hyperlegible": "^5.0.12",
     "@fontsource/caveat-brush": "^5.0.8",
+    "@fontsource/inter": "^5.0.8",
     "@fontsource/jolly-lodger": "^5.0.8",
     "@fontsource/lato": "^5.0.12",
     "@fontsource/raleway": "^5.0.8",

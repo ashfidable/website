@@ -2,7 +2,7 @@
 
 @layer base {
     html {
-        font-family: Lato, system-ui, sans-serif;
+        font-family: "Inter", system-ui, sans-serif;
     }
 
     :root,
@@ -14,7 +14,6 @@
         --color-accent: theme(colors.sky.500);
         --color-accent-light: theme(colors.sky.400);
         --color-accent-lighter: theme(colors.sky.300);
-        --font-stylized: 'Rancho';
     }
 
     [data-theme="halloween"] {
@@ -25,7 +24,6 @@
         --color-accent: theme(colors.orange.500);
         --color-accent-light: theme(colors.orange.400);
         --color-accent-lighter: theme(colors.orange.300);
-        --font-stylized: 'Jolly Lodger';
     }
 
     [data-type="react"] {

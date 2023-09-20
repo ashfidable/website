@@ -128,12 +128,12 @@ function activeLink(href: string) {
           menus.map((menu) => (
             <li>
               <a
-                id="swup"
                 href={menu.href}
+                aria-current={activeLink(menu.href) ? "page" : ""}
                 class:list={[
                   "flex items-center gap-[0.375rem] p-[0.375rem] rounded-md spacing-x-2 transition-colors duration-300 group",
                   {
-                    "bg-accent font-semibold text-primary": activeLink(
+                    "font-semibold text-primary": activeLink(
                       menu.href
                     ),
                     "hover:bg-accent-light": menu.href !== Astro.url.pathname,
@@ -164,7 +164,7 @@ function activeLink(href: string) {
       <ul class="flex flex-col gap-[0.375rem]">
         {
           settings.map(({ icon, name, component }) => (
-            <li class="flex items-center justify-between">
+            <li class="flex items-center justify-between" >
               {component == "listbox" && (
                 <ThemeToggler client:load>
                   <Icon name={icon} slot="icon" class="w-6" />
@@ -205,7 +205,8 @@ function activeLink(href: string) {
   </nav>
   <!-- Footer -->
   <footer class="flex flex-col gap-4">
-    <Status />
+    <div transition:persist="status"><Status /></div>
+    
     <ul class="flex items-center justify-center gap-4">
       {
         social.map((s) => (
@@ -279,6 +280,28 @@ function activeLink(href: string) {
 </nav>
 
 <style>
+  a[aria-current="page"] {
+    position: relative;
+    color: white;
+    isolation: isolate;
+    z-index: 2;
+    font-weight: 600;
+  }
+
+  a[aria-current="page"] svg{
+    fill: var(--color-accent);
+  }
+
+  a[aria-current="page"]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    outline: 2px solid var(--color-accent);
+    z-index: -6;
+    @apply rounded-md;
+    view-transition-name: active-page;
+  }
+
   .mobile-nav {
     border-radius: 0.375rem;
     background-color: hsl(var(--color-primary-light));
