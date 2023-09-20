@@ -30,19 +30,3 @@ const { title } = Astro.props as Props;
         <Navbar />
     </body>
 </html>
-<script>
-
-    var clickSound: HTMLAudioElement = new Audio("audio/click.mp3");
-
-    document.addEventListener("swup:willReplaceContent", (event) => {
-        clickSound.pause();
-        clickSound.currentTime = 0;
-        clickSound.play();
-    });
-
-    document.addEventListener("swup:popState", (event) => {
-        clickSound.pause();
-        clickSound.currentTime = 0;
-        clickSound.play();
-    });
-</script>
