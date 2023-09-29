@@ -11,6 +11,9 @@ dependencies:
   '@astrojs/tailwind':
     specifier: ^5.0.0
     version: 5.0.0(astro@3.2.0)(tailwindcss@3.3.3)
+  '@fontsource-variable/karla':
+    specifier: ^5.0.13
+    version: 5.0.13
   '@fontsource/atkinson-hyperlegible':
     specifier: ^5.0.12
     version: 5.0.12
@@ -32,6 +35,9 @@ dependencies:
   '@fontsource/rancho':
     specifier: ^5.0.12
     version: 5.0.12
+  '@fontsource/sacramento':
+    specifier: ^5.0.12
+    version: 5.0.12
   '@rgossiaux/svelte-headlessui':
     specifier: ^2.0.0
     version: 2.0.0(svelte@4.2.1)
@@ -50,6 +56,9 @@ dependencies:
   astro-icon:
     specifier: ^0.8.1
     version: 0.8.1
+  lucide-astro:
+    specifier: ^0.279.0
+    version: 0.279.0(astro@3.2.0)
   svelte:
     specifier: ^4.2.1
     version: 4.2.1
@@ -1826,6 +1835,10 @@ packages:
     dev: false
     optional: true
 
+  /@fontsource-variable/karla@5.0.13:
+    resolution: {integrity: sha512-ue31NrAQX+MWbACB2m/Tk880w+Mg8WQv3IVBl4qPSAh6CSXT6IX0IDgifPTpLDfKFZqw86qi9mKoRE0z8OtkqA==}
+    dev: false
+
   /@fontsource/atkinson-hyperlegible@5.0.12:
     resolution: {integrity: sha512-chlxS4rZcGbC4iObID+AmsXOIBvbxl65PUMQdSl+aQU5b1EvfYaKe97rLwcc6vGXp1OkkLl3MpBhv32wkZjkrg==}
     dev: false
@@ -1852,6 +1865,10 @@ packages:
 
   /@fontsource/rancho@5.0.12:
     resolution: {integrity: sha512-kdy5g0HRTSX2PG4wQ2cHNkhS8V0EIK9sdLHKQ/RdKH5J16TZYXJYnqlOXhxr2LjagBz7cn4iY9Tj1UgPtkxfpQ==}
+    dev: false
+
+  /@fontsource/sacramento@5.0.12:
+    resolution: {integrity: sha512-3nQjC6MBSeAA8Wz2IyB1Yaw+z+SwBaxIAcIsxMCV6lc6+UGbzKLMVMkoJ9FhC6l3uRJ0PcqWehxh9fI/LXTzmQ==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
@@ -4367,6 +4384,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: false
+
+  /lucide-astro@0.279.0(astro@3.2.0):
+    resolution: {integrity: sha512-iZAlGlE26UYuFYOFKdS8hmVvTjFI0DsiLKuStpQx/XqtOrIOqVirgokkmWeaWw4w/VrII3+wnzMYvh1NEweWvg==}
+    peerDependencies:
+      astro: ^2.7.1 || ^3.0.0
+    dependencies:
+      astro: 3.2.0
     dev: false
 
   /magic-string@0.25.9:

@@ -5,7 +5,7 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				"stylized": 'var(--font-stylized)',
-				"heading": "Atkinson Hyperlegible"
+				"heading": "var(--font-heading)"
 			},
 			colors: {
 				"primary": {
