@@ -14,6 +14,8 @@
         --color-accent: theme(colors.sky.500);
         --color-accent-light: theme(colors.sky.400);
         --color-accent-lighter: theme(colors.sky.300);
+
+        --font-heading: "Sacramento", sans-serif;
     }
 
     [data-theme="halloween"] {
@@ -65,13 +67,38 @@ body {
     height: 100%;
 }
 
-.swup-transition-fade {
-    transition: all 150ms ease-in-out;
-    transform: scale(1);
-    opacity: 1;
+
+.debug {
+    outline: 2px solid lime;
 }
 
-html.is-animating .swup-transition-fade {
-    opacity: 0;
-    transform: scale(0.9);
+.text-effect {
+    /* ... */
+
+    /* set the color of the text to transparent */
+    color: transparent;
+    font-weight: 900;
+    /* we need to clip the gradient background so that
+      so only the text bit will have the gradient background
+      (otherwise the entire rectangle the text is in would have it) */
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-color: #0093E9;
+    background-size: 300%;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+    animation: animate 5s infinite;
+}
+
+@keyframes animate {
+    0% {
+        background-position: left;
+    }
+
+    50% {
+        background-position: right;
+    }
+
+    100% {
+        background-position: left;
+    }
 }
