@@ -7,7 +7,9 @@ import "@fontsource/raleway";
 import "@fontsource/jolly-lodger";
 import "@fontsource/atkinson-hyperlegible";
 import "@fontsource/inter";
-import "../styles/globals.css";
+import "@fontsource/sacramento";
+import "@styles/globals.css";
+import NavigationBar from "@components/NavigationBar/NavigationBar.astro";
 interface Props {
     title: string;
 }
@@ -19,16 +21,22 @@ const { title } = Astro.props as Props;
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <!-- Icons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Meta Tags -->
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
         <ViewTransitions />
     </head>
-    <body class="flex flex-col gap-2 md:p-2 md:flex-row-reverse max-w-7xl mx-auto">
-        <main class="flex flex-col flex-grow gap-4 px-3 overflow-y-scroll">
+    <body class="flex flex-col gap-2 max-w-screen-xl mx-auto">
+        <NavigationBar />
+        <main class="flex flex-col flex-grow gap-4 overflow-y-scroll ">
             <slot />
         </main>
-        <Navbar />
+        <!-- <Navbar /> -->
     </body>
 </html>
