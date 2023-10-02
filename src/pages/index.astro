@@ -1,5 +1,6 @@
 ---
 import BlogCard from "@components/BlogCard.astro";
+import Card from "@components/Blog/Card.astro";
 import SnippetCard from "@components/SnippetCard.astro";
 import { Icon } from "astro-icon";
 import Main from "src/layouts/Main.astro";
@@ -31,7 +32,7 @@ const icons = [
 		</section>
 
 		<!-- Featured Posts -->
-		<section id="featured-posts" class="space-y-4">
+		<!-- <section id="featured-posts" class="space-y-4">
 			<h1 class="text-2xl font-semibold">
 				<span class="text-accent text-4xl"
 					>Featured</span
@@ -45,12 +46,29 @@ const icons = [
 			</div>
 			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span
 			>
+		</section> -->
+
+		<!-- Featured Posts (New!) -->
+		<section id="featured-posts" class="space-y-4">
+			<h1 class="text-2xl font-semibold">
+				<span class="text-accent"
+					>Featured</span
+				>
+				Posts
+			</h1>
+			<div class="grid grid-cols-1 gap-1">
+				<Card type="svelte" />
+				<Card type="react" />
+				<Card type="unity" />
+			</div>
+			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span
+			>
 		</section>
 
 		<!-- Featured Snippets -->
 		<section id="featured-snippets" class="space-y-4">
 			<h1 class=" text-2xl font-semibold">
-				<span class="text-accent text-4xl"
+				<span class="text-accent"
 					>Featured</span
 				>
 				Snippets
@@ -66,7 +84,7 @@ const icons = [
 		<!-- Things I know.  -->
 		<section id="things-i-know" class="space-y-4">
 			<h1 class=" text-2xl font-semibold">
-				<span class="text-accent text-4xl"
+				<span class="text-accent"
 					>Things</span
 				>
 				I know
