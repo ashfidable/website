@@ -1,16 +1,16 @@
 ---
+import Logo from "./Logo.astro";
 import { Links } from "./NavigationLinks";
 
 const pageName = Astro.url.pathname;
 ---
 
-<nav class="bg-primary-lighter px-3 py-5 rounded-md sticky flex justify-between items-center gap-4">
-    <h1 class="text-4xl flex gap-4 items-center font-mono">
-        <a href="/" class="text-effect">Ashfid</a>
-    </h1>
+<nav class="bg-primary-lighter px-5 py-5 rounded-md sticky flex justify-between items-center gap-4">
+    <Logo />
     <ul class="flex gap-4 font-mono">
         {Links.map(link => 
-        <li class="" aria-current={pageName === link.url ? "page" : ""}>
+        // @ts-ignore
+        <li aria-current={pageName === link.url ? "page" : ""}>
             <a href={link.url}  class="flex gap-2">
                 <link.icon></link.icon>
                 {link.name}
@@ -21,6 +21,7 @@ const pageName = Astro.url.pathname;
 </nav>
 
 <style>
+
     li[aria-current="page"] {
         position: relative;
     }
