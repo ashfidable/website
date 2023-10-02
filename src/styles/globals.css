@@ -15,7 +15,7 @@
         --color-accent-light: theme(colors.sky.400);
         --color-accent-lighter: theme(colors.sky.300);
 
-        --font-heading: "Sacramento", sans-serif;
+        --font-heading: "Josefin Sans Variable", sans-serif;
     }
 
     [data-theme="halloween"] {
@@ -41,14 +41,14 @@
     }
 
     [data-type="unity"] {
-        --primary-color: 0 0% 0%;
-        --secondary-color: 217 33% 17%;
+        --primary-color: 217 33% 17%;
+        --secondary-color: 0 0% 0%;
         --accent-color: var(--primary-color);
     }
 
     [data-theme="dark"] [data-type="unity"] {
-        --primary-color: 0 0% 0%;
-        --secondary-color: 217 33% 17%;
+        --primary-color: 217 33% 17%;
+        --secondary-color: 0 0% 0%;
         --accent-color: 0 0% 75%;
     }
 }
