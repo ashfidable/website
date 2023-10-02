@@ -11,7 +11,7 @@
   "dependencies": {
     "@astrojs/svelte": "^4.0.2",
     "@astrojs/tailwind": "^5.0.0",
-    "@fontsource-variable/karla": "^5.0.13",
+    "@fontsource-variable/josefin-sans": "^5.0.13",
     "@fontsource/atkinson-hyperlegible": "^5.0.12",
     "@fontsource/caveat-brush": "^5.0.8",
     "@fontsource/inter": "^5.0.8",

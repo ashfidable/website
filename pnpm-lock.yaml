@@ -11,7 +11,7 @@ dependencies:
   '@astrojs/tailwind':
     specifier: ^5.0.0
     version: 5.0.0(astro@3.2.0)(tailwindcss@3.3.3)
-  '@fontsource-variable/karla':
+  '@fontsource-variable/josefin-sans':
     specifier: ^5.0.13
     version: 5.0.13
   '@fontsource/atkinson-hyperlegible':
@@ -1835,8 +1835,8 @@ packages:
     dev: false
     optional: true
 
-  /@fontsource-variable/karla@5.0.13:
-    resolution: {integrity: sha512-ue31NrAQX+MWbACB2m/Tk880w+Mg8WQv3IVBl4qPSAh6CSXT6IX0IDgifPTpLDfKFZqw86qi9mKoRE0z8OtkqA==}
+  /@fontsource-variable/josefin-sans@5.0.13:
+    resolution: {integrity: sha512-+mUGyc3OLPqPVK0mv+S3iqTwHLKtjyqGbtB1XJuJUH4Nun18MBBfZxH4BBR+UgBbeUB+WMO2Y1q58doiqq2qSQ==}
     dev: false
 
   /@fontsource/atkinson-hyperlegible@5.0.12:
