@@ -5,7 +5,8 @@ module.exports = {
 		extend: {
 			fontFamily: {
 				"stylized": 'var(--font-stylized)',
-				"heading": "var(--font-heading)"
+				"heading": "var(--font-heading)",
+				"sans": ["Inter", "sans-serif"]
 			},
 			colors: {
 				"primary": {
