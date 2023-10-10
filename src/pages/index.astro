@@ -6,33 +6,33 @@ import { Icon } from "astro-icon";
 import Main from "src/layouts/Main.astro";
 
 const icons = [
-	"simple-icons:svelte",
-	"mdi:language-typescript",
-	"mdi:language-javascript",
-	"mdi:language-csharp",
-	"ri:reactjs-line",
-	"simple-icons:astro",
-	"mdi:language-python",
+  "simple-icons:svelte",
+  "mdi:language-typescript",
+  "mdi:language-javascript",
+  "mdi:language-csharp",
+  "ri:reactjs-line",
+  "simple-icons:astro",
+  "mdi:language-python",
 ];
 ---
 
 <Main title="Ashfid">
-	<div class="space-y-4">
-		<!-- Header content -->
-		<section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
-			<h1 class="font-extrabold text-2xl">
-				Hello All <span>&#128075;</span>
-			</h1>
-			<p>
-				Well, this site is for sharing what I studied all these years
-				related to software and web development. I really enjoy helping
-				every developer to simplify their experience and not everything
-				is about overengineering something.
-			</p>
-		</section>
+  <div class="space-y-4">
+    <!-- Header content -->
+    <section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
+      <h1 class="font-extrabold text-2xl">
+        Hello All <span>&#128075;</span>
+      </h1>
+      <p>
+        Well, this site is for sharing what I studied all these years related to
+        software and web development. I really enjoy helping every developer to
+        simplify their experience and not everything is about overengineering
+        something.
+      </p>
+    </section>
 
-		<!-- Featured Posts -->
-		<!-- <section id="featured-posts" class="space-y-4">
+    <!-- Featured Posts -->
+    <!-- <section id="featured-posts" class="space-y-4">
 			<h1 class="text-2xl font-semibold">
 				<span class="text-accent text-4xl"
 					>Featured</span
@@ -48,59 +48,52 @@ const icons = [
 			>
 		</section> -->
 
-		<!-- Featured Posts (New!) -->
-		<section id="featured-posts" class="space-y-4">
-			<h1 class="text-2xl font-semibold">
-				<span class="text-accent"
-					>Featured</span
-				>
-				Posts
-			</h1>
-			<div class="grid grid-cols-1 gap-1">
-				<Card type="svelte" />
-				<Card type="react" />
-				<Card type="unity" />
-			</div>
-			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span
-			>
-		</section>
+    <!-- Featured Posts (New!) -->
+    <section id="featured-posts" class="space-y-4">
+      <h1 class="text-2xl font-semibold">
+        <span class="text-accent">Featured</span>
+         Posts
+      </h1>
+      <div class="grid grid-cols-1 gap-1">
+        <Card type="svelte" />
+        <Card type="react" />
+        <Card type="unity" />
+      </div>
+      <span class="text-primary-lighter">Read All Posts (24) &#8594;</span>
+    </section>
 
-		<!-- Featured Snippets -->
-		<section id="featured-snippets" class="space-y-4">
-			<h1 class=" text-2xl font-semibold">
-				<span class="text-accent"
-					>Featured</span
-				>
-				Snippets
-			</h1>
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4">
-				<SnippetCard />
-				<SnippetCard />
-				<SnippetCard />
-				<SnippetCard />
-			</div>
-		</section>
+    <!-- Featured Snippets -->
+    <section id="featured-snippets" class="space-y-4">
+      <h1 class="text-2xl font-semibold">
+        <span class="text-accent">Featured</span>
+         Snippets
+      </h1>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4">
+        <SnippetCard />
+        <SnippetCard />
+        <SnippetCard />
+        <SnippetCard />
+      </div>
+    </section>
 
-		<!-- Things I know.  -->
-		<section id="things-i-know" class="space-y-4">
-			<h1 class=" text-2xl font-semibold">
-				<span class="text-accent"
-					>Things</span
-				>
-				I know
-			</h1>
-			<div class="flex flex-wrap gap-2">
-				{
-					icons.map((icon) => (
-						<div class="p-2 bg-primary-light group">
-							<Icon
-								name={icon}
-								class="opacity-50 w-12 h-12 group-hover:-translate-y-4 transition-transform duration-150 ease-linear group-hover:opacity-80"
-							/>
-						</div>
-					))
-				}
-			</div>
-		</section>
-	</div>
+    <!-- Things I know.  -->
+    <section id="things-i-know" class="space-y-4">
+      <h1 class="text-2xl font-semibold">
+        <span class="text-accent">Things</span>
+         I know
+      </h1>
+      <div class="flex flex-wrap gap-2">
+        {
+          icons.map((icon) => (
+            <div class="p-2 bg-primary-light group">
+              <Icon
+                name={icon}
+                class="opacity-50 w-12 h-12 group-hover:-translate-y-4 transition-transform duration-150 ease-linear group-hover:opacity-80"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 </Main>
