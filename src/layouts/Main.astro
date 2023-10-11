@@ -1,42 +1,43 @@
 ---
-import Navbar from "@components/Navbar.astro";
-import { ViewTransitions } from "astro:transitions";
-import "@fontsource/rancho";
+import Navbar from '@components/Navbar.astro'
+import { ViewTransitions } from 'astro:transitions'
+import '@fontsource/rancho'
 
-import "@fontsource/raleway";
-import "@fontsource/jolly-lodger";
-import "@fontsource/atkinson-hyperlegible";
-import "@fontsource/inter";
-import "@fontsource-variable/josefin-sans";
-import "@styles/globals.css";
-import NavigationBar from "@components/NavigationBar/NavigationBar.astro";
+import '@fontsource/raleway'
+import '@fontsource/jolly-lodger'
+import '@fontsource/atkinson-hyperlegible'
+import '@fontsource/inter'
+import '@fontsource-variable/josefin-sans'
+import '@styles/globals.css'
+import NavigationBar from '@components/NavigationBar/NavigationBar.astro'
 interface Props {
-    title: string;
+	title: string
 }
 
-const { title } = Astro.props as Props;
+const { title } = Astro.props as Props
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <!-- Icons -->
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!-- Meta Tags -->
-        <meta name="generator" content={Astro.generator} />
-        <title>{title}</title>
-        <ViewTransitions />
-    </head>
-    <body class="flex flex-col gap-2 max-w-screen-xl mx-auto">
-        <NavigationBar />
-        <main class="flex flex-col flex-grow gap-4 overflow-y-scroll px-3">
-            <slot />
-        </main>
-        <!-- <Navbar /> -->
-    </body>
+	<head>
+		<meta charset="utf-8" />
+		<!-- Icons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Meta Tags -->
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ViewTransitions />
+	</head>
+	<body class="flex flex-col gap-2">
+		<header class="bg-primary-lighter">
+			<NavigationBar />
+		</header>
+		<main class="mx-auto flex max-w-screen-xl flex-grow flex-col gap-4 overflow-y-scroll px-2">
+			<slot />
+		</main>
+	</body>
 </html>
