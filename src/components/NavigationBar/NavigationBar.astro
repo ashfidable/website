@@ -1,45 +1,48 @@
 ---
-import Logo from "./Logo.astro";
-import { Links } from "./NavigationLinks";
+import Logo from './Logo.astro'
+import { Links } from './NavigationLinks'
 
-const pageName = Astro.url.pathname;
+const pageName = Astro.url.pathname
 ---
 
-<nav class="bg-primary-lighter px-5 py-5 rounded-md sticky flex justify-between items-center gap-4">
-    <Logo />
-    <ul class="flex gap-4 font-mono">
-        {Links.map(link => 
-        // @ts-ignore
-        <li aria-current={pageName === link.url ? "page" : ""}>
-            <a href={link.url}  class="flex gap-2">
-                <link.icon></link.icon>
-                {link.name}
-            </a>
-        </li>
-        )}
-    </ul>
+<nav
+	class="sticky mx-auto flex max-w-screen-xl items-center justify-between gap-4 bg-primary-lighter p-4"
+>
+	<Logo />
+	<ul class="flex gap-4 font-mono">
+		{
+			Links.map((link) => (
+				// @ts-ignore
+				<li aria-current={pageName === link.url ? 'page' : ''}>
+					<a href={link.url} class="flex gap-2">
+						<link.icon />
+						{link.name}
+					</a>
+				</li>
+			))
+		}
+	</ul>
 </nav>
 
 <style>
+	li[aria-current='page'] {
+		position: relative;
+	}
 
-    li[aria-current="page"] {
-        position: relative;
-    }
+	li[aria-current='page'] svg {
+		color: var(--color-accent);
+		@apply animate-bounce;
+		view-transition-name: current-page-icon;
+	}
 
-    li[aria-current="page"] svg {
-        color: var(--color-accent);
-        @apply animate-bounce;
-        view-transition-name: current-page-icon;
-    }
-
-    li[aria-current="page"]::before {
-        content: '';
-        position: absolute;
-        background-color: var(--color-accent);
-        bottom: 0;
-        right: 0;
-        left: 0;
-        height: 2px;
-        view-transition-name: current-page;
-    }
+	li[aria-current='page']::before {
+		content: '';
+		position: absolute;
+		background-color: var(--color-accent);
+		bottom: 0;
+		right: 0;
+		left: 0;
+		height: 2px;
+		view-transition-name: current-page;
+	}
 </style>
