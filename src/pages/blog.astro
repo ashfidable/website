@@ -1,40 +1,36 @@
 ---
-import BlogCard from "@components/BlogCard.astro";
-import Main from "src/layouts/Main.astro";
+import BlogCard from '@components/BlogCard.astro'
+import Main from 'src/layouts/Main.astro'
 
-const tags = ["All", "React", "Svelte", "Javascript", "Godot", "Unity", "C#"];
+const tags = ['All', 'React', 'Svelte', 'Javascript', 'Godot', 'Unity', 'C#']
 ---
 
 <Main title="Blog">
-  <div class="space-y-4">
-    <section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
-      <h1 class="font-heading font-extrabold text-2xl">Blog 📘</h1>
-      <p>Personal journal... I guess.</p>
-    </section>
+	<div class="w-full space-y-4">
+		<section class="space-y-3 rounded-md bg-primary-light px-5 py-5">
+			<h1 class="font-heading text-2xl font-extrabold">Blog 📘</h1>
+			<p>Personal Blog.. I guess.</p>
+		</section>
 
-    <section class="bg-primary-light rounded-md px-5 py-5 space-y-3">
-      <input
-        placeholder="🔍 Search all posts"
-        class="w-full rounded-md bg-primary-lighter p-2 placeholder:text-slate-400 focus:outline-none focus:outline-accent"
-      />
-      <ul class="flex flex-wrap gap-2">
-        {
-          tags.map((tag) => (
-            <li class="p-2 bg-primary-lighter rounded-md">{tag}</li>
-          ))
-        }
-      </ul>
-    </section>
+		<section class="space-y-3 rounded-md bg-primary-light px-5 py-5">
+			<input
+				placeholder="🔍 Search all posts"
+				class="w-full rounded-md bg-primary-lighter p-2 placeholder:text-slate-400 focus:outline-none focus:outline-accent"
+			/>
+			<ul class="flex flex-wrap gap-2">
+				{tags.map((tag) => <li class="rounded-md bg-primary-lighter p-2">{tag}</li>)}
+			</ul>
+		</section>
 
-    <section class="rounded-md flex gap-4">
-      <div class="flex-grow space-y-4">
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-        <BlogCard />
-      </div>
-    </section>
-  </div>
+		<section class="flex gap-4 rounded-md">
+			<div class="flex-grow space-y-4">
+				<BlogCard />
+				<BlogCard />
+				<BlogCard />
+				<BlogCard />
+				<BlogCard />
+				<BlogCard />
+			</div>
+		</section>
+	</div>
 </Main>
