@@ -14,7 +14,7 @@ const pageName = Astro.url.pathname
 			Links.map((link) => (
 				// @ts-ignore
 				<li aria-current={pageName === link.url ? 'page' : ''}>
-					<a href={link.url} class="flex gap-2">
+					<a href={link.url} class="flex items-center gap-2">
 						<link.icon />
 						{link.name}
 					</a>
