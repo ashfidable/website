@@ -3,7 +3,9 @@ import BlogCard from '@components/BlogCard.astro'
 import Card from '@components/Blog/Card.astro'
 import SnippetCard from '@components/SnippetCard.astro'
 import { Icon } from 'astro-icon'
-import Main from 'src/layouts/Main.astro'
+import Main from '@layouts/Main.astro'
+import { getCollection } from 'astro:content'
+import SectionHeading from '@components/SectionHeading.astro'
 
 const icons = [
 	'simple-icons:svelte',
@@ -14,6 +16,13 @@ const icons = [
 	'simple-icons:astro',
 	'mdi:language-python'
 ]
+
+async function getSnippets() {
+	const snippetEntries = await getCollection('snippets')
+	return snippetEntries
+}
+
+const snippets = await getSnippets()
 ---
 
 <Main title="Ashfid">
@@ -49,38 +58,32 @@ const icons = [
 
 		<!-- Featured Posts (New!) -->
 		<section id="featured-posts" class="space-y-4">
-			<h1 class="text-2xl font-semibold">
-				<span class="text-accent">Featured</span>
-				 Posts
-			</h1>
+			<SectionHeading title="Featured Posts" />
 			<div class="grid grid-cols-1 gap-1">
-				<Card type="svelte" />
+				<!-- <Card type="svelte" />
 				<Card type="react" />
-				<Card type="unity" />
+				<Card type="unity" /> -->
 			</div>
 			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span>
 		</section>
 
 		<!-- Featured Snippets -->
 		<section id="featured-snippets" class="space-y-4">
-			<h1 class="text-2xl font-semibold">
-				<span class="text-accent">Featured</span>
-				 Snippets
-			</h1>
+			<SectionHeading title="Featured Snippets" />
 			<div class="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-4">
-				<SnippetCard />
-				<SnippetCard />
-				<SnippetCard />
-				<SnippetCard />
+				{
+					snippets.map((snippet) => {
+						const href = `/snippets/${snippet.slug}`
+
+						return <Card title={snippet.data.title} type="svelte" href={href} />
+					})
+				}
 			</div>
 		</section>
 
 		<!-- Things I know.  -->
 		<section id="things-i-know" class="space-y-4">
-			<h1 class="text-2xl font-semibold">
-				<span class="text-accent">Things</span>
-				 I know
-			</h1>
+			<SectionHeading title="Things I know" />
 			<div class="flex flex-wrap gap-2">
 				{
 					icons.map((icon) => (
