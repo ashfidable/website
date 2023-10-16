@@ -1,33 +1,44 @@
 ---
-import Icon from "astro-icon";
+import Icon from 'astro-icon'
 
-const { type } = Astro.props;
+interface Props {
+	title: string
+	type: string
+	href?: string
+}
+
+const { title = 'Post Title', type, href = '#' } = Astro.props
 
 const icons: any = {
-    unity: {
-        icon: "simple-icons:unity",
-    },
-    react: {
-        icon: "vscode-icons:file-type-reactjs",
-    },
-    svelte: {
-        icon: "vscode-icons:file-type-svelte",
-    },
-};
+	unity: {
+		icon: 'simple-icons:unity'
+	},
+	react: {
+		icon: 'vscode-icons:file-type-reactjs'
+	},
+	svelte: {
+		icon: 'vscode-icons:file-type-svelte'
+	}
+}
+
+// transition names
+const titleViewName = `title-${title}`
 ---
 
-<a href="#" data-type={type} class="flex justify-between items-center p-4 bg-primary-light border-b-4 border-primary-lighter hover:border-tag-primary transition-colors group">
-    <div class="flex gap-2">
-        <!-- Icon for Post -->
-        <div
-                class="p-1 rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 group-hover:from-tag-primary group-hover:to-tag-secondary"
-            >
-                <Icon
-                    name={icons[type].icon}
-                    class="w-4 group-hover:animate-bounce"
-                />
-            </div>
-        <h3 class="font-heading tracking-widest font-bold">Post Title</h3>
-    </div>
-    <span class="text-tag-primary font-mono">26 June 2023</span>
+<a
+	href={href}
+	data-type={type}
+	class="group flex items-center justify-between border-b-4 border-primary-lighter bg-primary-light p-4 transition-colors hover:border-tag-primary"
+>
+	<div class="flex gap-2">
+		<!-- Icon for Post -->
+		<div
+			class="rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 p-1 group-hover:from-tag-primary group-hover:to-tag-secondary"
+			transition:name={title}
+		>
+			<Icon name={icons[type].icon} class="w-4 group-hover:animate-bounce" />
+		</div>
+		<h3 class="font-heading text-lg font-bold tracking-widest">{title}</h3>
+	</div>
+	<span class="font-mono text-white/75">26 June 2023</span>
 </a>
