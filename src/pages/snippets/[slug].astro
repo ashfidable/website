@@ -1,0 +1,31 @@
+---
+import Main from '@layouts/Main.astro'
+import { getCollection } from 'astro:content'
+
+export async function getStaticPaths() {
+	const blogEntries = await getCollection('snippets')
+	return blogEntries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry }
+	}))
+}
+
+const { entry } = Astro.props
+const { Content } = await entry.render()
+
+// transition names
+const titleViewName = `title-${entry.data.title}`
+---
+
+<Main title={entry.data.title}>
+	<div
+		transition:name={entry.data.title}
+		data-type="svelte"
+		class="rounded-md bg-gradient-to-br from-tag-primary/80 to-tag-secondary/80 p-4"
+	>
+		<h1 class="text-center font-mono text-5xl font-bold [text-wrap:balance]">
+			{entry.data.title}
+		</h1>
+	</div>
+	<Content />
+</Main>
