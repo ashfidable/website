@@ -1,0 +1,17 @@
+---
+interface Props {
+	title: string
+}
+
+const { title } = Astro.props
+
+const highlightedTitle = title.split(' ')[0] + ' '
+const restTitle = title.substring(title.indexOf(' ') + 1)
+---
+
+<h2 class="font-heading text-3xl">
+	<span class="font-bold text-accent">
+		{highlightedTitle}
+	</span>
+	<span>{restTitle}</span>
+</h2>
