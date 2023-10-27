@@ -1,31 +1,10 @@
+@import url('themes.css') layer(base);
+
 @tailwind base;
 
 @layer base {
 	html {
 		font-family: 'Inter', system-ui, sans-serif;
-	}
-
-	:root,
-	[data-theme='dark'] {
-		--color-primary: 255 22% 4%;
-		--color-primary-light: 250 23% 6%;
-		--color-primary-lighter: 250 23% 10%;
-
-		--color-accent: theme(colors.sky.500);
-		--color-accent-light: theme(colors.sky.400);
-		--color-accent-lighter: theme(colors.sky.300);
-
-		--font-heading: 'Josefin Sans Variable', sans-serif;
-	}
-
-	[data-theme='halloween'] {
-		--color-primary: 255 20% 4%;
-		--color-primary-light: 250 23% 5%;
-		--color-primary-lighter: 250 23% 2%;
-
-		--color-accent: theme(colors.orange.500);
-		--color-accent-light: theme(colors.orange.400);
-		--color-accent-lighter: theme(colors.orange.300);
 	}
 
 	[data-type='react'] {
