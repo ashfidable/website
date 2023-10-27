@@ -1,21 +1,19 @@
 ---
-import BlogCard from '@components/BlogCard.astro'
-import Card from '@components/Blog/Card.astro'
-import SnippetCard from '@components/SnippetCard.astro'
+import Card from '@components/Cards/Card.astro'
 import { Icon } from 'astro-icon'
 import Main from '@layouts/Main.astro'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
 
-const icons = [
+const frontend = [
 	'simple-icons:svelte',
 	'mdi:language-typescript',
 	'mdi:language-javascript',
-	'mdi:language-csharp',
 	'ri:reactjs-line',
-	'simple-icons:astro',
-	'mdi:language-python'
+	'simple-icons:astro'
 ]
+
+const engines = ['mdi:unity', 'simple-icons:godotengine', 'mdi:unreal', 'file-icons:gamemaker']
 
 async function getSnippets() {
 	const snippetEntries = await getCollection('snippets')
@@ -26,7 +24,7 @@ const snippets = await getSnippets()
 ---
 
 <Main title="Ashfid">
-	<div class="space-y-4">
+	<div class="space-y-6">
 		<!-- Header content -->
 		<section class="space-y-3 rounded-md bg-primary-light px-5 py-5">
 			<h1 class="text-2xl font-extrabold">
@@ -84,17 +82,36 @@ const snippets = await getSnippets()
 		<!-- Things I know.  -->
 		<section id="things-i-know" class="space-y-4">
 			<SectionHeading title="Things I know" />
-			<div class="flex flex-wrap gap-2">
-				{
-					icons.map((icon) => (
-						<div class="group bg-primary-light p-2">
-							<Icon
-								name={icon}
-								class="h-12 w-12 opacity-50 transition-transform duration-150 ease-linear group-hover:-translate-y-4 group-hover:opacity-80"
-							/>
-						</div>
-					))
-				}
+			<div class="flex items-center justify-between px-2">
+				<h3 class="font-heading text-2xl text-accent-light">Frontend</h3>
+				<div class="flex flex-wrap gap-2">
+					{
+						frontend.map((icon) => (
+							<div class="group bg-primary-light p-2">
+								<Icon
+									name={icon}
+									class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-accent group-hover:opacity-100"
+								/>
+							</div>
+						))
+					}
+				</div>
+			</div>
+
+			<div class="flex items-center justify-between px-2">
+				<h3 class="font-heading text-2xl text-accent-light">Game Engines</h3>
+				<div class="flex flex-wrap gap-2">
+					{
+						engines.map((icon) => (
+							<div class="group bg-primary-light p-2">
+								<Icon
+									name={icon}
+									class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-accent group-hover:opacity-100"
+								/>
+							</div>
+						))
+					}
+				</div>
 			</div>
 		</section>
 	</div>
