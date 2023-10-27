@@ -1,15 +1,21 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from 'astro/config'
 
-import tailwind from "@astrojs/tailwind";
-
-// https://astro.build/config
-import svelte from "@astrojs/svelte";
+import tailwind from '@astrojs/tailwind'
 
 // https://astro.build/config
-import mdx from "@astrojs/mdx";
+import svelte from '@astrojs/svelte'
+
+// https://astro.build/config
+import mdx from '@astrojs/mdx'
+
+// plugins for markdown / mdx
+import sectionize from 'remark-sectionize'
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), svelte(), mdx()],
-  site: "https://ashfidable.github.io"
-});
+	markdown: {
+		remarkPlugins: [sectionize]
+	},
+	integrations: [tailwind(), svelte(), mdx()],
+	site: 'https://ashfidable.github.io'
+})
