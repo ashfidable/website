@@ -1,5 +1,7 @@
 ---
 import Main from '@layouts/Main.astro'
+import H1 from '@components/atoms/H1.astro'
+import Section from '@components/atoms/Section.astro'
 import { getCollection } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -18,14 +20,19 @@ const titleViewName = `title-${entry.data.title}`
 ---
 
 <Main title={entry.data.title}>
-	<div
-		transition:name={entry.data.title}
-		data-type="svelte"
-		class="rounded-md bg-gradient-to-br from-tag-primary/80 to-tag-secondary/80 p-4"
-	>
-		<h1 class="text-center font-mono text-5xl font-bold [text-wrap:balance]">
+	<section class="flex items-center gap-8 p-2">
+		<div
+			transition:name={entry.data.title}
+			data-type="svelte"
+			class="h-24 w-24 rounded-md bg-gradient-to-br from-tag-primary to-tag-secondary p-4"
+		>
+		</div>
+		<h1 class="text-center font-heading text-4xl font-bold [text-wrap:balance]">
 			{entry.data.title}
 		</h1>
-	</div>
-	<Content />
+	</section>
+
+	<Section>
+		<Content components={{ h1: H1 }} />
+	</Section>
 </Main>
