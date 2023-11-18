@@ -1,13 +1,18 @@
 ---
 import Icon from 'astro-icon'
+import { getEntry, type CollectionEntry, getEntries } from 'astro:content'
 
 interface Props {
 	title: string
 	type: string
 	href?: string
+	snippet: CollectionEntry<'snippets'>
 }
 
-const { title = 'Post Title', type, href = '#' } = Astro.props
+const { title = 'Post Title', type, href = '#', snippet } = Astro.props
+
+const getCategories = await getEntries(snippet.data.categories)
+const mainCategory = getCategories[0]
 
 const icons: any = {
 	unity: {
@@ -20,25 +25,22 @@ const icons: any = {
 		icon: 'vscode-icons:file-type-svelte'
 	}
 }
-
-// transition names
-const titleViewName = `title-${title}`
 ---
 
 <a
-	href={href}
+	href={`/snippets/${snippet?.slug}`}
 	data-type={type}
-	class="group flex items-center justify-between border-b-4 border-primary-lighter bg-primary-light p-4 transition-colors hover:border-tag-primary"
+	class="group flex items-center justify-between gap-4 rounded-md border-b-4 border-primary-lighter bg-primary-light p-4 transition-colors hover:border-tag-primary"
 >
 	<div class="flex gap-2">
 		<!-- Icon for Post -->
 		<div
 			class="rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 p-1 group-hover:from-tag-primary group-hover:to-tag-secondary"
-			transition:name={title}
+			transition:name={snippet?.data.title}
 		>
-			<Icon name={icons[type].icon} class="w-4 group-hover:animate-bounce" />
+			<Icon name={mainCategory.data.icon} class="w-4 group-hover:animate-bounce" />
 		</div>
-		<h3 class="font-heading text-lg font-bold tracking-widest">{title}</h3>
+		<h3 class="font-mono text-lg font-bold">{snippet?.data.title}</h3>
 	</div>
 	<span class="font-mono text-accent-light">26 June 2023</span>
 </a>

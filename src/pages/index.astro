@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon'
 import Main from '@layouts/Main.astro'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
+import { getEntry } from 'astro:content'
 
 const frontend = [
 	'simple-icons:svelte',
@@ -72,8 +73,7 @@ const snippets = await getSnippets()
 				{
 					snippets.map((snippet) => {
 						const href = `/snippets/${snippet.slug}`
-
-						return <Card title={snippet.data.title} type="svelte" href={href} />
+						return <Card title={snippet.data.title} type="svelte" href={href} snippet={snippet} />
 					})
 				}
 			</div>

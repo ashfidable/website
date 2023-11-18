@@ -1,15 +1,15 @@
 :root,
 [data-theme='dark'] {
 	/* --color-primary: 240 13% 8%; */
-	--color-primary: 255 22% 4%;
-	--color-primary-light: 250 23% 6%;
-	--color-primary-lighter: 250 23% 10%;
+	--color-primary: hsl(255, 22%, 4%);
+	--color-primary-light: hsl(250, 23%, 10%);
+	--color-primary-lighter: hsl(250, 23%, 16%);
 
-	--color-accent: theme(colors.sky.500);
-	--color-accent-light: theme(colors.sky.400);
-	--color-accent-lighter: theme(colors.sky.300);
+	--color-accent: theme(colors.cyan.500);
+	--color-accent-light: theme(colors.cyan.400);
+	--color-accent-lighter: theme(colors.cyan.300);
 
-	--font-heading: 'Josefin Sans Variable', sans-serif;
+	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
 }
 
 [data-theme='halloween'] {

@@ -2,33 +2,37 @@
 import Main from '@layouts/Main.astro'
 import H1 from '@components/atoms/H1.astro'
 import Section from '@components/atoms/Section.astro'
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 
 export async function getStaticPaths() {
-	const blogEntries = await getCollection('snippets')
-	return blogEntries.map((entry) => ({
-		params: { slug: entry.slug },
-		props: { entry }
+	const snippets = await getCollection('snippets')
+	return snippets.map((snippet) => ({
+		params: { slug: snippet.slug },
+		props: { snippet }
 	}))
 }
 
-const { entry } = Astro.props
-const { Content } = await entry.render()
+interface Props {
+	snippet: CollectionEntry<'snippets'>
+}
+
+const { snippet } = Astro.props
+const { Content } = await snippet.render()
 
 // transition names
-const titleViewName = `title-${entry.data.title}`
+const titleViewName = `title-${snippet.data.title}`
 ---
 
-<Main title={entry.data.title}>
+<Main title={snippet.data.title}>
 	<section class="flex items-center gap-8 p-2">
 		<div
-			transition:name={entry.data.title}
+			transition:name={snippet.data.title}
 			data-type="svelte"
 			class="h-24 w-24 rounded-md bg-gradient-to-br from-tag-primary to-tag-secondary p-4"
 		>
 		</div>
-		<h1 class="text-center font-heading text-4xl font-bold [text-wrap:balance]">
-			{entry.data.title}
+		<h1 class="text-center font-mono text-4xl font-bold [text-wrap:balance]">
+			{snippet.data.title}
 		</h1>
 	</section>
 

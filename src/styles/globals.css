@@ -33,7 +33,11 @@
 }
 
 html {
-	background-color: hsl(var(--color-primary));
+	background-image: linear-gradient(
+		to bottom right,
+		var(--color-primary-lighter),
+		var(--color-primary-light)
+	);
 	color: white;
 }
 

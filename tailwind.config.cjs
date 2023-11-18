@@ -4,32 +4,32 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				"stylized": 'var(--font-stylized)',
-				"heading": "var(--font-heading)",
-				"sans": ["Inter", "sans-serif"]
+				stylized: 'var(--font-stylized)',
+				heading: 'var(--font-heading)',
+				sans: ['Inter', 'sans-serif']
 			},
 			colors: {
-				"primary": {
-					DEFAULT: "hsl(var(--color-primary) / <alpha-value> )",
-					"light": "hsl(var(--color-primary-light) / <alpha-value> )",
-					"lighter": "hsl(var(--color-primary-lighter) / <alpha-value> )"
+				primary: {
+					DEFAULT: 'var(--color-primary)',
+					light: 'var(--color-primary-light)',
+					lighter: 'var(--color-primary-lighter)'
 				},
-				"accent": {
-					DEFAULT: "var(--color-accent)",
-					"light": "var(--color-accent-light)",
-					"lighter": "var(--color-accent-lighter)",
+				accent: {
+					DEFAULT: 'var(--color-accent)',
+					light: 'var(--color-accent-light)',
+					lighter: 'var(--color-accent-lighter)'
 				},
-				"tag-primary": {
-					DEFAULT: "hsl(var(--primary-color) / <alpha-value> )"
+				'tag-primary': {
+					DEFAULT: 'hsl(var(--primary-color) / <alpha-value> )'
 				},
-				"tag-secondary": {
-					DEFAULT: "hsl(var(--secondary-color) / <alpha-value> )"
+				'tag-secondary': {
+					DEFAULT: 'hsl(var(--secondary-color) / <alpha-value> )'
 				},
-				"tag-accent": {
-					DEFAULT: "hsl(var(--accent-color) / <alpha-value> )"
+				'tag-accent': {
+					DEFAULT: 'hsl(var(--accent-color) / <alpha-value> )'
 				}
 			}
-		},
+		}
 	},
-	plugins: [],
+	plugins: []
 }

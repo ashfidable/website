@@ -1,16 +1,25 @@
-import { z, defineCollection } from "astro:content";
+import { z, defineCollection, reference } from 'astro:content'
 
 const snippetCollection = defineCollection({
-    type: 'content',
-    schema: z.object({
-        title: z.string(),
-        description: z.string(),
-        url: z.string(),
-        category: z.string(),
-        tags: z.array(z.string()),
-    })
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		url: z.string(),
+		categories: z.array(reference('categories')),
+		tags: z.array(z.string())
+	})
+})
+
+const categoryCollection = defineCollection({
+	type: 'data',
+	schema: z.object({
+		name: z.string(),
+		icon: z.string().optional()
+	})
 })
 
 export const collections = {
-    'snippets': snippetCollection
+	snippets: snippetCollection,
+	categories: categoryCollection
 }

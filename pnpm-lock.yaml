@@ -20,6 +20,9 @@ dependencies:
   '@fontsource/atkinson-hyperlegible':
     specifier: ^5.0.12
     version: 5.0.12
+  '@fontsource/bebas-neue':
+    specifier: ^5.0.17
+    version: 5.0.17
   '@fontsource/caveat-brush':
     specifier: ^5.0.8
     version: 5.0.8
@@ -859,6 +862,10 @@ packages:
 
   /@fontsource/atkinson-hyperlegible@5.0.12:
     resolution: {integrity: sha512-chlxS4rZcGbC4iObID+AmsXOIBvbxl65PUMQdSl+aQU5b1EvfYaKe97rLwcc6vGXp1OkkLl3MpBhv32wkZjkrg==}
+    dev: false
+
+  /@fontsource/bebas-neue@5.0.17:
+    resolution: {integrity: sha512-A2qZbwnVbVkdR9EL1Wcnz0lSHf5oks0jp3KSWgVB1pODyVepEgExNKbV23HO7vG5w/Wp4QUku5qS8ttmpa1EvA==}
     dev: false
 
   /@fontsource/caveat-brush@5.0.8:
