@@ -73,7 +73,7 @@ const snippets = await getSnippets()
 				{
 					snippets.map((snippet) => {
 						const href = `/snippets/${snippet.slug}`
-						return <Card title={snippet.data.title} type="svelte" href={href} snippet={snippet} />
+						return <Card snippet={snippet} />
 					})
 				}
 			</div>

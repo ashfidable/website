@@ -3,33 +3,18 @@ import Icon from 'astro-icon'
 import { getEntry, type CollectionEntry, getEntries } from 'astro:content'
 
 interface Props {
-	title: string
-	type: string
-	href?: string
 	snippet: CollectionEntry<'snippets'>
 }
 
-const { title = 'Post Title', type, href = '#', snippet } = Astro.props
+const { snippet } = Astro.props
 
 const getCategories = await getEntries(snippet.data.categories)
 const mainCategory = getCategories[0]
-
-const icons: any = {
-	unity: {
-		icon: 'simple-icons:unity'
-	},
-	react: {
-		icon: 'vscode-icons:file-type-reactjs'
-	},
-	svelte: {
-		icon: 'vscode-icons:file-type-svelte'
-	}
-}
 ---
 
 <a
 	href={`/snippets/${snippet?.slug}`}
-	data-type={type}
+	data-type={mainCategory.data.name}
 	class="group flex items-center justify-between gap-4 rounded-md border-b-4 border-primary-lighter bg-primary-light p-4 transition-colors hover:border-tag-primary"
 >
 	<div class="flex gap-2">
