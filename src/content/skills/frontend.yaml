@@ -1,0 +1,11 @@
+entries:
+  - name: JavaScript
+    icon: mdi:language-javascript
+  - name: TypeScript
+    icon: mdi:language-typescript
+  - name: Svelte
+    icon: simple-icons:svelte
+  - name: React
+    icon: ri:reactjs-line
+  - name: Astro
+    icon: simple-icons:astro

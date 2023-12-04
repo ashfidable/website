@@ -5,7 +5,7 @@
 	--color-primary-light: hsl(250, 23%, 10%);
 	--color-primary-lighter: hsl(250, 23%, 16%);
 
-	--color-accent: theme(colors.cyan.500);
+	--color-accent: theme(colors.cyan.400);
 	--color-accent-light: theme(colors.cyan.400);
 	--color-accent-lighter: theme(colors.cyan.300);
 

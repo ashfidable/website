@@ -205,6 +205,16 @@ declare module 'astro:content' {
 };
 };
 "skills": {
+"frontend": {
+	id: "frontend";
+  collection: "skills";
+  data: InferEntrySchema<"skills">
+};
+"game-engines": {
+	id: "game-engines";
+  collection: "skills";
+  data: InferEntrySchema<"skills">
+};
 };
 
 	};

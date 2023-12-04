@@ -19,7 +19,20 @@ const categoryCollection = defineCollection({
 	})
 })
 
+const skillsCollection = defineCollection({
+	type: 'data',
+	schema: z.object({
+		entries: z.array(
+			z.object({
+				name: z.string(),
+				icon: z.string().optional()
+			})
+		)
+	})
+})
+
 export const collections = {
 	snippets: snippetCollection,
-	categories: categoryCollection
+	categories: categoryCollection,
+	skills: skillsCollection
 }

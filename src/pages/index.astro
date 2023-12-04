@@ -4,17 +4,8 @@ import { Icon } from 'astro-icon'
 import Main from '@layouts/Main.astro'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
-import { getEntry } from 'astro:content'
 
-const frontend = [
-	'simple-icons:svelte',
-	'mdi:language-typescript',
-	'mdi:language-javascript',
-	'ri:reactjs-line',
-	'simple-icons:astro'
-]
-
-const engines = ['mdi:unity', 'simple-icons:godotengine', 'mdi:unreal', 'file-icons:gamemaker']
+const skills = await getCollection('skills')
 
 async function getSnippets() {
 	const snippetEntries = await getCollection('snippets')
@@ -82,37 +73,29 @@ const snippets = await getSnippets()
 		<!-- Things I know.  -->
 		<section id="things-i-know" class="space-y-4">
 			<SectionHeading title="Things I know" />
-			<div class="flex items-center justify-between px-2">
-				<h3 class="font-heading text-2xl text-accent-light">Frontend</h3>
-				<div class="flex flex-wrap gap-2">
-					{
-						frontend.map((icon) => (
-							<div class="group bg-primary-light p-2">
-								<Icon
-									name={icon}
-									class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-accent group-hover:opacity-100"
-								/>
-							</div>
-						))
-					}
-				</div>
-			</div>
+			{
+				skills.map((skill) => {
+					const rawName = skill.id
+					const name = skill.id.charAt(0).toUpperCase() + rawName.slice(1)
+					const cleanName = name.replace('-', ' ')
 
-			<div class="flex items-center justify-between px-2">
-				<h3 class="font-heading text-2xl text-accent-light">Game Engines</h3>
-				<div class="flex flex-wrap gap-2">
-					{
-						engines.map((icon) => (
-							<div class="group bg-primary-light p-2">
-								<Icon
-									name={icon}
-									class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-accent group-hover:opacity-100"
-								/>
+					return (
+						<div class="flex items-center justify-between px-2">
+							<h3 class="font-heading text-2xl text-teal-300">{cleanName}</h3>
+							<div class="flex flex-wrap gap-2">
+								{skill.data.entries.map((entry) => (
+									<div class="group bg-primary-light p-2">
+										<Icon
+											name={entry.icon}
+											class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-accent group-hover:opacity-100"
+										/>
+									</div>
+								))}
 							</div>
-						))
-					}
-				</div>
-			</div>
+						</div>
+					)
+				})
+			}
 		</section>
 	</div>
 </Main>
