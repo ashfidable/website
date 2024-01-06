@@ -17,30 +17,9 @@ dependencies:
   '@fontsource-variable/josefin-sans':
     specifier: ^5.0.13
     version: 5.0.13
-  '@fontsource/atkinson-hyperlegible':
-    specifier: ^5.0.12
-    version: 5.0.12
-  '@fontsource/bebas-neue':
-    specifier: ^5.0.17
-    version: 5.0.17
-  '@fontsource/caveat-brush':
-    specifier: ^5.0.8
-    version: 5.0.8
   '@fontsource/inter':
     specifier: ^5.0.8
     version: 5.0.8
-  '@fontsource/jolly-lodger':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@fontsource/lato':
-    specifier: ^5.0.12
-    version: 5.0.12
-  '@fontsource/raleway':
-    specifier: ^5.0.8
-    version: 5.0.8
-  '@fontsource/rancho':
-    specifier: ^5.0.12
-    version: 5.0.12
   '@rgossiaux/svelte-headlessui':
     specifier: ^2.0.0
     version: 2.0.0(svelte@4.2.1)
@@ -857,36 +836,8 @@ packages:
     resolution: {integrity: sha512-+mUGyc3OLPqPVK0mv+S3iqTwHLKtjyqGbtB1XJuJUH4Nun18MBBfZxH4BBR+UgBbeUB+WMO2Y1q58doiqq2qSQ==}
     dev: false
 
-  /@fontsource/atkinson-hyperlegible@5.0.12:
-    resolution: {integrity: sha512-chlxS4rZcGbC4iObID+AmsXOIBvbxl65PUMQdSl+aQU5b1EvfYaKe97rLwcc6vGXp1OkkLl3MpBhv32wkZjkrg==}
-    dev: false
-
-  /@fontsource/bebas-neue@5.0.17:
-    resolution: {integrity: sha512-A2qZbwnVbVkdR9EL1Wcnz0lSHf5oks0jp3KSWgVB1pODyVepEgExNKbV23HO7vG5w/Wp4QUku5qS8ttmpa1EvA==}
-    dev: false
-
-  /@fontsource/caveat-brush@5.0.8:
-    resolution: {integrity: sha512-4vr7WOIbR+HKrDtCVSyeLng9rUn5AgIWcUlOcd1i36uKNV6QXsYTvuPESIq6aAJ0NajpaRnGgxA0niQSrFmLAA==}
-    dev: false
-
   /@fontsource/inter@5.0.8:
     resolution: {integrity: sha512-28knWH1BfOiRalfLs90U4sge5mpQ8ZH6FS0PTT+IZMKrZ7wNHDHRuKa1kQJg+uHcc6axBppnxll+HXM4c7zo/Q==}
-    dev: false
-
-  /@fontsource/jolly-lodger@5.0.8:
-    resolution: {integrity: sha512-+7Gcr+mpITpePz6k/vFJ8iuxafZidMvho8KK4trVy82ZwwFQNoVvkrd9P2acvDqUg98a1OsMXCvF1cuEOOPAVA==}
-    dev: false
-
-  /@fontsource/lato@5.0.12:
-    resolution: {integrity: sha512-49kN7Ty0mDicmxNdaaDuOFtY5hvAwFN1pXkxaJJVlozh4v/houKwvodM3L7QVJEUC4KfNVEwn5Y409Us+EyFWw==}
-    dev: false
-
-  /@fontsource/raleway@5.0.8:
-    resolution: {integrity: sha512-b6ZTFQ7sZSUSm/ny0SNXdafcu+p6jpIzpEc1Woxym4qkuAp3kONZJs9r+HYPfMm/fDW1VBIzZxVOLhglYzdw6Q==}
-    dev: false
-
-  /@fontsource/rancho@5.0.12:
-    resolution: {integrity: sha512-kdy5g0HRTSX2PG4wQ2cHNkhS8V0EIK9sdLHKQ/RdKH5J16TZYXJYnqlOXhxr2LjagBz7cn4iY9Tj1UgPtkxfpQ==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
