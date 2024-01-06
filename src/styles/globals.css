@@ -32,15 +32,6 @@
 	}
 }
 
-html {
-	background-image: linear-gradient(
-		to bottom right,
-		var(--color-primary-lighter),
-		var(--color-primary-light)
-	);
-	color: white;
-}
-
 ::-webkit-scrollbar {
 	display: none;
 }
