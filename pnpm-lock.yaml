@@ -41,9 +41,6 @@ dependencies:
   '@fontsource/rancho':
     specifier: ^5.0.12
     version: 5.0.12
-  '@fontsource/sacramento':
-    specifier: ^5.0.12
-    version: 5.0.12
   '@rgossiaux/svelte-headlessui':
     specifier: ^2.0.0
     version: 2.0.0(svelte@4.2.1)
@@ -890,10 +887,6 @@ packages:
 
   /@fontsource/rancho@5.0.12:
     resolution: {integrity: sha512-kdy5g0HRTSX2PG4wQ2cHNkhS8V0EIK9sdLHKQ/RdKH5J16TZYXJYnqlOXhxr2LjagBz7cn4iY9Tj1UgPtkxfpQ==}
-    dev: false
-
-  /@fontsource/sacramento@5.0.12:
-    resolution: {integrity: sha512-3nQjC6MBSeAA8Wz2IyB1Yaw+z+SwBaxIAcIsxMCV6lc6+UGbzKLMVMkoJ9FhC6l3uRJ0PcqWehxh9fI/LXTzmQ==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
