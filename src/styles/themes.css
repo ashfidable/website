@@ -1,43 +1,36 @@
-@media (prefers-color-scheme: dark) {
-	:root {
-		--color-primary: hsl(255, 22%, 4%);
-		--color-primary-light: hsl(250, 23%, 10%);
-		--color-primary-lighter: hsl(250, 23%, 16%);
+[data-theme='dark'] {
+	--color-primary: hsl(255, 22%, 4%);
+	--color-primary-light: hsl(250, 23%, 10%);
+	--color-primary-lighter: hsl(250, 23%, 16%);
 
-		--color-accent: theme(colors.cyan.400);
-		--color-accent-light: theme(colors.cyan.400);
-		--color-accent-lighter: theme(colors.cyan.300);
+	--color-accent: theme(colors.cyan.400);
+	--color-accent-light: theme(colors.cyan.400);
+	--color-accent-lighter: theme(colors.cyan.300);
 
-		--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
-	}
+	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
 
-	html {
-		background-image: linear-gradient(
-			to bottom right,
-			var(--color-primary-lighter),
-			var(--color-primary-light)
-		);
-		color: white;
-	}
+	--background-main: linear-gradient(
+		to bottom right,
+		var(--color-primary-lighter),
+		var(--color-primary-light)
+	);
+
+	--text-neutral: white;
 }
 
-@media (prefers-color-scheme: light) {
-	:root {
-		--color-primary: hsl(39, 62%, 67%);
-		--color-primary-light: hsl(43, 44%, 86%);
-		--color-primary-lighter: hsl(37, 43%, 92%);
+[data-theme='light'] {
+	--color-primary: hsl(39, 62%, 67%);
+	--color-primary-light: hsl(43, 44%, 86%);
+	--color-primary-lighter: hsl(37, 43%, 92%);
 
-		--color-accent: theme(colors.cyan.500);
-		--color-accent-light: theme(colors.cyan.500);
-		--color-accent-lighter: theme(colors.cyan.400);
+	--color-accent: theme(colors.cyan.500);
+	--color-accent-light: theme(colors.cyan.500);
+	--color-accent-lighter: theme(colors.cyan.400);
 
-		--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
-	}
+	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
 
-	html {
-		background-color: var(--color-primary);
-		color: black;
-	}
+	--background-main: var(--color-primary);
+	--text-neutral: black;
 }
 
 [data-theme='halloween'] {

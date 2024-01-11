@@ -36,6 +36,11 @@
 	display: none;
 }
 
+html {
+	background: var(--background-main);
+	color: var(--text-neutral);
+}
+
 html,
 body {
 	height: 100%;
