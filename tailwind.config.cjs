@@ -8,6 +8,9 @@ module.exports = {
 				heading: 'var(--font-heading)',
 				sans: ['Inter', 'sans-serif']
 			},
+			animation: {
+				wave: 'wave-animation 2.5s linear infinite'
+			},
 			colors: {
 				primary: {
 					DEFAULT: 'var(--color-primary)',
