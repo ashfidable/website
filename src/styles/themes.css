@@ -19,13 +19,13 @@
 }
 
 [data-theme='light'] {
-	--color-primary: hsl(39, 62%, 67%);
-	--color-primary-light: hsl(43, 44%, 86%);
-	--color-primary-lighter: hsl(37, 43%, 92%);
+	--color-primary: theme(colors.violet.300);
+	--color-primary-light: theme(colors.violet.200);
+	--color-primary-lighter: theme(colors.violet.100);
 
-	--color-accent: theme(colors.cyan.500);
-	--color-accent-light: theme(colors.cyan.500);
-	--color-accent-lighter: theme(colors.cyan.400);
+	--color-accent: theme(colors.violet.500);
+	--color-accent-light: theme(colors.violet.500);
+	--color-accent-lighter: theme(colors.violet.400);
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
 
