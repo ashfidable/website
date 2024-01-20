@@ -6,7 +6,7 @@ const snippetCollection = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		url: z.string(),
-		categories: z.array(reference('categories')),
+		category: reference('categories'),
 		tags: z.array(z.string())
 	})
 })
@@ -19,7 +19,7 @@ const categoryCollection = defineCollection({
 	})
 })
 
-const skillsCollection = defineCollection({
+const skillCollection = defineCollection({
 	type: 'data',
 	schema: z.object({
 		entries: z.array(
@@ -34,5 +34,5 @@ const skillsCollection = defineCollection({
 export const collections = {
 	snippets: snippetCollection,
 	categories: categoryCollection,
-	skills: skillsCollection
+	skills: skillCollection
 }

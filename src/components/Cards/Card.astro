@@ -8,8 +8,8 @@ interface Props {
 
 const { snippet } = Astro.props
 
-const getCategories = await getEntries(snippet.data.categories)
-const mainCategory = getCategories[0]
+const getCategories = await getEntry(snippet.data.category)
+const mainCategory = getCategories
 ---
 
 <a
