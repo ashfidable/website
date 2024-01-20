@@ -5,7 +5,9 @@ import { Links } from './NavigationLinks'
 const pageName = Astro.url.pathname
 ---
 
-<nav class="sticky mx-auto flex max-w-[1160px] flex-col justify-between gap-4 p-4">
+<nav
+	class="sticky mx-auto flex max-w-[1160px] items-center justify-between gap-4 p-4 sm:flex-col sm:items-start"
+>
 	<Logo />
 	<ul class="flex gap-4 font-mono">
 		{
