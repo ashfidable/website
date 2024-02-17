@@ -4,8 +4,7 @@ import { Icon } from 'astro-icon'
 import Main from '@layouts/Main.astro'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
-import { Image } from 'astro:assets'
-import ashfidLight from '@assets/images/ashfid-picture-light.jpg'
+import HeroSection from '@components/HeroSection.astro'
 
 const skills = await getCollection('skills')
 
@@ -19,28 +18,7 @@ const snippets = await getSnippets()
 
 <Main title="Ashfid">
 	<div class="space-y-6">
-		<!-- Header content -->
-		<section class="two-column-layout gap-2">
-			<div class="space-y-3 rounded-md bg-primary-light px-5 py-5">
-				<h1 class="font-heading text-2xl font-extrabold">
-					Hello All <span
-						class="animate-wave inline-block origin-[75%_75%] -translate-y-2 transform">👋</span
-					>
-				</h1>
-				<p>
-					Code whisperer here, sharing dev secrets to simplify your coding life! Let's ditch the
-					over-engineering and keep it fun.
-				</p>
-			</div>
-			<div class="overflow-hidden rounded-md bg-red-600">
-				<Image
-					src={ashfidLight}
-					alt="Ashfid for Light Mode"
-					width={180}
-					class="h-full object-cover"
-				/>
-			</div>
-		</section>
+		<HeroSection />
 
 		<!-- Featured Posts -->
 		<!-- <section id="featured-posts" class="space-y-4">
@@ -112,10 +90,3 @@ const snippets = await getSnippets()
 		</section>
 	</div>
 </Main>
-
-<style>
-	.two-column-layout {
-		display: grid;
-		grid-template-columns: 1fr 180px;
-	}
-</style>
