@@ -1,6 +1,7 @@
 @import url('themes.css') layer(base);
 
 @tailwind base;
+@tailwind components;
 
 @layer base {
 	html {
@@ -84,5 +85,12 @@ body {
 	} /* Reset for the last half to pause */
 	100% {
 		transform: rotate(0deg);
+	}
+}
+
+@layer components {
+	.two-column-layout {
+		display: grid;
+		grid-template-columns: 1fr 180px;
 	}
 }
