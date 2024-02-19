@@ -1,13 +1,13 @@
 ---
 import Logo from './Logo.astro'
-import { MobileLinks, Links } from './NavigationLinks'
-import { MenuSquare } from 'lucide-astro'
+import { Links } from './NavigationLinks'
+import MobileNavigationBar from './MobileNavigationBar.astro'
 
 const pageName = Astro.url.pathname
 ---
 
 <nav
-	class="fixed bottom-0 left-0 z-[99999] mx-auto flex h-20 w-full max-w-[1160px] items-center justify-between gap-4 border-t-4 border-primary-lighter bg-primary-light sm:flex-col sm:items-start md:static md:h-auto md:p-4"
+	class="fixed bottom-0 left-0 right-0 z-[99999] mx-auto flex h-20 max-w-[1160px] items-center justify-between gap-4 border-t-4 border-primary-lighter bg-primary-light sm:flex-col sm:items-start md:static md:h-auto md:p-4"
 >
 	<div class="hidden md:block">
 		<Logo />
@@ -29,66 +29,8 @@ const pageName = Astro.url.pathname
 		}
 	</ul>
 
-	<!-- Mobile Navigation Bar -->
-	<ul class="flex w-full items-center gap-4 p-4 font-mono md:hidden">
-		{
-			MobileLinks.map((link) => (
-				<li class="flex-grow">
-					<a
-						href={link.url}
-						class="flex flex-col items-center gap-2 "
-						aria-current={pageName === link.url ? 'page' : 'false'}
-					>
-						<link.icon />
-						{link.name}
-					</a>
-				</li>
-			))
-		}
-
-		<li class="flex-grow">
-			<button class="group flex w-full flex-grow flex-col items-center gap-2">
-				<MenuSquare class="group-hover:text-accent-lighter" />
-				 Menu
-			</button>
-		</li>
-	</ul>
-
-	<!-- Mobile Menu Content -->
-	<div class="fixed inset-0 z-[9999] bg-black/50">
-		<button class="absolute inset-0 z-[88888] bg-black/80"></button>
-		<div
-			class="fixed bottom-0 left-0 right-0 z-[999999] space-y-4 divide-y-2 divide-primary-lighter bg-primary-light p-4"
-		>
-			<!-- Menu -->
-			<section class="space-y-4">
-				<span class="font-mono text-xl font-bold text-accent">Menu</span>
-				<ul class="grid grid-cols-2 grid-rows-2 gap-4 font-mono">
-					{
-						Links.map((link) => (
-							<li>
-								<a
-									href={link.url}
-									class="flex flex-col items-center justify-center gap-2 rounded-lg bg-primary-lighter p-4 text-xl shadow-xl transition-colors duration-150 hover:bg-primary"
-									aria-current={pageName === link.url ? 'page' : 'false'}
-								>
-									<link.icon />
-									{link.name}
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-			<!-- Settings -->
-			<section class="space-y-4 pt-2">
-				<span class="font-mono text-xl font-bold text-accent">Settings</span>
-				<ul>Settings Here</ul>
-			</section>
-		</div>
-	</div>
+	<MobileNavigationBar pageName={pageName} />
 </nav>
-
 <style>
 	a[aria-current='page'] {
 		position: relative;

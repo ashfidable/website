@@ -1,0 +1,118 @@
+---
+interface Props {
+	pageName: string
+}
+
+import { MenuSquare } from 'lucide-astro'
+import { MobileLinks, Links } from './NavigationLinks'
+
+const { pageName } = Astro.props
+---
+
+<!-- Mobile Navigation Bar -->
+<ul class="flex w-full items-center gap-4 p-4 font-mono md:hidden">
+	{
+		MobileLinks.map((link) => (
+			<li class="flex-grow">
+				<a
+					href={link.url}
+					class="text-md flex cursor-pointer flex-col items-center gap-2"
+					aria-current={pageName === link.url ? 'page' : 'false'}
+				>
+					<link.icon class="h-5 w-5" />
+					{link.name}
+				</a>
+			</li>
+		))
+	}
+
+	<li class="flex-grow">
+		<button class="group flex w-full flex-grow flex-col items-center gap-2" id="mobile-button">
+			<MenuSquare class="h-5 w-5 group-hover:text-accent-lighter" />
+			 Menu
+		</button>
+	</li>
+</ul>
+
+<!-- Mobile Menu Content -->
+<div id="mobile-menu-content" class="fixed inset-0 z-[9999] hidden">
+	<!-- Overlay that acts as close button too -->
+	<button
+		id="mobile-menu-overlay"
+		class="fixed inset-0 z-[88888] h-full w-full bg-black bg-opacity-50"
+		tabindex="-1"></button>
+	<div
+		class="fixed bottom-0 left-0 right-0 z-[999999] space-y-4 divide-y-2 divide-primary-lighter bg-primary-light p-4"
+	>
+		<!-- Menu -->
+		<section class="space-y-4">
+			<span class="font-mono text-xl font-bold text-accent">Menu</span>
+			<ul class="grid grid-cols-3 grid-rows-2 gap-4 font-mono">
+				{
+					Links.map((link) => (
+						<li>
+							<a
+								href={link.url}
+								class="flex flex-col items-center justify-center gap-2 rounded-lg bg-primary-lighter p-4 text-xl shadow-xl transition-colors duration-150 hover:bg-primary"
+								aria-current={pageName === link.url ? 'page' : 'false'}
+							>
+								<link.icon />
+								{link.name}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+		<!-- Settings -->
+		<section class="space-y-4 pt-2">
+			<span class="font-mono text-xl font-bold text-accent">Settings</span>
+			<ul>Settings Here</ul>
+		</section>
+	</div>
+</div>
+
+<style>
+	#mobile-menu-overlay {
+		-webkit-tap-highlight-color: transparent;
+	}
+</style>
+
+<script is:inline>
+	document.addEventListener('astro:page-load', () => {
+		let open = false
+
+		const menuOverlay = document.querySelector('#mobile-menu-overlay')
+		const mobileMenu = document.querySelector('#mobile-menu-content')
+		const menuButton = document.querySelector('#mobile-button')
+
+		function setMode() {
+			if (!document.startViewTransition) {
+				if (open) {
+					mobileMenu.classList.remove('hidden')
+				} else {
+					mobileMenu.classList.add('hidden')
+				}
+
+				return
+			}
+
+			document.startViewTransition(() => {
+				if (open) {
+					mobileMenu.classList.remove('hidden')
+				} else {
+					mobileMenu.classList.add('hidden')
+				}
+			})
+		}
+
+		menuButton?.addEventListener('click', () => {
+			open = true
+			setMode()
+		})
+		menuOverlay?.addEventListener('click', () => {
+			open = false
+			setMode()
+		})
+	})
+</script>
