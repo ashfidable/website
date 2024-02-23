@@ -1,9 +1,9 @@
 [data-theme='dark'] {
-	--color-primary: hsl(255, 22%, 4%);
-	--color-primary-light: hsl(250, 23%, 10%);
-	--color-primary-lighter: hsl(250, 23%, 16%);
+	--color-primary: hsl(255, 22%, 5%);
+	--color-primary-tone: hsl(255, 22%, 10%);
+	--color-primary-shade: hsl(255, 22%, 20%);
 
-	--color-accent: theme(colors.cyan.400);
+	--color-accent: theme(colors.cyan.500);
 	--color-accent-light: theme(colors.cyan.400);
 	--color-accent-lighter: theme(colors.cyan.300);
 
@@ -11,8 +11,8 @@
 
 	--background-main: linear-gradient(
 		to bottom right,
-		var(--color-primary-lighter),
-		var(--color-primary-light)
+		var(--color-primary-shade),
+		var(--color-primary-tone)
 	);
 
 	--text-neutral: white;

@@ -14,8 +14,8 @@ module.exports = {
 			colors: {
 				primary: {
 					DEFAULT: 'var(--color-primary)',
-					light: 'var(--color-primary-light)',
-					lighter: 'var(--color-primary-lighter)'
+					tone: 'var(--color-primary-tone)',
+					shade: 'var(--color-primary-shade)'
 				},
 				accent: {
 					DEFAULT: 'var(--color-accent)',

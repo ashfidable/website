@@ -33,7 +33,7 @@ const snippets = await getSnippets()
 				<BlogCard />
 				<BlogCard type="unity" />
 			</div>
-			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span
+			<span class="text-primary-shade">Read All Posts (24) &#8594;</span
 			>
 		</section> -->
 
@@ -45,7 +45,7 @@ const snippets = await getSnippets()
 				<Card type="react" />
 				<Card type="unity" /> -->
 			</div>
-			<span class="text-primary-lighter">Read All Posts (24) &#8594;</span>
+			<span class="text-primary-shade">Read All Posts (24) &#8594;</span>
 		</section>
 
 		<!-- Featured Snippets -->
@@ -75,7 +75,7 @@ const snippets = await getSnippets()
 							<h3 class="font-heading text-2xl text-teal-300">{cleanName}</h3>
 							<div class="flex flex-wrap gap-2">
 								{skill.data.entries.map((entry) => (
-									<div class="group bg-primary-light p-2">
+									<div class="bg-primary-tone group rounded-lg p-2">
 										<Icon
 											name={entry.icon}
 											class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-accent group-hover:opacity-100"

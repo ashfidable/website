@@ -1,68 +1,60 @@
 ---
-import { Icon } from "astro-icon";
+import { Icon } from 'astro-icon'
 
 interface Props {
-    type?: string;
+	type?: string
 }
 
-const { type = "svelte" } = Astro.props as Props;
+const { type = 'svelte' } = Astro.props as Props
 
 const icons: any = {
-    unity: {
-        icon: "simple-icons:unity",
-    },
-    react: {
-        icon: "vscode-icons:file-type-reactjs",
-    },
-    svelte: {
-        icon: "vscode-icons:file-type-svelte",
-    },
-};
+	unity: {
+		icon: 'simple-icons:unity'
+	},
+	react: {
+		icon: 'vscode-icons:file-type-reactjs'
+	},
+	svelte: {
+		icon: 'vscode-icons:file-type-svelte'
+	}
+}
 ---
 
 <a data-type={type}>
-    <div
-        class="relative flex flex-col gap-4 p-3 transition-all duration-150 ease-linear rounded-md shadow-2xl cursor-pointer bg-primary-light group hover:-translate-y-2 outline outline-0 hover:outline-2 outline-primary-light hover:outline-tag-accent"
-    >
-        <h2
-            class="flex items-center gap-5 pb-4 transition-all duration-150 ease-linear border-b-4 border-primary-lighter group-hover:border-tag-accent"
-        >
-            <div
-                class="p-1 rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 group-hover:from-tag-primary group-hover:to-tag-secondary"
-            >
-                <Icon
-                    name={icons[type].icon}
-                    class="w-8 group-hover:animate-bounce"
-                />
-            </div>
-            <div class="flex flex-col flex-grow font-bold">
-                <span>Post Title</span>
-                <div class="flex justify-between text-slate-500"></div>
-            </div>
-        </h2>
-        <div class="flex flex-col gap-4">
-            <p>
-                Description of the blog or excerpt here. This might have more
-                lines as we go along
-            </p>
+	<div
+		class="bg-primary-tone group relative flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow-2xl outline outline-0 outline-primary-light transition-all duration-150 ease-linear hover:-translate-y-2 hover:outline-2 hover:outline-tag-accent"
+	>
+		<h2
+			class="bg-primary-shade flex items-center gap-5 border-b-4 pb-4 transition-all duration-150 ease-linear group-hover:border-tag-accent"
+		>
+			<div
+				class="rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 p-1 group-hover:from-tag-primary group-hover:to-tag-secondary"
+			>
+				<Icon name={icons[type].icon} class="w-8 group-hover:animate-bounce" />
+			</div>
+			<div class="flex flex-grow flex-col font-bold">
+				<span>Post Title</span>
+				<div class="flex justify-between text-slate-500"></div>
+			</div>
+		</h2>
+		<div class="flex flex-col gap-4">
+			<p>Description of the blog or excerpt here. This might have more lines as we go along</p>
 
-            <div
-                class="flex items-center justify-between gap-4 font-semibold uppercase"
-            >
-                <ul class="flex gap-4">
-                    <li
-                        class="px-2 py-1 transition-all duration-150 rounded-md bg-primary-lighter group-hover:bg-primary-light"
-                    >
-                        WEB
-                    </li>
-                    <li
-                        class="px-2 py-1 transition-all duration-150 rounded-md bg-primary-lighter group-hover:bg-primary-light"
-                    >
-                        Svelte
-                    </li>
-                </ul>
-                <span class="text-slate-500">26 Jan 2022</span>
-            </div>
-        </div>
-    </div>
+			<div class="flex items-center justify-between gap-4 font-semibold uppercase">
+				<ul class="flex gap-4">
+					<li
+						class="bg-primary-toneer group-hover:bg-primary-tone rounded-md px-2 py-1 transition-all duration-150"
+					>
+						WEB
+					</li>
+					<li
+						class="bg-primary-toneer group-hover:bg-primary-tone rounded-md px-2 py-1 transition-all duration-150"
+					>
+						Svelte
+					</li>
+				</ul>
+				<span class="text-slate-500">26 Jan 2022</span>
+			</div>
+		</div>
+	</div>
 </a>

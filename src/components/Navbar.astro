@@ -1,315 +1,307 @@
 ---
-import { Icon } from "astro-icon";
-import ThemeToggler from "./ThemeToggler.svelte";
-import Status from "./Status.astro";
+import { Icon } from 'astro-icon'
+import ThemeToggler from './ThemeToggler.svelte'
+import Status from './Status.astro'
 
 const menus = [
-  {
-    name: "Home",
-    icon: "ph:house-simple",
-    href: "/",
-  },
-  {
-    name: "Blog",
-    icon: "ph:book-open",
-    href: "/blog",
-  },
-  {
-    name: "Snippets",
-    icon: "ph:sparkle",
-    href: "/snippets",
-  },
-  {
-    name: "Bookmarks",
-    icon: "ph:bookmark",
-    href: "/bookmarks",
-  },
-  {
-    name: "Uses",
-    icon: "ph:monitor",
-    href: "/uses",
-  },
-];
+	{
+		name: 'Home',
+		icon: 'ph:house-simple',
+		href: '/'
+	},
+	{
+		name: 'Blog',
+		icon: 'ph:book-open',
+		href: '/blog'
+	},
+	{
+		name: 'Snippets',
+		icon: 'ph:sparkle',
+		href: '/snippets'
+	},
+	{
+		name: 'Bookmarks',
+		icon: 'ph:bookmark',
+		href: '/bookmarks'
+	},
+	{
+		name: 'Uses',
+		icon: 'ph:monitor',
+		href: '/uses'
+	}
+]
 
 const mobileMenu = [
-  {
-    name: "Home",
-    icon: "ph:house-simple",
-    href: "/",
-  },
-  {
-    name: "Blog",
-    icon: "ph:book-open",
-    href: "/blog",
-  },
-];
+	{
+		name: 'Home',
+		icon: 'ph:house-simple',
+		href: '/'
+	},
+	{
+		name: 'Blog',
+		icon: 'ph:book-open',
+		href: '/blog'
+	}
+]
 
 const settings = [
-  {
-    name: "Theme",
-    icon: "ph:paint-brush-duotone",
-    component: "listbox",
-  },
-  {
-    name: "Sound",
-    icon: "ph:music-note",
-    component: "checkbox",
-  },
-  {
-    name: "Layout",
-    icon: "ph:layout-fill",
-    component: "checkbox",
-  },
-];
+	{
+		name: 'Theme',
+		icon: 'ph:paint-brush-duotone',
+		component: 'listbox'
+	},
+	{
+		name: 'Sound',
+		icon: 'ph:music-note',
+		component: 'checkbox'
+	},
+	{
+		name: 'Layout',
+		icon: 'ph:layout-fill',
+		component: 'checkbox'
+	}
+]
 
 const utilities = [
-  {
-    name: "RSS",
-    icon: "ph:rss-simple",
-  },
-  {
-    name: "Sitemap",
-    icon: "mdi-light:sitemap",
-  },
-];
+	{
+		name: 'RSS',
+		icon: 'ph:rss-simple'
+	},
+	{
+		name: 'Sitemap',
+		icon: 'mdi-light:sitemap'
+	}
+]
 
 const social = [
-  {
-    name: "Github",
-    link: "https://github.com/ashfidable",
-    icon: "ph:github-logo-light",
-  },
-  {
-    name: "Discord",
-    link: "https://discordapp.com/users/394953409855488012",
-    icon: "ph:discord-logo",
-  },
-  {
-    name: "RSS",
-    icon: "ph:rss-simple",
-  },
-  {
-    name: "Sitemap",
-    icon: "mdi-light:sitemap",
-  },
-];
+	{
+		name: 'Github',
+		link: 'https://github.com/ashfidable',
+		icon: 'ph:github-logo-light'
+	},
+	{
+		name: 'Discord',
+		link: 'https://discordapp.com/users/394953409855488012',
+		icon: 'ph:discord-logo'
+	},
+	{
+		name: 'RSS',
+		icon: 'ph:rss-simple'
+	},
+	{
+		name: 'Sitemap',
+		icon: 'mdi-light:sitemap'
+	}
+]
 
-const title: string = "Ashfid";
+const title: string = 'Ashfid'
 const titleHover: string =
-  "hover:text-accent transition-colors duration-200 ease-in-out cursor-default";
+	'hover:text-accent transition-colors duration-200 ease-in-out cursor-default'
 
 function activeLink(href: string) {
-  return Astro.url.pathname === href + "/" || Astro.url.pathname === href;
+	return Astro.url.pathname === href + '/' || Astro.url.pathname === href
 }
 ---
 
 <aside
-  id="desktop-nav"
-  class="justify-between flex-grow-0 flex-shrink-0 hidden p-4 rounded-md md:w-64 md:flex-col bg-primary-light md:flex"
+	id="desktop-nav"
+	class="bg-primary-tone hidden flex-shrink-0 flex-grow-0 justify-between rounded-md p-4 md:flex md:w-64 md:flex-col"
 >
-  <!-- Navbar -->
-  <nav class="flex flex-col gap-4">
-    <!-- Logo -->
-    <h1
-      class="flex items-center justify-center gap-2 text-5xl font-normal text-center font-stylized"
-    >
-      <span class="text-accent">&#60</span>
-      <span>
-        {title.split("").map((t) => <span class={titleHover}>{t}</span>)}
-      </span>
-      <span class="text-accent"> &#62</span>
-    </h1>
+	<!-- Navbar -->
+	<nav class="flex flex-col gap-4">
+		<!-- Logo -->
+		<h1
+			class="flex items-center justify-center gap-2 text-center font-stylized text-5xl font-normal"
+		>
+			<span class="text-accent">&#60</span>
+			<span>
+				{title.split('').map((t) => <span class={titleHover}>{t}</span>)}
+			</span>
+			<span class="text-accent"> &#62</span>
+		</h1>
 
-    <!-- Navigation Links -->
-    <section>
-      <h6 class="text-slate-400 font-heading">Menu</h6>
-      <ul class="flex flex-col gap-[0.375rem]">
-        {
-          menus.map((menu) => (
-            <li>
-              <a
-                href={menu.href}
-                aria-current={activeLink(menu.href) ? "page" : ""}
-                class:list={[
-                  "flex items-center gap-[0.375rem] p-[0.375rem] rounded-md spacing-x-2 transition-colors duration-300 group",
-                  {
-                    "font-semibold text-primary": activeLink(
-                      menu.href
-                    ),
-                    "hover:bg-accent-light": menu.href !== Astro.url.pathname,
-                  },
-                ]}
-              >
-                <Icon
-                  name={menu.icon}
-                  class:list={[
-                    "w-6",
-                    {
-                      "animate-bounce":
-                        Astro.url.pathname === menu.href + "/" ||
-                        Astro.url.pathname === menu.href,
-                    },
-                  ]}
-                />
-                <span>{menu.name}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-    <!-- Settings -->
-    <section>
-      <h6 class="text-slate-400 font-heading">Settings</h6>
-      <ul class="flex flex-col gap-[0.375rem]">
-        {
-          settings.map(({ icon, name, component }) => (
-            <li class="flex items-center justify-between" >
-              {component == "listbox" && (
-                <ThemeToggler client:load>
-                  <Icon name={icon} slot="icon" class="w-6" />
-                </ThemeToggler>
-              )}
-              {component == "checkbox" && (
-                <div class="flex justify-between items-center p-[0.375rem] w-full">
-                  <div class="flex gap-[0.375rem]">
-                    <Icon name={icon} class="w-6" />
-                    <span>{name}</span>
-                  </div>
+		<!-- Navigation Links -->
+		<section>
+			<h6 class="font-heading text-slate-400">Menu</h6>
+			<ul class="flex flex-col gap-[0.375rem]">
+				{
+					menus.map((menu) => (
+						<li>
+							<a
+								href={menu.href}
+								aria-current={activeLink(menu.href) ? 'page' : ''}
+								class:list={[
+									'spacing-x-2 group flex items-center gap-[0.375rem] rounded-md p-[0.375rem] transition-colors duration-300',
+									{
+										'font-semibold text-primary': activeLink(menu.href),
+										'hover:bg-accent-light': menu.href !== Astro.url.pathname
+									}
+								]}
+							>
+								<Icon
+									name={menu.icon}
+									class:list={[
+										'w-6',
+										{
+											'animate-bounce':
+												Astro.url.pathname === menu.href + '/' || Astro.url.pathname === menu.href
+										}
+									]}
+								/>
+								<span>{menu.name}</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+		<!-- Settings -->
+		<section>
+			<h6 class="font-heading text-slate-400">Settings</h6>
+			<ul class="flex flex-col gap-[0.375rem]">
+				{
+					settings.map(({ icon, name, component }) => (
+						<li class="flex items-center justify-between">
+							{component == 'listbox' && (
+								<ThemeToggler client:load>
+									<Icon name={icon} slot="icon" class="w-6" />
+								</ThemeToggler>
+							)}
+							{component == 'checkbox' && (
+								<div class="flex w-full items-center justify-between p-[0.375rem]">
+									<div class="flex gap-[0.375rem]">
+										<Icon name={icon} class="w-6" />
+										<span>{name}</span>
+									</div>
 
-                  <input
-                    type="checkbox"
-                    class="w-4 cursor-pointer checked:accent-accent"
-                  />
-                </div>
-              )}
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-    <!-- Utilities -->
-    <section>
-      <h6 class="text-slate-400 font-heading">Utilities</h6>
-      <ul class="flex flex-col gap-[0.375rem]">
-        {
-          utilities.map((utility) => (
-            <li class="flex gap-[0.375rem] p-[0.375rem]">
-              <Icon name={utility.icon} class="w-6" />
-              <span>{utility.name}</span>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-  </nav>
-  <!-- Footer -->
-  <footer class="flex flex-col gap-4">
-    <div transition:persist="status"><Status /></div>
-    
-    <ul class="flex items-center justify-center gap-4">
-      {
-        social.map((s) => (
-          <li class="transition-colors duration-150 rounded-md hover:bg-accent group">
-            <a class="block p-1 cursor-pointer" href={s.link}>
-              <Icon name={s.icon} class="w-6 h-6 group-hover:text-black" />
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </footer>
+									<input type="checkbox" class="w-4 cursor-pointer checked:accent-accent" />
+								</div>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</section>
+		<!-- Utilities -->
+		<section>
+			<h6 class="font-heading text-slate-400">Utilities</h6>
+			<ul class="flex flex-col gap-[0.375rem]">
+				{
+					utilities.map((utility) => (
+						<li class="flex gap-[0.375rem] p-[0.375rem]">
+							<Icon name={utility.icon} class="w-6" />
+							<span>{utility.name}</span>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</nav>
+	<!-- Footer -->
+	<footer class="flex flex-col gap-4">
+		<div transition:persist="status"><Status /></div>
+
+		<ul class="flex items-center justify-center gap-4">
+			{
+				social.map((s) => (
+					<li class="group rounded-md transition-colors duration-150 hover:bg-accent">
+						<a class="block cursor-pointer p-1" href={s.link}>
+							<Icon name={s.icon} class="h-6 w-6 group-hover:text-black" />
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</footer>
 </aside>
 
 <nav class="mobile-nav">
-  <ul class="flex gap-1 justify-evenly">
-    {
-      mobileMenu.map((menu) => (
-        <li class="w-full" id="swup">
-          <a
-            href={menu.href}
-            class:list={[
-              "flex p-2 flex-col items-center w-full rounded-sm text-gray-500 hover:bg-primary-lighter",
-              { "bg-transparent": activeLink(menu.href) },
-            ]}
-          >
-            <Icon
-              name={menu.icon}
-              class=" "
-              class:list={[
-                "w-8 p-1",
-                {
-                  "bg-accent rounded-md text-black animate-bounce": activeLink(
-                    menu.href
-                  ),
-                },
-              ]}
-            />
-            <span
-              class:list={{
-                "text-white": activeLink(menu.href),
-              }}
-            >
-              {menu.name}
-            </span>
-          </a>
-        </li>
-      ))
-    }
-    <li class="w-full" id="swup">
-      <button
-        class:list={[
-          "flex p-2 flex-col items-center w-full rounded-sm text-gray-500 hover:bg-primary-lighter",
-        ]}
-      >
-        <Icon name="cil:hamburger-menu" class="w-8 p-1" />
-        <span> Menu</span>
-      </button>
-    </li>
-    <li class="w-full" id="swup">
-      <button
-        class:list={[
-          "flex p-2 flex-col items-center w-full rounded-sm text-gray-500 hover:bg-primary-lighter",
-        ]}
-      >
-        <Icon name="iconoir:settings" class="w-8 p-1" />
-        <span>Settings</span>
-      </button>
-    </li>
-  </ul>
+	<ul class="flex justify-evenly gap-1">
+		{
+			mobileMenu.map((menu) => (
+				<li class="w-full" id="swup">
+					<a
+						href={menu.href}
+						class:list={[
+							'hover:bg-primary-toneer flex w-full flex-col items-center rounded-sm p-2 text-gray-500',
+							{ 'bg-transparent': activeLink(menu.href) }
+						]}
+					>
+						<Icon
+							name={menu.icon}
+							class=" "
+							class:list={[
+								'w-8 p-1',
+								{
+									'animate-bounce rounded-md bg-accent text-black': activeLink(menu.href)
+								}
+							]}
+						/>
+						<span
+							class:list={{
+								'text-white': activeLink(menu.href)
+							}}
+						>
+							{menu.name}
+						</span>
+					</a>
+				</li>
+			))
+		}
+		<li class="w-full" id="swup">
+			<button
+				class:list={[
+					'hover:bg-primary-toneer flex w-full flex-col items-center rounded-sm p-2 text-gray-500'
+				]}
+			>
+				<Icon name="cil:hamburger-menu" class="w-8 p-1" />
+				<span> Menu</span>
+			</button>
+		</li>
+		<li class="w-full" id="swup">
+			<button
+				class:list={[
+					'hover:bg-primary-toneer flex w-full flex-col items-center rounded-sm p-2 text-gray-500'
+				]}
+			>
+				<Icon name="iconoir:settings" class="w-8 p-1" />
+				<span>Settings</span>
+			</button>
+		</li>
+	</ul>
 </nav>
 
 <style>
-  a[aria-current="page"] {
-    position: relative;
-    color: white;
-    isolation: isolate;
-    z-index: 2;
-    font-weight: 600;
-  }
+	a[aria-current='page'] {
+		position: relative;
+		color: white;
+		isolation: isolate;
+		z-index: 2;
+		font-weight: 600;
+	}
 
-  a[aria-current="page"] svg{
-    fill: var(--color-accent);
-  }
+	a[aria-current='page'] svg {
+		fill: var(--color-accent);
+	}
 
-  a[aria-current="page"]::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    outline: 2px solid var(--color-accent);
-    z-index: -6;
-    @apply rounded-md;
-    view-transition-name: active-page;
-  }
+	a[aria-current='page']::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		outline: 2px solid var(--color-accent);
+		z-index: -6;
+		@apply rounded-md;
+		view-transition-name: active-page;
+	}
 
-  .mobile-nav {
-    border-radius: 0.375rem;
-    background-color: hsl(var(--color-primary-light));
-  }
+	.mobile-nav {
+		border-radius: 0.375rem;
+		background-color: hsl(var(--color-primary-light));
+	}
 
-  @media (min-width: 768px) {
-    .mobile-nav {
-      display: none;
-    }
-  }
+	@media (min-width: 768px) {
+		.mobile-nav {
+			display: none;
+		}
+	}
 </style>

@@ -42,7 +42,7 @@ const { pageName } = Astro.props
 		class="fixed inset-0 z-[88888] h-full w-full bg-black bg-opacity-50"
 		tabindex="-1"></button>
 	<div
-		class="fixed bottom-0 left-0 right-0 z-[999999] space-y-4 divide-y-2 divide-primary-lighter bg-primary-light p-4"
+		class="bg-primary-tone divide-primary-shade fixed bottom-0 left-0 right-0 z-[999999] space-y-4 divide-y-2 p-4"
 	>
 		<!-- Menu -->
 		<section class="space-y-4">
@@ -53,7 +53,7 @@ const { pageName } = Astro.props
 						<li>
 							<a
 								href={link.url}
-								class="flex flex-col items-center justify-center gap-2 rounded-lg bg-primary-lighter p-4 text-xl shadow-xl transition-colors duration-150 hover:bg-primary"
+								class="bg-primary-shade flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-xl shadow-xl transition-colors duration-150 hover:bg-primary"
 								aria-current={pageName === link.url ? 'page' : 'false'}
 							>
 								<link.icon />
