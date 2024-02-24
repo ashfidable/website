@@ -31,14 +31,14 @@
 	<div
 		class="bg-primary-shade md:border-x-4 md:border-t-4 md:border-b-8 md:border-primary-tone md:shadow-md md:shadow-primary-tone md:absolute md:right-0 mt-6 md:w-32 rounded-lg p-4"
 	>
-		<ul class="grid grid-cols-2 w-32 md:flex gap-4">
+		<ul class="grid grid-cols-2 w-32 md:w-auto gap-4">
 			{#each themes as theme}
 				<li>
 					<button
 						data-theme-string={theme}
 						data-theme={theme}
 						on:click={(e) => handleThemeChange(e)}
-						class="w-12 h-12 bg-gradient-to-r from-primary-tone to-accent-tone from-50% to-50%"
+						class="w-12 h-12 md:w-6 md:h-6 bg-gradient-to-r from-primary-tone to-accent-tone from-50% to-50%"
 					>
 					</button>
 				</li>
