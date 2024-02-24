@@ -8,7 +8,7 @@ const pageName = Astro.url.pathname
 ---
 
 <nav
-	class="border-primary-shade bg-primary-tone fixed bottom-0 left-0 right-0 z-[99999] mx-auto flex h-20 max-w-[1160px] items-center justify-between gap-4 border-t-4 sm:flex-col sm:items-start md:static md:h-auto md:border-none md:p-4"
+	class="fixed bottom-0 left-0 right-0 z-[99999] mx-auto flex h-20 max-w-[1160px] items-center justify-between gap-4 border-t-4 border-primary-shade bg-primary-tone sm:flex-col sm:items-start md:static md:h-auto md:border-none md:p-4"
 >
 	<div class="hidden md:block">
 		<Logo />
@@ -20,7 +20,7 @@ const pageName = Astro.url.pathname
 					<li>
 						<a
 							href={link.url}
-							class="flex items-center gap-2 text-base"
+							class=" flex items-center gap-2"
 							aria-current={pageName === link.url ? 'page' : 'false'}
 						>
 							<link.icon />

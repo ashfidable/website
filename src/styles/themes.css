@@ -8,6 +8,7 @@
 	--color-accent-lighter: theme(colors.cyan.300);
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
+	--font-heading: 'Bubblegum Sans', sans-serif;
 
 	--background-main: linear-gradient(
 		to bottom right,
@@ -41,4 +42,28 @@
 	--color-accent: theme(colors.orange.500);
 	--color-accent-light: theme(colors.orange.400);
 	--color-accent-lighter: theme(colors.orange.300);
+}
+
+[data-type='react'] {
+	--primary-color: 217 91% 60%;
+	--secondary-color: 224 76% 48%;
+	--accent-color: var(--primary-color);
+}
+
+[data-type='svelte'] {
+	--primary-color: 25 95% 53%;
+	--secondary-color: 17 88% 40%;
+	--accent-color: var(--primary-color);
+}
+
+[data-type='unity'] {
+	--primary-color: 217 33% 17%;
+	--secondary-color: 0 0% 0%;
+	--accent-color: var(--primary-color);
+}
+
+[data-theme='dark'] [data-type='unity'] {
+	--primary-color: 217 33% 17%;
+	--secondary-color: 0 0% 0%;
+	--accent-color: 0 0% 75%;
 }
