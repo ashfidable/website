@@ -17,6 +17,9 @@ dependencies:
   '@fontsource-variable/josefin-sans':
     specifier: ^5.0.13
     version: 5.0.13
+  '@fontsource-variable/raleway':
+    specifier: ^5.0.17
+    version: 5.0.17
   '@fontsource/inter':
     specifier: ^5.0.8
     version: 5.0.8
@@ -622,6 +625,10 @@ packages:
 
   /@fontsource-variable/josefin-sans@5.0.13:
     resolution: {integrity: sha512-+mUGyc3OLPqPVK0mv+S3iqTwHLKtjyqGbtB1XJuJUH4Nun18MBBfZxH4BBR+UgBbeUB+WMO2Y1q58doiqq2qSQ==}
+    dev: false
+
+  /@fontsource-variable/raleway@5.0.17:
+    resolution: {integrity: sha512-wPkYD9UACWS1fM4GUYwKhJDGE5tD1IuVIkGcbccsuip+PmbIRApqDF7tlpkD333xXlmP4tsRZsXkAj8IBTkRrg==}
     dev: false
 
   /@fontsource/inter@5.0.8:

@@ -8,13 +8,14 @@
 	--color-accent-shade: theme(colors.cyan.300);
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
+	--font-heading: 'Raleway Variable', sans-serif;
 
 	--background-main: linear-gradient(
 		to bottom right,
-		var(--color-primary-shade),
+		var(--color-primary),
 		var(--color-primary-tone)
 	);
-
+	/* --background-main: var(--color-primary); */
 	--text-neutral: white;
 }
 
