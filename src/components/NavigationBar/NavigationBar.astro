@@ -9,19 +9,19 @@ const pageName = Astro.url.pathname
 ---
 
 <nav
-	class="fixed bottom-0 left-0 right-0 z-[99999] mx-auto flex h-20 max-w-[1160px] items-center justify-between gap-4 border-t-4 border-primary-shade bg-primary-tone sm:flex-col sm:items-start md:static md:h-auto md:border-none md:p-4"
+	class="fixed bottom-0 left-0 right-0 z-[99999] flex h-20 max-w-[1160px] items-center gap-4 border-t-4 border-primary-shade bg-primary-tone sm:flex-col sm:items-start md:sticky md:top-0 md:h-auto md:max-h-screen md:border-x-2 md:border-y-0 md:p-4"
 >
 	<div class="hidden md:block">
 		<Logo />
 	</div>
 	<section class="hidden w-full justify-between gap-4 md:flex">
-		<ul class="flex gap-4 font-mono">
+		<ul class="flex flex-grow flex-col gap-4 font-heading">
 			{
 				Links.map((link) => (
-					<li>
+					<li class="flex-grow ">
 						<a
 							href={link.url}
-							class=" flex items-center gap-2"
+							class="flex items-center gap-2 p-2 font-semibold"
 							aria-current={pageName === link.url ? 'page' : 'false'}
 						>
 							<link.icon />
@@ -31,9 +31,6 @@ const pageName = Astro.url.pathname
 				))
 			}
 		</ul>
-		<ThemePicker client:idle transition:persist="theme-picker">
-			<PaintBucket slot="icon" />
-		</ThemePicker>
 	</section>
 
 	<MobileNavigationBar pageName={pageName} />
@@ -41,7 +38,7 @@ const pageName = Astro.url.pathname
 <style>
 	a[aria-current='page'] {
 		position: relative;
-		font-weight: bold;
+		font-weight: 900;
 	}
 
 	a[aria-current='page'] svg {

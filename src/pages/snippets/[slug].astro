@@ -3,6 +3,7 @@ import Main from '@layouts/Main.astro'
 import H1 from '@components/atoms/H1.astro'
 import Section from '@components/atoms/Section.astro'
 import { getCollection, type CollectionEntry } from 'astro:content'
+import RevisedLayout from '@layouts/RevisedLayout.astro'
 
 export async function getStaticPaths() {
 	const snippets = await getCollection('snippets')
@@ -23,7 +24,7 @@ const { Content } = await snippet.render()
 const titleViewName = `title-${snippet.data.title}`
 ---
 
-<Main title={snippet.data.title}>
+<RevisedLayout title={snippet.data.title}>
 	<section class="flex items-center gap-8 p-2">
 		<div
 			transition:name={snippet.data.title}
@@ -39,4 +40,4 @@ const titleViewName = `title-${snippet.data.title}`
 	<Section>
 		<Content components={{ h1: H1 }} />
 	</Section>
-</Main>
+</RevisedLayout>

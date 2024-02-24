@@ -5,6 +5,7 @@ import Main from '@layouts/Main.astro'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
 import HeroSection from '@components/HeroSection.astro'
+import RevisedLayout from '@layouts/RevisedLayout.astro'
 
 const skills = await getCollection('skills')
 
@@ -16,7 +17,7 @@ async function getSnippets() {
 const snippets = await getSnippets()
 ---
 
-<Main title="Ashfid">
+<RevisedLayout title="Ashfid">
 	<div class="space-y-6">
 		<HeroSection />
 
@@ -89,4 +90,4 @@ const snippets = await getSnippets()
 			}
 		</section>
 	</div>
-</Main>
+</RevisedLayout>

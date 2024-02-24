@@ -1,11 +1,12 @@
 ---
 import BlogCard from '@components/BlogCard.astro'
+import RevisedLayout from '@layouts/RevisedLayout.astro'
 import Main from 'src/layouts/Main.astro'
 
 const tags = ['All', 'React', 'Svelte', 'Javascript', 'Godot', 'Unity', 'C#']
 ---
 
-<Main title="Blog">
+<RevisedLayout title="Blog">
 	<div class="w-full space-y-4">
 		<section class="space-y-3 rounded-md bg-primary-tone px-5 py-5">
 			<h1 class="font-heading text-2xl font-extrabold">Blog 📘</h1>
@@ -33,4 +34,4 @@ const tags = ['All', 'React', 'Svelte', 'Javascript', 'Godot', 'Unity', 'C#']
 			</div>
 		</section>
 	</div>
-</Main>
+</RevisedLayout>
