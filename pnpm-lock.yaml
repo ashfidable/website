@@ -17,6 +17,9 @@ dependencies:
   '@fontsource-variable/josefin-sans':
     specifier: ^5.0.13
     version: 5.0.13
+  '@fontsource/bubblegum-sans':
+    specifier: ^5.0.18
+    version: 5.0.18
   '@fontsource/inter':
     specifier: ^5.0.8
     version: 5.0.8
@@ -625,6 +628,10 @@ packages:
 
   /@fontsource-variable/josefin-sans@5.0.13:
     resolution: {integrity: sha512-+mUGyc3OLPqPVK0mv+S3iqTwHLKtjyqGbtB1XJuJUH4Nun18MBBfZxH4BBR+UgBbeUB+WMO2Y1q58doiqq2qSQ==}
+    dev: false
+
+  /@fontsource/bubblegum-sans@5.0.18:
+    resolution: {integrity: sha512-LqiehaxdoYyg2nDT4fSH5UXQPHQ+b1A8vXS5i/oQR7oiGGzWbhKKjke/SEiwG8Kt7qVbDnavAyFE5pqmaD/DNg==}
     dev: false
 
   /@fontsource/inter@5.0.8:
