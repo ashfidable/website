@@ -2,7 +2,8 @@
 import Logo from './Logo.astro'
 import { Links } from './NavigationLinks'
 import MobileNavigationBar from './MobileNavigationBar.astro'
-import ThemePicker from '@components/ThemePicker/ThemePicker.astro'
+import ThemePicker from '@components/ThemePicker/ThemePicker.svelte'
+import { PaintBucket } from 'lucide-astro'
 
 const pageName = Astro.url.pathname
 ---
@@ -30,7 +31,9 @@ const pageName = Astro.url.pathname
 				))
 			}
 		</ul>
-		<ThemePicker />
+		<ThemePicker>
+			<PaintBucket slot="icon" />
+		</ThemePicker>
 	</section>
 
 	<MobileNavigationBar pageName={pageName} />

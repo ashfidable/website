@@ -5,6 +5,7 @@ interface Props {
 
 import { MenuSquare } from 'lucide-astro'
 import { MobileLinks, Links } from './NavigationLinks'
+import ThemePicker from '@components/ThemePicker/ThemePicker.svelte'
 
 const { pageName } = Astro.props
 ---
@@ -67,7 +68,7 @@ const { pageName } = Astro.props
 		<!-- Settings -->
 		<section class="space-y-4 pt-2">
 			<span class="font-mono text-xl font-bold text-accent">Settings</span>
-			<ul>Settings Here</ul>
+			<ThemePicker client:idle />
 		</section>
 	</div>
 </div>
@@ -80,11 +81,13 @@ const { pageName } = Astro.props
 
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
-		let open = false
+		let open = true
 
 		const menuOverlay = document.querySelector('#mobile-menu-overlay')
 		const mobileMenu = document.querySelector('#mobile-menu-content')
 		const menuButton = document.querySelector('#mobile-button')
+
+		setMode()
 
 		function setMode() {
 			if (!document.startViewTransition) {
