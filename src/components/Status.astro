@@ -16,7 +16,7 @@
 	.pulse {
 		outline-offset: 2px;
 		outline: 2px solid gray;
-		@apply bg-primary-toneer animate-pulse;
+		@apply animate-pulse bg-primary-tone;
 	}
 </style>
 
@@ -44,6 +44,7 @@
 		userId: discordId,
 		socket: true,
 		onPresenceUpdate: async (presenceData: any) => {
+			console.log(presenceData)
 			img.style.setProperty('--online-color', statusColors[presenceData.discord_status])
 			img.src = presenceData.listening_to_spotify
 				? presenceData.spotify.album_art_url
