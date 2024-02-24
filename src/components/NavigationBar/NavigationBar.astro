@@ -31,7 +31,7 @@ const pageName = Astro.url.pathname
 				))
 			}
 		</ul>
-		<ThemePicker>
+		<ThemePicker client:idle transition:persist="theme-picker">
 			<PaintBucket slot="icon" />
 		</ThemePicker>
 	</section>

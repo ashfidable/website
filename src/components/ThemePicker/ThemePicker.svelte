@@ -14,8 +14,11 @@
 		const themeString = target.dataset.themeString
 
 		if (!html) return
+		if (!themeString) return
 
 		html.dataset.theme = themeString
+
+		localStorage.setItem('theme', themeString)
 	}
 </script>
 

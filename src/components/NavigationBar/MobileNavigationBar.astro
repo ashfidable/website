@@ -81,13 +81,11 @@ const { pageName } = Astro.props
 
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
-		let open = true
+		let open = false
 
 		const menuOverlay = document.querySelector('#mobile-menu-overlay')
 		const mobileMenu = document.querySelector('#mobile-menu-content')
 		const menuButton = document.querySelector('#mobile-button')
-
-		setMode()
 
 		function setMode() {
 			if (!document.startViewTransition) {

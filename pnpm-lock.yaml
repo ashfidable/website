@@ -17,15 +17,9 @@ dependencies:
   '@fontsource-variable/josefin-sans':
     specifier: ^5.0.13
     version: 5.0.13
-  '@fontsource/bubblegum-sans':
-    specifier: ^5.0.18
-    version: 5.0.18
   '@fontsource/inter':
     specifier: ^5.0.8
     version: 5.0.8
-  '@rgossiaux/svelte-headlessui':
-    specifier: ^2.0.0
-    version: 2.0.0(svelte@4.2.1)
   astro:
     specifier: ^4.1.1
     version: 4.1.1(typescript@5.2.2)
@@ -630,10 +624,6 @@ packages:
     resolution: {integrity: sha512-+mUGyc3OLPqPVK0mv+S3iqTwHLKtjyqGbtB1XJuJUH4Nun18MBBfZxH4BBR+UgBbeUB+WMO2Y1q58doiqq2qSQ==}
     dev: false
 
-  /@fontsource/bubblegum-sans@5.0.18:
-    resolution: {integrity: sha512-LqiehaxdoYyg2nDT4fSH5UXQPHQ+b1A8vXS5i/oQR7oiGGzWbhKKjke/SEiwG8Kt7qVbDnavAyFE5pqmaD/DNg==}
-    dev: false
-
   /@fontsource/inter@5.0.8:
     resolution: {integrity: sha512-28knWH1BfOiRalfLs90U4sge5mpQ8ZH6FS0PTT+IZMKrZ7wNHDHRuKa1kQJg+uHcc6axBppnxll+HXM4c7zo/Q==}
     dev: false
@@ -905,14 +895,6 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
-    dev: false
-
-  /@rgossiaux/svelte-headlessui@2.0.0(svelte@4.2.1):
-    resolution: {integrity: sha512-ksh245HqMM8yqkzd/OyAK2FCHZYOSA3ldLIHab7C9S60FmifqT24JFVgi8tZpsDEMk3plbfQvfah93n5IEi8sg==}
-    peerDependencies:
-      svelte: ^3.47.0
-    dependencies:
-      svelte: 4.2.1
     dev: false
 
   /@rollup/rollup-android-arm-eabi@4.9.4:

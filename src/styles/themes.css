@@ -8,7 +8,6 @@
 	--color-accent-lighter: theme(colors.cyan.300);
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
-	--font-heading: 'Bubblegum Sans', sans-serif;
 
 	--background-main: linear-gradient(
 		to bottom right,
@@ -20,9 +19,9 @@
 }
 
 [data-theme='light'] {
-	--color-primary: theme(colors.violet.300);
-	--color-primary-light: theme(colors.violet.200);
-	--color-primary-lighter: theme(colors.violet.100);
+	--color-primary: theme(colors.violet.400);
+	--color-primary-tone: theme(colors.violet.300);
+	--color-primary-shade: theme(colors.violet.200);
 
 	--color-accent: theme(colors.violet.500);
 	--color-accent-light: theme(colors.violet.500);
@@ -30,7 +29,11 @@
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
 
-	--background-main: var(--color-primary);
+	--background-main: linear-gradient(
+		to bottom right,
+		var(--color-primary-tone),
+		var(--color-primary-shade)
+	);
 	--text-neutral: black;
 }
 
