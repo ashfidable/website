@@ -33,8 +33,8 @@ module.exports = {
 				},
 				accent: {
 					DEFAULT: 'var(--color-accent)',
-					light: 'var(--color-accent-light)',
-					lighter: 'var(--color-accent-lighter)'
+					tone: 'var(--color-accent-tone)',
+					shade: 'var(--color-accent-shade)'
 				},
 				'tag-primary': {
 					DEFAULT: 'hsl(var(--primary-color) / <alpha-value> )'

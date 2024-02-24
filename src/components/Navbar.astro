@@ -105,7 +105,7 @@ function activeLink(href: string) {
 
 <aside
 	id="desktop-nav"
-	class="bg-primary-tone hidden flex-shrink-0 flex-grow-0 justify-between rounded-md p-4 md:flex md:w-64 md:flex-col"
+	class="hidden flex-shrink-0 flex-grow-0 justify-between rounded-md bg-primary-tone p-4 md:flex md:w-64 md:flex-col"
 >
 	<!-- Navbar -->
 	<nav class="flex flex-col gap-4">
@@ -134,7 +134,7 @@ function activeLink(href: string) {
 									'spacing-x-2 group flex items-center gap-[0.375rem] rounded-md p-[0.375rem] transition-colors duration-300',
 									{
 										'font-semibold text-primary': activeLink(menu.href),
-										'hover:bg-accent-light': menu.href !== Astro.url.pathname
+										'hover:bg-accent-tone': menu.href !== Astro.url.pathname
 									}
 								]}
 							>
@@ -296,7 +296,7 @@ function activeLink(href: string) {
 
 	.mobile-nav {
 		border-radius: 0.375rem;
-		background-color: hsl(var(--color-primary-light));
+		background-color: hsl(var(--color-primary-tone));
 	}
 
 	@media (min-width: 768px) {

@@ -2,7 +2,7 @@
 const { ...props } = Astro.props
 ---
 
-<h1 {...props} class="group font-heading font-bold text-accent hover:text-accent-lighter">
+<h1 {...props} class="hover:text-accent-shade group font-heading font-bold text-accent">
 	<a href={`#${props.id}`}>
 		<slot />
 	</a>

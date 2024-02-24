@@ -29,7 +29,7 @@ const { pageName } = Astro.props
 
 	<li class="flex-grow">
 		<button class="group flex w-full flex-grow flex-col items-center gap-2" id="mobile-button">
-			<MenuSquare class="h-5 w-5 group-hover:text-accent-lighter" />
+			<MenuSquare class="group-hover:text-accent-shade h-5 w-5" />
 			 Menu
 		</button>
 	</li>
@@ -68,7 +68,7 @@ const { pageName } = Astro.props
 		<!-- Settings -->
 		<section class="space-y-4 pt-2">
 			<span class="font-mono text-xl font-bold text-accent">Settings</span>
-			<ThemePicker client:idle />
+			<ThemePicker client:idle transition:persist="theme-picker" />
 		</section>
 	</div>
 </div>

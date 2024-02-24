@@ -4,8 +4,8 @@
 	--color-primary-shade: hsl(255, 22%, 20%);
 
 	--color-accent: theme(colors.cyan.500);
-	--color-accent-light: theme(colors.cyan.400);
-	--color-accent-lighter: theme(colors.cyan.300);
+	--color-accent-tone: theme(colors.cyan.400);
+	--color-accent-shade: theme(colors.cyan.300);
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
 
@@ -24,8 +24,8 @@
 	--color-primary-shade: theme(colors.violet.200);
 
 	--color-accent: theme(colors.violet.500);
-	--color-accent-light: theme(colors.violet.500);
-	--color-accent-lighter: theme(colors.violet.400);
+	--color-accent-tone: theme(colors.violet.500);
+	--color-accent-shade: theme(colors.violet.400);
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
 
@@ -35,16 +35,6 @@
 		var(--color-primary-shade)
 	);
 	--text-neutral: black;
-}
-
-[data-theme='halloween'] {
-	--color-primary: 255 20% 4%;
-	--color-primary-light: 250 23% 5%;
-	--color-primary-lighter: 250 23% 2%;
-
-	--color-accent: theme(colors.orange.500);
-	--color-accent-light: theme(colors.orange.400);
-	--color-accent-lighter: theme(colors.orange.300);
 }
 
 [data-type='react'] {

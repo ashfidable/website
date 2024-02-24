@@ -45,13 +45,13 @@ const pageName = Astro.url.pathname
 	}
 
 	a[aria-current='page'] svg {
-		color: var(--color-accent-lighter);
+		color: var(--color-accent-shade);
 		@apply animate-bounce;
 		view-transition-name: current-page-icon;
 	}
 
 	a:not([aria-current='page']):hover svg {
-		color: var(--color-accent-lighter);
+		color: var(--color-accent-shade);
 	}
 
 	/* li[aria-current='page']::before {
