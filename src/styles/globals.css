@@ -96,8 +96,8 @@
 		background-size: 100%;
 		background-image: linear-gradient(
 			90.2deg,
-			var(--color-accent-shade) 0.3%,
-			var(--color-accent) 99.8%
+			var(--color-accent-tint) 0.3%,
+			var(--color-accent-tone) 99.8%
 		);
 	}
 
