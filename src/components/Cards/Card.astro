@@ -15,7 +15,7 @@ const mainCategory = getCategories
 <a
 	href={`/snippets/${snippet?.slug}`}
 	data-type={mainCategory.data.name}
-	class="group flex items-center justify-between gap-4 rounded-md border-b-4 border-primary-shade bg-primary-tone p-4 transition-colors hover:border-tag-primary"
+	class="border-primary-tint group flex items-center justify-between gap-4 rounded-md border-x-2 border-b-4 border-t-2 bg-primary-tone p-4 transition-colors hover:border-tag-primary"
 >
 	<div class="flex gap-2">
 		<!-- Icon for Post -->
@@ -25,7 +25,7 @@ const mainCategory = getCategories
 		>
 			<Icon name={mainCategory.data.icon} class="w-4 group-hover:animate-bounce" />
 		</div>
-		<h6 class="tracking-wide">{snippet?.data.title}</h6>
+		<h2 class="text-base tracking-wide">{snippet?.data.title}</h2>
 	</div>
-	<span class="text-accent-tone hidden font-mono md:block">26 June 2023</span>
+	<span class="hidden font-mono text-accent-tone md:block">26 June 2023</span>
 </a>

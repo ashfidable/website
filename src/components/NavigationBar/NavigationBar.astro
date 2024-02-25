@@ -9,7 +9,7 @@ const pageName = Astro.url.pathname
 ---
 
 <nav
-	class="fixed bottom-0 left-0 right-0 z-[99999] flex h-20 max-w-[1160px] items-center gap-4 border-t-4 border-primary-shade bg-primary-tone sm:flex-col sm:items-start md:sticky md:top-0 md:h-auto md:max-h-screen md:border-x-2 md:border-y-0 md:p-4"
+	class="border-primary-tint fixed bottom-0 left-0 right-0 z-[99999] flex h-20 max-w-[1160px] items-center gap-4 border-t-4 bg-primary sm:flex-col sm:items-start md:sticky md:top-0 md:h-auto md:max-h-screen md:border-x-2 md:border-y-0 md:p-4"
 >
 	<div class="hidden md:block">
 		<Logo />
@@ -36,7 +36,7 @@ const pageName = Astro.url.pathname
 	<MobileNavigationBar pageName={pageName} />
 </nav>
 <style>
-	a[aria-current='page'] {
+	/* a[aria-current='page'] {
 		position: relative;
 		font-weight: 900;
 	}
@@ -49,16 +49,30 @@ const pageName = Astro.url.pathname
 
 	a:not([aria-current='page']):hover svg {
 		color: var(--color-accent-shade);
+	} */
+
+	a[aria-current='page'] {
+		position: relative;
+		font-weight: 900;
+		z-index: 999999;
+		@apply text-primary-tone;
+		view-transition-name: current-page;
 	}
 
-	/* li[aria-current='page']::before {
+	a[aria-current='page']::before {
 		content: '';
 		position: absolute;
+		inset: 0;
 		background-color: var(--color-accent);
-		bottom: 0;
-		right: 0;
-		left: 0;
-		height: 2px;
-		view-transition-name: current-page;
-	} */
+		@apply rounded-lg;
+		z-index: -1;
+	}
+
+	a[aria-current='page'] svg {
+		@apply animate-bounce;
+	}
+
+	a:not([aria-current='page']):hover svg {
+		color: var(--color-accent-shade);
+	}
 </style>

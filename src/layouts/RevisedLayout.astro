@@ -29,11 +29,11 @@ const { title } = Astro.props as Props
 
 		<ViewTransitions />
 	</head>
-	<body class="mx-auto max-w-7xl gap-2 md:grid">
+	<body class="mx-auto max-w-7xl gap-2 bg-primary md:grid">
 		<NavigationBar />
 		<!-- <Navbar /> -->
 		<main
-			class="mb-20 flex h-full flex-grow flex-col gap-4 px-2 py-4 md:mb-auto md:border-r-2 md:border-primary-shade"
+			class="md:border-primary-tint mb-20 flex h-full flex-grow flex-col gap-4 px-2 py-4 md:mb-auto md:border-r-2"
 		>
 			<slot />
 		</main>
