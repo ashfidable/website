@@ -1,14 +1,20 @@
 [data-theme='dark'] {
 	--color-primary: hsl(255, 22%, 5%);
 	--color-primary-tone: hsl(255, 22%, 10%);
-	--color-primary-shade: hsl(255, 22%, 20%);
+	--color-primary-tint: hsl(255, 22%, 20%);
+	--color-primary-shade: hsl(255, 22%, 2%);
 
 	--color-accent: theme(colors.cyan.500);
+	--color-accent-tint: theme(colors.cyan.200);
 	--color-accent-tone: theme(colors.cyan.400);
-	--color-accent-shade: theme(colors.cyan.300);
+	--color-accent-shade: theme(colors.cyan.600);
+
+	--text-neutral: hsl(255, 22%, 92%);
+	--text-neutral-tone: hsl(0, 0%, 100%);
+	--text-neutral-shade: hsl(0, 0%, 82%);
 
 	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
-	--font-heading: 'Raleway Variable', sans-serif;
+	--font-heading: 'Raleway Variable', system-ui, sans-serif;
 
 	--background-main: linear-gradient(
 		to bottom right,
@@ -16,7 +22,6 @@
 		var(--color-primary-tone)
 	);
 	/* --background-main: var(--color-primary); */
-	--text-neutral: white;
 }
 
 [data-theme='light'] {

@@ -28,11 +28,13 @@ module.exports = {
 			colors: {
 				primary: {
 					DEFAULT: 'var(--color-primary)',
+					tint: 'var(--color-primary-tint)',
 					tone: 'var(--color-primary-tone)',
 					shade: 'var(--color-primary-shade)'
 				},
 				accent: {
 					DEFAULT: 'var(--color-accent)',
+					tint: 'var(--color-accent-tint)',
 					tone: 'var(--color-accent-tone)',
 					shade: 'var(--color-accent-shade)'
 				},
