@@ -75,7 +75,6 @@
 	}
 
 	/* Removing */
-
 	::-webkit-scrollbar {
 		display: none;
 	}
@@ -126,5 +125,10 @@
 		100% {
 			transform: rotate(0deg);
 		}
+	}
+
+	.no-transition::view-transition-group(*) {
+		animation: none;
+		transition: none;
 	}
 }
