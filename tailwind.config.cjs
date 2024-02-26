@@ -1,7 +1,12 @@
+import colors from 'tailwindcss/colors'
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
+		colors: {
+			red: 'red'
+		},
 		extend: {
 			fontFamily: {
 				stylized: 'var(--font-stylized)',
@@ -12,6 +17,8 @@ module.exports = {
 				wave: 'wave-animation 2.5s linear infinite'
 			},
 			colors: {
+				cyan: colors.cyan,
+				violet: colors.violet,
 				primary: {
 					DEFAULT: 'var(--color-primary)',
 					tint: 'var(--color-primary-tint)',
