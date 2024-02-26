@@ -24,6 +24,32 @@
 	/* --background-main: var(--color-primary); */
 }
 
+[data-theme='bee'] {
+	--color-primary: hsl(15, 35%, 35%);
+	--color-primary-tone: hsl(15, 35%, 40%);
+	--color-primary-tint: #e07f14;
+	--color-primary-shade: hsl(15, 35%, 32%);
+
+	--color-accent: hsl(43, 94%, 61%);
+	--color-accent-tone: hsl(43, 94%, 65%);
+	--color-accent-tint: hsl(43, 94%, 71%);
+	--color-accent-shade: hsl(43, 94%, 58%);
+
+	--text-neutral: hsl(255, 22%, 92%);
+	--text-neutral-tone: hsl(0, 0%, 100%);
+	--text-neutral-shade: hsl(0, 0%, 82%);
+
+	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
+	--font-heading: 'Raleway Variable', system-ui, sans-serif;
+
+	--background-main: linear-gradient(
+		to bottom right,
+		var(--color-primary),
+		var(--color-primary-tone)
+	);
+	/* --background-main: var(--color-primary); */
+}
+
 [data-theme='light'] {
 	--color-primary: theme(colors.violet.400);
 	--color-primary-tone: theme(colors.violet.300);

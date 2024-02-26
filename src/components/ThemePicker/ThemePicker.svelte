@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 
-	const themes = ['dark', 'light', 'dark', 'light', 'light', 'dark']
+	const themes = ['dark', 'light', 'bee', 'light', 'light', 'dark']
 
 	let html: HTMLElement
 
