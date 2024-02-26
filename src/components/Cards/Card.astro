@@ -15,9 +15,9 @@ const mainCategory = getCategories
 <a
 	href={`/snippets/${snippet?.slug}`}
 	data-type={mainCategory.data.name}
-	class="border-primary-tint group flex items-center justify-between gap-4 rounded-md border-x-2 border-b-4 border-t-2 bg-primary-tone p-4 transition-colors hover:border-tag-primary"
+	class="group flex items-center justify-between gap-4 rounded-md border-x-2 border-b-4 border-t-2 border-primary-tint bg-primary-tone p-4 transition-colors hover:border-tag-primary"
 >
-	<div class="flex gap-2">
+	<div class="flex gap-2 transition-transform group-hover:translate-x-4">
 		<!-- Icon for Post -->
 		<div
 			class="rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 p-1 group-hover:from-tag-primary group-hover:to-tag-secondary"
