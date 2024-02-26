@@ -35,6 +35,9 @@ dependencies:
   svelte:
     specifier: ^4.2.1
     version: 4.2.1
+  svelte-lanyard:
+    specifier: ^1.0.2
+    version: 1.0.2
   tailwindcss:
     specifier: ^3.3.3
     version: 3.3.3
@@ -4213,6 +4216,10 @@ packages:
       svelte: ^3.19.0 || ^4.0.0
     dependencies:
       svelte: 4.2.1
+    dev: false
+
+  /svelte-lanyard@1.0.2:
+    resolution: {integrity: sha512-JxXHaTkIyDE7BAg6PHP/QP9qsqYcQO/SOmCokb6rKfDHAKsn09XtRC8mBcLKjaqDG/MVSONCaQSsXi85hUhWCQ==}
     dev: false
 
   /svelte2tsx@0.6.27(svelte@4.2.1)(typescript@5.2.2):
