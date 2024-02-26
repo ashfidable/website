@@ -29,15 +29,13 @@ const titleViewName = `title-${snippet.data.title}`
 		<div
 			transition:name={snippet.data.title}
 			data-type="svelte"
-			class="h-24 w-24 rounded-md bg-gradient-to-br from-tag-primary to-tag-secondary p-4"
+			class="h-16 w-16 rounded-md bg-gradient-to-br from-tag-primary to-tag-secondary p-4"
 		>
 		</div>
-		<h1 class="text-center font-mono font-bold [text-wrap:balance]">
+		<h1 class="font-mono font-bold [text-wrap:balance]">
 			{snippet.data.title}
 		</h1>
 	</section>
 
-	<Section>
-		<Content components={{ h1: H1 }} />
-	</Section>
+	<Content components={{ h1: H1 }} />
 </RevisedLayout>
