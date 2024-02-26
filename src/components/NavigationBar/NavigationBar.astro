@@ -2,14 +2,12 @@
 import Logo from './Logo.astro'
 import { Links } from './NavigationLinks'
 import MobileNavigationBar from './MobileNavigationBar.astro'
-import ThemePicker from '@components/ThemePicker/ThemePicker.svelte'
-import { PaintBucket } from 'lucide-astro'
 
 const pageName = Astro.url.pathname
 ---
 
 <nav
-	class="border-primary-tint fixed bottom-0 left-0 right-0 z-[99999] flex h-20 max-w-[1160px] items-center gap-4 border-t-4 bg-primary sm:flex-col sm:items-start md:sticky md:top-0 md:h-auto md:max-h-screen md:border-x-2 md:border-y-0 md:p-4"
+	class="fixed bottom-0 left-0 right-0 z-[99999] flex h-20 max-w-[1160px] items-center gap-4 border-t-4 border-primary-tint bg-primary sm:flex-col sm:items-start md:sticky md:top-0 md:h-auto md:max-h-screen md:border-x-2 md:border-y-0 md:p-4"
 >
 	<div class="hidden md:block">
 		<Logo />
