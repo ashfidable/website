@@ -72,13 +72,13 @@ const snippets = await getSnippets()
 
 					return (
 						<div class="flex flex-col justify-between px-2 md:flex-row md:items-center">
-							<h3 class="font-heading text-lg text-teal-300">{cleanName}</h3>
+							<h3 class="font-heading font-semibold text-heading">{cleanName}</h3>
 							<div class="flex flex-wrap gap-2">
 								{skill.data.entries.map((entry) => (
-									<div class="group rounded-lg bg-primary-tone p-2">
+									<div class="group rounded-lg bg-card p-2">
 										<Icon
 											name={entry.icon}
-											class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-accent group-hover:opacity-100"
+											class="group-hover:text-icon-hover h-12  w-12 opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:opacity-100"
 										/>
 									</div>
 								))}

@@ -4,30 +4,31 @@
 	--color-primary-tint: hsl(255, 22%, 20%);
 	--color-primary-shade: hsl(255, 22%, 2%);
 
-	--color-accent: theme(colors.cyan.500);
+	--color-accent: #06b6d4;
 	--color-accent-tint: theme(colors.cyan.200);
 	--color-accent-tone: theme(colors.cyan.400);
 	--color-accent-shade: theme(colors.cyan.600);
 
 	/* Colors */
-	--color-background: linear-gradient(
-		to bottom right,
-		var(--color-primary),
-		var(--color-primary-tone)
-	);
-	--color-background-body: var(--color-primary);
-	--color-background-card: var(--color-primary-tone);
-	--color-border: var(--color-primary-tint);
-	--color-heading: var(--color-accent);
+	--color-background: hsl(255, 22%, 10%);
+	--color-background-body: hsl(255, 22%, 5%);
+	--color-background-card: hsl(255, 22%, 10%);
 
-	--text-neutral: hsl(255, 22%, 92%);
-	--text-neutral-tone: hsl(0, 0%, 100%);
-	--text-neutral-shade: hsl(0, 0%, 82%);
+	--color-border: hsl(255, 22%, 20%);
+	--color-heading-text: hsl(189, 94%, 43%);
+	--color-heading-text-hover: hsl(189, 94%, 53%);
 
-	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
+	--color-button-active: hsl(189, 94%, 43%);
+	--color-button-hover: hsl(188, 86%, 53%);
+	--color-button-text-active: hsl(255, 22%, 10%);
+
+	--color-card-date-text: hsl(188, 86%, 53%);
+
+	--color-icon-hover: hsl(188, 86%, 53%);
+
+	--color-body-text: hsl(255, 22%, 92%);
+
 	--font-heading: 'Raleway Variable', system-ui, sans-serif;
-
-	--background-main: var(--color-primary-tone);
 }
 
 [data-theme='bee'] {
@@ -82,9 +83,13 @@
 }
 
 [data-type='svelte'] {
-	--primary-color: 25 95% 53%;
-	--secondary-color: 17 88% 40%;
-	--accent-color: var(--primary-color);
+	--color-category-highlight: hsl(25 95% 53%);
+	--color-category-background: hsl(17 88% 40%);
+}
+
+[data-type='web'] {
+	--color-category-highlight: hsl(159, 70%, 61%);
+	--color-category-background: hsl(159, 70%, 51%);
 }
 
 [data-type='unity'] {

@@ -4,10 +4,33 @@ import colors from 'tailwindcss/colors'
 module.exports = {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
 	theme: {
+		backgroundColor: {
+			background: 'var(--color-background)',
+			body: 'var(--color-background-body)',
+			card: 'var(--color-background-card)',
+			category: 'var(--color-category-background)',
+			'button-active': 'var(--color-button-active)',
+			'button-hover': 'var(--color-button-hover)'
+		},
+		textColor: {
+			body: 'var(--color-body-text)',
+			'button-text-active': 'var(--color-button-text-active)',
+			heading: 'var(--color-heading-text)',
+			'heading-hover': 'var(--color-heading-text-hover)',
+			'datetime-text': 'var(--color-card-date-text)',
+			'icon-hover': 'var(--color-icon-hover)'
+		},
+		borderColor: {
+			highlight: 'var(--color-border)',
+			'category-highlight': 'var(--color-category-highlight)'
+		},
 		colors: {
-			red: 'red'
+			red: colors.red[500]
 		},
 		extend: {
+			gridTemplateColumns: {
+				'sidebar-layout': '15rem 1fr'
+			},
 			fontFamily: {
 				stylized: 'var(--font-stylized)',
 				heading: 'var(--font-heading)',
@@ -18,28 +41,7 @@ module.exports = {
 			},
 			colors: {
 				cyan: colors.cyan,
-				violet: colors.violet,
-				primary: {
-					DEFAULT: 'var(--color-primary)',
-					tint: 'var(--color-primary-tint)',
-					tone: 'var(--color-primary-tone)',
-					shade: 'var(--color-primary-shade)'
-				},
-				accent: {
-					DEFAULT: 'var(--color-accent)',
-					tint: 'var(--color-accent-tint)',
-					tone: 'var(--color-accent-tone)',
-					shade: 'var(--color-accent-shade)'
-				},
-				'tag-primary': {
-					DEFAULT: 'hsl(var(--primary-color) / <alpha-value> )'
-				},
-				'tag-secondary': {
-					DEFAULT: 'hsl(var(--secondary-color) / <alpha-value> )'
-				},
-				'tag-accent': {
-					DEFAULT: 'hsl(var(--accent-color) / <alpha-value> )'
-				}
+				violet: colors.violet
 			}
 		}
 	},

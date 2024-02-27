@@ -44,8 +44,7 @@
 	}
 
 	html {
-		background: var(--background-main);
-		color: var(--text-neutral);
+		background: var(--color-background);
 	}
 
 	html,

@@ -8,7 +8,7 @@ const pageName = Astro.url.pathname
 ---
 
 <nav
-	class="fixed bottom-0 left-0 right-0 z-[99999] flex h-20 items-center gap-4 border-t-4 border-primary-tint bg-primary md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x-2 md:border-y-0 md:p-4"
+	class="border-highlight fixed bottom-0 left-0 right-0 z-[99999] flex h-20 items-center gap-4 border-t-4 bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x-2 md:border-y-0 md:p-4"
 >
 	<div class="hidden md:block">
 		<Logo />
@@ -45,7 +45,7 @@ const pageName = Astro.url.pathname
 		position: relative;
 		font-weight: 900;
 		z-index: 999999;
-		@apply text-primary-tone;
+		@apply text-button-text-active;
 
 		view-transition-name: current-page;
 	}
@@ -54,7 +54,7 @@ const pageName = Astro.url.pathname
 		content: '';
 		position: absolute;
 		inset: 0;
-		background-color: var(--color-accent);
+		@apply bg-button-active;
 		@apply rounded-lg;
 		z-index: -1;
 	}
@@ -64,6 +64,6 @@ const pageName = Astro.url.pathname
 	}
 
 	a:not([aria-current='page']):hover svg {
-		color: var(--color-accent-shade);
+		color: var(--color-button-hover);
 	}
 </style>
