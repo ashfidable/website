@@ -91,8 +91,8 @@
 }
 
 [data-type='web'] {
-	--color-category-highlight: hsl(159, 70%, 61%);
-	--color-category-background: hsl(159, 70%, 51%);
+	--color-category-highlight: hsl(255, 100%, 79%);
+	--color-category-background: hsl(279, 59%, 50%);
 }
 
 [data-type='unity'] {
