@@ -53,24 +53,28 @@
 	}
 
 	h1 {
-		font-size: theme(fontSize.4xl);
+		font-size: 2rem;
+		line-height: 2.5rem;
 	}
 
 	h2 {
-		font-size: theme(fontSize.3xl);
+		font-size: 1.5rem;
 	}
 
 	h3 {
-		font-size: theme(fontSize.2xl);
+		font-size: 1.17rem;
 	}
+
 	h4 {
-		font-size: theme(fontSize.xl);
+		font-size: 1rem;
 	}
+
 	h5 {
-		font-size: theme(fontSize.lg);
+		font-size: 0.83rem;
 	}
+
 	h6 {
-		font-size: theme(fontSize.base);
+		font-size: 0.67rem;
 	}
 
 	/* Removing */
