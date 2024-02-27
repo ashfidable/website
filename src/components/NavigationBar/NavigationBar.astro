@@ -34,9 +34,9 @@ const pageName = Astro.url.pathname
 		</ul>
 	</section>
 
-	<!-- <div class="mt-auto hidden w-full md:block">
+	<div class="mt-auto hidden w-full md:block">
 		<StatusCard client:only="svelte" transition:persist="status-card" />
-	</div> -->
+	</div>
 
 	<MobileNavigationBar pageName={pageName} />
 </nav>
@@ -64,6 +64,6 @@ const pageName = Astro.url.pathname
 	}
 
 	a:not([aria-current='page']):hover svg {
-		color: var(--color-button-hover);
+		@apply text-icon-hover;
 	}
 </style>
