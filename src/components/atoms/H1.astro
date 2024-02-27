@@ -2,7 +2,7 @@
 const { ...props } = Astro.props
 ---
 
-<h1 {...props} class="hover:text-accent-shade group font-heading font-bold text-accent">
+<h1 {...props} class="hover:text-heading-hover group font-heading text-2xl font-bold text-heading">
 	<a href={`#${props.id}`}>
 		<slot />
 	</a>
@@ -12,9 +12,6 @@ const { ...props } = Astro.props
 </h1>
 
 <style>
-	h1 {
-		font-size: clamp(1.5rem, 3vw, 2.5rem);
-	}
 	a {
 		position: relative;
 		display: inline-block;
