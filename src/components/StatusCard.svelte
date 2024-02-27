@@ -59,8 +59,11 @@
 					>
 				</section>
 			</div>
-			<div class="progress-bar h-2 bg-primary-tint rounded-md overflow-hidden">
-				<div class="bg-accent h-full progress-bar-inner" style={`--progress: ${progress}%`}></div>
+			<div class="progress-bar h-2 bg-spotify-progress-outer rounded-md overflow-hidden">
+				<div
+					class="bg-spotify-progress h-full progress-bar-inner"
+					style={`--progress: ${progress}%`}
+				></div>
 			</div>
 			<time>
 				{currentMinutes}:{formattedSeconds}

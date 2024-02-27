@@ -10,7 +10,9 @@ module.exports = {
 			card: 'var(--color-background-card)',
 			category: 'var(--color-category-background)',
 			'button-active': 'var(--color-button-active)',
-			'button-hover': 'var(--color-button-hover)'
+			'button-hover': 'var(--color-button-hover)',
+			'spotify-progress': 'var(--color-spotify-progress)',
+			'spotify-progress-outer': 'var(--color-spotify-progress-background)'
 		},
 		textColor: {
 			body: 'var(--color-body-text)',

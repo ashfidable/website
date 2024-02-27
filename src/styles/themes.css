@@ -26,6 +26,9 @@
 
 	--color-icon-hover: hsl(188, 86%, 53%);
 
+	--color-spotify-progress: hsl(188, 86%, 53%);
+	--color-spotify-progress-background: hsl(255, 22%, 20%);
+
 	--color-body-text: hsl(255, 22%, 92%);
 
 	--font-heading: 'Raleway Variable', system-ui, sans-serif;
