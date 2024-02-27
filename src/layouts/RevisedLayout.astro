@@ -29,21 +29,16 @@ const { title } = Astro.props as Props
 
 		<ViewTransitions />
 	</head>
-	<body class="mx-auto mb-20 max-w-7xl gap-2 bg-primary md:mb-auto md:grid">
+	<body
+		class="grid-cols-sidebar-layout mx-auto mb-20 min-h-screen max-w-7xl gap-2 bg-body text-body md:mb-auto md:grid"
+	>
 		<NavigationBar />
-		<!-- <Navbar /> -->
 		<main
-			class="flex h-full flex-grow flex-col gap-4 px-2 py-4 md:border-r-2 md:border-primary-tint"
+			class="md:border-highlight flex h-full flex-grow flex-col gap-4 px-2 py-4 md:border-r-2"
 			transition:animate="fade"
 		>
 			<slot />
 		</main>
-		<style>
-			body {
-				grid-template-columns: 15rem 1fr;
-				min-height: 100vh;
-			}
-		</style>
 		<script is:inline>
 			function currentTheme() {
 				if (typeof localStorage !== undefined && localStorage.getItem('theme')) {
