@@ -29,7 +29,7 @@ const { pageName } = Astro.props
 
 	<li class="flex-grow">
 		<button class="group flex w-full flex-grow flex-col items-center gap-2" id="mobile-button">
-			<MenuSquare class="group-hover:text-accent-shade h-5 w-5" />
+			<MenuSquare class="h-5 w-5 group-hover:text-accent-shade" />
 			 Menu
 		</button>
 	</li>
@@ -40,10 +40,10 @@ const { pageName } = Astro.props
 	<!-- Overlay that acts as close button too -->
 	<button
 		id="mobile-menu-overlay"
-		class="fixed inset-0 z-[88888] h-full w-full bg-black bg-opacity-50"
+		class="fixed inset-0 z-[88888] h-full w-full bg-background bg-opacity-50"
 		tabindex="-1"></button>
 	<div
-		class="fixed bottom-0 left-0 right-0 z-[999999] space-y-4 divide-y-2 divide-primary-shade bg-primary-tone p-4"
+		class="fixed bottom-0 left-0 right-0 z-[999999] space-y-4 divide-y-2 divide-primary-shade bg-body p-4"
 	>
 		<!-- Menu -->
 		<section class="space-y-4">
