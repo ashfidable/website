@@ -29,20 +29,29 @@
 	</button>
 	<!-- Options -->
 	<div
-		class="bg-primary-shade md:border-x-4 md:border-t-4 md:border-b-8 md:border-primary-tone md:shadow-md md:shadow-primary-tone md:absolute md:right-0 mt-6 md:w-32 rounded-lg p-4"
+		class="bg-body md:border-x-4 md:border-t-4 md:border-b-8 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-lg p-4 space-y-4"
 	>
-		<ul class="grid grid-cols-2 w-32 md:w-auto gap-4">
-			{#each themes as theme}
-				<li>
-					<button
-						data-theme-string={theme}
-						data-theme={theme}
-						on:click={(e) => handleThemeChange(e)}
-						class="w-12 h-12 md:w-6 md:h-6 bg-gradient-to-r from-primary-tone to-accent-tone from-50% to-50%"
-					>
-					</button>
-				</li>
-			{/each}
-		</ul>
+		<!-- Theme -->
+		<section class="space-y-2">
+			<h4 class="font-heading font-bold">Theme</h4>
+			<ul class="grid grid-cols-6 w-32 md:w-auto gap-4">
+				{#each themes as theme}
+					<li>
+						<button
+							data-theme-string={theme}
+							data-theme={theme}
+							on:click={(e) => handleThemeChange(e)}
+							class="w-12 h-12 md:w-6 md:h-6 bg-gradient-to-r from-[var(--color-theme-primary)] to-[--color-theme-secondary] from-50% to-50% border-2 border-highlight"
+						>
+						</button>
+					</li>
+				{/each}
+			</ul>
+		</section>
+
+		<!-- UI Settings -->
+		<section>
+			<h4 class="font-heading font-bold">UI Settings</h4>
+		</section>
 	</div>
 </div>

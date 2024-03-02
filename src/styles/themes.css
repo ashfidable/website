@@ -10,9 +10,17 @@
 	--color-accent-shade: theme(colors.cyan.600);
 
 	/* Colors */
+
+	--color-theme-primary: hsl(255, 22%, 10%);
+	--color-theme-secondary: hsl(189, 94%, 53%);
+
 	--color-background: hsl(255, 22%, 10%);
 	--color-background-body: hsl(255, 22%, 5%);
 	--color-background-card: hsl(255, 22%, 10%);
+	--color-input-background: hsl(255, 22%, 20%);
+
+	--color-input-ring-normal: hsl(255, 22%, 20%);
+	--color-input-ring-focus: hsl(189, 94%, 53%);
 
 	--color-border: hsl(255, 22%, 20%);
 	--color-heading-text: hsl(189, 94%, 43%);
@@ -31,6 +39,7 @@
 
 	--color-body-text: hsl(255, 22%, 92%);
 
+	/* Fonts */
 	--font-heading: 'Raleway Variable', system-ui, sans-serif;
 }
 

@@ -12,7 +12,8 @@ module.exports = {
 			'button-active': 'var(--color-button-active)',
 			'button-hover': 'var(--color-button-hover)',
 			'spotify-progress': 'var(--color-spotify-progress)',
-			'spotify-progress-outer': 'var(--color-spotify-progress-background)'
+			'spotify-progress-outer': 'var(--color-spotify-progress-background)',
+			input: 'var(--color-input-background)'
 		},
 		textColor: {
 			body: 'var(--color-body-text)',
@@ -25,6 +26,10 @@ module.exports = {
 		borderColor: {
 			highlight: 'var(--color-border)',
 			'category-highlight': 'var(--color-category-highlight)'
+		},
+		ringColor: {
+			'input-normal': 'var(--color-input-ring-normal)',
+			'input-focus': 'var(--color-input-ring-focus)'
 		},
 		colors: {
 			red: colors.red[500]
