@@ -17,5 +17,5 @@ export default defineConfig({
 		remarkPlugins: [sectionize]
 	},
 	integrations: [tailwind(), svelte(), mdx()],
-	site: 'https://ashfidable.github.io'
+	trailingSlash: 'never'
 })
