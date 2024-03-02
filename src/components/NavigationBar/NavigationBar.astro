@@ -8,24 +8,24 @@ const pageName = Astro.url.pathname
 ---
 
 <nav
-	class="border-highlight fixed bottom-0 left-0 right-0 z-[99999] flex h-20 items-center gap-4 border-t-4 bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x-2 md:border-y-0 md:p-4"
+	class="fixed bottom-0 left-0 right-0 z-[99999] flex h-20 items-center gap-4 border-t-4 border-highlight bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x-2 md:border-y-0 md:p-4"
 >
 	<div class="hidden md:block">
 		<Logo />
 	</div>
 
+	<!-- Navigation -->
 	<section class="hidden w-full flex-col justify-between gap-4 md:flex">
-		<!-- Nav Links -->
 		<ul class="flex flex-grow flex-col gap-4 font-heading">
 			{
 				Links.map((link) => (
 					<li class="flex-grow ">
 						<a
 							href={link.url}
-							class="flex items-center gap-2 p-2 font-semibold"
+							class="flex items-center gap-2 p-2 text-sm font-semibold"
 							aria-current={pageName === link.url ? 'page' : 'false'}
 						>
-							<link.icon />
+							<link.icon class="h-6 w-6" />
 							{link.name}
 						</a>
 					</li>
