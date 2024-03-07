@@ -1,14 +1,9 @@
+:root {
+	/* Fonts */
+	--font-heading: 'Raleway Variable', system-ui, sans-serif;
+}
+
 [data-theme='dark'] {
-	--color-primary: hsl(255, 22%, 5%);
-	--color-primary-tone: hsl(255, 22%, 10%);
-	--color-primary-tint: hsl(255, 22%, 20%);
-	--color-primary-shade: hsl(255, 22%, 2%);
-
-	--color-accent: #06b6d4;
-	--color-accent-tint: theme(colors.cyan.200);
-	--color-accent-tone: theme(colors.cyan.400);
-	--color-accent-shade: theme(colors.cyan.600);
-
 	/* Colors */
 
 	--color-theme-primary: hsl(255, 22%, 10%);
@@ -38,9 +33,6 @@
 	--color-spotify-progress-background: hsl(255, 22%, 20%);
 
 	--color-body-text: hsl(255, 22%, 92%);
-
-	/* Fonts */
-	--font-heading: 'Raleway Variable', system-ui, sans-serif;
 }
 
 [data-theme='bee'] {
