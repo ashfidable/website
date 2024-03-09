@@ -1,0 +1,13 @@
+---
+import UsesLayout from '@layouts/UsesLayout.astro'
+import UsesCard from '@components/Cards/uses-card.astro'
+import { getCollection } from 'astro:content'
+
+const tools = await getCollection('tools')
+
+console.log(tools)
+---
+
+<UsesLayout>
+	{tools.map((tool) => <UsesCard tool={tool} />)}
+</UsesLayout>
