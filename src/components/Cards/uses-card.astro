@@ -1,0 +1,14 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import Icon from 'astro-icon'
+
+interface Props {
+	tool: CollectionEntry<'tools'>
+}
+
+const { tool } = Astro.props
+---
+
+<section>
+	<h3>{tool.data.title}</h3>
+</section>
