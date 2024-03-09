@@ -1,0 +1,42 @@
+---
+import UsesCard from '@components/Cards/uses-card.astro'
+import UsesLayout from '@layouts/UsesLayout.astro'
+import { getCollection, type CollectionEntry, getEntries } from 'astro:content'
+
+export async function getStaticPaths() {
+	const tools = await getCollection('tools')
+
+	async function getUniqueCategories() {
+		let rawCategories: CollectionEntry<'categories'>[] = []
+
+		for (let tool of tools) {
+			const categories = await getEntries(tool.data.categories)
+			rawCategories = [...rawCategories, ...categories]
+		}
+
+		return rawCategories.filter(
+			(current, index, data) => data.map((e) => e.id).indexOf(current.id) === index
+		)
+	}
+
+	let uniqueCategories: CollectionEntry<'categories'>[] = await getUniqueCategories()
+
+	return uniqueCategories.map((category) => ({
+		params: { category: category.data.name.toLowerCase() },
+		props: {
+			tools: tools.filter((tool) =>
+				tool.data.categories.some((cat) => cat.id === category.data.name.toLowerCase())
+			)
+		}
+	}))
+}
+
+const { category } = Astro.params
+const { tools } = Astro.props
+
+console.log(tools)
+---
+
+<UsesLayout>
+	{tools.map((tool) => <UsesCard tool={tool} />)}
+</UsesLayout>
