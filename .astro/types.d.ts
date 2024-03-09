@@ -149,6 +149,26 @@ declare module 'astro:content' {
 
 	type DataEntryMap = {
 		"categories": {
+"development": {
+	id: "development";
+  collection: "categories";
+  data: InferEntrySchema<"categories">
+};
+"entertainment": {
+	id: "entertainment";
+  collection: "categories";
+  data: InferEntrySchema<"categories">
+};
+"note-taking": {
+	id: "note-taking";
+  collection: "categories";
+  data: InferEntrySchema<"categories">
+};
+"productivity": {
+	id: "productivity";
+  collection: "categories";
+  data: InferEntrySchema<"categories">
+};
 "svelte": {
 	id: "svelte";
   collection: "categories";
@@ -170,6 +190,23 @@ declare module 'astro:content' {
 	id: "game-engines";
   collection: "skills";
   data: InferEntrySchema<"skills">
+};
+};
+"tools": {
+"netflix": {
+	id: "netflix";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"notion": {
+	id: "notion";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"obsidian": {
+	id: "obsidian";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
 };
 };
 
