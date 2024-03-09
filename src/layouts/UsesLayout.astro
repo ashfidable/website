@@ -1,0 +1,65 @@
+---
+import RevisedLayout from '@layouts/RevisedLayout.astro'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection, getEntries } from 'astro:content'
+import Icon from 'astro-icon'
+
+const tools = await getCollection('tools')
+
+async function getUniqueCategories() {
+	let rawCategories: CollectionEntry<'categories'>[] = []
+
+	for (let tool of tools) {
+		const categories = await getEntries(tool.data.categories)
+		rawCategories = [...rawCategories, ...categories]
+	}
+
+	return rawCategories.filter(
+		(current, index, data) => data.map((e) => e.id).indexOf(current.id) === index
+	)
+}
+
+let uniqueCategories: CollectionEntry<'categories'>[] = await getUniqueCategories()
+
+const currentPage = Astro.url.pathname
+---
+
+<RevisedLayout title="Uses">
+	<section class="space-y-2 rounded-md border-2 border-highlight bg-card p-4">
+		<h2 class="font-heading font-semibold tracking-wide">Tools That I Use</h2>
+		<p>All the tools I use currently categorized into sections on this page</p>
+	</section>
+
+	<section>
+		<ul class="flex justify-center gap-4">
+			<li>
+				<a
+					href="/uses"
+					aria-current={currentPage === '/uses' ? 'page' : 'false'}
+					class="group flex cursor-pointer items-center gap-2 rounded-lg border-x-2 border-b-4 border-t-2 border-highlight bg-card p-2 hover:border-b-2 hover:text-heading-hover aria-[current=page]:text-heading-hover"
+				>
+					<Icon name="mdi:folder-star" class="h-6 w-6" />
+					<span class="group-hover:font-semibold">All</span>
+				</a>
+			</li>
+
+			{
+				uniqueCategories.map((category) => (
+					<li>
+						<a
+							href={`/uses/${category.data.name.toLowerCase()}`}
+							aria-current={currentPage.includes(category.data.name) ? 'page' : 'false'}
+							class="group flex cursor-pointer items-center gap-2 rounded-lg border-x-2 border-b-4 border-t-2 border-highlight bg-card p-2 hover:border-b-2 hover:text-heading-hover
+							aria-[current=page]:text-heading-hover"
+						>
+							<Icon name={category.data.icon} class="h-6 w-6" />
+							<span class="group-hover:font-semibold">{category.data.name}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<section class="grid grid-cols-3"><slot /></section>
+</RevisedLayout>
