@@ -1,5 +1,16 @@
 import { z, defineCollection, reference } from 'astro:content'
 
+const toolCollection = defineCollection({
+	type: 'data',
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		categories: z.array(reference('categories')),
+		url: z.string().url(),
+		icon: z.string().optional()
+	})
+})
+
 const snippetCollection = defineCollection({
 	type: 'content',
 	schema: z.object({
@@ -34,5 +45,6 @@ const skillCollection = defineCollection({
 export const collections = {
 	snippets: snippetCollection,
 	categories: categoryCollection,
-	skills: skillCollection
+	skills: skillCollection,
+	tools: toolCollection
 }
