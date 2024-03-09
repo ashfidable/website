@@ -1,6 +1,6 @@
 ---
 import Card from '@components/Cards/Card.astro'
-import { Icon } from 'astro-icon'
+import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
 import HeroSection from '@components/HeroSection.astro'
@@ -75,14 +75,14 @@ const snippets = await getSnippets()
 				const cleanName = name.replace('-', ' ')
 
 				return (
-					<div class="flex flex-col gap-2 px-2 md:items-start">
+					<div class="flex flex-col gap-2 md:items-start">
 						<h3 class="font-heading text-xl font-semibold text-heading">{cleanName}</h3>
 						<div class="flex flex-wrap gap-2">
 							{skill.data.entries.map((entry) => (
-								<div class="group rounded-lg bg-card p-2">
+								<div class="group rounded-lg bg-card p-4">
 									<Icon
 										name={entry.icon}
-										class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-icon-hover group-hover:opacity-100"
+										class="h-10 w-10 opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-icon-hover group-hover:opacity-100"
 									/>
 								</div>
 							))}

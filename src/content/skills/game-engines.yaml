@@ -1,9 +1,7 @@
 entries:
   - name: Unity
-    icon: mdi:unity
+    icon: devicon-plain:unity
   - name: Godot
-    icon: simple-icons:godotengine
+    icon: devicon-plain:godot
   - name: Unreal
     icon: mdi:unreal
-  - name: GameMaker
-    icon: file-icons:gamemaker

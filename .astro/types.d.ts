@@ -169,11 +169,6 @@ declare module 'astro:content' {
   collection: "categories";
   data: InferEntrySchema<"categories">
 };
-"svelte": {
-	id: "svelte";
-  collection: "categories";
-  data: InferEntrySchema<"categories">
-};
 "web": {
 	id: "web";
   collection: "categories";

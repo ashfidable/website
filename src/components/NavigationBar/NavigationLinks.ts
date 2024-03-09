@@ -4,27 +4,27 @@ export const Links = [
 	{
 		name: 'Home',
 		url: '/',
-		icon: Home
+		icon: 'mdi:home-heart'
 	},
 	{
 		name: 'Blog',
 		url: '/blog',
-		icon: Book
+		icon: 'mdi:book-minus-outline'
 	},
 	{
 		name: 'Bookmarks',
 		url: '/bookmarks',
-		icon: Bookmark
+		icon: 'mdi:tag-outline'
 	},
 	{
 		name: 'Snippets',
 		url: '/snippets',
-		icon: ScissorsSquare
+		icon: 'mdi:treasure-chest-outline'
 	},
 	{
 		name: 'Uses',
 		url: '/uses',
-		icon: Component
+		icon: 'mdi:toolbox-outline'
 	}
 ]
 
@@ -32,16 +32,16 @@ export const MobileLinks = [
 	{
 		name: 'Home',
 		url: '/',
-		icon: Home
+		icon: 'mdi:home-heart'
 	},
 	{
 		name: 'Blog',
 		url: '/blog',
-		icon: Book
+		icon: 'mdi:book-minus-outline'
 	},
 	{
 		name: 'Snippets',
 		url: '/snippets',
-		icon: ScissorsSquare
+		icon: 'mdi:treasure-chest-outline'
 	}
 ]

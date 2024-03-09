@@ -1,11 +1,11 @@
 entries:
   - name: JavaScript
-    icon: mdi:language-javascript
+    icon: devicon-plain:javascript
   - name: TypeScript
-    icon: mdi:language-typescript
+    icon: devicon-plain:typescript
   - name: Svelte
-    icon: simple-icons:svelte
+    icon: devicon-plain:svelte
   - name: React
     icon: ri:reactjs-line
   - name: Astro
-    icon: simple-icons:astro
+    icon: devicon-plain:astro

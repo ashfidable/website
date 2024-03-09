@@ -3,9 +3,9 @@ interface Props {
 	pageName: string
 }
 
-import { MenuSquare } from 'lucide-astro'
 import { MobileLinks, Links } from './NavigationLinks'
 import ThemePicker from '@components/ThemePicker/ThemePicker.svelte'
+import { Icon } from 'astro-icon/components'
 
 const { pageName } = Astro.props
 ---
@@ -20,7 +20,7 @@ const { pageName } = Astro.props
 					class="text-md flex cursor-pointer flex-col items-center gap-2"
 					aria-current={pageName === link.url ? 'page' : 'false'}
 				>
-					<link.icon class="h-5 w-5" />
+					<Icon name={link.icon} class="h-8 w-8" />
 					{link.name}
 				</a>
 			</li>
@@ -29,7 +29,7 @@ const { pageName } = Astro.props
 
 	<li class="flex-grow">
 		<button class="group flex w-full flex-grow flex-col items-center gap-2" id="mobile-button">
-			<MenuSquare class="group-hover:text-accent-shade h-5 w-5" />
+			<Icon name="mdi:menu" class="group-hover:text-accent-shade h-8 w-8" />
 			 Menu
 		</button>
 	</li>
@@ -57,7 +57,7 @@ const { pageName } = Astro.props
 								class="text-md bg-primary-shade hover:bg-primary flex flex-col items-center justify-center gap-2 rounded-lg p-4 shadow-xl transition-colors duration-150"
 								aria-current={pageName === link.url ? 'page' : 'false'}
 							>
-								<link.icon />
+								<Icon name={link.icon} class="h-8 w-8" />
 								{link.name}
 							</a>
 						</li>

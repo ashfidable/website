@@ -1,16 +1,16 @@
 ---
-import { Brush } from 'lucide-astro'
 import ThemePicker from './ThemePicker/ThemePicker.svelte'
+import { Icon } from 'astro-icon/components'
 ---
 
 <div
 	class="hidden items-center justify-between border-b-highlight bg-card p-4 md:flex md:border-b-4"
 >
 	<input
-		class="ring-input-normal focus:ring-input-focus place rounded-md bg-body p-2 outline-none ring-2 transition-all duration-100 ease-linear placeholder:font-heading placeholder:tracking-wider"
+		class="place rounded-md bg-body p-2 outline-none ring-2 ring-input-normal transition-all duration-100 ease-linear placeholder:font-heading placeholder:tracking-wider focus:ring-input-focus"
 		placeholder="Command Palette"
 	/>
 	<ThemePicker client:visible>
-		<Brush slot="icon" />
+		<Icon name="mdi:wrench-settings" slot="icon" class="h-6 w-6" />
 	</ThemePicker>
 </div>

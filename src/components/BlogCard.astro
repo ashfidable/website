@@ -1,5 +1,5 @@
 ---
-import { Icon } from 'astro-icon'
+import { Icon } from 'astro-icon/components'
 
 interface Props {
 	type?: string
@@ -7,34 +7,34 @@ interface Props {
 
 const { type = 'svelte' } = Astro.props as Props
 
-const icons: any = {
-	unity: {
-		icon: 'simple-icons:unity'
-	},
-	react: {
-		icon: 'vscode-icons:file-type-reactjs'
-	},
-	svelte: {
-		icon: 'vscode-icons:file-type-svelte'
-	}
-}
+// const icons: any = {
+// 	unity: {
+// 		icon: 'simple-icons:unity'
+// 	},
+// 	react: {
+// 		icon: 'vscode-icons:file-type-reactjs'
+// 	},
+// 	svelte: {
+// 		icon: 'vscode-icons:file-type-svelte'
+// 	}
+// }
 ---
 
 <a data-type={type}>
 	<div
-		class="bg-primary-tone outline-primary-tone group relative flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow-2xl outline outline-0 transition-all duration-150 ease-linear hover:-translate-y-2 hover:outline-2 hover:outline-tag-accent"
+		class="bg-primary-tone outline-primary-tone hover:outline-tag-accent group relative flex cursor-pointer flex-col gap-4 rounded-md p-3 shadow-2xl outline outline-0 transition-all duration-150 ease-linear hover:-translate-y-2 hover:outline-2"
 	>
 		<h2
-			class="bg-primary-tone border-primary-shade flex items-center gap-5 border-b-4 pb-4 transition-all duration-150 ease-linear group-hover:border-tag-accent"
+			class="bg-primary-tone border-primary-shade group-hover:border-tag-accent flex items-center gap-5 border-b-4 pb-4 transition-all duration-150 ease-linear"
 		>
 			<div
-				class="rounded-md bg-gradient-to-br from-tag-primary/90 to-tag-secondary/90 p-1 group-hover:from-tag-primary group-hover:to-tag-secondary"
+				class="from-tag-primary/90 to-tag-secondary/90 group-hover:from-tag-primary group-hover:to-tag-secondary rounded-md bg-gradient-to-br p-1"
 			>
-				<Icon name={icons[type].icon} class="w-8 group-hover:animate-bounce" />
+				<!-- <Icon name={icons[type].icon} class="w-8 group-hover:animate-bounce" /> -->
 			</div>
 			<div class="flex flex-grow flex-col font-bold">
 				<span>Post Title</span>
-				<div class="flex justify-between text-slate-500"></div>
+				<div class="text-slate-500 flex justify-between"></div>
 			</div>
 		</h2>
 		<div class="flex flex-col gap-4">

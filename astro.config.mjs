@@ -11,11 +11,14 @@ import mdx from '@astrojs/mdx'
 // plugins for markdown / mdx
 import sectionize from 'remark-sectionize'
 
+// astro-icon integration
+import icon from 'astro-icon'
+
 // https://astro.build/config
 export default defineConfig({
 	markdown: {
 		remarkPlugins: [sectionize]
 	},
-	integrations: [tailwind(), svelte(), mdx()],
+	integrations: [icon(), tailwind(), svelte(), mdx()],
 	trailingSlash: 'never'
 })

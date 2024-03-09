@@ -1,5 +1,5 @@
 ---
-import Icon from 'astro-icon'
+import { Icon } from 'astro-icon/components'
 import { getEntry, type CollectionEntry, getEntries } from 'astro:content'
 
 interface Props {
@@ -15,14 +15,14 @@ const mainCategory = getCategories
 <a
 	href={`/snippets/${snippet?.slug}`}
 	data-type={mainCategory?.data.name}
-	class="border-highlight hover:border-category-highlight group flex items-center justify-between gap-4 rounded-md border-x-2 border-b-4 border-t-2 bg-card p-4 transition-colors"
+	class="group flex items-center justify-between gap-4 rounded-md border-x-2 border-b-4 border-t-2 border-highlight bg-card p-4 transition-colors hover:border-category-highlight"
 >
 	<div class="flex gap-2 transition-transform group-hover:translate-x-4">
 		<!-- Icon for Post -->
-		<div class="bg-category rounded-md p-1" transition:name={snippet?.data.title}>
+		<div class="rounded-md bg-category p-1" transition:name={snippet?.data.title}>
 			<Icon name={mainCategory?.data.icon} class="w-4 group-hover:animate-bounce" />
 		</div>
 		<h4 class="tracking-wide">{snippet?.data.title}</h4>
 	</div>
-	<span class="text-datetime-text hidden font-mono md:block">26 June 2023</span>
+	<span class="hidden font-mono text-datetime-text md:block">26 June 2023</span>
 </a>
