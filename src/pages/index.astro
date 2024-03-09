@@ -17,11 +17,10 @@ const snippets = await getSnippets()
 ---
 
 <RevisedLayout title="Ashfid">
-	<div class="space-y-8">
-		<HeroSection />
+	<HeroSection />
 
-		<!-- Featured Posts -->
-		<!-- <section id="featured-posts" class="space-y-4">
+	<!-- Featured Posts -->
+	<!-- <section id="featured-posts" class="space-y-4">
 			<h1 class="text-2xl font-semibold">
 				<span class="text-accent text-4xl"
 					>Featured</span
@@ -37,61 +36,60 @@ const snippets = await getSnippets()
 			>
 		</section> -->
 
-		<!-- Featured Posts (New!) -->
-		<section id="latest-posts" class="space-y-4">
-			<SectionHeading title="Latest Posts" />
-			<div class="clam grid grid-cols-1 gap-1">
-				<!-- <Card type="svelte" />
+	<!-- Featured Posts (New!) -->
+	<section id="latest-posts" class="space-y-4">
+		<SectionHeading title="Latest Posts" />
+		<div class="clam grid grid-cols-1 gap-1">
+			<!-- <Card type="svelte" />
 				<Card type="react" />
 				<Card type="unity" /> -->
-				 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar erat imperdiet
-				felis porta, nec porta eros cursus. Proin ut pharetra eros. Etiam sit amet efficitur elit.
-				Donec et nibh vel magna volutpat fringilla dignissim id mi. Donec venenatis, justo
-				ullamcorper lacinia mattis, turpis lorem sodales neque, in interdum eros dui eu dui. Fusce
-				sit amet nisl neque. Sed vel nisi mollis, consequat turpis in, lacinia turpis. Curabitur
-				luctus aliquet finibus. Vivamus congue volutpat tellus vitae interdum.
-			</div>
-		</section>
+			 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar erat imperdiet felis
+			porta, nec porta eros cursus. Proin ut pharetra eros. Etiam sit amet efficitur elit. Donec et
+			nibh vel magna volutpat fringilla dignissim id mi. Donec venenatis, justo ullamcorper lacinia
+			mattis, turpis lorem sodales neque, in interdum eros dui eu dui. Fusce sit amet nisl neque.
+			Sed vel nisi mollis, consequat turpis in, lacinia turpis. Curabitur luctus aliquet finibus.
+			Vivamus congue volutpat tellus vitae interdum.
+		</div>
+	</section>
 
-		<!-- Featured Snippets -->
-		<section id="latest-snippets" class="space-y-4">
-			<SectionHeading title="Featured Snippets" />
-			<div class="grid grid-cols-1 gap-2 lg:gap-4">
-				{
-					snippets.map((snippet) => {
-						const href = `/snippets/${snippet.slug}`
-						return <Card snippet={snippet} />
-					})
-				}
-			</div>
-		</section>
-
-		<!-- Things I know.  -->
-		<section id="things-i-know" class="space-y-4">
-			<SectionHeading title="Things I know" />
+	<!-- Featured Snippets -->
+	<section id="latest-snippets" class="space-y-4">
+		<SectionHeading title="Featured Snippets" />
+		<div class="grid grid-cols-1 gap-2 lg:gap-4">
 			{
-				skills.map((skill) => {
-					const rawName = skill.id
-					const name = skill.id.charAt(0).toUpperCase() + rawName.slice(1)
-					const cleanName = name.replace('-', ' ')
-
-					return (
-						<div class="flex flex-col gap-2 px-2 md:items-start">
-							<h3 class="font-heading text-xl font-semibold text-heading">{cleanName}</h3>
-							<div class="flex flex-wrap gap-2">
-								{skill.data.entries.map((entry) => (
-									<div class="group rounded-lg bg-card p-2">
-										<Icon
-											name={entry.icon}
-											class="group-hover:text-icon-hover h-12  w-12 opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:opacity-100"
-										/>
-									</div>
-								))}
-							</div>
-						</div>
-					)
+				snippets.map((snippet) => {
+					const href = `/snippets/${snippet.slug}`
+					return <Card snippet={snippet} />
 				})
 			}
-		</section>
-	</div>
+		</div>
+	</section>
+
+	<!-- Things I know.  -->
+	<section id="things-i-know" class="space-y-4">
+		<SectionHeading title="Things I know" />
+		{
+			skills.map((skill) => {
+				const rawName = skill.id
+				const name = skill.id.charAt(0).toUpperCase() + rawName.slice(1)
+				const cleanName = name.replace('-', ' ')
+
+				return (
+					<div class="flex flex-col gap-2 px-2 md:items-start">
+						<h3 class="font-heading text-xl font-semibold text-heading">{cleanName}</h3>
+						<div class="flex flex-wrap gap-2">
+							{skill.data.entries.map((entry) => (
+								<div class="group rounded-lg bg-card p-2">
+									<Icon
+										name={entry.icon}
+										class="h-12 w-12  opacity-50 transition-all duration-150 ease-linear group-hover:-translate-y-4 group-hover:text-icon-hover group-hover:opacity-100"
+									/>
+								</div>
+							))}
+						</div>
+					</div>
+				)
+			})
+		}
+	</section>
 </RevisedLayout>
