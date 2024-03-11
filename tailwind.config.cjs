@@ -25,7 +25,8 @@ module.exports = {
 		},
 		borderColor: {
 			highlight: 'var(--color-border-highlight)',
-			'category-highlight': 'var(--color-category-highlight)'
+			'category-highlight': 'var(--color-category-highlight)',
+			'highlight-hover': 'var(--color-border-highlight-hover)'
 		},
 		ringColor: {
 			'input-normal': 'var(--color-input-ring-normal)',
