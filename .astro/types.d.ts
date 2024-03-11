@@ -193,6 +193,11 @@ declare module 'astro:content' {
   collection: "tools";
   data: InferEntrySchema<"tools">
 };
+"steam": {
+	id: "steam";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
 };
 
 	};
