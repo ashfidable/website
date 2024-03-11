@@ -3,5 +3,5 @@
 	"description": "Notion Desc",
 	"url": "https://notion.so",
 	"categories": ["note-taking", "productivity"],
-	"icon": "devicon:notion"
+	"icon": "logos:notion-icon"
 }
