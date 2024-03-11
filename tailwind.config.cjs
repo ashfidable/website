@@ -24,7 +24,7 @@ module.exports = {
 			'icon-hover': 'var(--color-icon-hover)'
 		},
 		borderColor: {
-			highlight: 'var(--color-border)',
+			highlight: 'var(--color-border-highlight)',
 			'category-highlight': 'var(--color-category-highlight)'
 		},
 		ringColor: {
