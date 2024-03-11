@@ -4,41 +4,6 @@
 @tailwind components;
 
 @layer base {
-	:root {
-		/* --font-size-sm: clamp(0.8rem, -0.09vw + 0.82rem, 0.75rem);
-		--font-size-base: clamp(1rem, 0vw + 1rem, 1rem);
-		--font-size-lg: clamp(1.25rem, 0.16vw + 1.22rem, 1.33rem);
-		--font-size-xl: clamp(1.56rem, 0.41vw + 1.48rem, 1.78rem);
-		--font-size-2xl: clamp(1.95rem, 0.79vw + 1.79rem, 2.37rem);
-		--font-size-3xl: clamp(2.44rem, 1.36vw + 2.17rem, 3.16rem);
-		--font-size-4xl: clamp(3.05rem, 2.2vw + 2.61rem, 4.21rem);
-		--font-size-5xl: clamp(3.81rem, 3.42vw + 3.13rem, 5.61rem);
-		--font-size-6xl: clamp(4.77rem, 5.16vw + 3.74rem, 7.48rem);
-		--font-size-7xl: clamp(5.96rem, 7.63vw + 4.43rem, 9.97rem);
-		--font-size-8xl: clamp(7.45rem, 11.12vw + 5.23rem, 13.29rem);
-		--font-size-9xl: clamp(9.31rem, 16vw + 6.11rem, 17.71rem); */
-
-		/* --font-size-sm: 0.67em;
-		--font-size-base: 0.83em;
-		--font-size-lg: 1em;
-		--font-size-xl: 1.17em;
-		--font-size-2xl: 1.5em;
-		--font-size-3xl: 2em; */
-
-		--font-size-xs: clamp(0.64rem, -0.37vw + 0.71rem, 0.44rem);
-		--font-size-sm: clamp(0.8rem, -0.25vw + 0.85rem, 0.67rem);
-		--font-size-base: clamp(1rem, 0vw + 1rem, 1rem);
-		--font-size-lg: clamp(1.25rem, 0.48vw + 1.15rem, 1.5rem);
-		--font-size-xl: clamp(1.56rem, 1.31vw + 1.3rem, 2.25rem);
-		--font-size-2xl: clamp(1.95rem, 2.71vw + 1.41rem, 3.38rem);
-		--font-size-3xl: clamp(2.44rem, 4.99vw + 1.44rem, 5.06rem);
-		--font-size-4xl: clamp(3.05rem, 8.65vw + 1.32rem, 7.59rem);
-		--font-size-5xl: clamp(3.81rem, 14.43vw + 0.93rem, 11.39rem);
-		--font-size-6xl: clamp(4.77rem, 23.46vw + 0.08rem, 17.09rem);
-		--font-size-7xl: clamp(5.96rem, 37.46vw + -1.53rem, 25.63rem);
-		--font-size-8xl: clamp(7.45rem, 59.03vw + -4.36rem, 38.44rem);
-		--font-size-9xl: clamp(9.31rem, 92.1vw + -9.11rem, 57.67rem);
-	}
 	html {
 		font-family: 'Inter', system-ui, sans-serif;
 	}
