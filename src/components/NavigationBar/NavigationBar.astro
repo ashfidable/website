@@ -6,6 +6,10 @@ import StatusCard from '@components/StatusCard.svelte'
 import { Icon } from 'astro-icon/components'
 
 const pageName = Astro.url.pathname
+
+const isCurrentPage = (url: string) => {
+	return url === pageName
+}
 ---
 
 <nav
@@ -23,15 +27,14 @@ const pageName = Astro.url.pathname
 					<li class="flex-grow ">
 						<a
 							href={link.url}
-							class="flex items-center gap-2 p-2 text-sm font-semibold"
-							aria-current={pageName === link.url ? 'page' : 'false'}
+							class="group flex items-center gap-2 p-2 text-sm font-semibold"
+							aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 						>
 							<Icon name={link.icon} class="h-6 w-6" />
 							<span>{link.name}</span>
 							<Icon
-								name="svg-spinners:180-ring"
-								data-loading="false"
-								class="loading ml-auto hidden text-body data-[loading=true]:inline-block"
+								name="svg-spinners:dot-revolve"
+								class="loading ml-auto hidden h-4 w-4 text-body group-data-[loading=true]:inline-block"
 							/>
 						</a>
 					</li>
@@ -52,7 +55,6 @@ const pageName = Astro.url.pathname
 		font-weight: 900;
 		z-index: 999999;
 		@apply text-button-text-active;
-
 		view-transition-name: current-page;
 	}
 
@@ -72,10 +74,6 @@ const pageName = Astro.url.pathname
 	a:not([aria-current='page']):hover svg {
 		@apply text-icon-hover;
 	}
-
-	.loading[data-loading='true'] {
-		display: inline-block;
-	}
 </style>
 
 <script is:inline>
@@ -84,14 +82,11 @@ const pageName = Astro.url.pathname
 		const allLinkElements = document.querySelectorAll('a[aria-current]')
 		const linkArray = [...allLinkElements]
 		ev.loader = async function () {
-			const fromPathname = ev.from.href
 			const toPathname = ev.to.href
-			const fromLinkElement = linkArray.find((element) => element.href === fromPathname)
-			const toLinkElement = linkArray.find((element) => element.href === fromPathname)
+			const toLinkElement = linkArray.find((element) => element.href === toPathname)
 			toLinkElement.dataset.loading = 'true'
-			console.log(toLinkElement.dataset)
 			await originalLoader()
-			toLinkElement.dataset.loading = 'false'
+			toLinkElement.removeAttribute('loading')
 		}
 	})
 </script>
