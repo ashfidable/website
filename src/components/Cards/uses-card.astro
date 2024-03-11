@@ -11,7 +11,7 @@ const { tool } = Astro.props
 
 <a
 	href={tool.data.url}
-	class="space-y-2 rounded-lg border-x-2 border-b-4 border-t-2 border-highlight bg-card p-2"
+	class="hover:border-highlight-hover cursor-pointer space-y-2 rounded-lg border-x-2 border-b-4 border-t-2 border-highlight bg-card p-2 transition-colors duration-100 ease-linear"
 	transition:name={tool.data.title}
 	rel="external nofollow"
 >
