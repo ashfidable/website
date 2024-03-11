@@ -5,9 +5,9 @@ import { getCollection } from 'astro:content'
 
 const tools = await getCollection('tools')
 
-console.log(tools)
+const sortedToolsAlphabetically = tools.sort((a, b) => a.data.title.localeCompare(b.data.title))
 ---
 
 <UsesLayout>
-	{tools.map((tool) => <UsesCard tool={tool} />)}
+	{sortedToolsAlphabetically.map((tool) => <UsesCard tool={tool} />)}
 </UsesLayout>
