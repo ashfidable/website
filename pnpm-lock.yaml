@@ -38,6 +38,9 @@ dependencies:
   '@iconify-json/ri':
     specifier: ^1.1.20
     version: 1.1.20
+  '@iconify-json/svg-spinners':
+    specifier: ^1.1.2
+    version: 1.1.2
   astro:
     specifier: ^4.4.9
     version: 4.4.9(typescript@5.3.3)
@@ -694,6 +697,12 @@ packages:
 
   /@iconify-json/ri@1.1.20:
     resolution: {integrity: sha512-yScIGjLFBCJKWKskQTWRjNI2Awoq+VRDkRxEsCQvSfdz41n+xkRtFG2K6J1OVI90ClRHfjFC8VJ2+WzxxyFjTQ==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
+  /@iconify-json/svg-spinners@1.1.2:
+    resolution: {integrity: sha512-Aab6SqkORaTJ1W+ooufn6C8BsBitrn3uk8iRQLPA6pjhyvQAhkKCGMctyXIL5ZjrycnoFVsZ4mx7KnwEMra8qg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false

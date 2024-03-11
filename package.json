@@ -19,6 +19,7 @@
     "@iconify-json/logos": "^1.1.42",
     "@iconify-json/mdi": "^1.1.64",
     "@iconify-json/ri": "^1.1.20",
+    "@iconify-json/svg-spinners": "^1.1.2",
     "astro": "^4.4.9",
     "astro-icon": "^1.1.0",
     "lucide-astro": "^0.279.0",

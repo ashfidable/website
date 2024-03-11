@@ -193,6 +193,16 @@ declare module 'astro:content' {
   collection: "tools";
   data: InferEntrySchema<"tools">
 };
+"notion": {
+	id: "notion";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"obsidian": {
+	id: "obsidian";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
 "steam": {
 	id: "steam";
   collection: "tools";
