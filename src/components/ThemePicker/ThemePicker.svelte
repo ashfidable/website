@@ -5,6 +5,8 @@
 
 	let html: HTMLElement
 
+	let hidden: boolean = true
+
 	onMount(() => {
 		html = document.documentElement
 	})
@@ -30,6 +32,7 @@
 	<!-- Options -->
 	<div
 		class="bg-body md:border-x-4 md:border-t-4 md:border-b-8 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-lg p-4 space-y-4"
+		class:hidden
 	>
 		<!-- Theme -->
 		<section class="space-y-2">
