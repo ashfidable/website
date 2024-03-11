@@ -29,6 +29,9 @@ dependencies:
   '@iconify-json/file-icons':
     specifier: ^1.1.8
     version: 1.1.8
+  '@iconify-json/logos':
+    specifier: ^1.1.42
+    version: 1.1.42
   '@iconify-json/mdi':
     specifier: ^1.1.64
     version: 1.1.64
@@ -673,6 +676,12 @@ packages:
 
   /@iconify-json/file-icons@1.1.8:
     resolution: {integrity: sha512-gzkxwnzEN0FVJZQIM/X7aqlN98z/XQ8ymb/BC1ebr3lJHvmQ5n8gMhWeytnJHHwRERg/zokTXSQDt62ANwcs/w==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
+  /@iconify-json/logos@1.1.42:
+    resolution: {integrity: sha512-/f+frtPm3m3Z30oy8Pk+QqRDkbmAiIaWGPl5CmsCXm15MVfvw9a/V/gD7WzdyuSGAZcFuQaqbHXj92y/n+2ifg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false
