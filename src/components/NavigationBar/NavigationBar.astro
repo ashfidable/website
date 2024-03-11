@@ -27,7 +27,12 @@ const pageName = Astro.url.pathname
 							aria-current={pageName === link.url ? 'page' : 'false'}
 						>
 							<Icon name={link.icon} class="h-6 w-6" />
-							{link.name}
+							<span>{link.name}</span>
+							<Icon
+								name="svg-spinners:180-ring"
+								data-loading="false"
+								class="loading ml-auto hidden text-body data-[loading=true]:inline-block"
+							/>
 						</a>
 					</li>
 				))
@@ -67,4 +72,26 @@ const pageName = Astro.url.pathname
 	a:not([aria-current='page']):hover svg {
 		@apply text-icon-hover;
 	}
+
+	.loading[data-loading='true'] {
+		display: inline-block;
+	}
 </style>
+
+<script is:inline>
+	document.addEventListener('astro:before-preparation', (ev) => {
+		const originalLoader = ev.loader
+		const allLinkElements = document.querySelectorAll('a[aria-current]')
+		const linkArray = [...allLinkElements]
+		ev.loader = async function () {
+			const fromPathname = ev.from.href
+			const toPathname = ev.to.href
+			const fromLinkElement = linkArray.find((element) => element.href === fromPathname)
+			const toLinkElement = linkArray.find((element) => element.href === fromPathname)
+			toLinkElement.dataset.loading = 'true'
+			console.log(toLinkElement.dataset)
+			await originalLoader()
+			toLinkElement.dataset.loading = 'false'
+		}
+	})
+</script>
