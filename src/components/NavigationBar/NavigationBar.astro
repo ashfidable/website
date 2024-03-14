@@ -81,12 +81,19 @@ const isCurrentPage = (url: string) => {
 		const originalLoader = ev.loader
 		const allLinkElements = document.querySelectorAll('a[aria-current]')
 		const linkArray = [...allLinkElements]
+
+		console.log(ev)
+		if (!ev.sourceElement.hasAttribute('aria-current')) return
 		ev.loader = async function () {
-			const toPathname = ev.to.href
-			const toLinkElement = linkArray.find((element) => element.href === toPathname)
-			toLinkElement.dataset.loading = 'true'
+			const toUrlLink = ev.to.href
+			const toLinkElement = linkArray.find((element) => element.href === toUrlLink)
+			if (toLinkElement.hasAttribute('aria-current')) {
+				toLinkElement.dataset.loading = 'true'
+			}
 			await originalLoader()
-			toLinkElement.removeAttribute('loading')
+			if (toLinkElement.hasAttribute('aria-current')) {
+				toLinkElement.removeAttribute('loading')
+			}
 		}
 	})
 </script>
