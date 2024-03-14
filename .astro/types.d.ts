@@ -188,6 +188,46 @@ declare module 'astro:content' {
 };
 };
 "tools": {
+"apple-notes": {
+	id: "apple-notes";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"discord": {
+	id: "discord";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"edge": {
+	id: "edge";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"figma": {
+	id: "figma";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"github": {
+	id: "github";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"godot": {
+	id: "godot";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"icloud": {
+	id: "icloud";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"instagram": {
+	id: "instagram";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
 "netflix": {
 	id: "netflix";
   collection: "tools";
@@ -203,8 +243,68 @@ declare module 'astro:content' {
   collection: "tools";
   data: InferEntrySchema<"tools">
 };
+"playstation": {
+	id: "playstation";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"powertoys": {
+	id: "powertoys";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"safari": {
+	id: "safari";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"spotify": {
+	id: "spotify";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
 "steam": {
 	id: "steam";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"terminal": {
+	id: "terminal";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"threads": {
+	id: "threads";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"unity": {
+	id: "unity";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"unreal": {
+	id: "unreal";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"vscode": {
+	id: "vscode";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"waze": {
+	id: "waze";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"whatsapp": {
+	id: "whatsapp";
+  collection: "tools";
+  data: InferEntrySchema<"tools">
+};
+"youtube": {
+	id: "youtube";
   collection: "tools";
   data: InferEntrySchema<"tools">
 };
