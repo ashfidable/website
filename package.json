@@ -8,7 +8,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^2.1.1",
+    "@astrojs/mdx": "^2.2.0",
     "@astrojs/svelte": "^5.2.0",
     "@astrojs/tailwind": "^5.1.0",
     "@fontsource-variable/josefin-sans": "^5.0.13",
@@ -20,7 +20,7 @@
     "@iconify-json/mdi": "^1.1.64",
     "@iconify-json/ri": "^1.1.20",
     "@iconify-json/svg-spinners": "^1.1.2",
-    "astro": "^4.4.9",
+    "astro": "^4.5.3",
     "astro-icon": "^1.1.0",
     "lucide-astro": "^0.279.0",
     "sharp": "^0.33.2",

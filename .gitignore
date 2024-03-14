@@ -6,6 +6,7 @@ node_modules/
 
 # vscode
 .vscode/
+.astro/
 
 # logs
 npm-debug.log*
