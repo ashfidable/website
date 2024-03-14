@@ -1,0 +1,6 @@
+title: Windows Terminal
+description: Windows Terminal is a modern host application for the command-line shells
+url: https://github.com/microsoft/terminal
+categories:
+  - development
+icon: mdi:terminal
