@@ -22,9 +22,6 @@ const category = await getEntry(snippet.data.category)
 		<div class="rounded-md bg-category p-1">
 			<Icon name={category?.data.icon} class="w-4 group-hover:animate-bounce" />
 		</div>
-		<!-- <div class="view-transition rounded-md bg-category p-1">
-			<Icon name={mainCategory?.data.icon} class="w-4 group-hover:animate-bounce" />
-		</div> -->
 		<h4 class="tracking-wide">{snippet?.data.title}</h4>
 	</div>
 	<span class="hidden font-mono text-datetime-text md:block">26 June 2023</span>
