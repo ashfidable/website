@@ -22,7 +22,8 @@ module.exports = {
 			heading: 'var(--color-heading-text)',
 			'heading-hover': 'var(--color-heading-text-hover)',
 			'datetime-text': 'var(--color-card-date-text)',
-			'icon-hover': 'var(--color-icon-hover)'
+			'icon-hover': 'var(--color-icon-hover)',
+			icon: 'var(--color-icon)'
 		},
 		borderColor: {
 			highlight: 'var(--color-border-highlight)',

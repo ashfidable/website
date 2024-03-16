@@ -29,6 +29,7 @@
 
 	--color-card-date-text: hsl(188, 86%, 53%);
 
+	--color-icon: hsl(255, 22%, 85%);
 	--color-icon-hover: hsl(188, 86%, 53%);
 
 	--color-spotify-progress: hsl(188, 86%, 53%);
@@ -63,22 +64,38 @@
 }
 
 [data-theme='light'] {
-	--color-primary: theme(colors.violet.400);
-	--color-primary-tone: theme(colors.violet.300);
-	--color-primary-shade: theme(colors.violet.200);
+	/* Colors */
 
-	--color-accent: theme(colors.violet.500);
-	--color-accent-tone: theme(colors.violet.500);
-	--color-accent-shade: theme(colors.violet.400);
+	--color-theme-primary: hsl(255, 22%, 10%);
+	--color-theme-secondary: hsl(189, 94%, 53%);
 
-	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
+	--color-background: hsl(0, 0%, 100%);
+	--color-background-body: hsl(0, 0%, 98%);
+	--color-background-card: hsl(0, 0%, 100%);
 
-	--background-main: linear-gradient(
-		to bottom right,
-		var(--color-primary-tone),
-		var(--color-primary-shade)
-	);
-	--text-neutral: black;
+	--color-input-background: hsl(255, 22%, 20%);
+	--color-input-ring-normal: hsl(255, 22%, 20%);
+	--color-input-ring-focus: hsl(189, 94%, 53%);
+
+	--color-border-highlight: hsl(255, 22%, 20%);
+	--color-border-highlight-hover: hsl(189, 94%, 43%);
+
+	--color-heading-text: hsl(190, 100%, 20%);
+	--color-heading-text-hover: hsl(189, 94%, 53%);
+
+	--color-button-active: hsl(190, 100%, 40%);
+	--color-button-hover: hsl(190, 100%, 30%);
+	--color-button-text-active: hsl(0, 0%, 96%);
+
+	--color-card-date-text: hsl(188, 100%, 21%);
+
+	--color-icon: hsl(0, 0%, 96%);
+	--color-icon-hover: hsl(188, 86%, 53%);
+
+	--color-spotify-progress: hsl(188, 86%, 53%);
+	--color-spotify-progress-background: hsl(0, 0%, 96%);
+
+	--color-body-text: hsl(0, 0%, 8%);
 }
 
 [data-type='react'] {
