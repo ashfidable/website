@@ -8,20 +8,23 @@ interface Props {
 
 const { snippet } = Astro.props
 
-const getCategories = await getEntry(snippet.data.category)
-const mainCategory = getCategories
+const category = await getEntry(snippet.data.category)
 ---
 
 <a
 	href={`/snippets/${snippet?.slug}`}
-	data-type={mainCategory?.data.name}
+	data-type={category?.data.name}
 	class="group flex items-center justify-between gap-4 rounded-md border-x-2 border-b-4 border-t-2 border-highlight bg-card p-4 transition-colors hover:border-category-highlight"
+	transition:name={snippet.data.title}
 >
 	<div class="flex gap-2 transition-transform group-hover:translate-x-4">
 		<!-- Icon for Post -->
-		<div class="rounded-md bg-category p-1" transition:name={snippet?.data.title}>
-			<Icon name={mainCategory?.data.icon} class="w-4 group-hover:animate-bounce" />
+		<div class="rounded-md bg-category p-1">
+			<Icon name={category?.data.icon} class="w-4 group-hover:animate-bounce" />
 		</div>
+		<!-- <div class="view-transition rounded-md bg-category p-1">
+			<Icon name={mainCategory?.data.icon} class="w-4 group-hover:animate-bounce" />
+		</div> -->
 		<h4 class="tracking-wide">{snippet?.data.title}</h4>
 	</div>
 	<span class="hidden font-mono text-datetime-text md:block">26 June 2023</span>
