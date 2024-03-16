@@ -1,5 +1,5 @@
 ---
-import UsesCard from '@components/Cards/uses-card.astro'
+import UsesCard from '@components/cards/uses-card.astro'
 import UsesLayout from '@layouts/UsesLayout.astro'
 import { getCollection, type CollectionEntry, getEntries } from 'astro:content'
 
@@ -31,7 +31,6 @@ export async function getStaticPaths() {
 	}))
 }
 
-const { category } = Astro.params
 const { tools } = Astro.props
 ---
 
