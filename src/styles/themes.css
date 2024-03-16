@@ -20,12 +20,12 @@
 	--color-border-highlight: hsl(255, 22%, 20%);
 	--color-border-highlight-hover: hsl(189, 94%, 43%);
 
-	--color-heading-text: hsl(189, 94%, 43%);
+	--color-heading-text: hsl(189, 94%, 48%);
 	--color-heading-text-hover: hsl(189, 94%, 53%);
 
-	--color-button-active: hsl(189, 94%, 43%);
+	--color-button-active: hsl(189, 94%, 48%);
 	--color-button-hover: hsl(188, 86%, 53%);
-	--color-button-text-active: hsl(255, 22%, 10%);
+	--color-button-text-active: hsl(189, 94%, 12%);
 
 	--color-card-date-text: hsl(188, 86%, 53%);
 
@@ -34,7 +34,7 @@
 	--color-spotify-progress: hsl(188, 86%, 53%);
 	--color-spotify-progress-background: hsl(255, 22%, 20%);
 
-	--color-body-text: hsl(255, 22%, 92%);
+	--color-body-text: hsl(255, 22%, 85%);
 }
 
 [data-theme='bee'] {
@@ -60,7 +60,6 @@
 		var(--color-primary),
 		var(--color-primary-tone)
 	);
-	/* --background-main: var(--color-primary); */
 }
 
 [data-theme='light'] {
