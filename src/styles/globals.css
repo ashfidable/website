@@ -19,7 +19,6 @@
 
 	h1 {
 		font-size: 2rem;
-		line-height: 2.5rem;
 	}
 
 	h2 {
@@ -42,9 +41,8 @@
 		font-size: 0.67rem;
 	}
 
-	/* Removing */
-	::-webkit-scrollbar {
-		display: none;
+	html {
+		scrollbar-gutter: stable;
 	}
 }
 
