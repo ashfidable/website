@@ -1,5 +1,5 @@
 ---
-import SnippetCard from '@components/Cards/snippet-card.astro'
+import SnippetCard from '@components/cards/snippet-card.astro'
 import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
@@ -8,12 +8,7 @@ import RevisedLayout from '@layouts/RevisedLayout.astro'
 
 const skills = await getCollection('skills')
 
-async function getSnippets() {
-	const snippetEntries = await getCollection('snippets')
-	return snippetEntries
-}
-
-const snippets = await getSnippets()
+const snippets = await getCollection('snippets')
 ---
 
 <RevisedLayout title="Ashfid">
