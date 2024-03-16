@@ -3,6 +3,7 @@ import colors from 'tailwindcss/colors'
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+
 	theme: {
 		backgroundColor: {
 			background: 'var(--color-background)',
@@ -36,6 +37,9 @@ module.exports = {
 			red: colors.red[500]
 		},
 		extend: {
+			backgroundImage: {
+				'category-gradient': 'var(--color-category-background)'
+			},
 			gridTemplateColumns: {
 				'sidebar-layout': '15rem 1fr'
 			},

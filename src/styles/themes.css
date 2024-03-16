@@ -93,8 +93,8 @@
 }
 
 [data-type='web'] {
-	--color-category-highlight: hsl(255, 100%, 79%);
-	--color-category-background: hsl(279, 59%, 50%);
+	--color-category-highlight: hsl(271, 76%, 63%);
+	--color-category-background: conic-gradient(from -90deg at 50% -25%, blue, blueviolet);
 }
 
 [data-type='unity'] {
