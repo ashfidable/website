@@ -1,5 +1,5 @@
 ---
-import Card from '@components/Cards/Card.astro'
+import SnippetCard from '@components/Cards/snippet-card.astro'
 import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
 import SectionHeading from '@components/SectionHeading.astro'
@@ -42,7 +42,7 @@ const snippets = await getSnippets()
 			{
 				snippets.map((snippet) => {
 					const href = `/snippets/${snippet.slug}`
-					return <Card snippet={snippet} />
+					return <SnippetCard snippet={snippet} />
 				})
 			}
 		</div>
