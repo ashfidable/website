@@ -1,0 +1,28 @@
+---
+import { Icon } from 'astro-icon/components'
+import { getEntry, type CollectionEntry } from 'astro:content'
+
+interface Props {
+	snippet: CollectionEntry<'snippets'>
+}
+
+const { snippet } = Astro.props
+
+const category = await getEntry(snippet.data.category)
+---
+
+<a
+	href={`/snippets/${snippet?.slug}`}
+	data-type={category?.data.name}
+	class="group flex items-center justify-between gap-4 rounded-md border-x border-b-4 border-t border-highlight bg-card p-4 transition-colors hover:border-category-highlight"
+	transition:name={snippet.data.title}
+>
+	<div class="flex gap-2 transition-transform group-hover:translate-x-4">
+		<!-- Icon for Post -->
+		<div class="bg-category-gradient rounded-md p-1">
+			<Icon name={category?.data.icon} class="w-4 group-hover:animate-bounce" />
+		</div>
+		<h4 class="tracking-wide">{snippet?.data.title}</h4>
+	</div>
+	<span class="hidden font-mono text-datetime-text md:block">26 June 2023</span>
+</a>
