@@ -24,7 +24,7 @@ const category = await getEntry(snippet.data.category)
 <RevisedLayout title={snippet.data.title}>
 	<article data-type="web" class="space-y-4">
 		<header class="space-y-4" transition:name={snippet.data.title}>
-			<div class="relative h-28 rounded-md bg-category p-4">
+			<div class="bg-category-gradient relative h-28 rounded-md p-4">
 				<Icon name={category.data.icon} class="absolute bottom-0 left-4 top-20 text-5xl" />
 			</div>
 

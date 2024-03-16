@@ -36,7 +36,7 @@ const currentPage = Astro.url.pathname
 				<a
 					href="/uses"
 					aria-current={currentPage === '/uses' ? 'page' : 'false'}
-					class="group flex cursor-pointer items-center gap-2 rounded-lg border-x-2 border-b-4 border-t-2 border-highlight bg-card p-2 hover:border-b-2 hover:text-heading-hover aria-[current=page]:text-heading-hover"
+					class="group flex cursor-pointer items-center gap-2 rounded-lg border-x border-b-2 border-t border-highlight bg-card p-2 hover:text-heading-hover aria-[current=page]:text-heading-hover"
 				>
 					<Icon name="mdi:treasure-chest" />
 					<span class="group-hover:font-semibold">All</span>
@@ -49,7 +49,7 @@ const currentPage = Astro.url.pathname
 						<a
 							href={`/uses/${category.data.name.toLowerCase()}`}
 							aria-current={currentPage.includes(category.data.name) ? 'page' : 'false'}
-							class="group flex cursor-pointer items-center gap-2 rounded-lg border-x-2 border-b-4 border-t-2 border-highlight bg-card p-2 hover:border-b-2 hover:text-heading-hover
+							class="group flex cursor-pointer items-center gap-2 rounded-lg border-x border-b-2 border-t border-highlight bg-card p-2 hover:text-heading-hover
 							aria-[current=page]:text-heading-hover"
 						>
 							<Icon name={category.data.icon} />
@@ -61,5 +61,5 @@ const currentPage = Astro.url.pathname
 		</ul>
 	</section>
 
-	<section class="grid grid-cols-2 gap-4 sm:grid-cols-3"><slot /></section>
+	<section class="grid grid-cols-2 gap-4 md:grid-cols-3"><slot /></section>
 </RevisedLayout>
