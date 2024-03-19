@@ -5,6 +5,8 @@ import RevisedLayout from '@layouts/RevisedLayout.astro'
 import { Icon } from 'astro-icon/components'
 import BlockQuote from '@components/atoms/blockquote.astro'
 import A from '@components/atoms/a.astro'
+import Section from '@components/atoms/section.astro'
+import Pre from '@components/atoms/pre.astro'
 
 export async function getStaticPaths() {
 	const snippets = await getCollection('snippets')
@@ -36,7 +38,9 @@ const category = await getEntry(snippet.data.category)
 		</header>
 
 		<article class="post space-y-4">
-			<Content components={{ h1: H1, blockquote: BlockQuote, a: A }} />
+			<Content
+				components={{ h1: H1, h2: H1, blockquote: BlockQuote, a: A, section: Section, pre: Pre }}
+			/>
 		</article>
 	</article>
 </RevisedLayout>
