@@ -45,12 +45,12 @@
 [data-theme='light'] {
 	/* Colors */
 	color-scheme: light;
-	--color-theme-primary: hsl(255, 22%, 10%);
+	--color-theme-primary: hsl(0, 0%, 95%);
 	--color-theme-secondary: hsl(265, 91%, 35%);
 
-	--color-background: hsl(0, 0%, 100%);
-	--color-background-body: hsl(0, 0%, 98%);
-	--color-background-card: hsl(0, 0%, 100%);
+	--color-background: hsl(0, 0%, 98%);
+	--color-background-body: hsl(0, 0%, 95%);
+	--color-background-card: hsl(0, 0%, 98%);
 
 	--color-input-background: hsl(255, 22%, 20%);
 	--color-input-ring-normal: hsl(255, 22%, 20%);
