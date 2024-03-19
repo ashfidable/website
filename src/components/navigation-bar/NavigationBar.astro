@@ -43,8 +43,8 @@ const isCurrentPage = (url: string) => {
 		</ul>
 	</section>
 
-	<div class="mt-auto hidden w-full md:block">
-		<StatusCard client:only="svelte" transition:persist="status-card" />
+	<div class="mt-auto hidden w-full md:block" transition:persist="status-card">
+		<StatusCard client:load />
 	</div>
 
 	<MobileNavigationBar pageName={pageName} />
