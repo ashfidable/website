@@ -22,16 +22,20 @@
 
 		localStorage.setItem('theme', themeString)
 	}
+
+	function toggleButton() {
+		hidden = !hidden
+	}
 </script>
 
 <div class="md:relative">
 	<!-- Button for opening the options -->
-	<button class="md:block hidden">
+	<button class="md:block hidden" on:click={toggleButton}>
 		<slot name="icon" />
 	</button>
 	<!-- Options -->
 	<div
-		class="bg-body md:border-x-4 md:border-t-4 md:border-b-8 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-lg p-4 space-y-4"
+		class="bg-body md:border-x-4 md:border-t-4 md:border-b-8 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-lg p-4 space-y-4 z-[99999]"
 		class:hidden
 	>
 		<!-- Theme -->
