@@ -101,6 +101,16 @@
 	);
 }
 
+[data-type='tool'] {
+	--color-category-highlight: hsl(330, 91%, 69%);
+	--color-category-background: linear-gradient(
+		108.7deg,
+		hsl(330, 91%, 69%) 11%,
+		hsl(347, 76%, 63%) 88.2%
+	);
+	--color-category-text: white;
+}
+
 [data-type='unity'] {
 	--primary-color: 217 33% 17%;
 	--secondary-color: 0 0% 0%;
