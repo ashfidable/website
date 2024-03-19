@@ -25,6 +25,7 @@ module.exports = {
 			'datetime-text': 'var(--color-card-date-text)',
 			'icon-hover': 'var(--color-icon-hover)',
 			icon: 'var(--color-icon)',
+			'category-icon': 'var(--color-category-text)',
 			'blockquote-text': 'var(--color-blockquote-text)'
 		},
 		borderColor: {
