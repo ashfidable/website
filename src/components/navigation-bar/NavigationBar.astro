@@ -83,7 +83,7 @@ const isCurrentPage = (url: string) => {
 		const linkArray = [...allLinkElements]
 
 		console.log(ev)
-		if (!ev.sourceElement.hasAttribute('aria-current')) return
+		if (!ev.sourceElement.hasAttribute('aria-current') || ev.to.href === ev.from.href) return
 		ev.loader = async function () {
 			const toUrlLink = ev.to.href
 			const toLinkElement = linkArray.find((element) => element.href === toUrlLink)
