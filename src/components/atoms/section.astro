@@ -1,0 +1,9 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+interface Props extends HTMLAttributes<'section'> {}
+const { ...attr } = Astro.props
+---
+
+<section {...attr} class="space-y-2">
+	<slot />
+</section>
