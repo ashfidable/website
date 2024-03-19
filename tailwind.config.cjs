@@ -14,7 +14,8 @@ module.exports = {
 			'button-hover': 'var(--color-button-hover)',
 			'spotify-progress': 'var(--color-spotify-progress)',
 			'spotify-progress-outer': 'var(--color-spotify-progress-background)',
-			input: 'var(--color-input-background)'
+			input: 'var(--color-input-background)',
+			blockquote: 'var(--color-blockquote-background)'
 		},
 		textColor: {
 			body: 'var(--color-body-text)',
@@ -23,12 +24,14 @@ module.exports = {
 			'heading-hover': 'var(--color-heading-text-hover)',
 			'datetime-text': 'var(--color-card-date-text)',
 			'icon-hover': 'var(--color-icon-hover)',
-			icon: 'var(--color-icon)'
+			icon: 'var(--color-icon)',
+			'blockquote-text': 'var(--color-blockquote-text)'
 		},
 		borderColor: {
 			highlight: 'var(--color-border-highlight)',
 			'category-highlight': 'var(--color-category-highlight)',
-			'highlight-hover': 'var(--color-border-highlight-hover)'
+			'highlight-hover': 'var(--color-border-highlight-hover)',
+			'blockquote-indicator': 'var(--color-blockquote-indicator)'
 		},
 		ringColor: {
 			'input-normal': 'var(--color-input-ring-normal)',

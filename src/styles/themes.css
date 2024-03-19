@@ -5,7 +5,7 @@
 
 [data-theme='dark'] {
 	/* Colors */
-
+	color-scheme: dark;
 	--color-theme-primary: hsl(255, 22%, 10%);
 	--color-theme-secondary: hsl(189, 94%, 53%);
 
@@ -32,42 +32,21 @@
 	--color-icon: hsl(255, 22%, 85%);
 	--color-icon-hover: hsl(188, 86%, 53%);
 
+	--color-blockquote-indicator: hsl(189, 94%, 53%);
+	--color-blockquote-background: hsla(189, 94%, 53%, 0.5);
+	--color-blockquote-text: hsl(0, 0%, 95%);
+
 	--color-spotify-progress: hsl(188, 86%, 53%);
 	--color-spotify-progress-background: hsl(255, 22%, 20%);
 
-	--color-body-text: hsl(255, 22%, 85%);
-}
-
-[data-theme='bee'] {
-	--color-primary: hsl(15, 35%, 35%);
-	--color-primary-tone: hsl(15, 35%, 40%);
-	--color-primary-tint: #e07f14;
-	--color-primary-shade: hsl(15, 35%, 32%);
-
-	--color-accent: hsl(43, 94%, 61%);
-	--color-accent-tone: hsl(43, 94%, 65%);
-	--color-accent-tint: hsl(43, 94%, 71%);
-	--color-accent-shade: hsl(43, 94%, 58%);
-
-	--text-neutral: hsl(255, 22%, 92%);
-	--text-neutral-tone: hsl(0, 0%, 100%);
-	--text-neutral-shade: hsl(0, 0%, 82%);
-
-	--font-heading: 'Josefin Sans Variable', system-ui, sans-serif;
-	--font-heading: 'Raleway Variable', system-ui, sans-serif;
-
-	--background-main: linear-gradient(
-		to bottom right,
-		var(--color-primary),
-		var(--color-primary-tone)
-	);
+	--color-body-text: hsl(255, 22%, 90%);
 }
 
 [data-theme='light'] {
 	/* Colors */
-
+	color-scheme: light;
 	--color-theme-primary: hsl(255, 22%, 10%);
-	--color-theme-secondary: hsl(189, 94%, 53%);
+	--color-theme-secondary: hsl(265, 91%, 35%);
 
 	--color-background: hsl(0, 0%, 100%);
 	--color-background-body: hsl(0, 0%, 98%);
@@ -75,25 +54,29 @@
 
 	--color-input-background: hsl(255, 22%, 20%);
 	--color-input-ring-normal: hsl(255, 22%, 20%);
-	--color-input-ring-focus: hsl(189, 94%, 53%);
+	--color-input-ring-focus: hsl(265, 91%, 40%);
 
-	--color-border-highlight: hsl(255, 22%, 20%);
-	--color-border-highlight-hover: hsl(189, 94%, 43%);
+	--color-border-highlight: hsl(0, 0%, 10%);
+	--color-border-highlight-hover: hsl(265, 91%, 45%);
 
-	--color-heading-text: hsl(190, 100%, 20%);
-	--color-heading-text-hover: hsl(189, 94%, 53%);
+	--color-heading-text: hsl(265, 91%, 35%);
+	--color-heading-text-hover: hsl(265, 91%, 45%);
 
-	--color-button-active: hsl(190, 100%, 40%);
-	--color-button-hover: hsl(190, 100%, 30%);
+	--color-button-active: hsl(265, 91%, 40%);
+	--color-button-hover: hsl(265, 91%, 55%);
 	--color-button-text-active: hsl(0, 0%, 96%);
 
-	--color-card-date-text: hsl(188, 100%, 21%);
+	--color-card-date-text: hsl(265, 91%, 20%);
 
 	--color-icon: hsl(0, 0%, 96%);
-	--color-icon-hover: hsl(188, 86%, 53%);
+	--color-icon-hover: hsl(265, 91%, 45%);
 
-	--color-spotify-progress: hsl(188, 86%, 53%);
-	--color-spotify-progress-background: hsl(0, 0%, 96%);
+	--color-blockquote-indicator: hsl(265, 91%, 35%);
+	--color-blockquote-background: hsl(265, 91%, 35%, 0.4);
+	--color-blockquote-text: hsl(0, 0%, 100%);
+
+	--color-spotify-progress: hsl(265, 91%, 35%);
+	--color-spotify-progress-background: hsl(0, 0%, 75%);
 
 	--color-body-text: hsl(0, 0%, 8%);
 }
@@ -111,7 +94,11 @@
 
 [data-type='web'] {
 	--color-category-highlight: hsl(271, 76%, 63%);
-	--color-category-background: conic-gradient(from -90deg at 50% -25%, blue, blueviolet);
+	--color-category-background: linear-gradient(
+		108.7deg,
+		rgba(221, 22, 224, 1) 11%,
+		rgba(111, 22, 190, 1) 88.2%
+	);
 }
 
 [data-type='unity'] {
