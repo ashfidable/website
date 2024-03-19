@@ -1,22 +1,23 @@
 ---
 import { Image } from 'astro:assets'
 import ashfidLight from '../assets/images/ashfid-picture-light.jpg'
+import HeroSection from './hero-section.astro'
 ---
 
 <!-- Header content -->
 <section class="md:two-column-layout flex flex-col-reverse items-center gap-2 md:items-stretch">
-	<div class="space-y-3 rounded-md border-x border-b-4 border-t border-highlight bg-card px-5 py-5">
-		<h1 class="font-heading text-2xl font-extrabold tracking-wider">
-			Hello All <span class="inline-block origin-[75%_75%] -translate-y-2 transform animate-wave"
-				>👋</span
-			>
-		</h1>
-		<p class="text-md">
+	<HeroSection title="Hi there 👋🏼">
+		<p>
 			Code whisperer here, sharing dev secrets to simplify your coding life! Let's ditch the
 			over-engineering and keep it fun.
 		</p>
-	</div>
-	<div class="overflow-hidden rounded-md shadow-2xl">
+	</HeroSection>
+
+	<div
+		class="overflow-hidden rounded-md"
+		transition:name="profile-picture"
+		transition:animate="slide"
+	>
 		<Image src={ashfidLight} alt="Ashfid for Light Mode" width={180} class="h-full object-cover" />
 	</div>
 </section>

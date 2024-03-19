@@ -3,6 +3,7 @@ import RevisedLayout from '@layouts/RevisedLayout.astro'
 import type { CollectionEntry } from 'astro:content'
 import { getCollection, getEntries } from 'astro:content'
 import { Icon } from 'astro-icon/components'
+import HeroSection from '@components/hero-section.astro'
 
 const tools = await getCollection('tools')
 
@@ -25,10 +26,9 @@ const currentPage = Astro.url.pathname
 ---
 
 <RevisedLayout title="Uses">
-	<section class="space-y-2 rounded-md border-2 border-highlight bg-card p-4">
-		<h2 class="font-heading font-semibold tracking-wide">Tools That I Use</h2>
+	<HeroSection title="Tools I Use 🔦">
 		<p>All the tools I use currently categorized into sections on this page</p>
-	</section>
+	</HeroSection>
 
 	<section>
 		<ul class="flex flex-wrap justify-center gap-4">
