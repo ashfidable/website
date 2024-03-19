@@ -81,17 +81,6 @@
 	--color-body-text: hsl(0, 0%, 8%);
 }
 
-[data-type='react'] {
-	--primary-color: 217 91% 60%;
-	--secondary-color: 224 76% 48%;
-	--accent-color: var(--primary-color);
-}
-
-[data-type='svelte'] {
-	--color-category-highlight: hsl(25 95% 53%);
-	--color-category-background: hsl(17 88% 40%);
-}
-
 [data-type='web'] {
 	--color-category-highlight: hsl(271, 76%, 63%);
 	--color-category-background: linear-gradient(
@@ -109,16 +98,4 @@
 		hsl(347, 76%, 63%) 88.2%
 	);
 	--color-category-text: white;
-}
-
-[data-type='unity'] {
-	--primary-color: 217 33% 17%;
-	--secondary-color: 0 0% 0%;
-	--accent-color: var(--primary-color);
-}
-
-[data-theme='dark'] [data-type='unity'] {
-	--primary-color: 217 33% 17%;
-	--secondary-color: 0 0% 0%;
-	--accent-color: 0 0% 75%;
 }
