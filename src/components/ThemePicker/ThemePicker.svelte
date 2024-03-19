@@ -35,7 +35,7 @@
 	</button>
 	<!-- Options -->
 	<div
-		class="bg-body md:border-x-4 md:border-t-4 md:border-b-8 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-lg p-4 space-y-4 z-[99999]"
+		class="bg-card md:border-x-4 md:border-t-4 md:border-b-8 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-lg p-4 space-y-4 z-[99999]"
 		class:hidden
 	>
 		<!-- Theme -->
@@ -48,7 +48,7 @@
 							data-theme-string={theme}
 							data-theme={theme}
 							on:click={(e) => handleThemeChange(e)}
-							class="w-12 h-12 md:w-6 md:h-6 bg-gradient-to-r from-[var(--color-theme-primary)] to-[--color-theme-secondary] from-50% to-50% border-2 border-highlight"
+							class="w-12 h-12 md:w-6 md:h-6 bg-gradient-to-r from-[var(--color-theme-primary)] to-[--color-theme-secondary] from-65% to-50% border-2 border-highlight"
 						>
 						</button>
 					</li>
