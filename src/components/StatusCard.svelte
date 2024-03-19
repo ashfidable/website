@@ -1,9 +1,8 @@
 <script lang="ts">
+	import { onMount } from 'svelte'
 	import { useLanyard } from 'svelte-lanyard'
-	import { cubicInOut } from 'svelte/easing'
-	import { tweened } from 'svelte/motion'
 
-	const data = useLanyard('394953409855488012')
+	let data: ReturnType<typeof useLanyard>
 
 	let currentTimestamp: number = Date.now()
 	let startTimestamp: number = 0
@@ -14,8 +13,11 @@
 	let clear: ReturnType<typeof setInterval>
 	let progress = 0
 
-	// For Progress Bar
+	onMount(async () => {
+		data = useLanyard('394953409855488012')
+	})
 
+	// For Progress Bar
 	function updateTimestamps(spotify_data: typeof $data) {
 		if (spotify_data) {
 			currentTimestamp = Date.now()
@@ -41,25 +43,27 @@
 </script>
 
 {#if $data}
-	<section class="md:block hidden p-2 space-y-2">
+	<section class="md:block hidden p-2">
 		{#if $data.listening_to_spotify}
-			<span class="block font-semibold">Listening to Spotify</span>
-			<div class="grid gap-2">
-				<img
-					src={$data.spotify?.album_art_url}
-					alt="activity"
-					class="w-14 h-14 aspect-video object-cover"
-				/>
-				<section class="">
-					<span class="block text-ellipsis overflow-hidden whitespace-nowrap"
-						>{$data.spotify?.song}</span
-					>
-					<span class="block text-ellipsis overflow-hidden whitespace-nowrap"
-						>on {$data.spotify?.album}</span
-					>
-				</section>
-			</div>
-			<div class="progress-bar h-2 bg-spotify-progress-outer rounded-md overflow-hidden">
+			<span class="block font-semibold mb-2">Listening to Spotify</span>
+			<a href={`spotify:track:${$data.spotify?.track_id}`}>
+				<div class="grid gap-2">
+					<img
+						src={$data.spotify?.album_art_url}
+						alt="activity"
+						class="w-14 h-14 aspect-video object-cover"
+					/>
+					<section>
+						<span class="block text-ellipsis overflow-hidden whitespace-nowrap font-bold"
+							>{$data.spotify?.song}</span
+						>
+						<span class="block text-ellipsis overflow-hidden whitespace-nowrap"
+							>by <span class="font-bold">{$data.spotify?.artist}</span></span
+						>
+					</section>
+				</div>
+			</a>
+			<div class="progress-bar h-2 bg-spotify-progress-outer rounded-md overflow-hidden mt-2">
 				<div
 					class="bg-spotify-progress h-full progress-bar-inner"
 					style={`--progress: ${progress}%`}
