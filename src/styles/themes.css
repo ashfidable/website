@@ -40,6 +40,8 @@
 	--color-spotify-progress-background: hsl(255, 22%, 20%);
 
 	--color-body-text: hsl(255, 22%, 90%);
+	--color-link: hsl(188, 95%, 40%);
+	--color-link-hover: hsl(188, 95%, 50%);
 }
 
 [data-theme='light'] {

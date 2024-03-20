@@ -19,6 +19,8 @@ module.exports = {
 		},
 		textColor: {
 			body: 'var(--color-body-text)',
+			link: 'var(--color-link)',
+			'link-hover': 'var(--color-link-hover)',
 			'button-text-active': 'var(--color-button-text-active)',
 			heading: 'var(--color-heading-text)',
 			'heading-hover': 'var(--color-heading-text-hover)',
