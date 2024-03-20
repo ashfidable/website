@@ -11,6 +11,8 @@ tags:
   - tool
 ---
 
+import CodeTabs from '@components/tabs/code-tabs.astro'
+
 > Starship is cross-shell prompt that is compatitable with any shell and is very customizable in nature. It's also minimal and blazingly-fast.
 
 # Prerequisities
@@ -21,3 +23,40 @@ tags:
 # Installation
 
 Install it using any package manager you have on your machine.
+
+<CodeTabs>
+  <Fragment slot="windows">
+  ```bash frame="none" 
+  winget install -e --id Microsoft.WindowsTerminal 
+  ```
+  </Fragment>
+  <Fragment slot="linux">
+  ```shell frame="none"
+  curl -sS https://starship.rs/install.sh | sh
+  ```
+  </Fragment>
+  <Fragment slot="mac">
+  ```shell frame="none"
+  curl -sS https://starship.rs/install.sh | sh
+  ```
+  </Fragment>
+</CodeTabs>
+
+<CodeTabs>
+  <Fragment slot="windows">
+  ```bash frame="none" 
+  winget install -e --id Microsoft.WindowsTerminal 
+  ```
+  </Fragment>
+  <Fragment slot="linux">
+  ```shell frame="none"
+  curl -sS https://starship.rs/install.sh | sh
+  ```
+  </Fragment>
+  <Fragment slot="mac">
+  ```shell frame="none"
+  curl -sS https://starship.rs/install.sh | sh
+  ```
+  </Fragment>
+</CodeTabs>
+
