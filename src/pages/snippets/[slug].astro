@@ -1,12 +1,13 @@
 ---
 import H1 from '@components/atoms/H1.astro'
+import H2 from '@components/atoms/h2.astro'
 import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
 import RevisedLayout from '@layouts/RevisedLayout.astro'
 import { Icon } from 'astro-icon/components'
 import BlockQuote from '@components/atoms/blockquote.astro'
 import A from '@components/atoms/a.astro'
 import Section from '@components/atoms/section.astro'
-import Pre from '@components/atoms/pre.astro'
+import OL from '@components/atoms/ol.astro'
 
 export async function getStaticPaths() {
 	const snippets = await getCollection('snippets')
@@ -37,9 +38,16 @@ const category = await getEntry(snippet.data.category)
 			</h1>
 		</header>
 
-		<article class="post space-y-4">
+		<article class="post space-y-12">
 			<Content
-				components={{ h1: H1, h2: H1, blockquote: BlockQuote, a: A, section: Section, pre: Pre }}
+				components={{
+					h1: H1,
+					h2: H2,
+					blockquote: BlockQuote,
+					a: A,
+					section: Section,
+					ol: OL
+				}}
 			/>
 		</article>
 	</article>
