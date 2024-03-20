@@ -1,0 +1,38 @@
+---
+import { getIds } from './getIds'
+const slotKeys = Object.keys(Astro.slots).filter((key) => key !== 'default')
+
+async function getHtmls() {
+	return await Promise.all(
+		slotKeys.map(async (key) => {
+			const render = await Astro.slots.render(key)
+			const id = getIds()
+			return {
+				id: id,
+				name: key,
+				render
+			}
+		})
+	)
+}
+
+const htmls = await getHtmls()
+---
+
+<ul class="flex gap-4" role="tablist">
+	{
+		slotKeys.map((key) => (
+			<li role="presentation">
+				<a class="">{key}</a>
+			</li>
+		))
+	}
+</ul>
+
+{
+	htmls.map((html) => (
+		<section data-id={html.id}>
+			<Fragment set:html={html.render} />
+		</section>
+	))
+}
