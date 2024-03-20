@@ -1,8 +1,6 @@
 import { defineConfig } from 'astro/config'
-
 import tailwind from '@astrojs/tailwind'
 
-// https://astro.build/config
 import svelte from '@astrojs/svelte'
 
 // https://astro.build/config
@@ -15,10 +13,21 @@ import sectionize from 'remark-sectionize'
 import icon from 'astro-icon'
 
 // https://astro.build/config
+import expressiveCode from 'astro-expressive-code'
+
+// https://astro.build/config
 export default defineConfig({
 	markdown: {
 		remarkPlugins: [sectionize]
 	},
-	integrations: [icon(), tailwind(), svelte(), mdx()],
+	integrations: [
+		icon(),
+		tailwind(),
+		svelte(),
+		expressiveCode({
+			themes: ['rose-pine', 'dracula']
+		}),
+		mdx()
+	],
 	trailingSlash: 'never'
 })
