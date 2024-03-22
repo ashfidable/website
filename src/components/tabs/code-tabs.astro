@@ -19,20 +19,113 @@ async function getHtmls() {
 const htmls = await getHtmls()
 ---
 
-<ul class="flex gap-4" role="tablist">
-	{
-		slotKeys.map((key) => (
-			<li role="presentation">
-				<a class="">{key}</a>
-			</li>
-		))
-	}
-</ul>
+<div class="tabs-container">
+	<ul class="flex gap-4" role="tablist">
+		{
+			htmls.map((html) => (
+				<li role="presentation">
+					<a href={`#${html.id}`} tabindex="-1">
+						{html.name}
+					</a>
+				</li>
+			))
+		}
+	</ul>
 
-{
-	htmls.map((html) => (
-		<section data-id={html.id}>
-			<Fragment set:html={html.render} />
-		</section>
-	))
-}
+	<div class="tab-content">
+		{
+			htmls.map((html) => (
+				<section id={`${html.id}`}>
+					<Fragment set:html={html.render} />
+				</section>
+			))
+		}
+	</div>
+</div>
+
+<style>
+	[aria-selected='true'] {
+		color: red;
+	}
+</style>
+
+<script>
+	const tabsContainer = document.querySelector('.tabs-container')
+	const tabButtons = tabsContainer?.querySelectorAll('a')
+	const tabPanels = tabsContainer?.querySelectorAll('.tab-content > section')
+
+	tabButtons?.forEach((tab, index) => {
+		tab.setAttribute('role', 'tab')
+		if (index === 0) {
+			tab.setAttribute('aria-selected', 'true')
+		} else {
+			tabPanels![index].setAttribute('hidden', '')
+		}
+	})
+
+	tabPanels?.forEach((panel) => {
+		panel.setAttribute('role', 'tabpanel')
+		panel.setAttribute('tabindex', '0')
+	})
+
+	tabsContainer?.addEventListener('click', (e: Event) => {
+		const clickedTab = (e.target as HTMLElement).closest('a') as HTMLElement
+		if (!clickedTab) return
+		e.preventDefault()
+
+		switchTab(clickedTab)
+	})
+
+	tabsContainer?.addEventListener('keydown', (e) => {
+		const event = e as KeyboardEvent
+		console.log(event.key)
+		switch (event.key) {
+			case 'ArrowLeft':
+				moveLeft()
+				break
+			case 'ArrowRight':
+				moveRight()
+				break
+		}
+	})
+
+	function switchTab(newTab: HTMLElement) {
+		const activePanelId = newTab.getAttribute('href')!.replace('#', '')
+		const activePanel = tabsContainer?.querySelector(`[id='${activePanelId}']`)
+
+		tabButtons?.forEach((tab) => {
+			tab.setAttribute('aria-selected', 'false')
+			tab.setAttribute('tabindex', '-1')
+		})
+
+		tabPanels?.forEach((panel) => {
+			panel.setAttribute('hidden', 'true')
+		})
+
+		activePanel?.removeAttribute('hidden')
+
+		newTab.setAttribute('aria-selected', 'true')
+		newTab.setAttribute('tabindex', '0')
+		newTab.focus()
+	}
+
+	function moveLeft() {
+		const currentTab = document.activeElement
+
+		if (!currentTab?.parentElement?.previousElementSibling) {
+			switchTab(tabButtons![tabButtons?.length! - 1])
+		} else {
+			switchTab(currentTab?.parentElement?.previousElementSibling?.querySelector('a')!)
+		}
+	}
+
+	function moveRight() {
+		const currentTab = document.activeElement
+
+		if (!currentTab?.parentElement?.nextElementSibling) {
+			switchTab(tabButtons![0])
+		} else {
+			switchTab(currentTab?.parentElement?.nextElementSibling?.querySelector('a')!)
+		}
+	}
+</script>
