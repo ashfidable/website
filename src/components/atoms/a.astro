@@ -4,6 +4,4 @@ interface Props extends HTMLAttributes<'a'> {}
 const { ...attr } = Astro.props
 ---
 
-<a {...attr} class="text-link hover:text-link-hover underline decoration-4 underline-offset-4"
-	><slot /></a
->
+<a {...attr} class="decoration-link hover:decoration-link-hover underline decoration-4"><slot /></a>
