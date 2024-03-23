@@ -4,6 +4,6 @@ interface Props extends HTMLAttributes<'section'> {}
 const { ...attr } = Astro.props
 ---
 
-<section {...attr} class="space-y-2">
+<section {...attr} class="flex flex-col gap-2">
 	<slot />
 </section>
