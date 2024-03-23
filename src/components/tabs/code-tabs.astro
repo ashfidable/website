@@ -81,7 +81,6 @@ const codeBlocks = await getCodeBlocks()
 
 		container.addEventListener('keydown', (e) => {
 			const event = e as KeyboardEvent
-			console.log(event.key)
 			switch (event.key) {
 				case 'ArrowLeft':
 					move('left')
@@ -125,16 +124,6 @@ const codeBlocks = await getCodeBlocks()
 				: buttons[direction === 'left' ? buttons.length - 1 : 0]
 
 			switchTab(targetTab!)
-		}
-
-		function moveRight() {
-			const currentTab = document.activeElement
-
-			if (!currentTab?.parentElement?.nextElementSibling) {
-				switchTab(buttons![0])
-			} else {
-				switchTab(currentTab?.parentElement?.nextElementSibling?.querySelector('a')!)
-			}
 		}
 	})
 </script>
