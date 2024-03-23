@@ -23,7 +23,7 @@
 
 	code {
 		background-color: var(--color-code-background);
-		@apply rounded-md;
+		@apply rounded-md px-2;
 	}
 }
 
