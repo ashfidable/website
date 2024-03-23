@@ -47,83 +47,85 @@ const codeBlocks = await getCodeBlocks()
 </div>
 
 <script>
-	const containers = document.querySelectorAll('.tabs-container')
+	document.addEventListener('astro:page-load', (ev) => {
+		const containers = document.querySelectorAll('.tabs-container')
 
-	containers.forEach((container) => {
-		const list = container.querySelector('ul')
-		const buttons = container.querySelectorAll('a')
-		const panels = container.querySelectorAll('.tab-content > section')
+		containers.forEach((container) => {
+			const list = container.querySelector('ul')
+			const buttons = container.querySelectorAll('a')
+			const panels = container.querySelectorAll('.tab-content > section')
 
-		list?.setAttribute('role', 'tablist')
+			list?.setAttribute('role', 'tablist')
 
-		buttons.forEach((tab, index) => {
-			tab.setAttribute('role', 'tab')
-			tab.setAttribute('tabindex', '-1')
-			if (index === 0) {
-				tab.setAttribute('aria-selected', 'true')
-			} else {
-				panels[index].setAttribute('hidden', '')
-			}
-		})
-
-		panels.forEach((panel) => {
-			panel.setAttribute('role', 'tabpanel')
-			panel.setAttribute('tabindex', '0')
-		})
-
-		container.addEventListener('click', (e: Event) => {
-			const clickedTab = (e.target as HTMLElement).closest('a') as HTMLElement
-			if (!clickedTab) return
-			e.preventDefault()
-
-			switchTab(clickedTab)
-		})
-
-		container.addEventListener('keydown', (e) => {
-			const event = e as KeyboardEvent
-			switch (event.key) {
-				case 'ArrowLeft':
-					move('left')
-					break
-				case 'ArrowRight':
-					move('right')
-					break
-			}
-		})
-
-		function switchTab(newTab: HTMLElement) {
-			const activePanelId = newTab.getAttribute('href')!.replace('#', '')
-			const activePanel = container?.querySelector(`[id='${activePanelId}']`)
-
-			buttons?.forEach((tab) => {
-				tab.setAttribute('aria-selected', 'false')
+			buttons.forEach((tab, index) => {
+				tab.setAttribute('role', 'tab')
 				tab.setAttribute('tabindex', '-1')
+				if (index === 0) {
+					tab.setAttribute('aria-selected', 'true')
+				} else {
+					panels[index].setAttribute('hidden', '')
+				}
 			})
 
-			panels?.forEach((panel) => {
-				panel.setAttribute('hidden', 'true')
+			panels.forEach((panel) => {
+				panel.setAttribute('role', 'tabpanel')
+				panel.setAttribute('tabindex', '0')
 			})
 
-			activePanel?.removeAttribute('hidden')
+			container.addEventListener('click', (e: Event) => {
+				const clickedTab = (e.target as HTMLElement).closest('a') as HTMLElement
+				if (!clickedTab) return
+				e.preventDefault()
 
-			newTab.setAttribute('aria-selected', 'true')
-			newTab.setAttribute('tabindex', '0')
-			newTab.focus()
-		}
+				switchTab(clickedTab)
+			})
 
-		function move(direction: string) {
-			const currentTab = document.activeElement
+			container.addEventListener('keydown', (e) => {
+				const event = e as KeyboardEvent
+				switch (event.key) {
+					case 'ArrowLeft':
+						move('left')
+						break
+					case 'ArrowRight':
+						move('right')
+						break
+				}
+			})
 
-			const targetSibling =
-				direction === 'left'
-					? currentTab?.parentElement?.previousElementSibling
-					: currentTab?.parentElement?.nextElementSibling
+			function switchTab(newTab: HTMLElement) {
+				const activePanelId = newTab.getAttribute('href')!.replace('#', '')
+				const activePanel = container?.querySelector(`[id='${activePanelId}']`)
 
-			const targetTab = targetSibling
-				? targetSibling.querySelector('a')
-				: buttons[direction === 'left' ? buttons.length - 1 : 0]
+				buttons?.forEach((tab) => {
+					tab.setAttribute('aria-selected', 'false')
+					tab.setAttribute('tabindex', '-1')
+				})
 
-			switchTab(targetTab!)
-		}
+				panels?.forEach((panel) => {
+					panel.setAttribute('hidden', 'true')
+				})
+
+				activePanel?.removeAttribute('hidden')
+
+				newTab.setAttribute('aria-selected', 'true')
+				newTab.setAttribute('tabindex', '0')
+				newTab.focus()
+			}
+
+			function move(direction: string) {
+				const currentTab = document.activeElement
+
+				const targetSibling =
+					direction === 'left'
+						? currentTab?.parentElement?.previousElementSibling
+						: currentTab?.parentElement?.nextElementSibling
+
+				const targetTab = targetSibling
+					? targetSibling.querySelector('a')
+					: buttons[direction === 'left' ? buttons.length - 1 : 0]
+
+				switchTab(targetTab!)
+			}
+		})
 	})
 </script>
