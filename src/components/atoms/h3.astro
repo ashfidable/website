@@ -3,13 +3,13 @@ import { Icon } from 'astro-icon/components'
 const { ...props } = Astro.props
 ---
 
-<h2
+<h3
 	{...props}
-	class="group flex items-center gap-2 border-b border-highlight pb-1 font-heading text-xl font-bold text-heading hover:text-heading-hover"
+	class="group flex items-center gap-2 font-heading text-lg font-bold text-heading hover:text-heading-hover"
 >
 	<a href={`#${props.id}`}><slot /></a>
 	<Icon
 		name="ri:link"
 		class="inline-block opacity-0 transition-opacity duration-75 ease-linear group-hover:opacity-100"
 	/>
-</h2>
+</h3>
