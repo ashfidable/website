@@ -2,7 +2,7 @@
 import { getIds } from './getIds'
 const slotKeys = Object.keys(Astro.slots).filter((key) => key !== 'default')
 
-async function getHtmls() {
+async function getCodeBlocks() {
 	return await Promise.all(
 		slotKeys.map(async (key) => {
 			const render = await Astro.slots.render(key)
@@ -16,15 +16,18 @@ async function getHtmls() {
 	)
 }
 
-const htmls = await getHtmls()
+const codeBlocks = await getCodeBlocks()
 ---
 
 <div class="tabs-container">
-	<ul class="flex gap-4" role="tablist">
+	<ul class="mb-4 flex border-b border-highlight p-2">
 		{
-			htmls.map((html) => (
+			codeBlocks.map((html) => (
 				<li role="presentation">
-					<a href={`#${html.id}`} tabindex="-1">
+					<a
+						href={`#${html.id}`}
+						class="p-2 font-mono aria-selected:border-b aria-selected:border-highlight-hover"
+					>
 						{html.name}
 					</a>
 				</li>
@@ -34,7 +37,7 @@ const htmls = await getHtmls()
 
 	<div class="tab-content">
 		{
-			htmls.map((html) => (
+			codeBlocks.map((html) => (
 				<section id={`${html.id}`}>
 					<Fragment set:html={html.render} />
 				</section>
@@ -43,89 +46,95 @@ const htmls = await getHtmls()
 	</div>
 </div>
 
-<style>
-	[aria-selected='true'] {
-		color: red;
-	}
-</style>
-
 <script>
-	const tabsContainer = document.querySelector('.tabs-container')
-	const tabButtons = tabsContainer?.querySelectorAll('a')
-	const tabPanels = tabsContainer?.querySelectorAll('.tab-content > section')
+	const containers = document.querySelectorAll('.tabs-container')
 
-	tabButtons?.forEach((tab, index) => {
-		tab.setAttribute('role', 'tab')
-		if (index === 0) {
-			tab.setAttribute('aria-selected', 'true')
-		} else {
-			tabPanels![index].setAttribute('hidden', '')
-		}
-	})
+	containers.forEach((container) => {
+		const list = container.querySelector('ul')
+		const buttons = container.querySelectorAll('a')
+		const panels = container.querySelectorAll('.tab-content > section')
 
-	tabPanels?.forEach((panel) => {
-		panel.setAttribute('role', 'tabpanel')
-		panel.setAttribute('tabindex', '0')
-	})
+		list?.setAttribute('role', 'tablist')
 
-	tabsContainer?.addEventListener('click', (e: Event) => {
-		const clickedTab = (e.target as HTMLElement).closest('a') as HTMLElement
-		if (!clickedTab) return
-		e.preventDefault()
-
-		switchTab(clickedTab)
-	})
-
-	tabsContainer?.addEventListener('keydown', (e) => {
-		const event = e as KeyboardEvent
-		console.log(event.key)
-		switch (event.key) {
-			case 'ArrowLeft':
-				moveLeft()
-				break
-			case 'ArrowRight':
-				moveRight()
-				break
-		}
-	})
-
-	function switchTab(newTab: HTMLElement) {
-		const activePanelId = newTab.getAttribute('href')!.replace('#', '')
-		const activePanel = tabsContainer?.querySelector(`[id='${activePanelId}']`)
-
-		tabButtons?.forEach((tab) => {
-			tab.setAttribute('aria-selected', 'false')
+		buttons.forEach((tab, index) => {
+			tab.setAttribute('role', 'tab')
 			tab.setAttribute('tabindex', '-1')
+			if (index === 0) {
+				tab.setAttribute('aria-selected', 'true')
+			} else {
+				panels[index].setAttribute('hidden', '')
+			}
 		})
 
-		tabPanels?.forEach((panel) => {
-			panel.setAttribute('hidden', 'true')
+		panels.forEach((panel) => {
+			panel.setAttribute('role', 'tabpanel')
+			panel.setAttribute('tabindex', '0')
 		})
 
-		activePanel?.removeAttribute('hidden')
+		container.addEventListener('click', (e: Event) => {
+			const clickedTab = (e.target as HTMLElement).closest('a') as HTMLElement
+			if (!clickedTab) return
+			e.preventDefault()
 
-		newTab.setAttribute('aria-selected', 'true')
-		newTab.setAttribute('tabindex', '0')
-		newTab.focus()
-	}
+			switchTab(clickedTab)
+		})
 
-	function moveLeft() {
-		const currentTab = document.activeElement
+		container.addEventListener('keydown', (e) => {
+			const event = e as KeyboardEvent
+			console.log(event.key)
+			switch (event.key) {
+				case 'ArrowLeft':
+					move('left')
+					break
+				case 'ArrowRight':
+					move('right')
+					break
+			}
+		})
 
-		if (!currentTab?.parentElement?.previousElementSibling) {
-			switchTab(tabButtons![tabButtons?.length! - 1])
-		} else {
-			switchTab(currentTab?.parentElement?.previousElementSibling?.querySelector('a')!)
+		function switchTab(newTab: HTMLElement) {
+			const activePanelId = newTab.getAttribute('href')!.replace('#', '')
+			const activePanel = container?.querySelector(`[id='${activePanelId}']`)
+
+			buttons?.forEach((tab) => {
+				tab.setAttribute('aria-selected', 'false')
+				tab.setAttribute('tabindex', '-1')
+			})
+
+			panels?.forEach((panel) => {
+				panel.setAttribute('hidden', 'true')
+			})
+
+			activePanel?.removeAttribute('hidden')
+
+			newTab.setAttribute('aria-selected', 'true')
+			newTab.setAttribute('tabindex', '0')
+			newTab.focus()
 		}
-	}
 
-	function moveRight() {
-		const currentTab = document.activeElement
+		function move(direction: string) {
+			const currentTab = document.activeElement
 
-		if (!currentTab?.parentElement?.nextElementSibling) {
-			switchTab(tabButtons![0])
-		} else {
-			switchTab(currentTab?.parentElement?.nextElementSibling?.querySelector('a')!)
+			const targetSibling =
+				direction === 'left'
+					? currentTab?.parentElement?.previousElementSibling
+					: currentTab?.parentElement?.nextElementSibling
+
+			const targetTab = targetSibling
+				? targetSibling.querySelector('a')
+				: buttons[direction === 'left' ? buttons.length - 1 : 0]
+
+			switchTab(targetTab!)
 		}
-	}
+
+		function moveRight() {
+			const currentTab = document.activeElement
+
+			if (!currentTab?.parentElement?.nextElementSibling) {
+				switchTab(buttons![0])
+			} else {
+				switchTab(currentTab?.parentElement?.nextElementSibling?.querySelector('a')!)
+			}
+		}
+	})
 </script>
