@@ -39,6 +39,8 @@
 	--color-spotify-progress: hsl(188, 86%, 53%);
 	--color-spotify-progress-background: hsl(255, 22%, 20%);
 
+	--color-code-background: hsl(255, 22%, 20%);
+
 	--color-body-text: hsl(255, 22%, 90%);
 	--color-link: hsl(188, 95%, 40%);
 	--color-link-hover: hsl(188, 95%, 50%);
@@ -79,6 +81,8 @@
 
 	--color-spotify-progress: hsl(265, 91%, 35%);
 	--color-spotify-progress-background: hsl(0, 0%, 75%);
+
+	--color-code-background: hsl(0, 0%, 96%);
 
 	--color-body-text: hsl(0, 0%, 8%);
 }
