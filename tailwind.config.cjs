@@ -19,8 +19,7 @@ module.exports = {
 		},
 		textColor: {
 			body: 'var(--color-body-text)',
-			link: 'var(--color-link)',
-			'link-hover': 'var(--color-link-hover)',
+
 			'button-text-active': 'var(--color-button-text-active)',
 			heading: 'var(--color-heading-text)',
 			'heading-hover': 'var(--color-heading-text-hover)',
@@ -35,6 +34,10 @@ module.exports = {
 			'category-highlight': 'var(--color-category-highlight)',
 			'highlight-hover': 'var(--color-border-highlight-hover)',
 			'blockquote-indicator': 'var(--color-blockquote-indicator)'
+		},
+		textDecorationColor: {
+			link: 'var(--color-link)',
+			'link-hover': 'var(--color-link-hover)'
 		},
 		ringColor: {
 			'input-normal': 'var(--color-input-ring-normal)',
