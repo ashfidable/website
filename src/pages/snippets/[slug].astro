@@ -1,6 +1,8 @@
 ---
 import H1 from '@components/atoms/H1.astro'
 import H2 from '@components/atoms/h2.astro'
+import H3 from '@components/atoms/h3.astro'
+import H4 from '@components/atoms/h4.astro'
 import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
 import RevisedLayout from '@layouts/RevisedLayout.astro'
 import { Icon } from 'astro-icon/components'
@@ -22,27 +24,37 @@ interface Props {
 }
 
 const { snippet } = Astro.props
-const { Content } = await snippet.render()
+const { Content, headings } = await snippet.render()
 const category = await getEntry(snippet.data.category)
 ---
 
 <RevisedLayout title={snippet.data.title}>
 	<article data-type={category.data.name.toLowerCase()} class="space-y-4">
 		<header class="space-y-4" transition:name={snippet.data.title}>
-			<div class="relative h-28 rounded-md bg-category-gradient p-4">
-				<Icon name={category.data.icon} class="absolute bottom-0 left-4 top-20 text-5xl" />
+			<div
+				class="relative flex h-28 items-center justify-center rounded-md bg-category-gradient p-4"
+			>
+				<!-- <h1 class="font-heading text-3xl font-bold tracking-wide text-[black] [text-wrap:balance]">
+					<span>{snippet.data.title}</span>
+				</h1> -->
+				<Icon name={category.data.icon} class="absolute bottom-0 left-8 top-20 text-5xl" />
 			</div>
 
 			<h1 class="font-heading text-3xl font-bold tracking-wide [text-wrap:balance]">
 				<span>{snippet.data.title}</span>
 			</h1>
 		</header>
+		<section class="sticky top-0 z-[9999] flex gap-2 bg-body">
+			<button>On This Page</button>
+		</section>
 
-		<article class="post space-y-12">
+		<article class="flex flex-col gap-8">
 			<Content
 				components={{
 					h1: H1,
 					h2: H2,
+					h3: H3,
+					h4: H4,
 					blockquote: BlockQuote,
 					a: A,
 					section: Section,
@@ -50,5 +62,31 @@ const category = await getEntry(snippet.data.category)
 				}}
 			/>
 		</article>
+
+		<section class="grid grid-cols-1 rounded-lg border border-highlight bg-card p-4 md:grid-cols-2">
+			<section>
+				<h3 class="mb-4 font-heading text-lg font-bold">Post Details</h3>
+				<ul class="flex flex-col gap-2">
+					<li>
+						<strong>Publish Date:</strong>
+						<time>{snippet.data.published.toDateString()}</time>
+					</li>
+					<li>
+						<strong>Category:</strong>
+						<time>{category.data.name}</time>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h3 class="mb-4 font-heading text-lg font-bold">Tags</h3>
+				<ul class="flex flex-wrap gap-2">
+					{
+						snippet.data.tags.map((tag) => (
+							<li class="border border-highlight bg-body p-1 px-2 text-sm">#{tag}</li>
+						))
+					}
+				</ul>
+			</section>
+		</section>
 	</article>
 </RevisedLayout>
