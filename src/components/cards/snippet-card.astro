@@ -1,4 +1,5 @@
 ---
+import { formatDate } from '@utils/date-formatter'
 import { Icon } from 'astro-icon/components'
 import { getEntry, type CollectionEntry } from 'astro:content'
 
@@ -24,5 +25,7 @@ const category = await getEntry(snippet.data.category)
 		</div>
 		<h4 class="tracking-wide">{snippet?.data.title}</h4>
 	</div>
-	<span class="hidden font-mono text-datetime-text md:block">26 June 2023</span>
+	<span class="hidden font-mono text-datetime-text md:block"
+		>{formatDate(snippet.data.published)}</span
+	>
 </a>
