@@ -18,14 +18,14 @@ import expressiveCode from 'astro-expressive-code'
 // https://astro.build/config
 export default defineConfig({
 	markdown: {
-		remarkPlugins: [sectionize]
+		remarkPlugins: []
 	},
 	integrations: [
 		icon(),
 		tailwind(),
 		svelte(),
 		expressiveCode({
-			themes: ['rose-pine', 'dracula']
+			themes: ['dracula']
 		}),
 		mdx()
 	],
