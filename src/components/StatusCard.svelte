@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { useLanyard } from 'svelte-lanyard'
+	import { fade } from 'svelte/transition'
 
 	let data: ReturnType<typeof useLanyard>
 
@@ -43,8 +44,8 @@
 </script>
 
 {#if $data}
-	<section class="md:block hidden p-2">
-		{#if $data.listening_to_spotify}
+	{#if $data.listening_to_spotify}
+		<section class="md:block hidden p-2" transition:fade>
 			<span class="block font-semibold mb-2">Listening to Spotify</span>
 			<a href={`spotify:track:${$data.spotify?.track_id}`}>
 				<div class="grid gap-2">
@@ -72,8 +73,8 @@
 			<time>
 				{currentMinutes}:{formattedSeconds}
 			</time>
-		{/if}
-	</section>
+		</section>
+	{/if}
 {/if}
 
 <style>
