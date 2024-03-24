@@ -17,10 +17,10 @@ const { pageName } = Astro.props
 			<li class="flex-grow">
 				<a
 					href={link.url}
-					class="flex cursor-pointer flex-col items-center gap-2 text-base"
+					class="flex cursor-pointer flex-col items-center gap-2"
 					aria-current={pageName === link.url ? 'page' : 'false'}
 				>
-					<Icon name={link.icon} class="h-8 w-8" />
+					<Icon name={link.icon} class="text-xl" />
 					{link.name}
 				</a>
 			</li>
@@ -29,7 +29,7 @@ const { pageName } = Astro.props
 
 	<li class="flex-grow">
 		<button class="group flex w-full flex-grow flex-col items-center gap-2" id="mobile-button">
-			<Icon name="mdi:menu" class="group-hover:text-accent-shade h-8 w-8" />
+			<Icon name="mdi:menu" class="group-hover:text-accent-shade text-xl" />
 			 Menu
 		</button>
 	</li>
@@ -54,10 +54,10 @@ const { pageName } = Astro.props
 						<li>
 							<a
 								href={link.url}
-								class="bg-primary-shade hover:bg-primary flex flex-col items-center justify-center gap-2 rounded-lg p-4 text-base shadow-xl transition-colors duration-150"
+								class="flex flex-col items-center justify-center gap-2 rounded-lg bg-card p-4 text-base shadow-xl transition-colors duration-150"
 								aria-current={pageName === link.url ? 'page' : 'false'}
 							>
-								<Icon name={link.icon} class="h-8 w-8" />
+								<Icon name={link.icon} class="text-xl" />
 								{link.name}
 							</a>
 						</li>
