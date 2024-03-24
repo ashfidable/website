@@ -20,13 +20,15 @@ const codeBlocks = await getCodeBlocks()
 ---
 
 <div class="tabs-container">
-	<ul class="mb-4 flex border-b border-highlight p-2">
+	<ul class="mb-2 flex border-b border-highlight" aria-labelledby="tabs-title">
 		{
 			codeBlocks.map((html) => (
 				<li role="presentation">
 					<a
+						id={`${html.id}`}
 						href={`#${html.id}`}
-						class="p-2 font-mono aria-selected:border-b aria-selected:border-highlight-hover"
+						class="p-1 px-2 font-mono aria-selected:border-b aria-selected:border-highlight-hover
+						aria-selected:font-semibold"
 					>
 						{html.name}
 					</a>
@@ -38,7 +40,7 @@ const codeBlocks = await getCodeBlocks()
 	<div class="tab-content">
 		{
 			codeBlocks.map((html) => (
-				<section id={`${html.id}`}>
+				<section id={`${html.id}`} aria-labelledby={`${html.id}`}>
 					<Fragment set:html={html.render} />
 				</section>
 			))
@@ -94,7 +96,7 @@ const codeBlocks = await getCodeBlocks()
 
 			function switchTab(newTab: HTMLElement) {
 				const activePanelId = newTab.getAttribute('href')!.replace('#', '')
-				const activePanel = container?.querySelector(`[id='${activePanelId}']`)
+				const activePanel = container?.querySelector(`section[id='${activePanelId}']`)
 
 				buttons?.forEach((tab) => {
 					tab.setAttribute('aria-selected', 'false')
