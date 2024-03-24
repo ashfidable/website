@@ -10,6 +10,7 @@ module.exports = {
 			body: 'var(--color-background-body)',
 			card: 'var(--color-background-card)',
 			category: 'var(--color-category-background)',
+			button: 'var(--color-button-normal)',
 			'button-active': 'var(--color-button-active)',
 			'button-hover': 'var(--color-button-hover)',
 			'spotify-progress': 'var(--color-spotify-progress)',
@@ -51,7 +52,7 @@ module.exports = {
 				'category-gradient': 'var(--color-category-background)'
 			},
 			gridTemplateColumns: {
-				'sidebar-layout': '15rem 1fr'
+				'sidebar-layout': '14rem 1fr'
 			},
 			fontFamily: {
 				stylized: 'var(--font-stylized)',

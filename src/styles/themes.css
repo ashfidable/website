@@ -23,6 +23,7 @@
 	--color-heading-text: hsl(189, 94%, 48%);
 	--color-heading-text-hover: hsl(189, 94%, 53%);
 
+	--color-button-normal: hsl(189, 94%, 50%);
 	--color-button-active: hsl(189, 94%, 48%);
 	--color-button-hover: hsl(188, 86%, 53%);
 	--color-button-text-active: hsl(189, 94%, 12%);
@@ -66,6 +67,7 @@
 	--color-heading-text: hsl(265, 91%, 35%);
 	--color-heading-text-hover: hsl(265, 91%, 45%);
 
+	--color-button-normal: hsl(265, 91%, 50%);
 	--color-button-active: hsl(265, 91%, 40%);
 	--color-button-hover: hsl(265, 91%, 55%);
 	--color-button-text-active: hsl(0, 0%, 96%);
@@ -85,6 +87,8 @@
 	--color-code-background: hsl(0, 0%, 96%);
 
 	--color-body-text: hsl(0, 0%, 8%);
+	--color-link: hsl(265, 91%, 35%);
+	--color-link-hover: hsl(265, 91%, 55%);
 }
 
 [data-type='web'] {
