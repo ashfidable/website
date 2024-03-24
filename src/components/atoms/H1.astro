@@ -4,7 +4,7 @@ const { ...props } = Astro.props
 
 <h1
 	{...props}
-	class="group border-b border-highlight font-heading text-2xl font-bold text-heading hover:text-heading-hover"
+	class="group scroll-mt-16 border-b border-highlight font-heading text-2xl font-bold text-heading hover:text-heading-hover"
 >
 	<a href={`#${props.id}`}>
 		<slot />
