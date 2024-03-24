@@ -4,12 +4,26 @@ interface Props extends HTMLAttributes<'section'> {}
 const { ...attr } = Astro.props
 ---
 
-<section {...attr} class="flex flex-col gap-6">
+<section {...attr} class="space-y-2">
 	<slot />
 </section>
 
 <style>
-	section > section:not(:last-child) {
-		@apply mb-6;
+	section {
+	}
+	/* Parent Section's Heading */
+	section > :global(:first-child) {
+		@apply mb-2;
+		color: red;
+	}
+
+	/* Children Section's Heading */
+	section > section > :global(:first-child) {
+		@apply mb-4 mt-4;
+		color: yellow;
+	}
+
+	section > section {
+		@apply pb-4;
 	}
 </style>
