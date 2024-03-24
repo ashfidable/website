@@ -3,13 +3,17 @@ import H1 from '@components/atoms/H1.astro'
 import H2 from '@components/atoms/h2.astro'
 import H3 from '@components/atoms/h3.astro'
 import H4 from '@components/atoms/h4.astro'
-import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
-import RevisedLayout from '@layouts/RevisedLayout.astro'
-import { Icon } from 'astro-icon/components'
+import P from '@components/atoms/p.astro'
 import BlockQuote from '@components/atoms/blockquote.astro'
 import A from '@components/atoms/a.astro'
 import Section from '@components/atoms/section.astro'
 import OL from '@components/atoms/ol.astro'
+import PostDetails from '@components/posts/post-details.astro'
+import TOC from '@components/posts/table-of-contents.astro'
+
+import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
+import RevisedLayout from '@layouts/RevisedLayout.astro'
+import { Icon } from 'astro-icon/components'
 
 export async function getStaticPaths() {
 	const snippets = await getCollection('snippets')
@@ -40,15 +44,14 @@ const category = await getEntry(snippet.data.category)
 				<Icon name={category.data.icon} class="absolute bottom-0 left-8 top-20 text-5xl" />
 			</div>
 
-			<h1 class="font-heading text-3xl font-bold tracking-wide [text-wrap:balance]">
+			<h1 class="font-heading text-2xl font-bold tracking-wide [text-wrap:balance]">
 				<span>{snippet.data.title}</span>
 			</h1>
 		</header>
-		<section class="sticky top-0 z-[9999] flex gap-2 bg-body">
-			<button>On This Page</button>
-		</section>
 
-		<article class="flex flex-col gap-8">
+		<TOC headings={headings} />
+
+		<article class="flex snap-y flex-col">
 			<Content
 				components={{
 					h1: H1,
@@ -57,36 +60,13 @@ const category = await getEntry(snippet.data.category)
 					h4: H4,
 					blockquote: BlockQuote,
 					a: A,
+					p: P,
 					section: Section,
 					ol: OL
 				}}
 			/>
 		</article>
 
-		<section class="grid grid-cols-1 rounded-lg border border-highlight bg-card p-4 md:grid-cols-2">
-			<section>
-				<h3 class="mb-4 font-heading text-lg font-bold">Post Details</h3>
-				<ul class="flex flex-col gap-2">
-					<li>
-						<strong>Publish Date:</strong>
-						<time>{snippet.data.published.toDateString()}</time>
-					</li>
-					<li>
-						<strong>Category:</strong>
-						<time>{category.data.name}</time>
-					</li>
-				</ul>
-			</section>
-			<section>
-				<h3 class="mb-4 font-heading text-lg font-bold">Tags</h3>
-				<ul class="flex flex-wrap gap-2">
-					{
-						snippet.data.tags.map((tag) => (
-							<li class="border border-highlight bg-body p-1 px-2 text-sm">#{tag}</li>
-						))
-					}
-				</ul>
-			</section>
-		</section>
+		<PostDetails snippet={snippet} category={category} />
 	</article>
 </RevisedLayout>
