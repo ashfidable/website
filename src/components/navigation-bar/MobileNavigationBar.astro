@@ -11,10 +11,10 @@ const { pageName } = Astro.props
 ---
 
 <!-- Mobile Navigation Bar -->
-<ul class="flex w-full items-center gap-4 p-4 font-mono md:hidden">
+<ul class="flex w-full items-center gap-4 p-2 font-mono md:hidden">
 	{
 		MobileLinks.map((link) => (
-			<li class="flex-grow">
+			<li class="flex-grow text-sm">
 				<a
 					href={link.url}
 					class="flex cursor-pointer flex-col items-center gap-2"
