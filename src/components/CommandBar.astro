@@ -4,13 +4,14 @@ import { Icon } from 'astro-icon/components'
 ---
 
 <div
-	class="hidden items-center justify-between border-b-highlight bg-card p-4 md:flex md:border-b-2"
+	class="hidden items-center justify-between border-b-highlight bg-card p-2 text-sm md:flex md:border-b-2"
 >
 	<input
-		class="place rounded-md bg-body p-2 outline-none ring-2 ring-input-normal transition-all duration-100 ease-linear placeholder:font-heading placeholder:tracking-wider focus:ring-input-focus"
+		class="rounded-lg bg-input p-2 px-4 outline-none ring-2 ring-input-normal transition-all duration-100 ease-linear placeholder:font-heading placeholder:tracking-wider focus:ring-input-focus"
 		placeholder="Command Palette"
 	/>
-	<ThemePicker client:visible>
-		<Icon name="mdi:wrench-settings" slot="icon" class="text-2xl" />
+
+	<ThemePicker client:visible transition:animate="none">
+		<Icon name="ri:settings-4-line" slot="icon" />
 	</ThemePicker>
 </div>
