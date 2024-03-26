@@ -23,6 +23,12 @@ async function getUniqueCategories() {
 let uniqueCategories: CollectionEntry<'categories'>[] = await getUniqueCategories()
 
 const currentPage = Astro.url.pathname
+
+console.log(currentPage)
+
+function getCount(id: string) {
+	return tools.filter((tool) => tool.data.categories.find((cat) => cat.id === id)).length
+}
 ---
 
 <RevisedLayout title="Uses">
@@ -31,7 +37,7 @@ const currentPage = Astro.url.pathname
 	</HeroSection>
 
 	<section>
-		<ul class="flex flex-wrap justify-center gap-4">
+		<ul class="flex flex-wrap justify-center gap-4 font-heading text-sm tracking-wide">
 			<li>
 				<a
 					href="/uses"
@@ -48,12 +54,16 @@ const currentPage = Astro.url.pathname
 					<li>
 						<a
 							href={`/uses/${category.data.name.toLowerCase()}`}
-							aria-current={currentPage.includes(category.data.name) ? 'page' : 'false'}
+							aria-current={
+								currentPage.includes(category.data.name.toLowerCase()) ? 'page' : 'false'
+							}
 							class="group flex cursor-pointer items-center gap-2 rounded-lg border-x border-b-2 border-t border-highlight bg-card p-2 hover:text-heading-hover
-							aria-[current=page]:text-heading-hover"
+							aria-[current=page]:font-bold aria-[current=page]:text-heading-hover"
 						>
 							<Icon name={category.data.icon} />
-							<span class="group-hover:font-semibold">{category.data.name}</span>
+							<span class=" group-hover:font-semibold">
+								{category.data.name} ({getCount(category.id)})
+							</span>
 						</a>
 					</li>
 				))
