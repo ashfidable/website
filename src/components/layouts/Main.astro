@@ -1,0 +1,69 @@
+---
+import { ViewTransitions } from 'astro:transitions'
+import '@fontsource/inter'
+import '@fontsource-variable/josefin-sans'
+import '$styles/globals.css'
+// import NavigationBar from '$components/NavigationBar/NavigationBar.astro'
+// import Navbar from '$components/Navbar.astro'
+interface Props {
+	title: string
+}
+
+const { title } = Astro.props as Props
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<!-- Icons -->
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Meta Tags -->
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+
+		<ViewTransitions />
+	</head>
+	<body class="mx-auto max-w-[1160px]">
+		<!-- <NavigationBar /> -->
+		<!-- <Navbar /> -->
+		<main
+			class="mx-auto mb-20 flex max-w-[1160px] flex-grow flex-col gap-4 overflow-y-scroll px-2 md:mb-auto"
+		>
+			<slot />
+		</main>
+		<style>
+			body {
+				display: grid;
+				grid-template-columns: auto 1fr;
+				gap: 1rem;
+				min-height: 100vh;
+			}
+		</style>
+		<script is:inline>
+			function currentTheme() {
+				if (typeof localStorage !== undefined && localStorage.getItem('theme')) {
+					return localStorage.getItem('theme')
+				}
+
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					return 'dark'
+				}
+
+				return 'light'
+			}
+
+			document.documentElement.dataset.theme = currentTheme()
+			window.localStorage.setItem('theme', currentTheme())
+
+			document.addEventListener('astro:after-swap', () => {
+				document.documentElement.dataset.theme = currentTheme()
+				window.localStorage.setItem('theme', currentTheme())
+			})
+		</script>
+	</body>
+</html>

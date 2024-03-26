@@ -1,6 +1,6 @@
 ---
-import UsesLayout from '@layouts/UsesLayout.astro'
-import UsesCard from '@components/cards/uses-card.astro'
+import UsesLayout from '$layouts/uses-layout.astro'
+import UsesCard from '$components/cards/uses-card.astro'
 import { getCollection } from 'astro:content'
 
 const tools = await getCollection('tools')

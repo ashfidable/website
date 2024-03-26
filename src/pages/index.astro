@@ -1,17 +1,17 @@
 ---
-import SnippetCard from '@components/cards/snippet-card.astro'
+import SnippetCard from '$components/cards/snippet-card.astro'
 import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
-import SectionHeading from '@components/SectionHeading.astro'
-import HeroSection from '@components/IndexHeroSection.astro'
-import RevisedLayout from '@layouts/RevisedLayout.astro'
+import SectionHeading from '$components/SectionHeading.astro'
+import HeroSection from '$components/IndexHeroSection.astro'
+import BaseLayout from '$layouts/base-layout.astro'
 
 const skills = await getCollection('skills')
 
 const snippets = await getCollection('snippets')
 ---
 
-<RevisedLayout title="Ashfid">
+<BaseLayout title="Ashfid">
 	<HeroSection />
 
 	<!-- Featured Posts (New!) -->
@@ -67,4 +67,4 @@ const snippets = await getCollection('snippets')
 			})
 		}
 	</section>
-</RevisedLayout>
+</BaseLayout>

@@ -1,9 +1,9 @@
 ---
-import RevisedLayout from '@layouts/RevisedLayout.astro'
+import BaseLayout from '$layouts/base-layout.astro'
 import type { CollectionEntry } from 'astro:content'
 import { getCollection, getEntries } from 'astro:content'
 import { Icon } from 'astro-icon/components'
-import HeroSection from '@components/hero-section.astro'
+import HeroSection from '$components/hero-section.astro'
 
 const tools = await getCollection('tools')
 
@@ -31,7 +31,7 @@ function getCount(id: string) {
 }
 ---
 
-<RevisedLayout title="Uses">
+<BaseLayout title="Uses">
 	<HeroSection title="Tools I Use 🔦">
 		<p>All the tools I use currently categorized into sections on this page</p>
 	</HeroSection>
@@ -72,4 +72,4 @@ function getCount(id: string) {
 	</section>
 
 	<section class="grid grid-cols-2 gap-4 md:grid-cols-3"><slot /></section>
-</RevisedLayout>
+</BaseLayout>

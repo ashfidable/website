@@ -4,11 +4,12 @@
 		"baseUrl": ".",
 		"jsx": "react",
 		"paths": {
-			"@components/*": ["src/components/*"],
-			"@styles/*": ["src/styles/*"],
-			"@layouts/*": ["src/layouts/*"],
-			"@assets/*": ["src/assets/*"],
-			"@utils/*": ["src/utils/*"]
+			"$components/*": ["src/components/*"],
+			"$styles/*": ["src/styles/*"],
+			"$layouts/*": ["src/components/layouts/*"],
+			"$assets/*": ["src/assets/*"],
+			"@utils/*": ["src/utils/*"],
+			"$utils/*": ["src/utils/*"]
 		}
 	}
 }
