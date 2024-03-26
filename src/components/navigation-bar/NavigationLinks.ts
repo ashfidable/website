@@ -11,11 +11,11 @@ export const Links = [
 		url: '/blog',
 		icon: 'mdi:book-minus-outline'
 	},
-	{
-		name: 'Bookmarks',
-		url: '/bookmarks',
-		icon: 'mdi:tag-outline'
-	},
+	// {
+	// 	name: 'Bookmarks',
+	// 	url: '/bookmarks',
+	// 	icon: 'mdi:tag-outline'
+	// },
 	{
 		name: 'Snippets',
 		url: '/snippets',
