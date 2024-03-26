@@ -45,15 +45,12 @@
 
 {#if $data}
 	{#if $data.listening_to_spotify}
-		<section class="md:block hidden p-2" transition:fade>
-			<span class="block font-semibold mb-2">Listening to Spotify</span>
+		<section class="md:block hidden p-2 px-1 text-sm" transition:fade>
+			<span class="block font-mono font-semibold pb-1 border-b border-b-highlight mb-4"
+				>Listening to Spotify</span
+			>
 			<a href={`spotify:track:${$data.spotify?.track_id}`}>
-				<div class="grid gap-2">
-					<img
-						src={$data.spotify?.album_art_url}
-						alt="activity"
-						class="w-14 h-14 aspect-video object-cover"
-					/>
+				<div class="">
 					<section>
 						<span class="block text-ellipsis overflow-hidden whitespace-nowrap font-bold"
 							>{$data.spotify?.song}</span
@@ -78,10 +75,6 @@
 {/if}
 
 <style>
-	div:not(.progress-bar) {
-		grid-template-columns: 30% 70%;
-	}
-
 	.progress-bar-inner {
 		width: var(--progress);
 	}
