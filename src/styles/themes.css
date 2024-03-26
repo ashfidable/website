@@ -6,89 +6,121 @@
 [data-theme='dark'] {
 	/* Colors */
 	color-scheme: dark;
+
+	/* Primary Colors: Displaying on Theme Picker */
 	--color-theme-primary: hsl(255, 22%, 10%);
 	--color-theme-secondary: hsl(189, 94%, 53%);
 
+	/* Links */
+	--color-link: hsl(188, 95%, 40%);
+	--color-link-hover: hsl(188, 95%, 50%);
+
+	/* Background Colors */
 	--color-background: hsl(255, 22%, 10%);
 	--color-background-body: hsl(255, 22%, 5%);
 	--color-background-card: hsl(255, 22%, 10%);
 
+	/* Borders */
+	--color-border-highlight: hsl(255, 22%, 20%);
+	--color-border-highlight-hover: hsl(189, 94%, 43%);
+
+	/* Text  */
+	--color-heading-text: hsl(189, 94%, 48%);
+	--color-heading-text-hover: hsl(189, 94%, 53%);
+	--color-body-text: hsl(255, 22%, 90%);
+
+	/* Gradients */
+	--color-gradient-from: hsl(188, 95%, 50%);
+	--color-gradient-to: hsl(188, 95%, 60%);
+
+	/* Input */
 	--color-input-background: hsl(255, 22%, 20%);
 	--color-input-ring-normal: hsl(255, 22%, 20%);
 	--color-input-ring-focus: hsl(189, 94%, 53%);
 
-	--color-border-highlight: hsl(255, 22%, 20%);
-	--color-border-highlight-hover: hsl(189, 94%, 43%);
-
-	--color-heading-text: hsl(189, 94%, 48%);
-	--color-heading-text-hover: hsl(189, 94%, 53%);
-
+	/* Buttons */
 	--color-button-normal: hsl(189, 94%, 50%);
 	--color-button-active: hsl(189, 94%, 48%);
 	--color-button-hover: hsl(188, 86%, 53%);
 	--color-button-text-active: hsl(189, 94%, 12%);
 
+	/* Cards */
 	--color-card-date-text: hsl(188, 86%, 53%);
 
+	/* Icons */
 	--color-icon: hsl(255, 22%, 85%);
 	--color-icon-hover: hsl(188, 86%, 53%);
 
+	/* Blockquotes */
 	--color-blockquote-indicator: hsl(189, 94%, 53%);
 	--color-blockquote-background: hsla(189, 94%, 53%, 0.5);
 	--color-blockquote-text: hsl(0, 0%, 95%);
 
+	/* Spotify */
 	--color-spotify-progress: hsl(188, 86%, 53%);
 	--color-spotify-progress-background: hsl(255, 22%, 20%);
 
+	/* Code */
 	--color-code-background: hsl(255, 22%, 20%);
-
-	--color-body-text: hsl(255, 22%, 90%);
-	--color-link: hsl(188, 95%, 40%);
-	--color-link-hover: hsl(188, 95%, 50%);
 }
 
 [data-theme='light'] {
 	/* Colors */
 	color-scheme: light;
+
+	/* Primary Colors */
 	--color-theme-primary: hsl(0, 0%, 95%);
 	--color-theme-secondary: hsl(265, 91%, 35%);
 
+	/* Background Colors */
 	--color-background: hsl(0, 0%, 98%);
 	--color-background-body: hsl(0, 0%, 95%);
 	--color-background-card: hsl(0, 0%, 98%);
 
-	--color-input-background: hsl(255, 22%, 20%);
-	--color-input-ring-normal: hsl(255, 22%, 20%);
-	--color-input-ring-focus: hsl(265, 91%, 40%);
-
+	/* Borders */
 	--color-border-highlight: hsl(0, 0%, 10%);
 	--color-border-highlight-hover: hsl(265, 91%, 45%);
 
+	/* Text */
 	--color-heading-text: hsl(265, 91%, 35%);
 	--color-heading-text-hover: hsl(265, 91%, 45%);
+	--color-body-text: hsl(0, 0%, 8%);
+	--color-card-date-text: hsl(265, 91%, 20%);
+	--color-blockquote-text: hsl(0, 0%, 100%);
 
+	/* Gradients */
+	--color-gradient-from: hsl(265, 91%, 55%);
+	--color-gradient-to: hsl(265, 91%, 65%);
+
+	/* Input */
+	--color-input-background: hsl(0, 0%, 98%);
+	--color-input-ring-normal: hsl(255, 22%, 20%);
+	--color-input-ring-focus: hsl(265, 91%, 40%);
+
+	/* Buttons */
 	--color-button-normal: hsl(265, 91%, 50%);
 	--color-button-active: hsl(265, 91%, 40%);
 	--color-button-hover: hsl(265, 91%, 55%);
 	--color-button-text-active: hsl(0, 0%, 96%);
 
-	--color-card-date-text: hsl(265, 91%, 20%);
-
-	--color-icon: hsl(0, 0%, 96%);
+	/* Icons */
+	--color-icon: hsl(0, 0%, 0%);
 	--color-icon-hover: hsl(265, 91%, 45%);
 
-	--color-blockquote-indicator: hsl(265, 91%, 35%);
-	--color-blockquote-background: hsl(265, 91%, 35%, 0.4);
-	--color-blockquote-text: hsl(0, 0%, 100%);
+	/* Links */
+	--color-link: hsl(265, 91%, 35%);
+	--color-link-hover: hsl(265, 91%, 55%);
 
+	/* Blockquotes */
+	--color-blockquote-indicator: hsl(265, 91%, 35%);
+	--color-blockquote-background: hsla(265, 91%, 35%, 0.4);
+
+	/* Spotify */
 	--color-spotify-progress: hsl(265, 91%, 35%);
 	--color-spotify-progress-background: hsl(0, 0%, 75%);
 
+	/* Code */
 	--color-code-background: hsl(0, 0%, 96%);
-
-	--color-body-text: hsl(0, 0%, 8%);
-	--color-link: hsl(265, 91%, 35%);
-	--color-link-hover: hsl(265, 91%, 55%);
 }
 
 [data-type='web'] {
@@ -98,6 +130,7 @@
 		rgba(221, 22, 224, 1) 11%,
 		rgba(111, 22, 190, 1) 88.2%
 	);
+	--color-category-text: white;
 }
 
 [data-type='tool'] {
