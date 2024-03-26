@@ -1,10 +1,50 @@
 ---
 import HeroSection from '@components/hero-section.astro'
 import RevisedLayout from '@layouts/RevisedLayout.astro'
+import { getCollection } from 'astro:content'
+import SnippetCard from '@components/cards/snippet-card.astro'
+import type { CollectionEntry } from 'astro:content'
+
+const snippets = await getCollection('snippets')
+
+const filteredSnippets = await snippets.sort(
+	(a, b) => a.data.published.getTime() - b.data.published.getTime()
+)
+
+const groupedByYear: { [year: string]: CollectionEntry<'snippets'>[] } = {}
+
+for (const item of filteredSnippets) {
+	const year = item.data.published.getFullYear()
+	if (!groupedByYear[year]) {
+		groupedByYear[year] = [item]
+	} else {
+		groupedByYear[year].push(item)
+	}
+}
+
+console.log(Object.keys(groupedByYear))
 ---
 
 <RevisedLayout title="Snippets">
-	<HeroSection title="Snippets 📜">
+	<HeroSection title="Snippets 📒">
 		<p>Useful snippets that I use a lot or found really helpful on Internet.</p>
 	</HeroSection>
+
+	{
+		Object.keys(groupedByYear)
+			.reverse()
+			.map((year) => {
+				const snippets = groupedByYear[year]
+				return (
+					<section class="flex flex-col gap-4">
+						<h2 class="font-heading text-xl font-bold">{year}</h2>
+						<ul>
+							{snippets.map((snippet) => (
+								<SnippetCard snippet={snippet} />
+							))}
+						</ul>
+					</section>
+				)
+			})
+	}
 </RevisedLayout>
