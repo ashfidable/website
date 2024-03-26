@@ -1,6 +1,26 @@
 ---
-import RevisedLayout from "@layouts/RevisedLayout.astro";
-import Main from "src/layouts/Main.astro";
+import HeroSection from '@components/hero-section.astro'
+import RevisedLayout from '@layouts/RevisedLayout.astro'
+
+const test = [
+	{
+		name: 'Daniel Wirtz',
+		link: 'https://danielwirtz.com/blog/readwise-reader'
+	}
+]
 ---
 
-<RevisedLayout title="Bookmarks">Bookmarks</RevisedLayout>
+<RevisedLayout title="Favorites">
+	<HeroSection title="Favorites 🔖">
+		<p>I bookmark what I <strong class="tracking-widest">like</strong>. No judging ⚔️</p>
+	</HeroSection>
+
+	{
+		test.map((t) => (
+			<a href={t.link}>
+				<img class="h-8 w-8" src={`http://www.google.com/s2/favicons?domain=${t.link}`} />
+				{t.name}
+			</a>
+		))
+	}
+</RevisedLayout>
