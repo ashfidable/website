@@ -1,5 +1,5 @@
 ---
-import H1 from '@components/atoms/H1.astro'
+import H1 from '@components/atoms/h1.astro'
 import H2 from '@components/atoms/h2.astro'
 import H3 from '@components/atoms/h3.astro'
 import H4 from '@components/atoms/h4.astro'
@@ -36,7 +36,7 @@ const category = await getEntry(snippet.data.category)
 	<article data-type={category.data.name.toLowerCase()} class="space-y-4">
 		<header class="space-y-4" transition:name={snippet.data.title}>
 			<div
-				class="relative flex h-28 items-center justify-center rounded-md bg-category-gradient p-4"
+				class="relative z-30 flex h-28 items-center justify-center rounded-md bg-category-gradient p-4"
 			>
 				<!-- <h1 class="font-heading text-3xl font-bold tracking-wide text-[black] [text-wrap:balance]">
 					<span>{snippet.data.title}</span>
