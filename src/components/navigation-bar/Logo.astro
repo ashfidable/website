@@ -1,15 +1,11 @@
-<a
-	href="/"
-	class="flex items-center gap-2 font-heading text-xl font-bold tracking-wide text-accent"
->
-	<div class="h-14 w-14 overflow-hidden rounded-full">
-		<img
-			src="/images/ashfidnew.svg"
-			width="100%"
-			height="100%"
-			class="scale-150 transform"
-			alt="logo"
-		/>
+---
+import { Image } from 'astro:assets'
+import AshfidPhoto from '@assets/images/ashfid-picture-light.jpg'
+---
+
+<a href="/" class="text-accent flex items-center gap-2 font-heading text-xl">
+	<div class="h-10 w-10 overflow-hidden rounded-full">
+		<Image src={AshfidPhoto} alt="logo" width={180} loading="eager" />
 	</div>
-	<span class="text-effect mt-2 font-heading text-3xl font-extrabold tracking-wide">ASHFID</span>
+	<span class="text-effect mt-2 text-3xl font-extrabold tracking-widest">ASHFID.</span>
 </a>
