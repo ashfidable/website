@@ -6,7 +6,7 @@ interface Props extends HTMLAttributes<'ol'> {}
 const { ...props } = Astro.props
 ---
 
-<ol class="mb-4 ml-2 list-inside list-decimal space-y-2 marker:text-heading md:ml-4" {...props}>
+<ol class="mb-2 ml-2 list-inside list-decimal space-y-2 marker:text-heading md:ml-4" {...props}>
 	<slot />
 </ol>
 
