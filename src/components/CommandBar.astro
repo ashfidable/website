@@ -6,10 +6,15 @@ import { Icon } from 'astro-icon/components'
 <div
 	class="hidden items-center justify-between border-b-highlight bg-card p-2 text-sm md:flex md:border-b-2"
 >
-	<input
-		class="rounded-lg bg-input p-2 px-4 outline-none ring-2 ring-input-normal transition-all duration-100 ease-linear placeholder:font-heading placeholder:tracking-wider focus:ring-input-focus"
+	<!-- <input
+		class="rounded-lg bg-[transparent] p-2 px-4 outline-none ring-2 ring-input-normal transition-all duration-100 ease-linear placeholder:font-heading placeholder:tracking-wider focus:ring-input-focus"
 		placeholder="Command Palette"
-	/>
+	/> -->
+
+	<button class="rounded-md bg-input p-2 font-mono font-bold tracking-widest"
+		>Command Palette
+		<span>⌘</span><span>K</span>
+	</button>
 
 	<ThemePicker client:visible transition:animate="none">
 		<Icon name="ri:settings-4-line" slot="icon" />
