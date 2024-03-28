@@ -25,7 +25,7 @@ export default defineConfig({
 		tailwind(),
 		svelte(),
 		expressiveCode({
-			themes: ['dracula']
+			themes: ['dracula', 'aurora-x', 'rose-pine']
 		}),
 		mdx()
 	],
