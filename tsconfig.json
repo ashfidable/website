@@ -9,7 +9,8 @@
 			"$layouts/*": ["src/components/layouts/*"],
 			"$assets/*": ["src/assets/*"],
 			"@utils/*": ["src/utils/*"],
-			"$utils/*": ["src/utils/*"]
+			"$utils/*": ["src/utils/*"],
+			"$stores/*": ["src/stores/*"]
 		}
 	}
 }
