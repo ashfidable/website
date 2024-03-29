@@ -1,15 +1,13 @@
 ---
 import ThemePicker from '$components/ThemePicker/ThemePicker.svelte'
+import CommandPalette from '$components/command-palette/command-palette.svelte'
 import { Icon } from 'astro-icon/components'
 ---
 
 <div
 	class="hidden items-center justify-between border-b-highlight bg-card p-2 text-sm md:flex md:border-b-2"
 >
-	<button class="rounded-md bg-input p-2 font-mono font-bold tracking-widest"
-		>Command Palette
-		<span>⌘</span><span>K</span>
-	</button>
+	<CommandPalette client:visible />
 
 	<ThemePicker client:visible transition:animate="none">
 		<Icon name="ri:settings-4-line" slot="icon" />
