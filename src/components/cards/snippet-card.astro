@@ -18,13 +18,10 @@ const category = await getEntry(snippet.data.category)
 	class="group flex items-center justify-between gap-4 rounded-md border-x border-b-4 border-t border-highlight bg-card p-4 transition-[border-color] hover:border-b-category-highlight"
 	transition:name={snippet.data.title}
 >
-	<div class="flex gap-2 md:transition-transform md:group-hover:translate-x-4">
+	<div class="flex gap-2">
 		<!-- Icon for Post -->
 		<div class="rounded-md bg-category-gradient p-1">
-			<Icon
-				name={category?.data.icon}
-				class="h-4 w-4 text-category-icon group-hover:animate-bounce"
-			/>
+			<Icon name={category?.data.icon} class="text-category-icon group-hover:animate-bounce" />
 		</div>
 		<h4 class="font-heading font-semibold tracking-wider">{snippet?.data.title}</h4>
 	</div>
