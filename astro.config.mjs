@@ -6,14 +6,13 @@ import svelte from '@astrojs/svelte'
 // https://astro.build/config
 import mdx from '@astrojs/mdx'
 
-// plugins for markdown / mdx
-import sectionize from 'remark-sectionize'
+// Plugins for MDX
+import expressiveCode from 'astro-expressive-code'
 
 // astro-icon integration
 import icon from 'astro-icon'
 
 // https://astro.build/config
-import expressiveCode from 'astro-expressive-code'
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,7 +26,9 @@ export default defineConfig({
 		expressiveCode({
 			themes: ['dracula', 'aurora-x', 'rose-pine']
 		}),
-		mdx()
+		mdx({
+			optimize: true
+		})
 	],
 	trailingSlash: 'never'
 })
