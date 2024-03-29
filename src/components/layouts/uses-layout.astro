@@ -59,8 +59,8 @@ function getCount(id: string) {
 							 aria-[current=page]:text-heading-hover"
 						>
 							<Icon name={category.data.icon} />
-							<span class=" ">
-								{category.data.name} ({getCount(category.id)})
+							<span>
+								{category.data.name} <span class="font-bold">({getCount(category.id)})</span>
 							</span>
 						</a>
 					</li>
