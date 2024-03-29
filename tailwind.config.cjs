@@ -57,7 +57,7 @@ module.exports = {
 			fontFamily: {
 				stylized: 'var(--font-stylized)',
 				heading: 'var(--font-heading)',
-				sans: ['Inter', 'sans-serif']
+				sans: ['system-ui', 'sans-serif']
 			},
 			animation: {
 				wave: 'wave-animation 2.5s linear infinite'

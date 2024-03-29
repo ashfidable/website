@@ -3,28 +3,40 @@
 @tailwind base;
 @tailwind components;
 
-@layer base {
-	html {
-		font-family: 'Inter', system-ui, sans-serif;
-	}
+html {
+	font-family: system-ui, sans-serif;
+}
 
-	html {
-		background: var(--color-background);
-	}
+html {
+	background: var(--color-background);
+}
 
-	html,
-	body {
-		min-height: 100%;
-	}
+html,
+body {
+	min-height: 100%;
+}
 
-	html {
-		scrollbar-gutter: stable;
-	}
+html {
+	scrollbar-gutter: stable;
+}
 
-	code {
-		background-color: var(--color-code-background);
-		@apply rounded-md px-2;
-	}
+code {
+	background-color: var(--color-code-background);
+	@apply rounded-md px-2;
+}
+
+::view-transition-group(*) {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	animation-duration: 0.25s;
+	animation-fill-mode: both;
+}
+
+[data-all-transitions-off='true']::view-transition-group(*) {
+	animation: none !important;
+	transition: none !important;
 }
 
 @layer components {
@@ -72,10 +84,5 @@
 		100% {
 			transform: rotate(0deg);
 		}
-	}
-
-	.no-transition::view-transition-group(*) {
-		animation: none;
-		transition: none;
 	}
 }
