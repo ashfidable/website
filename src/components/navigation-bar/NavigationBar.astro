@@ -13,13 +13,13 @@ const isCurrentPage = (url: string) => {
 ---
 
 <nav
-	class="fixed bottom-0 left-0 right-0 z-50 flex h-20 items-center gap-4 border-t border-highlight bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x md:border-y-0 md:p-4"
+	class="fixed bottom-0 left-0 right-0 z-50 flex h-20 gap-4 border-t border-highlight bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x md:border-y-0 md:p-4"
 >
 	<section class="hidden md:block">
 		<Logo />
 	</section>
 
-	<!-- Navigation -->
+	<!-- Desktop Navigation -->
 	<section class="hidden w-full flex-col justify-between gap-4 font-heading md:flex">
 		<ul class="flex flex-grow flex-col gap-4">
 			{
@@ -27,10 +27,10 @@ const isCurrentPage = (url: string) => {
 					<li class="flex-grow ">
 						<a
 							href={link.url}
-							class="group flex items-center gap-2 p-1 font-mono text-sm font-semibold tracking-wide"
+							class="group flex items-center gap-2 p-1 font-mono text-base font-semibold tracking-wide"
 							aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 						>
-							<Icon name={link.icon} class="text-2xl" />
+							<Icon name={link.icon} class="text-xl" />
 							<span>{link.name}</span>
 							<Icon
 								name="svg-spinners:dot-revolve"
@@ -43,15 +43,18 @@ const isCurrentPage = (url: string) => {
 		</ul>
 	</section>
 
+	<!-- Footer -->
 	<footer class="mt-auto hidden w-full md:block">
 		<section class="hidden w-full md:block" transition:persist="status-card">
 			<StatusCard client:load />
 		</section>
 		<section class="flex justify-center gap-2">
-			<a class="rounded-md bg-card p-2 text-icon hover:text-icon-hover">
+			<a href="/" class="rounded-md bg-card p-2 text-icon hover:text-icon-hover">
+				<span class="sr-only">Email</span>
 				<Icon name="mdi:message-outline" class="text-2xl" />
 			</a>
-			<a class="rounded-md bg-card p-2 text-icon hover:text-icon-hover">
+			<a href="/" class="rounded-md bg-card p-2 text-icon hover:text-icon-hover">
+				<span class="sr-only">Github</span>
 				<Icon name="logos:github-octocat" class="text-2xl" />
 			</a>
 		</section>
@@ -72,8 +75,7 @@ const isCurrentPage = (url: string) => {
 		content: '';
 		position: absolute;
 		inset: 0;
-		@apply bg-button-active;
-		@apply rounded-lg;
+		@apply rounded-md bg-button-active;
 		z-index: -1;
 	}
 
@@ -86,14 +88,16 @@ const isCurrentPage = (url: string) => {
 	}
 </style>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
 	document.addEventListener('astro:before-preparation', (ev) => {
 		const originalLoader = ev.loader
-		const allLinkElements = document.querySelectorAll('a[aria-current]')
+		const navElement = document.querySelector('nav')
+		const allLinkElements = navElement.querySelectorAll('a[aria-current]')
 		const linkArray = [...allLinkElements]
 
-		console.log(ev)
+		if (!ev.sourceElement) return
 		if (!ev.sourceElement.hasAttribute('aria-current') || ev.to.href === ev.from.href) return
+
 		ev.loader = async function () {
 			const toUrlLink = ev.to.href
 			const toLinkElement = linkArray.find((element) => element.href === toUrlLink)
