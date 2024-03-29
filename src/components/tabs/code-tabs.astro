@@ -48,7 +48,7 @@ const codeBlocks = await getCodeBlocks()
 	</div>
 </div>
 
-<script>
+<script is:inline data-astro-rerun>
 	document.addEventListener('astro:page-load', (ev) => {
 		const containers = document.querySelectorAll('.tabs-container')
 
@@ -74,8 +74,8 @@ const codeBlocks = await getCodeBlocks()
 				panel.setAttribute('tabindex', '0')
 			})
 
-			container.addEventListener('click', (e: Event) => {
-				const clickedTab = (e.target as HTMLElement).closest('a') as HTMLElement
+			container.addEventListener('click', (e) => {
+				const clickedTab = e.target.closest('a')
 				if (!clickedTab) return
 				e.preventDefault()
 
@@ -83,7 +83,7 @@ const codeBlocks = await getCodeBlocks()
 			})
 
 			container.addEventListener('keydown', (e) => {
-				const event = e as KeyboardEvent
+				const event = e
 				switch (event.key) {
 					case 'ArrowLeft':
 						move('left')
@@ -94,8 +94,8 @@ const codeBlocks = await getCodeBlocks()
 				}
 			})
 
-			function switchTab(newTab: HTMLElement) {
-				const activePanelId = newTab.getAttribute('href')!.replace('#', '')
+			function switchTab(newTab) {
+				const activePanelId = newTab.getAttribute('href').replace('#', '')
 				const activePanel = container?.querySelector(`section[id='${activePanelId}']`)
 
 				buttons?.forEach((tab) => {
@@ -114,7 +114,7 @@ const codeBlocks = await getCodeBlocks()
 				newTab.focus()
 			}
 
-			function move(direction: string) {
+			function move(direction) {
 				const currentTab = document.activeElement
 
 				const targetSibling =
@@ -126,7 +126,7 @@ const codeBlocks = await getCodeBlocks()
 					? targetSibling.querySelector('a')
 					: buttons[direction === 'left' ? buttons.length - 1 : 0]
 
-				switchTab(targetTab!)
+				switchTab(targetTab)
 			}
 		})
 	})
