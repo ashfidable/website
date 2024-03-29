@@ -24,8 +24,6 @@ let uniqueCategories: CollectionEntry<'categories'>[] = await getUniqueCategorie
 
 const currentPage = Astro.url.pathname
 
-console.log(currentPage)
-
 function getCount(id: string) {
 	return tools.filter((tool) => tool.data.categories.find((cat) => cat.id === id)).length
 }
@@ -42,7 +40,7 @@ function getCount(id: string) {
 				<a
 					href="/uses"
 					aria-current={currentPage === '/uses' ? 'page' : 'false'}
-					class="group flex cursor-pointer items-center gap-2 rounded-lg border-x border-b-2 border-t border-highlight bg-card p-2 hover:text-heading-hover aria-[current=page]:text-heading-hover"
+					class="group flex cursor-pointer items-center gap-2 rounded-md border-x border-b-2 border-t border-highlight bg-card p-2 hover:text-heading-hover aria-[current=page]:text-heading-hover"
 				>
 					<Icon name="mdi:treasure-chest" />
 					<span class="group-hover:font-semibold">All</span>
@@ -57,11 +55,11 @@ function getCount(id: string) {
 							aria-current={
 								currentPage.includes(category.data.name.toLowerCase()) ? 'page' : 'false'
 							}
-							class="group flex cursor-pointer items-center gap-2 rounded-lg border-x border-b-2 border-t border-highlight bg-card p-2 hover:text-heading-hover
-							aria-[current=page]:font-bold aria-[current=page]:text-heading-hover"
+							class="group flex cursor-pointer items-center gap-2 rounded-md border-x border-b-2 border-t border-highlight bg-card p-2 hover:text-heading-hover
+							 aria-[current=page]:text-heading-hover"
 						>
 							<Icon name={category.data.icon} />
-							<span class=" group-hover:font-semibold">
+							<span class=" ">
 								{category.data.name} ({getCount(category.id)})
 							</span>
 						</a>
