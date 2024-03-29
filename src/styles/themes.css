@@ -1,6 +1,6 @@
 :root {
 	/* Fonts */
-	--font-heading: system-ui, sans-serif;
+	--font-heading: 'Raleway Variable', system-ui, sans-serif;
 }
 
 [data-theme='dark'] {
