@@ -3,134 +3,172 @@
 	import { settingsStore } from '$stores/settings-store'
 	import Fuse from 'fuse.js'
 	import { onMount, tick } from 'svelte'
+	import { fade } from 'svelte/transition'
 
-	type Props = { id: number; title: string; emoji: string; fn: () => void }
+	interface CommandProps {
+		id: number
+		title: string
+		emoji: string
+		run: () => void
+		category: string
+	}
 
 	let isOpen = false
 	let searchBar: HTMLInputElement
 
-	let actions: Props[] = [
+	let commands: CommandProps[] = [
 		{
 			id: 1,
 			title: 'Go to Snippets',
 			emoji: '📃',
-			fn: () => {
+			run: () => {
 				isOpen = false
 				setTimeout(() => {
 					navigate('/snippets')
 				}, 10)
-			}
+			},
+			category: 'Page'
 		},
 		{
 			id: 2,
 			title: 'Fly to Blog',
 			emoji: '📃',
-			fn: () => {
+			run: () => {
 				isOpen = false
 				setTimeout(() => {
 					navigate('/blog')
 				}, 10)
-			}
+			},
+			category: 'Page'
 		},
 		{
 			id: 3,
 			title: 'Head to Uses',
 			emoji: '📃',
-			fn: () => {
+			run: () => {
 				isOpen = false
 				setTimeout(() => {
 					navigate('/uses')
 				}, 10)
-			}
+			},
+			category: 'Page'
 		},
 		{
 			id: 4,
 			title: `Toggle Theme`,
-			emoji: '🎡',
-			fn: () => {
+			emoji: '🔨',
+			run: () => {
+				isOpen = false
 				if ($settingsStore.theme === 'light') {
 					$settingsStore.theme = 'dark'
 				} else {
 					$settingsStore.theme = 'light'
 				}
-			}
+			},
+			category: 'Settings'
 		}
 	]
 
-	const fuseInstance = new Fuse(actions, {
+	const fuseInstance = new Fuse(commands, {
 		keys: ['title'],
 		shouldSort: true
 	})
 
 	let searchTerm = ''
-	let results: Props[] = actions
 
 	let firstTab: HTMLElement
 	let lastTab: HTMLElement
-	let dialog: HTMLDialogElement
+	let dialog: HTMLElement
 
-	const els: HTMLButtonElement[] = []
+	let commandButtons: HTMLButtonElement[] = []
 	let hoverIndex = 0
 	let selectedCommand: HTMLButtonElement
 
-	onMount(() => {
+	$: searches = fuseInstance.search(searchTerm)
+
+	$: results =
+		searches.length > 0
+			? searches.map((res) => {
+					return {
+						id: res.item.id,
+						title: res.item.title,
+						run: res.item.run,
+						emoji: res.item.emoji,
+						category: res.item.category
+					}
+			  })
+			: commands
+
+	let filteredCommands: Record<string, CommandProps[]> = {}
+
+	$: {
+		filteredCommands = {}
+		for (const command of results) {
+			if (!filteredCommands[command.category]) {
+				filteredCommands[command.category] = []
+			}
+			filteredCommands[command.category].push(command)
+		}
+
+		if (dialog) commandButtons = [...dialog?.querySelectorAll('button')]
+	}
+
+	$: if (searchTerm) hoverIndex = 0
+
+	$: selectedCommand ? switchSelectedCommand(commandButtons[hoverIndex]) : null
+
+	const init = () => {
 		const focusables = dialog.querySelectorAll(
 			'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 		)
 
 		firstTab = focusables[0] as HTMLElement
 		lastTab = focusables[focusables.length - 1] as HTMLElement
+	}
 
-		hoverIndex = 0
-		selectedCommand = els[hoverIndex]
-	})
+	const switchSelectedCommand = (newElement: HTMLButtonElement) => {
+		if (selectedCommand) {
+			selectedCommand.removeAttribute('data-highlight')
+		}
 
-	function trapTabKey(e: KeyboardEvent) {
-		if (isOpen) {
-			if (e.key === 'Tab') {
-				if (e.shiftKey) {
-					if (document.activeElement === firstTab) {
-						e.preventDefault()
-						lastTab.focus()
-					}
-				} else {
-					if (document.activeElement === lastTab) {
-						e.preventDefault()
-						firstTab.focus()
-					}
-				}
+		selectedCommand = newElement
+		selectedCommand?.setAttribute('data-highlight', '')
+
+		return selectedCommand
+	}
+
+	const tabTrapFocus = (e: KeyboardEvent) => {
+		if (isOpen && e.key === 'Tab') {
+			const activeElement = document.activeElement
+			const focusElement = e.shiftKey ? lastTab : firstTab
+			const activeTab = e.shiftKey ? firstTab : lastTab
+
+			if (activeElement === activeTab) {
+				e.preventDefault()
+				focusElement.focus()
 			}
 		}
 	}
 
-	async function setOpen() {
+	const setOpen = async () => {
 		isOpen = !isOpen
 
 		if (searchBar && isOpen) {
 			await tick()
 			searchBar.focus()
+			hoverIndex = 0
+			switchSelectedCommand(commandButtons[hoverIndex])
 		}
 	}
 
-	$: searches = fuseInstance.search(searchTerm)
-
-	$: {
-		results = searches.map((res) => {
-			return { id: res.item.id, title: res.item.title, fn: res.item.fn, emoji: res.item.emoji }
-		})
-
-		if (results.length == 0) {
-			results = actions
-		}
-	}
-
-	async function shortcut(e: KeyboardEvent) {
-		if (e.ctrlKey && e.key === '/') {
+	const keyboardShortcuts = async (e: KeyboardEvent) => {
+		if (e.ctrlKey && e.key === '/' && !isOpen) {
 			isOpen = true
-
 			if (searchBar && isOpen) {
 				await tick()
 				searchBar.focus()
+				hoverIndex = 0
+				switchSelectedCommand(commandButtons[hoverIndex])
 			}
 		}
 
@@ -139,102 +177,108 @@
 		}
 	}
 
-	function runAction(e: Event) {
+	const run = (e: Event) => {
 		if (!(e.currentTarget instanceof HTMLButtonElement)) return
 
-		let getActionId = +e.currentTarget.getAttribute('data-action-id')!
+		let getCommandId = +e.currentTarget.getAttribute('data-action-id')!
 
-		if (!getActionId) return
+		if (!getCommandId) return
 
-		const action = actions.find((action) => action.id === getActionId)
+		const command = commands.find((action) => action.id === getCommandId)
 
-		action?.fn()
+		command?.run()
 	}
 
-	$: {
-		if (searchTerm) {
-			hoverIndex = 0
-		}
-	}
-
-	$: selectedCommand ? assignNewElement(els[hoverIndex]) : null
-
-	function assignNewElement(newElement: HTMLButtonElement) {
-		if (selectedCommand) {
-			selectedCommand.removeAttribute('data-highlight')
-		}
-
-		selectedCommand = newElement
-		selectedCommand.setAttribute('data-highlight', '')
-
-		return selectedCommand
-	}
-
-	function cycleThroughList(e: KeyboardEvent) {
+	const cycleThroughCommands = (e: KeyboardEvent) => {
 		if (!isOpen) return
-		if (e.key === 'ArrowDown') {
-			hoverIndex = (hoverIndex + 1) % results.length
+		if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+			hoverIndex = (hoverIndex + (e.key === 'ArrowDown' ? 1 : -1) + results.length) % results.length
 			e.preventDefault()
-		}
-
-		if (e.key === 'ArrowUp') {
-			hoverIndex = (hoverIndex - 1 + results.length) % results.length
-			e.preventDefault()
-		}
-
-		assignNewElement(els[hoverIndex])
-
-		if (e.key === 'Enter' && selectedCommand) {
+			switchSelectedCommand(commandButtons[hoverIndex])
+		} else if (e.key === 'Enter' && selectedCommand) {
 			selectedCommand.click()
 		}
 	}
+
+	onMount(() => {
+		init()
+
+		hoverIndex = 0
+		switchSelectedCommand(commandButtons[hoverIndex])
+	})
 </script>
 
-<svelte:body on:keydown={shortcut} />
+<svelte:body on:keydown={keyboardShortcuts} />
 
-<button class="rounded-md bg-input p-2 font-mono font-bold tracking-widest" on:click={setOpen}
+<button
+	class="rounded-md bg-button-active p-1 px-2 font-bold text-button-text-active flex gap-2 items-center font-heading tracking-wide"
+	on:click={setOpen}
 	>Command Palette
-	<span>⌘</span><span>K</span>
+	<div class="p-1 rounded-md bg-body text-body flex gap-2">
+		<span>⌘</span><span>L</span>
+	</div>
 </button>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
-	class="fixed bg-input w-2/4 max-w-4xl inset-0 bottom-[25vh] z-[100] p-2 space-y-2"
+	class="bg-body w-2/4 max-w-4xl inset-0 bottom-[30vh] z-[100] rounded-md p-2 border border-highlight"
 	open={isOpen}
 	bind:this={dialog}
-	on:keydown={trapTabKey}
-	on:keydown={cycleThroughList}
+	on:keydown={tabTrapFocus}
+	on:keydown={cycleThroughCommands}
+	transition:fade
 >
-	<div>
+	<div class="space-y-4">
 		<!-- Search Box -->
 		<input
 			id="command-palette-input"
-			class="text-3xl w-full p-2 focus:outline-0 focus:ring-1 focus:ring-input-focus"
+			class="text-sm w-full p-1 focus:outline-0 focus:border-highlight-hover rounded-md border border-[transparent]"
 			bind:value={searchTerm}
 			bind:this={searchBar}
 			autocomplete="off"
 		/>
 		<!-- Content Box -->
-		<ul class="space-y-2 h-96 overflow-y-auto text-xl font-heading">
-			{#each results as result, i}
+		<ul class="space-y-2 h-96 overflow-y-auto text-sm font-heading">
+			<!-- {#each results as result, i}
 				<li>
 					<button
-						on:click={runAction}
-						class="flex gap-4 items-center w-full p-4 data-[highlight]:bg-[red]"
+						on:click={run}
+						class="flex gap-4 items-center w-full p-2 data-[highlight]:bg-button-active data-[highlight]:text-button-text-active bg-card rounded-md hover:bg-button-hover hover:text-button-text-active data-[highlight]:font-bold"
 						data-action-id={result.id}
-						bind:this={els[i]}
+						bind:this={commandButtons[i]}
 					>
 						<span>{result.emoji}</span>
 						<span>{result.title}</span>
 					</button>
 				</li>
+			{/each} -->
+			{#each Object.keys(filteredCommands) as command, i}
+				<section class="space-y-2">
+					<h4 class="font-bold">{command}</h4>
+					<ul class="space-y-2">
+						{#each filteredCommands[command] as cmd, index}
+							<li>
+								<button
+									on:click={run}
+									class=" w-full p-2 data-[highlight]:bg-button-active data-[highlight]:text-button-text-active bg-card rounded-md hover:bg-button-hover hover:text-button-text-active data-[highlight]:font-bold group transition-colors duration-75 ease-in-out"
+									data-action-id={cmd.id}
+								>
+									<span class="group-data-[highlight]:ml-2 flex gap-4 items-center">
+										<span>{cmd.emoji}</span>
+										<span>{cmd.title}</span>
+									</span>
+								</button>
+							</li>
+						{/each}
+					</ul>
+				</section>
 			{/each}
 		</ul>
 	</div>
 </dialog>
 
 <button
-	class="fixed inset-0 bg-[black] bg-opacity-50 z-[90]"
+	class="fixed inset-0 bg-[black] bg-opacity-70 z-[90]"
 	class:hidden={!isOpen}
 	tabindex="-1"
 	on:click={setOpen}
