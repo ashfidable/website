@@ -1,10 +1,8 @@
-import { Book, Bookmark, ScissorsSquare, Component, Home } from 'lucide-astro'
-
 export const Links = [
 	{
 		name: 'Home',
 		url: '/',
-		icon: 'mdi:home-heart'
+		icon: 'ri:home-heart-line'
 	},
 	{
 		name: 'Blog',
@@ -32,7 +30,7 @@ export const MobileLinks = [
 	{
 		name: 'Home',
 		url: '/',
-		icon: 'mdi:home-heart'
+		icon: 'ri:home-heart-line'
 	},
 	{
 		name: 'Blog',
