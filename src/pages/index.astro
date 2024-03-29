@@ -34,7 +34,7 @@ const snippets = await getCollection('snippets')
 			{
 				snippets.map((snippet) => {
 					const href = `/snippets/${snippet.slug}`
-					return <SnippetCard snippet={snippet} />
+					return <SnippetCard as="h3" snippet={snippet} />
 				})
 			}
 		</div>
