@@ -27,7 +27,7 @@ const isCurrentPage = (url: string) => {
 					<li class="flex-grow ">
 						<a
 							href={link.url}
-							class="group flex items-center gap-2 p-1 font-mono text-base font-semibold tracking-wide"
+							class="group flex items-center gap-2 p-1 py-2  text-sm font-semibold tracking-wide"
 							aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 						>
 							<Icon name={link.icon} class="text-xl" />
@@ -95,17 +95,19 @@ const isCurrentPage = (url: string) => {
 		const allLinkElements = navElement.querySelectorAll('a[aria-current]')
 		const linkArray = [...allLinkElements]
 
+		// console.log(ev)
 		if (!ev.sourceElement) return
 		if (!ev.sourceElement.hasAttribute('aria-current') || ev.to.href === ev.from.href) return
 
 		ev.loader = async function () {
 			const toUrlLink = ev.to.href
 			const toLinkElement = linkArray.find((element) => element.href === toUrlLink)
-			if (toLinkElement.hasAttribute('aria-current')) {
+
+			if (toLinkElement && toLinkElement.hasAttribute('aria-current')) {
 				toLinkElement.dataset.loading = 'true'
 			}
 			await originalLoader()
-			if (toLinkElement.hasAttribute('aria-current')) {
+			if (toLinkElement && toLinkElement.hasAttribute('aria-current')) {
 				toLinkElement.removeAttribute('loading')
 			}
 		}
