@@ -6,7 +6,7 @@ import '@fontsource-variable/raleway'
 import '$styles/globals.css'
 
 import NavigationBar from '$components/navigation-bar/NavigationBar.astro'
-import CommandBar from '$components/CommandBar.astro'
+import CommandBar from '$components/command-palette/CommandBar.astro'
 interface Props {
 	title: string
 }
@@ -40,25 +40,37 @@ const { title } = Astro.props as Props
 				<slot />
 			</div>
 		</main>
-		<script is:inline>
-			function currentTheme() {
-				if (typeof localStorage !== undefined && localStorage.getItem('theme')) {
-					return localStorage.getItem('theme')
+		<script is:inline data-astro-rerun>
+			function getSettings() {
+				if (typeof localStorage !== undefined && localStorage.getItem('settings')) {
+					return JSON.parse(localStorage.getItem('settings'))
 				}
 
 				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-					return 'dark'
+					return {
+						theme: 'dark',
+						codeTheme: 'default'
+					}
 				}
 
-				return 'light'
+				return {
+					theme: 'light',
+					codeTheme: 'default'
+				}
 			}
 
-			document.documentElement.dataset.theme = currentTheme()
-			window.localStorage.setItem('theme', currentTheme())
+			function setSettings() {
+				Object.keys(getSettings()).map((key) => {
+					const value = getSettings()[key]
 
-			document.addEventListener('astro:after-swap', () => {
-				document.documentElement.dataset.theme = currentTheme()
-				window.localStorage.setItem('theme', currentTheme())
+					document.documentElement.dataset[key] = value
+				})
+			}
+
+			setSettings()
+
+			document.addEventListener('astro:before-swap', () => {
+				setSettings()
 			})
 		</script>
 	</body>
