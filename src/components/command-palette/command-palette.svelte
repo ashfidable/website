@@ -15,7 +15,10 @@
 			title: 'Go to Snippets',
 			emoji: '📃',
 			fn: () => {
-				navigate('/snippets')
+				isOpen = false
+				setTimeout(() => {
+					navigate('/snippets')
+				}, 10)
 			}
 		},
 		{
@@ -23,7 +26,10 @@
 			title: 'Fly to Blog',
 			emoji: '📃',
 			fn: () => {
-				navigate('/blog')
+				isOpen = false
+				setTimeout(() => {
+					navigate('/blog')
+				}, 10)
 			}
 		},
 		{
@@ -31,7 +37,10 @@
 			title: 'Head to Uses',
 			emoji: '📃',
 			fn: () => {
-				navigate('/uses')
+				isOpen = false
+				setTimeout(() => {
+					navigate('/uses')
+				}, 10)
 			}
 		},
 		{
@@ -165,22 +174,20 @@
 		if (!isOpen) return
 		if (e.key === 'ArrowDown') {
 			hoverIndex = (hoverIndex + 1) % results.length
-			assignNewElement(els[hoverIndex])
 			e.preventDefault()
 		}
 
 		if (e.key === 'ArrowUp') {
 			hoverIndex = (hoverIndex - 1 + results.length) % results.length
-			assignNewElement(els[hoverIndex])
 			e.preventDefault()
 		}
+
+		assignNewElement(els[hoverIndex])
 
 		if (e.key === 'Enter' && selectedCommand) {
 			selectedCommand.click()
 		}
 	}
-
-	$: console.log(hoverIndex)
 </script>
 
 <svelte:body on:keydown={shortcut} />
