@@ -11,40 +11,42 @@ const { pageName } = Astro.props
 ---
 
 <!-- Mobile Navigation Bar -->
-<ul class="flex w-full items-center gap-4 p-2 font-mono md:hidden">
+<ul class="grid h-full w-full grid-cols-4 font-mono md:hidden">
 	{
 		MobileLinks.map((link) => (
-			<li class="flex-grow text-sm">
+			<li>
 				<a
 					href={link.url}
-					class="flex cursor-pointer flex-col items-center gap-2"
+					class="group flex h-full cursor-pointer flex-col items-center justify-center gap-2 aria-[current=page]:bg-button-active aria-[current=page]:font-bold aria-[current=page]:text-button-text-active"
 					aria-current={pageName === link.url ? 'page' : 'false'}
 				>
-					<Icon name={link.icon} class="text-xl" />
-					{link.name}
+					<Icon name={link.icon} class="text-2xl" />
+					<span>{link.name}</span>
 				</a>
 			</li>
 		))
 	}
 
-	<li class="flex-grow">
-		<button class="group flex w-full flex-grow flex-col items-center gap-2" id="mobile-button">
-			<Icon name="mdi:menu" class="group-hover:text-accent-shade text-xl" />
-			 Menu
+	<li class="flex">
+		<button
+			class="group flex h-full flex-grow flex-col items-center justify-center gap-2"
+			id="mobile-button"
+		>
+			<Icon name="mdi:menu" class="group-hover:text-accent-shade text-2xl" />
+			<span>Menu</span>
 		</button>
 	</li>
 </ul>
 
 <!-- Mobile Menu Content -->
-<div id="mobile-menu-content" class="fixed inset-0 z-[9999] hidden">
+<div id="mobile-menu-content" class="fixed inset-0 z-40 hidden">
 	<!-- Overlay that acts as close button too -->
 	<button
 		id="mobile-menu-overlay"
-		class="fixed inset-0 z-[88888] h-full w-full bg-background bg-opacity-50"
+		class="fixed inset-0 z-50 h-full w-full bg-[black] bg-opacity-50"
 		tabindex="-1"></button>
-	<div
-		class="divide-primary-shade fixed bottom-0 left-0 right-0 z-[999999] space-y-4 divide-y-2 bg-body p-4"
-	>
+	<!-- Content for Mobile -->
+	<div class="fixed bottom-0 left-0 right-0 z-50 space-y-4 divide-y-2 divide-highlight bg-body p-4">
 		<!-- Menu -->
 		<section class="space-y-4">
 			<span class="text-accent font-mono text-xl font-bold">Menu</span>
@@ -54,7 +56,7 @@ const { pageName } = Astro.props
 						<li>
 							<a
 								href={link.url}
-								class="flex flex-col items-center justify-center gap-2 rounded-lg bg-card p-4 text-base shadow-xl transition-colors duration-150"
+								class="group flex flex-col items-center justify-center gap-2 rounded-md bg-card p-4 text-base shadow-xl transition-colors duration-150 aria-[current=page]:bg-button-active aria-[current=page]:font-bold aria-[current=page]:text-button-text-active"
 								aria-current={pageName === link.url ? 'page' : 'false'}
 							>
 								<Icon name={link.icon} class="text-xl" />
@@ -68,7 +70,7 @@ const { pageName } = Astro.props
 		<!-- Settings -->
 		<section class="space-y-4 pt-2">
 			<span class="text-accent font-mono text-xl font-bold">Settings</span>
-			<ThemePicker client:idle transition:persist="theme-picker" />
+			<!-- <ThemePicker client:idle transition:persist="theme-picker" /> -->
 		</section>
 	</div>
 </div>
@@ -88,23 +90,11 @@ const { pageName } = Astro.props
 		const menuButton = document.querySelector('#mobile-button')
 
 		function setMode() {
-			if (!document.startViewTransition) {
-				if (open) {
-					mobileMenu.classList.remove('hidden')
-				} else {
-					mobileMenu.classList.add('hidden')
-				}
-
-				return
+			if (open) {
+				mobileMenu.classList.remove('hidden')
+			} else {
+				mobileMenu.classList.add('hidden')
 			}
-
-			document.startViewTransition(() => {
-				if (open) {
-					mobileMenu.classList.remove('hidden')
-				} else {
-					mobileMenu.classList.add('hidden')
-				}
-			})
 		}
 
 		menuButton?.addEventListener('click', () => {
