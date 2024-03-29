@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
+	import { settingsStore } from '$stores/settings-store'
 
-	const themes = ['dark', 'light', 'bee', 'light', 'light', 'dark']
+	const themes = ['dark', 'light']
 
 	let html: HTMLElement
 
@@ -18,16 +19,32 @@
 		if (!html) return
 		if (!themeString) return
 
-		html.dataset.theme = themeString
-
-		localStorage.setItem('theme', themeString)
+		$settingsStore.theme = themeString
 	}
+
+	function changeRounded(e) {
+		$settingsStore.rounded = !$settingsStore.rounded
+	}
+
+	$: Object.keys($settingsStore).forEach((setting) => {
+		// @ts-ignore
+		const value: string = $settingsStore[setting]
+
+		if (html) {
+			html.dataset[setting] = value
+		}
+	})
 
 	function toggleButton() {
 		hidden = !hidden
 	}
+
+	function closeViaKeyboard(e: KeyboardEvent) {
+		if (e.key === 'Escape') hidden = true
+	}
 </script>
 
+<svelte:body on:keydown={closeViaKeyboard} />
 <div class="md:relative">
 	<!-- Button for opening the options -->
 	<button
@@ -35,12 +52,15 @@
 		on:click={toggleButton}
 		class:animate-bounce={!hidden}
 		class:text-icon-hover={!hidden}
+		id="settings-menu"
+		aria-label="Settings Menu"
 	>
+		<span class="sr-only">Settings Menu</span>
 		<slot name="icon" />
 	</button>
 	<!-- Options -->
 	<div
-		class="bg-card md:border md:border-b-4 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-lg p-4 space-y-8 z-[70]"
+		class="bg-card md:border md:border-b-4 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-md p-4 space-y-8 z-[70]"
 		class:hidden
 	>
 		<!-- Theme -->
@@ -65,14 +85,33 @@
 		<section class="font-mono space-y-4">
 			<h4 class="font-heading tracking-wider text-lg font-bold">UI Settings</h4>
 			<ul>
-				<label class="flex items-center justify-between text-base">
-					Rounded
-					<input type="checkbox" />
-				</label>
+				<li>
+					<label class="flex items-center justify-between text-base">
+						Rounded
+						<input type="checkbox" bind:checked={$settingsStore.rounded} on:input={changeRounded} />
+					</label>
+				</li>
+				<li>
+					<label class="flex items-center justify-between text-base">
+						Transitions Off
+						<input
+							type="checkbox"
+							bind:checked={$settingsStore.allTransitionsOff}
+							on:input={() =>
+								($settingsStore.allTransitionsOff = !$settingsStore.allTransitionsOff)}
+						/>
+					</label>
+				</li>
 			</ul>
 		</section>
 	</div>
-</div>
 
-<button class="fixed bg-[black] inset-0 z-[60] bg-opacity-20" class:hidden on:click={toggleButton}
-></button>
+	<button
+		id="settings-overlay"
+		aria-label="overlay-for-settings"
+		tabindex="-1"
+		class="fixed bg-[black] inset-0 z-[60] bg-opacity-20"
+		class:hidden
+		on:click={toggleButton}
+	></button>
+</div>
