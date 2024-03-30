@@ -11,7 +11,7 @@ const { pageName } = Astro.props
 ---
 
 <!-- Mobile Navigation Bar -->
-<ul class="grid h-full w-full grid-cols-4 font-mono md:hidden">
+<ul class="grid h-full w-full grid-cols-4 md:hidden">
 	{
 		MobileLinks.map((link) => (
 			<li>
@@ -20,7 +20,9 @@ const { pageName } = Astro.props
 					class="group flex h-full cursor-pointer flex-col items-center justify-center gap-2 aria-[current=page]:bg-button-active aria-[current=page]:font-bold aria-[current=page]:text-button-text-active"
 					aria-current={pageName === link.url ? 'page' : 'false'}
 				>
-					<Icon name={link.icon} class="text-2xl" />
+					<div class="font-heading text-body">
+						<Icon name={link.icon} />
+					</div>
 					<span>{link.name}</span>
 				</a>
 			</li>
@@ -50,7 +52,7 @@ const { pageName } = Astro.props
 		<!-- Menu -->
 		<section class="space-y-4">
 			<span class="text-accent font-mono text-xl font-bold">Menu</span>
-			<ul class="grid grid-cols-3 grid-rows-2 gap-4 font-mono">
+			<ul class="grid grid-cols-3 grid-rows-2 gap-4">
 				{
 					Links.map((link) => (
 						<li>

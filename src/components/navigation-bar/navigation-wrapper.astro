@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro'
 import { Links } from './NavigationLinks'
-import MobileNavigationBar from './MobileNavigationBar.astro'
+import MobileNavigationBar from './mobile-navigation.astro'
 import StatusCard from '$components/StatusCard.svelte'
 import { Icon } from 'astro-icon/components'
 
@@ -13,7 +13,7 @@ const isCurrentPage = (url: string) => {
 ---
 
 <nav
-	class="fixed bottom-0 left-0 right-0 z-50 flex h-20 gap-4 border-t border-highlight bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x md:border-y-0 md:p-4"
+	class="fixed bottom-0 left-0 right-0 z-[100] flex h-20 gap-4 border-t border-highlight bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x md:border-y-0 md:bg-[transparent] md:p-4"
 >
 	<section class="hidden md:block">
 		<Logo />
@@ -83,19 +83,53 @@ const isCurrentPage = (url: string) => {
 		@apply animate-bounce;
 	}
 
-	section a:not([aria-current='page']):hover svg {
-		@apply text-icon-hover;
+	section a:not([aria-current='page']):hover {
+		background-color: var(--color-icon-hover);
+		@apply rounded-md;
+		color: var(--color-button-text-active);
+		transition: transform 0.4
+			linear(
+				0,
+				0.004,
+				0.016,
+				0.035,
+				0.063,
+				0.098,
+				0.141,
+				0.191,
+				0.25,
+				0.316,
+				0.391 36.8%,
+				0.563,
+				0.766,
+				1 58.8%,
+				0.946,
+				0.908 69.1%,
+				0.895,
+				0.885,
+				0.879,
+				0.878,
+				0.879,
+				0.885,
+				0.895,
+				0.908 89.7%,
+				0.946,
+				1
+			);
+	}
+
+	section a:not([aria-current='page']):active {
+		transform: scale(1.03);
 	}
 </style>
 
-<script is:inline data-astro-rerun>
+<script data-astro-rerun>
 	document.addEventListener('astro:before-preparation', (ev) => {
 		const originalLoader = ev.loader
 		const navElement = document.querySelector('nav')
-		const allLinkElements = navElement.querySelectorAll('a[aria-current]')
+		const allLinkElements = [...navElement.querySelectorAll('a[aria-current]')]
 		const linkArray = [...allLinkElements]
 
-		// console.log(ev)
 		if (!ev.sourceElement) return
 		if (!ev.sourceElement.hasAttribute('aria-current') || ev.to.href === ev.from.href) return
 
