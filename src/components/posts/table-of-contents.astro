@@ -30,14 +30,16 @@ const { headings } = Astro.props
 </section>
 
 <script data-astro-rerun is:inline>
-	const detailsElement = document.querySelector('details')
-	const tocLinks = detailsElement?.querySelectorAll('a')
+	document.addEventListener('astro:page-load', () => {
+		const detailsElement = document.querySelector('details')
+		const tocLinks = detailsElement?.querySelectorAll('a')
 
-	tocLinks?.forEach((link) => {
-		link.addEventListener('click', changeState)
+		tocLinks?.forEach((link) => {
+			link.addEventListener('click', changeState)
+		})
+
+		function changeState() {
+			detailsElement?.removeAttribute('open')
+		}
 	})
-
-	function changeState() {
-		detailsElement.removeAttribute('open')
-	}
 </script>
