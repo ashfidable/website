@@ -34,7 +34,7 @@ const { title } = Astro.props as Props
 	>
 		<NavigationBar />
 		<main class="flex h-full flex-grow flex-col gap-4 text-base md:border-r md:border-highlight">
-			<CommandBar />
+			<CommandBar transition:persist="commandbar" />
 			<div class="space-y-8 px-2 pb-4 pt-4 md:px-4 md:pt-0">
 				<slot />
 			</div>
