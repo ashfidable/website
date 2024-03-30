@@ -45,16 +45,18 @@ const { title } = Astro.props as Props
 					return JSON.parse(localStorage.getItem('settings'))
 				}
 
-				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+				if (window.matchMedia('(prefers-color-scheme: dark)')) {
 					return {
 						theme: 'dark',
-						codeTheme: 'default'
+						codeTheme: 'default',
+						rounded: 'on'
 					}
 				}
 
 				return {
 					theme: 'light',
-					codeTheme: 'default'
+					codeTheme: 'default',
+					rounded: 'on'
 				}
 			}
 
@@ -74,6 +76,25 @@ const { title } = Astro.props as Props
 
 			document.addEventListener('astro:page-load', () => {
 				setSettings()
+			})
+		</script>
+
+		<script is:inline>
+			document.addEventListener('astro:page-load', () => {
+				const click = new Audio('/audio/click.mp3')
+				const allLinkElements = document.querySelectorAll('a[href], button')
+
+				click.addEventListener('canplaythrough', () => {
+					allLinkElements.forEach((link) => {
+						link.addEventListener('click', playClick)
+					})
+				})
+
+				function playClick() {
+					click.volume = 0.4
+					click.currentTime = 0
+					click.play()
+				}
 			})
 		</script>
 	</body>

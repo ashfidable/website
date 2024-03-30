@@ -6,34 +6,30 @@ interface Settings {
 	rounded?: boolean
 }
 
-// Create the custom store
-function localStorageWritable<T>(key: string, initialValue: T) {
-	// Create a writable store
-	const store = writable(initialValue)
+function createSettingsStore() {
+	let initialValues = {
+		theme: 'dark',
+		codeTheme: 'default',
+		rounded: true
+	}
+	const store = writable<Settings>(initialValues)
 
 	const localStorageAvailable = typeof localStorage !== 'undefined'
-	const savedValue = localStorageAvailable ? localStorage.getItem(key) : null
 
-	if (savedValue !== null && localStorageAvailable) {
-		store.set(JSON.parse(savedValue))
+	const getValueFromLocalStorage = localStorageAvailable ? localStorage.getItem('settings') : null
+
+	if (getValueFromLocalStorage !== null && localStorageAvailable) {
+		const value = JSON.parse(getValueFromLocalStorage)
+		store.set(value)
 	}
 
-	if (savedValue === null && localStorageAvailable) {
-		store.set(JSON.parse(JSON.stringify(initialValue)))
-	}
-
-	// Subscribe to changes and save to local storage
 	store.subscribe((value) => {
 		if (localStorageAvailable) {
-			localStorage.setItem(key, JSON.stringify(value))
+			localStorage.setItem('settings', JSON.stringify(value))
 		}
 	})
 
 	return store
 }
 
-export const settingsStore = localStorageWritable<Settings>('settings', {
-	theme: 'dark',
-	codeTheme: 'default',
-	rounded: true
-})
+export const settingsStore = createSettingsStore()
