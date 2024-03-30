@@ -62,6 +62,9 @@ module.exports = {
 			animation: {
 				wave: 'wave-animation 2.5s linear infinite'
 			},
+			borderRadius: {
+				md: 'var(--rounded-radius)'
+			},
 			colors: {
 				cyan: colors.cyan,
 				violet: colors.violet
