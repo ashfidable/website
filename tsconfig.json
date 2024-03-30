@@ -8,7 +8,6 @@
 			"$styles/*": ["src/styles/*"],
 			"$layouts/*": ["src/components/layouts/*"],
 			"$assets/*": ["src/assets/*"],
-			"$scripts/*": ["src/scripts/*"],
 			"$utils/*": ["src/utils/*"],
 			"$stores/*": ["src/stores/*"]
 		}
