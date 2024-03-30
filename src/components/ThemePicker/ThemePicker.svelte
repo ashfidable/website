@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte'
 	import { settingsStore } from '$stores/settings-store'
+	import Button from '$components/button.svelte'
 
 	const themes = ['dark', 'light']
 
@@ -19,7 +20,7 @@
 		if (!html) return
 		if (!themeString) return
 
-		$settingsStore.theme = themeString
+		$settingsStore = { ...$settingsStore, theme: themeString }
 	}
 
 	function changeRounded(e) {
@@ -40,24 +41,21 @@
 	}
 
 	function closeViaKeyboard(e: KeyboardEvent) {
-		if (e.key === 'Escape') hidden = true
+		if (e.key === 'Escape' && !hidden) {
+			hidden = true
+		}
 	}
 </script>
 
 <svelte:body on:keydown={closeViaKeyboard} />
 <div class="md:relative">
 	<!-- Button for opening the options -->
-	<button
-		class="md:block hidden text-2xl md:relative z-[70]"
-		on:click={toggleButton}
-		class:animate-bounce={!hidden}
-		class:text-icon-hover={!hidden}
-		id="settings-menu"
-		aria-label="Settings Menu"
-	>
-		<span class="sr-only">Settings Menu</span>
-		<slot name="icon" />
-	</button>
+	<Button onclick={() => toggleButton()}>
+		<div class:animate-bounce={!hidden} class="text-2xl">
+			<span class="sr-only">Settings Menu</span>
+			<slot name="icon" />
+		</div>
+	</Button>
 	<!-- Options -->
 	<div
 		class="bg-card md:border md:border-b-4 md:border-highlight md:absolute md:right-0 mt-6 md:w-72 rounded-md p-4 space-y-8 z-[70]"
@@ -91,17 +89,6 @@
 						<input type="checkbox" bind:checked={$settingsStore.rounded} on:input={changeRounded} />
 					</label>
 				</li>
-				<li>
-					<label class="flex items-center justify-between text-base">
-						Transitions Off
-						<input
-							type="checkbox"
-							bind:checked={$settingsStore.allTransitionsOff}
-							on:input={() =>
-								($settingsStore.allTransitionsOff = !$settingsStore.allTransitionsOff)}
-						/>
-					</label>
-				</li>
 			</ul>
 		</section>
 	</div>
@@ -110,7 +97,7 @@
 		id="settings-overlay"
 		aria-label="overlay-for-settings"
 		tabindex="-1"
-		class="fixed bg-[black] inset-0 z-[60] bg-opacity-20"
+		class="fixed bg-[black] inset-0 z-[60] bg-opacity-40 backdrop-blur-sm"
 		class:hidden
 		on:click={toggleButton}
 	></button>
