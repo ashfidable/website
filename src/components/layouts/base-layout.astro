@@ -4,7 +4,7 @@ import '@fontsource/inter'
 import '@fontsource-variable/raleway'
 import '$styles/globals.css'
 
-import NavigationBar from '$components/navigation-bar/NavigationBar.astro'
+import NavigationBar from '$components/navigation-bar/navigation-wrapper.astro'
 import CommandBar from '$components/command-palette/CommandBar.astro'
 interface Props {
 	title: string
@@ -68,7 +68,11 @@ const { title } = Astro.props as Props
 
 			setSettings()
 
-			document.addEventListener('astro:before-swap', () => {
+			document.addEventListener('astro:after-swap', () => {
+				setSettings()
+			})
+
+			document.addEventListener('astro:page-load', () => {
 				setSettings()
 			})
 		</script>
