@@ -1,80 +1,20 @@
 <script lang="ts">
-	import { navigate } from 'astro:transitions/client'
-	import { settingsStore } from '$stores/settings-store'
+	import { commandsStore, type CommandProps } from '$stores/commands-store'
 	import Fuse from 'fuse.js'
 	import { onMount, tick } from 'svelte'
-	import { fade } from 'svelte/transition'
-
-	interface CommandProps {
-		id: number
-		title: string
-		emoji: string
-		run: () => void
-		category: string
-	}
+	import Button from '$components/button.svelte'
 
 	let isOpen = false
-	let searchBar: HTMLInputElement
 
-	let commands: CommandProps[] = [
-		{
-			id: 1,
-			title: 'Go to Snippets',
-			emoji: '📃',
-			run: () => {
-				isOpen = false
-				setTimeout(() => {
-					navigate('/snippets')
-				}, 10)
-			},
-			category: 'Page'
-		},
-		{
-			id: 2,
-			title: 'Fly to Blog',
-			emoji: '📃',
-			run: () => {
-				isOpen = false
-				setTimeout(() => {
-					navigate('/blog')
-				}, 10)
-			},
-			category: 'Page'
-		},
-		{
-			id: 3,
-			title: 'Head to Uses',
-			emoji: '📃',
-			run: () => {
-				isOpen = false
-				setTimeout(() => {
-					navigate('/uses')
-				}, 10)
-			},
-			category: 'Page'
-		},
-		{
-			id: 4,
-			title: `Toggle Theme`,
-			emoji: '🔨',
-			run: () => {
-				isOpen = false
-				if ($settingsStore.theme === 'light') {
-					$settingsStore.theme = 'dark'
-				} else {
-					$settingsStore.theme = 'light'
-				}
-			},
-			category: 'Settings'
-		}
-	]
+	let commands: CommandProps[] = $commandsStore
 
-	const fuseInstance = new Fuse(commands, {
+	const fuseInstance = new Fuse($commandsStore, {
 		keys: ['title'],
 		shouldSort: true
 	})
 
-	let searchTerm = ''
+	let searchTerm: string = ''
+	let commandDelayTimeout: number
 
 	let firstTab: HTMLElement
 	let lastTab: HTMLElement
@@ -83,44 +23,57 @@
 	let commandButtons: HTMLButtonElement[] = []
 	let hoverIndex = 0
 	let selectedCommand: HTMLButtonElement
+	let searchBar: HTMLInputElement
+
+	let results: CommandProps[]
+	let filteredCommands: Record<string, CommandProps[]> = {}
 
 	$: searches = fuseInstance.search(searchTerm)
 
-	$: results =
-		searches.length > 0
-			? searches.map((res) => {
-					return {
-						id: res.item.id,
-						title: res.item.title,
-						run: res.item.run,
-						emoji: res.item.emoji,
-						category: res.item.category
-					}
-			  })
-			: commands
-
-	let filteredCommands: Record<string, CommandProps[]> = {}
+	$: {
+		results =
+			searches.length > 0
+				? searches.map((res) => {
+						return {
+							id: res.item.id,
+							title: res.item.title,
+							run: res.item.run,
+							emoji: res.item.emoji,
+							category: res.item.category
+						}
+				  })
+				: commands
+	}
 
 	$: {
 		filteredCommands = {}
+
 		for (const command of results) {
 			if (!filteredCommands[command.category]) {
 				filteredCommands[command.category] = []
 			}
 			filteredCommands[command.category].push(command)
 		}
-
-		if (dialog) commandButtons = [...dialog?.querySelectorAll('button')]
 	}
 
-	$: if (searchTerm) hoverIndex = 0
+	$: if (searchTerm === '' || searchTerm) {
+		hoverIndex = 0
+	}
 
 	$: selectedCommand ? switchSelectedCommand(commandButtons[hoverIndex]) : null
+
+	$: selectedCommand?.scrollIntoView(false)
 
 	const init = () => {
 		const focusables = dialog.querySelectorAll(
 			'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
 		)
+
+		if (dialog && results.length > 0) {
+			setTimeout(() => {
+				commandButtons = [...dialog.querySelectorAll('button')]
+			}, 1)
+		}
 
 		firstTab = focusables[0] as HTMLElement
 		lastTab = focusables[focusables.length - 1] as HTMLElement
@@ -158,6 +111,7 @@
 			searchBar.focus()
 			hoverIndex = 0
 			switchSelectedCommand(commandButtons[hoverIndex])
+			searchTerm = ''
 		}
 	}
 
@@ -169,6 +123,7 @@
 				searchBar.focus()
 				hoverIndex = 0
 				switchSelectedCommand(commandButtons[hoverIndex])
+				searchTerm = ''
 			}
 		}
 
@@ -186,7 +141,18 @@
 
 		const command = commands.find((action) => action.id === getCommandId)
 
-		command?.run()
+		if (!command) return
+
+		isOpen = false
+
+		if (command.delay) {
+			clearTimeout(commandDelayTimeout)
+			commandDelayTimeout = setTimeout(() => {
+				command.run()
+			}, command.delay)
+		} else {
+			command.run()
+		}
 	}
 
 	const cycleThroughCommands = (e: KeyboardEvent) => {
@@ -198,10 +164,14 @@
 		} else if (e.key === 'Enter' && selectedCommand) {
 			selectedCommand.click()
 		}
+
+		selectedCommand?.scrollIntoView(false)
 	}
 
 	onMount(() => {
 		init()
+
+		if (dialog) commandButtons = [...dialog?.querySelectorAll('button')]
 
 		hoverIndex = 0
 		switchSelectedCommand(commandButtons[hoverIndex])
@@ -210,14 +180,12 @@
 
 <svelte:body on:keydown={keyboardShortcuts} />
 
-<button
-	class="rounded-md bg-button-active p-1 px-2 font-bold text-button-text-active flex gap-2 items-center font-heading tracking-wide"
-	on:click={setOpen}
-	>Command Palette
-	<div class="p-1 rounded-md bg-body text-body flex gap-2">
-		<span>⌘</span><span>L</span>
+<Button onclick={setOpen}>
+	Command Palette
+	<div class="p-1 px-2 rounded-md bg-body text-body flex gap-2">
+		<span>⌘</span><span>/</span>
 	</div>
-</button>
+</Button>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
@@ -226,20 +194,26 @@
 	bind:this={dialog}
 	on:keydown={tabTrapFocus}
 	on:keydown={cycleThroughCommands}
-	transition:fade
 >
 	<div class="space-y-4">
 		<!-- Search Box -->
 		<input
 			id="command-palette-input"
-			class="text-sm w-full p-1 focus:outline-0 focus:border-highlight-hover rounded-md border border-[transparent]"
+			class="text-sm w-full p-1 focus:outline-0 focus:border-highlight-hover rounded-md border-b border-[transparent] bg-input"
 			bind:value={searchTerm}
 			bind:this={searchBar}
 			autocomplete="off"
+			on:input={(e) => {
+				if (dialog && results.length > 0) {
+					setTimeout(() => {
+						commandButtons = [...dialog.querySelectorAll('button')]
+					}, 1)
+				}
+			}}
 		/>
 		<!-- Content Box -->
-		<ul class="space-y-2 h-96 overflow-y-auto text-sm font-heading">
-			<!-- {#each results as result, i}
+		<!-- <ul class="space-y-2 h-96 overflow-y-auto text-sm font-heading">
+			{#each results as result, i}
 				<li>
 					<button
 						on:click={run}
@@ -251,16 +225,18 @@
 						<span>{result.title}</span>
 					</button>
 				</li>
-			{/each} -->
+			{/each}
+		</ul> -->
+		<div class="h-72 overflow-y-auto space-y-2">
 			{#each Object.keys(filteredCommands) as command, i}
 				<section class="space-y-2">
 					<h4 class="font-bold">{command}</h4>
 					<ul class="space-y-2">
-						{#each filteredCommands[command] as cmd, index}
+						{#each filteredCommands[command] as cmd}
 							<li>
 								<button
 									on:click={run}
-									class=" w-full p-2 data-[highlight]:bg-button-active data-[highlight]:text-button-text-active bg-card rounded-md hover:bg-button-hover hover:text-button-text-active data-[highlight]:font-bold group transition-colors duration-75 ease-in-out"
+									class=" w-full p-2 data-[highlight]:bg-button-active data-[highlight]:text-button-text-active bg-card rounded-md hover:bg-button-hover hover:text-button-text-active data-[highlight]:font-bold group"
 									data-action-id={cmd.id}
 								>
 									<span class="group-data-[highlight]:ml-2 flex gap-4 items-center">
@@ -273,12 +249,12 @@
 					</ul>
 				</section>
 			{/each}
-		</ul>
+		</div>
 	</div>
 </dialog>
 
 <button
-	class="fixed inset-0 bg-[black] bg-opacity-70 z-[90]"
+	class="fixed inset-0 bg-[black] bg-opacity-40 backdrop-blur-sm z-[60]"
 	class:hidden={!isOpen}
 	tabindex="-1"
 	on:click={setOpen}
