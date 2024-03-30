@@ -4,7 +4,6 @@ interface Settings {
 	theme: string
 	codeTheme?: string
 	rounded?: boolean
-	allTransitionsOff?: boolean
 }
 
 // Create the custom store
@@ -36,6 +35,5 @@ function localStorageWritable<T>(key: string, initialValue: T) {
 export const settingsStore = localStorageWritable<Settings>('settings', {
 	theme: 'dark',
 	codeTheme: 'default',
-	rounded: true,
-	allTransitionsOff: false
+	rounded: true
 })
