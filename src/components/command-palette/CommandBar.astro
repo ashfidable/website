@@ -5,11 +5,36 @@ import { Icon } from 'astro-icon/components'
 ---
 
 <div
-	class="hidden items-center justify-between border-b-highlight bg-card p-2 px-4 text-sm md:flex md:border-b-2"
+	class="hidden items-center justify-between border-b-highlight bg-card p-2 px-4 text-sm transition-colors duration-200 ease-in-out md:flex md:border-b-2"
 >
 	<CommandPalette client:visible />
 
-	<ThemePicker client:visible transition:animate="none">
+	<ThemePicker client:visible>
 		<Icon name="ri:settings-4-line" slot="icon" />
 	</ThemePicker>
 </div>
+
+<script>
+	import { navigate } from 'astro:transitions/client'
+	import { commandsStore } from '$stores/commands-store'
+
+	const res = await fetch('/api/posts.json')
+	const data = await res.json()
+
+	const allSnippets = await data
+
+	let index = 80
+	allSnippets.forEach((snippet) => {
+		commandsStore.addCommand({
+			id: index,
+			title: `Go to ${snippet.data.title}`,
+			emoji: '🔗',
+			delay: 10,
+			run: () => {
+				navigate(`/snippets/${snippet.slug}`)
+			},
+			category: 'Pages'
+		})
+		index++
+	})
+</script>
