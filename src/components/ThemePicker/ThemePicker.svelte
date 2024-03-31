@@ -3,7 +3,7 @@
 	import { settingsStore } from '$stores/settings-store'
 	import Button from '$components/button.svelte'
 
-	const themes = ['dark', 'light']
+	const themes = ['dark', 'light', 'bubblegum']
 
 	let html: HTMLElement
 
