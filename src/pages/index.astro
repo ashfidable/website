@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content'
 import SectionHeading from '$components/SectionHeading.astro'
 import HeroSection from '$components/IndexHeroSection.astro'
 import BaseLayout from '$layouts/base-layout.astro'
+import BlogCard from '$components/cards/blog-card.astro'
 
 const skills = await getCollection('skills')
 
@@ -17,13 +18,10 @@ const snippets = await getCollection('snippets')
 	<!-- Featured Posts (New!) -->
 	<section id="latest-posts" class="space-y-4">
 		<SectionHeading title="Latest Posts" />
-		<div class="clam grid grid-cols-1 gap-1">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar erat imperdiet felis
-			porta, nec porta eros cursus. Proin ut pharetra eros. Etiam sit amet efficitur elit. Donec et
-			nibh vel magna volutpat fringilla dignissim id mi. Donec venenatis, justo ullamcorper lacinia
-			mattis, turpis lorem sodales neque, in interdum eros dui eu dui. Fusce sit amet nisl neque.
-			Sed vel nisi mollis, consequat turpis in, lacinia turpis. Curabitur luctus aliquet finibus.
-			Vivamus congue volutpat tellus vitae interdum.
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+			<BlogCard title="Hello World" />
+			<BlogCard title="Long title here, Bee. Please help me. I don't even have kids anymore." />
+			<BlogCard title="W" />
 		</div>
 	</section>
 
