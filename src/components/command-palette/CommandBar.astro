@@ -10,7 +10,7 @@ const snippets = await getCollection('snippets')
 <div
 	class="hidden items-center justify-between border-b-highlight bg-card p-2 px-4 text-sm md:flex md:border-b-2"
 >
-	<CommandPalette snippets={snippets} client:visible />
+	<CommandPalette client:idle />
 
 	<ThemePicker client:visible>
 		<Icon name="ri:settings-4-line" slot="icon" />
@@ -26,10 +26,8 @@ const snippets = await getCollection('snippets')
 
 	const allSnippets = data
 
-	let index = 80
 	allSnippets.forEach((snippet: any) => {
 		commandsStore.addCommand({
-			id: index,
 			title: `Go to ${snippet.data.title}`,
 			emoji: '🔗',
 			delay: 10,
@@ -38,8 +36,5 @@ const snippets = await getCollection('snippets')
 			},
 			category: 'Pages'
 		})
-		index++
 	})
-
-	console.log('Mounted')
 </script>
