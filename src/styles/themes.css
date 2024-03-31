@@ -1,7 +1,6 @@
 :root {
 	/* Fonts */
 	--font-heading: 'Raleway Variable', system-ui, sans-serif;
-	--font-heading: system-ui, sans-serif;
 	--rounded-radius: 0.375rem;
 
 	--ease: linear(
@@ -63,6 +62,67 @@
 	--color-heading-text: hsl(189, 94%, 48%);
 	--color-heading-text-hover: hsl(189, 94%, 53%);
 	--color-body-text: hsl(255, 22%, 90%);
+
+	/* Gradients */
+	--color-gradient-from: hsl(188, 95%, 50%);
+	--color-gradient-to: hsl(197, 84%, 51%);
+
+	/* Input */
+	--color-input-background: hsl(255, 22%, 20%);
+	--color-input-ring-normal: hsl(255, 22%, 20%);
+	--color-input-ring-focus: hsl(189, 94%, 53%);
+
+	/* Buttons */
+	--color-button-normal: hsl(189, 94%, 50%);
+	--color-button-active: hsl(189, 94%, 48%);
+	--color-button-hover: hsl(188, 86%, 53%);
+	--color-button-text-active: hsl(189, 94%, 12%);
+
+	/* Cards */
+	--color-card-date-text: hsl(188, 86%, 53%);
+
+	/* Icons */
+	--color-icon: hsl(255, 22%, 85%);
+	--color-icon-hover: hsl(188, 86%, 53%);
+
+	/* Blockquotes */
+	--color-blockquote-indicator: hsl(189, 94%, 53%);
+	--color-blockquote-background: hsla(189, 94%, 53%, 0.5);
+	--color-blockquote-text: hsl(0, 0%, 95%);
+
+	/* Spotify */
+	--color-spotify-progress: hsl(188, 86%, 53%);
+	--color-spotify-progress-background: hsl(255, 22%, 20%);
+
+	/* Code */
+	--color-code-background: hsl(255, 22%, 20%);
+}
+
+[data-theme='bubblegum'] {
+	/* Colors */
+	color-scheme: dark;
+
+	/* Primary Colors: Displaying on Theme Picker */
+	--color-theme-primary: hsl(255, 22%, 10%);
+	--color-theme-secondary: hsl(36, 94%, 53%);
+
+	/* Links */
+	--color-link: hsl(36, 90%, 52%);
+	--color-link-hover: hsl(24, 95%, 50%);
+
+	/* Background Colors */
+	--color-background: hsl(185, 63%, 51%);
+	--color-background-body: hsl(185, 63%, 90%);
+	--color-background-card: hsl(185, 63%, 90%);
+
+	/* Borders */
+	--color-border-highlight: hsl(202, 99%, 42%);
+	--color-border-highlight-hover: hsl(261, 93%, 47%);
+
+	/* Text  */
+	--color-heading-text: hsl(189, 94%, 48%);
+	--color-heading-text-hover: hsl(189, 94%, 53%);
+	--color-body-text: hsl(0, 0%, 0%);
 
 	/* Gradients */
 	--color-gradient-from: hsl(188, 95%, 50%);

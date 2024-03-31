@@ -3,26 +3,25 @@
 @tailwind base;
 @tailwind components;
 
-html {
-	font-family: system-ui, sans-serif;
-}
+@layer base {
+	html {
+		font-family: system-ui, sans-serif;
+		background: var(--color-background);
+	}
 
-html {
-	background: var(--color-background);
-}
+	html,
+	body {
+		min-height: 100%;
+	}
 
-html,
-body {
-	min-height: 100%;
-}
+	html {
+		scrollbar-gutter: stable;
+	}
 
-html {
-	scrollbar-gutter: stable;
-}
-
-code {
-	background-color: var(--color-code-background);
-	@apply rounded-md px-2;
+	code {
+		background-color: var(--color-code-background);
+		@apply rounded-md px-2;
+	}
 }
 
 @layer components {
@@ -36,12 +35,13 @@ code {
 		font-weight: 900;
 		-webkit-background-clip: text;
 		background-clip: text;
-		background-color: #0093e9;
-		background-size: 100%;
+		background-color: var(--color-gradient-from);
+		background-size: 200%;
 		background-image: linear-gradient(
 			90.2deg,
-			var(--color-gradient-from) 0.3%,
-			var(--color-gradient-to) 99.8%
+			var(--color-gradient-from),
+			var(--color-gradient-to),
+			var(--color-gradient-from)
 		);
 	}
 
