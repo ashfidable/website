@@ -14,7 +14,6 @@ html {
 html,
 body {
 	min-height: 100%;
-	transition: background-color 0.2s ease-in-out;
 }
 
 html {
@@ -24,20 +23,6 @@ html {
 code {
 	background-color: var(--color-code-background);
 	@apply rounded-md px-2;
-}
-
-::view-transition-group(*) {
-	position: absolute;
-	top: 0;
-	left: 0;
-
-	animation-duration: 0.25s;
-	animation-fill-mode: both;
-}
-
-[data-all-transitions-off='true']::view-transition-group(*) {
-	animation: none !important;
-	transition: none !important;
 }
 
 @layer components {

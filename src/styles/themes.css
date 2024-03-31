@@ -1,6 +1,7 @@
 :root {
 	/* Fonts */
 	--font-heading: 'Raleway Variable', system-ui, sans-serif;
+	--font-heading: system-ui, sans-serif;
 	--rounded-radius: 0.375rem;
 
 	--ease: linear(
@@ -52,7 +53,7 @@
 	/* Background Colors */
 	--color-background: hsl(255, 22%, 10%);
 	--color-background-body: hsl(255, 22%, 5%);
-	--color-background-card: hsl(255, 22%, 10%);
+	--color-background-card: hsl(256, 22%, 10%);
 
 	/* Borders */
 	--color-border-highlight: hsl(255, 22%, 20%);
@@ -119,12 +120,14 @@
 	--color-heading-text: hsl(265, 91%, 35%);
 	--color-heading-text-hover: hsl(265, 91%, 45%);
 	--color-body-text: hsl(0, 0%, 8%);
-	--color-card-date-text: hsl(265, 91%, 20%);
 	--color-blockquote-text: hsl(0, 0%, 100%);
 
 	/* Gradients */
 	--color-gradient-from: hsl(265, 91%, 55%);
 	--color-gradient-to: hsl(265, 91%, 65%);
+
+	/* Cards */
+	--color-card-date-text: hsl(265, 91%, 20%);
 
 	/* Input */
 	--color-input-background: hsl(0, 0%, 98%);
@@ -165,6 +168,7 @@
 		rgba(111, 22, 190, 1) 88.2%
 	);
 	--color-category-text: white;
+	--color-card-date-text: rgba(221, 22, 224, 1);
 }
 
 [data-type='tool'] {
