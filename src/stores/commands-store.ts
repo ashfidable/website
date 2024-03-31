@@ -3,7 +3,7 @@ import { settingsStore } from './settings-store'
 import { navigate } from 'astro:transitions/client'
 
 export type CommandProps = {
-	id: number
+	id?: number
 	title: string
 	emoji: string
 	run: () => void
@@ -72,9 +72,13 @@ function createCommandsStore() {
 			const isDuplicateCommand = commands.find((command) => command.id === newCommand.id)
 
 			if (isDuplicateCommand) {
-				console.log("It's a duplicate command")
+				console.log('Duplicate', isDuplicateCommand.title)
 				return [...commands]
 			}
+
+			let maxId = Math.max(...commands.map((item) => item.id ?? 0))
+			newCommand.id = maxId + 1
+
 			return [...commands, newCommand]
 		})
 	}
