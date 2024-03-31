@@ -1,36 +1,36 @@
 {
-  "name": "ashfid.com",
-  "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/mdx": "^2.2.2",
-    "@astrojs/svelte": "^5.2.0",
-    "@astrojs/tailwind": "^5.1.0",
-    "@fontsource-variable/raleway": "^5.0.17",
-    "@fontsource/inter": "^5.0.8",
-    "@iconify-json/devicon-plain": "^1.1.34",
-    "@iconify-json/file-icons": "^1.1.8",
-    "@iconify-json/logos": "^1.1.42",
-    "@iconify-json/mdi": "^1.1.64",
-    "@iconify-json/ri": "^1.1.20",
-    "@iconify-json/svg-spinners": "^1.1.2",
-    "astro": "^4.5.10",
-    "astro-expressive-code": "^0.33.5",
-    "astro-icon": "^1.1.0",
-    "fuse.js": "^7.0.0",
-    "sharp": "^0.33.2",
-    "svelte": "^4.2.1",
-    "svelte-lanyard": "^1.0.2",
-    "tailwindcss": "^3.3.3"
-  },
-  "devDependencies": {
-    "prettier": "^3.0.3",
-    "prettier-plugin-astro": "^0.12.0",
-    "prettier-plugin-tailwindcss": "^0.5.5"
-  }
+	"name": "ashfid.com",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/mdx": "^2.2.2",
+		"@astrojs/svelte": "^5.2.0",
+		"@astrojs/tailwind": "^5.1.0",
+		"@fontsource-variable/raleway": "^5.0.17",
+		"@fontsource/inter": "^5.0.8",
+		"@iconify-json/devicon-plain": "^1.1.34",
+		"@iconify-json/file-icons": "^1.1.8",
+		"@iconify-json/logos": "^1.1.42",
+		"@iconify-json/mdi": "^1.1.64",
+		"@iconify-json/ri": "^1.1.20",
+		"@iconify-json/svg-spinners": "^1.1.2",
+		"astro": "^4.5.10",
+		"astro-expressive-code": "^0.33.5",
+		"astro-icon": "^1.1.0",
+		"fuse.js": "^7.0.0",
+		"sharp": "^0.33.2",
+		"svelte": "^4.2.1",
+		"svelte-lanyard": "^1.0.2",
+		"tailwindcss": "^3.3.3"
+	},
+	"devDependencies": {
+		"prettier": "^3.0.3",
+		"prettier-plugin-astro": "^0.12.0",
+		"prettier-plugin-tailwindcss": "^0.5.5"
+	}
 }
