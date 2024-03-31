@@ -72,7 +72,6 @@ function createCommandsStore() {
 			const isDuplicateCommand = commands.find((command) => command.id === newCommand.id)
 
 			if (isDuplicateCommand) {
-				console.log('Duplicate', isDuplicateCommand.title)
 				return [...commands]
 			}
 

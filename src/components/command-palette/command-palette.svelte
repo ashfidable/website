@@ -76,8 +76,6 @@
 			}, 1)
 		}
 
-		console.log('Mounted')
-
 		firstTab = focusables[0] as HTMLElement
 		lastTab = focusables[focusables.length - 1] as HTMLElement
 	}
