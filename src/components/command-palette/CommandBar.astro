@@ -28,7 +28,7 @@ const snippets = await getCollection('snippets')
 
 	allSnippets.forEach((snippet: any) => {
 		commandsStore.addCommand({
-			title: `Go to ${snippet.data.title}`,
+			title: `Go to ${snippet.title}`,
 			emoji: '🔗',
 			delay: 10,
 			run: () => {
