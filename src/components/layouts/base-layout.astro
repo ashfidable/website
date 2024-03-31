@@ -40,10 +40,10 @@ const { title } = Astro.props as Props
 			</div>
 		</main>
 
-		<!-- <script is:inline>
-			if (!document.startViewTransition) {
-				const click = new Audio('/audio/click.mp3')
-				const allLinkElements = document.querySelectorAll('a[href], button')
+		<script is:inline>
+			document.addEventListener('astro:page-load', (ev) => {
+				const click = new Audio('/audio/clicky.mp3')
+				const allLinkElements = document.querySelectorAll('nav a[href]')
 
 				click.addEventListener('canplaythrough', () => {
 					allLinkElements.forEach((link) => {
@@ -52,36 +52,21 @@ const { title } = Astro.props as Props
 				})
 
 				function playClick() {
-					click.volume = 0.4
-					click.currentTime = 0
-					click.play()
-				}
-			}
-			document.addEventListener('astro:page-load', () => {
-				const click = new Audio('/audio/click.mp3')
-				const allLinkElements = document.querySelectorAll('a[href], button')
-
-				click.addEventListener('canplaythrough', () => {
-					allLinkElements.forEach((link) => {
-						link.addEventListener('click', playClick)
-					})
-				})
-
-				function playClick() {
-					click.volume = 0.4
+					click.volume = 0.2
 					click.currentTime = 0
 					click.play()
 				}
 			})
-		</script> -->
+		</script>
 
-		<script is:inline data-astro-rerun>
+		<script is:inline>
 			function getSettings() {
 				if (typeof localStorage !== undefined && localStorage.getItem('settings')) {
 					return JSON.parse(localStorage.getItem('settings'))
 				}
 
 				if (window.matchMedia('(prefers-color-scheme: dark)')) {
+					console.log('I got dark')
 					return {
 						theme: 'dark',
 						codeTheme: 'default',
@@ -96,8 +81,8 @@ const { title } = Astro.props as Props
 				}
 			}
 
-			function setSettings() {
-				const element = document.documentElement
+			function setSettings(newDocument) {
+				const element = newDocument.documentElement
 
 				Object.keys(getSettings()).map((key) => {
 					const value = getSettings()[key]
@@ -108,14 +93,13 @@ const { title } = Astro.props as Props
 				localStorage.setItem('settings', JSON.stringify(getSettings()))
 			}
 
-			setSettings()
-			document.addEventListener('astro:after-swap', () => {
-				setSettings()
-			})
+			setSettings(document)
 
-			if (!document.startViewTransition) {
-				setSettings()
-			}
+			document.addEventListener('astro:before-swap', (ev) => {
+				if (localStorage.getItem('settings')) {
+					setSettings(ev.newDocument)
+				}
+			})
 		</script>
 	</body>
 </html>
