@@ -97,7 +97,7 @@
 		id="settings-overlay"
 		aria-label="overlay-for-settings"
 		tabindex="-1"
-		class="fixed bg-[black] inset-0 z-[60] bg-opacity-40 backdrop-blur-sm"
+		class="fixed bg-[black] top-0 left-0 w-full h-full z-[60] bg-opacity-40 backdrop-blur-sm"
 		class:hidden
 		on:click={toggleButton}
 	></button>

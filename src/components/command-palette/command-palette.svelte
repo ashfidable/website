@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { commandsStore, type CommandProps } from '$stores/commands-store'
 	import Fuse from 'fuse.js'
+
 	import { onMount, tick } from 'svelte'
 	import Button from '$components/button.svelte'
+
+	export let snippets = []
 
 	let isOpen = false
 
@@ -168,7 +171,7 @@
 		selectedCommand?.scrollIntoView(false)
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		init()
 
 		if (dialog) commandButtons = [...dialog?.querySelectorAll('button')]
@@ -181,7 +184,7 @@
 <svelte:body on:keydown={keyboardShortcuts} />
 
 <Button onclick={setOpen}>
-	Command Palette
+	<span>Command Palette</span>
 	<div class="p-1 px-2 rounded-md bg-body text-body flex gap-2">
 		<span>⌘</span><span>/</span>
 	</div>
@@ -199,7 +202,7 @@
 		<!-- Search Box -->
 		<input
 			id="command-palette-input"
-			class="text-sm w-full p-1 focus:outline-0 focus:border-highlight-hover rounded-md border-b border-[transparent] bg-input"
+			class="text-sm w-full p-1 focus:outline-0 focus:border-highlight-hover rounded-md border-b border-[transparent] bg-input focus:ring-0"
 			bind:value={searchTerm}
 			bind:this={searchBar}
 			autocomplete="off"
@@ -254,7 +257,7 @@
 </dialog>
 
 <button
-	class="fixed inset-0 bg-[black] bg-opacity-40 backdrop-blur-sm z-[60]"
+	class="fixed top-0 left-0 w-full h-full bg-[black] bg-opacity-40 z-[60] backdrop-blur-sm"
 	class:hidden={!isOpen}
 	tabindex="-1"
 	on:click={setOpen}
