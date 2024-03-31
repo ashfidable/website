@@ -5,8 +5,6 @@
 	import { onMount, tick } from 'svelte'
 	import Button from '$components/button.svelte'
 
-	export let snippets = []
-
 	let isOpen = false
 
 	let commands: CommandProps[] = $commandsStore
@@ -77,6 +75,8 @@
 				commandButtons = [...dialog.querySelectorAll('button')]
 			}, 1)
 		}
+
+		console.log('Mounted')
 
 		firstTab = focusables[0] as HTMLElement
 		lastTab = focusables[focusables.length - 1] as HTMLElement
