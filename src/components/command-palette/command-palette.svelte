@@ -183,8 +183,8 @@
 
 <Button onclick={setOpen}>
 	<span>Command Palette</span>
-	<div class="p-1 px-2 rounded-md bg-body text-body flex gap-2">
-		<span>⌘</span><span>/</span>
+	<div class="p-1 px-2 rounded-md bg-body flex gap-2">
+		<span>CTRL</span><span>/</span>
 	</div>
 </Button>
 
