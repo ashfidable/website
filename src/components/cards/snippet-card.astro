@@ -16,7 +16,7 @@ const category = await getEntry(snippet.data.category)
 <a
 	href={`/snippets/${snippet?.slug}`}
 	data-type={category?.data.name.toLowerCase()}
-	class="group flex items-center justify-between gap-4 rounded-md border-x border-b-2 border-t border-highlight bg-card p-4 text-base hover:border-b-category-highlight"
+	class="group flex items-center justify-between gap-4 rounded-md border-x border-b-2 border-t border-highlight bg-card p-4 text-base transition-colors duration-100 ease-in-out hover:border-b-category-highlight"
 	transition:name={snippet.data.title}
 >
 	<div class="flex items-center gap-2">
