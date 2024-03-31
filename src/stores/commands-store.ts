@@ -67,10 +67,33 @@ let initialCommands: CommandProps[] = [
 function createCommandsStore() {
 	const { subscribe, set, update } = writable<CommandProps[]>(initialCommands)
 
+	function addCommand(newCommand: CommandProps) {
+		update((commands) => {
+			const isDuplicateCommand = commands.find((command) => command.id === newCommand.id)
+
+			if (isDuplicateCommand) {
+				console.log("It's a duplicate command")
+				return [...commands]
+			}
+			return [...commands, newCommand]
+		})
+	}
+
 	return {
 		subscribe,
-		addCommand: (command: CommandProps) => update((commands) => [...commands, command])
+		addCommand
 	}
 }
 
 export const commandsStore = createCommandsStore()
+
+commandsStore.addCommand({
+	id: 3,
+	title: 'Head to Uses',
+	emoji: '🔗',
+	delay: 20,
+	run: () => {
+		navigate('/uses')
+	},
+	category: 'Pages'
+})
