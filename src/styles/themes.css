@@ -143,7 +143,7 @@
 	--color-card-date-text: hsl(188, 86%, 53%);
 
 	/* Icons */
-	--color-icon: hsl(255, 22%, 85%);
+	--color-icon: hsl(258, 22%, 85%);
 	--color-icon-hover: hsl(188, 86%, 53%);
 
 	/* Blockquotes */
@@ -239,4 +239,5 @@
 		hsl(347, 76%, 63%) 88.2%
 	);
 	--color-category-text: white;
+	--color-card-date-text: hsl(330, 91%, 69%);
 }
