@@ -1,34 +1,33 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-const { title } = Astro.props
+const { title, type = 'tool' } = Astro.props
 ---
 
 <a
 	href="/blog/test"
-	class="group flex flex-col overflow-hidden rounded-md border border-b-4 border-highlight bg-card hover:bg-input"
-	data-type="web"
+	class="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-2 border-category-highlight bg-card p-4 pb-2 hover:bg-input"
+	data-type={type}
 >
-	<div
-		class="grid h-14 place-items-center bg-gradient-to-r from-fuchsia-500 to-pink-500 p-2 md:h-20"
-		transition:name={`blog-card-${title}`}
-	>
-		<Icon name="mdi:home" class="text-4xl" />
-	</div>
-	<div class="space-y-4 p-2">
+	<div class="space-y-4">
 		<div class="flex flex-col justify-between gap-2">
-			<ul class="flex items-center gap-2 overflow-hidden text-xs tracking-widest">
-				<li class="rounded-md bg-violet-600 p-1">Category</li>
+			<ul class="flex items-center gap-2 overflow-hidden text-xs font-bold tracking-widest">
+				<li class="flex items-center gap-2 rounded-md bg-category-gradient p-2">
+					<Icon name="mdi:web" />
+					<span>Category</span>
+				</li>
 			</ul>
-
-			<h3 class="flex items-center gap-2 font-heading text-sm font-bold tracking-wide">
+			<h3 class="flex items-center gap-2 font-heading text-base font-bold tracking-wider">
 				<span>{title}</span>
 			</h3>
 		</div>
 	</div>
-	<p class="mt-auto p-2 text-sm">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
-	<div class="mt-auto flex justify-between border-t border-highlight p-2 font-mono text-sm">
-		<time class="text-datetime-text">29 March 2024</time>
-		<span>6 mins</span>
+
+	<div class="mt-auto space-y-2 text-sm">
+		<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+		<div class="flex justify-between border-t border-highlight pt-2 font-mono">
+			<time class="text-datetime-text">29 March 2024</time>
+			<span>6 mins</span>
+		</div>
 	</div>
 </a>
