@@ -17,7 +17,8 @@ module.exports = {
 				'spotify-progress': 'var(--color-spotify-progress)',
 				'spotify-progress-outer': 'var(--color-spotify-progress-background)',
 				input: 'var(--color-input-background)',
-				blockquote: 'var(--color-blockquote-background)'
+				blockquote: 'var(--color-blockquote-background)',
+				'category-gradient': 'var(--color-category-background)'
 			},
 			textColor: {
 				body: 'var(--color-body-text)',
@@ -45,9 +46,6 @@ module.exports = {
 				'input-normal': 'var(--color-input-ring-normal)',
 				'input-focus': 'var(--color-input-ring-focus)'
 			},
-			backgroundImage: {
-				'category-gradient': 'var(--color-category-background)'
-			},
 			gridTemplateColumns: {
 				'sidebar-layout': '14rem 1fr'
 			},
@@ -56,15 +54,15 @@ module.exports = {
 				heading: 'var(--font-heading)',
 				sans: ['system-ui', 'sans-serif']
 			},
+			fontSize: {
+				base: 'clamp(.75rem, 3.5vw, 1rem)',
+				xl: 'clamp(1rem, 3.5vw, 1.25rem)'
+			},
 			animation: {
 				wave: 'wave-animation 2.5s linear infinite'
 			},
 			borderRadius: {
 				md: 'var(--rounded-radius)'
-			},
-			colors: {
-				cyan: colors.cyan,
-				violet: colors.violet
 			}
 		}
 	},

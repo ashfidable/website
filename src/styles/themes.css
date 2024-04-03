@@ -59,8 +59,8 @@
 	--color-border-highlight-hover: hsl(189, 94%, 43%);
 
 	/* Text  */
-	--color-heading-text: hsl(189, 94%, 48%);
-	--color-heading-text-hover: hsl(189, 94%, 53%);
+	--color-heading-text: hsla(189, 94%, 48%, 0.85);
+	--color-heading-text-hover: hsl(189, 94%, 53%, 0.9);
 	--color-body-text: hsl(255, 22%, 90%);
 
 	/* Gradients */
@@ -222,22 +222,14 @@
 
 [data-type='web'] {
 	--color-category-highlight: hsl(271, 76%, 63%);
-	--color-category-background: linear-gradient(
-		108.7deg,
-		rgba(221, 22, 224, 1) 11%,
-		rgba(111, 22, 190, 1) 88.2%
-	);
+	--color-category-background: rgba(111, 22, 190, 1);
 	--color-category-text: white;
-	--color-card-date-text: rgba(221, 22, 224, 1);
+	/* --color-card-date-text: rgba(221, 22, 224, 1); */
 }
 
 [data-type='tool'] {
 	--color-category-highlight: hsl(330, 91%, 69%);
-	--color-category-background: linear-gradient(
-		108.7deg,
-		hsl(330, 91%, 69%) 11%,
-		hsl(347, 76%, 63%) 88.2%
-	);
+	--color-category-background: hsl(347, 76%, 63%);
 	--color-category-text: white;
-	--color-card-date-text: hsl(330, 91%, 69%);
+	/* --color-card-date-text: hsl(330, 91%, 69%); */
 }
