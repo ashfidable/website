@@ -5,4 +5,4 @@ interface Props extends HTMLAttributes<'p'> {}
 const { ...attr } = Astro.props
 ---
 
-<p {...attr} class="mb-2"><slot /></p>
+<p {...attr} class="[text-wrap: balance] mb-2"><slot /></p>
