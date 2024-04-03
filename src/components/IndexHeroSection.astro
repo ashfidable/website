@@ -13,11 +13,13 @@ import HeroSection from './hero-section.astro'
 		</p>
 	</HeroSection>
 
-	<div
-		class="overflow-hidden rounded-md"
-		transition:name="profile-picture"
-		transition:animate="slide"
-	>
-		<Image src={ashfidLight} alt="Ashfid for Light Mode" width={180} class="h-full object-cover" />
+	<div class="overflow-hidden rounded-md">
+		<Image
+			src={ashfidLight}
+			alt="Ashfid for Light Mode"
+			width={180}
+			class="h-full object-cover"
+			loading={'eager'}
+		/>
 	</div>
 </section>
