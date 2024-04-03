@@ -24,13 +24,13 @@ const isCurrentPage = (url: string) => {
 		<ul class="flex flex-grow flex-col gap-4">
 			{
 				Links.map((link) => (
-					<li class="flex-grow ">
+					<li class="flex-grow">
 						<a
 							href={link.url}
-							class="group flex items-center gap-2 p-1 py-2  text-sm font-semibold tracking-wide"
+							class="group flex items-center gap-2 p-1 py-2 text-sm font-semibold tracking-wide"
 							aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 						>
-							<Icon name={link.icon} class="text-xl" />
+							<Icon name={link.icon} class="text-lg" />
 							<span>{link.name}</span>
 							<Icon
 								name="svg-spinners:dot-revolve"
