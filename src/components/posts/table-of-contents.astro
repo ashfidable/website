@@ -17,7 +17,9 @@ const { headings } = Astro.props
 			class="cursor-pointer pb-2 font-semibold underline decoration-link decoration-4 marker:text-heading"
 			>Table Of Contents</summary
 		>
-		<ul class="ml-2 list-inside list-disc p-4 pt-0 font-normal marker:text-heading">
+		<ul
+			class="ml-2 flex list-inside list-disc flex-col gap-2 p-4 pt-0 font-normal marker:text-heading"
+		>
 			{
 				headings.map((heading) => (
 					<li class:list={[{ 'ml-4': heading.depth === 3 }]}>
