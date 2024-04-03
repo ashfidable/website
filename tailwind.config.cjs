@@ -9,7 +9,8 @@ module.exports = {
 			backgroundColor: {
 				background: 'var(--color-background)',
 				body: 'var(--color-background-body)',
-				card: 'var(--color-background-card)',
+				card: 'var(--color-card-background)',
+				'card-hover': 'var(--color-card-background-hover)',
 				category: 'var(--color-category-background)',
 				button: 'var(--color-button-normal)',
 				'button-active': 'var(--color-button-active)',
@@ -22,7 +23,6 @@ module.exports = {
 			},
 			textColor: {
 				body: 'var(--color-body-text)',
-
 				'button-text-active': 'var(--color-button-text-active)',
 				heading: 'var(--color-heading-text)',
 				'heading-hover': 'var(--color-heading-text-hover)',

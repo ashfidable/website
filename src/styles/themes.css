@@ -52,7 +52,6 @@
 	/* Background Colors */
 	--color-background: hsl(255, 22%, 10%);
 	--color-background-body: hsl(255, 22%, 5%);
-	--color-background-card: hsl(256, 22%, 10%);
 
 	/* Borders */
 	--color-border-highlight: hsl(255, 22%, 20%);
@@ -73,12 +72,14 @@
 	--color-input-ring-focus: hsl(189, 94%, 53%);
 
 	/* Buttons */
-	--color-button-normal: hsl(189, 94%, 50%);
+	--color-button-normal: hsl(255, 22%, 20%);
 	--color-button-active: hsl(189, 94%, 48%);
 	--color-button-hover: hsl(188, 86%, 53%);
 	--color-button-text-active: hsl(189, 94%, 12%);
 
 	/* Cards */
+	--color-card-background: hsl(256, 22%, 10%);
+	--color-card-background-hover: hsl(256, 22%, 15%);
 	--color-card-date-text: hsl(188, 86%, 53%);
 
 	/* Icons */
