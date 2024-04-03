@@ -1,11 +1,14 @@
 ---
 import { Image } from 'astro:assets'
 import AshfidPhoto from '$assets/images/ashfid-picture-recolor.png'
+
+console.log(Astro.url.pathname)
 ---
 
-<a href="/" class="text-accent flex items-center gap-2 font-heading text-xl">
-	<div class="h-10 w-10 overflow-hidden rounded-full">
+<a href="/" class="text-accent flex items-center justify-between gap-2 font-heading text-xl">
+	<div class="h-10 w-10 overflow-hidden rounded-md">
 		<Image src={AshfidPhoto} alt="logo" width={180} loading="eager" />
 	</div>
-	<span class="text-effect mt-2 text-3xl font-extrabold tracking-tight">ASHFID.</span>
+
+	<span class="text-effect mt-2 text-3xl font-extrabold tracking-widest">ASHFID.</span>
 </a>
