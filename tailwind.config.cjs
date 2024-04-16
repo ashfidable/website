@@ -38,6 +38,9 @@ module.exports = {
 				'highlight-hover': 'var(--color-border-highlight-hover)',
 				'blockquote-indicator': 'var(--color-blockquote-indicator)'
 			},
+			outlineColor: {
+				highlight: 'var(--color-border-highlight-hover)'
+			},
 			textDecorationColor: {
 				link: 'var(--color-link)',
 				'link-hover': 'var(--color-link-hover)'
