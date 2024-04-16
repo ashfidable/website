@@ -5,3 +5,7 @@ entries:
     icon: devicon-plain:godot
   - name: Unreal
     icon: mdi:unreal
+  - name: MonoGame
+    icon: simple-icons:monogame
+  - name: GameMaker
+    icon: file-icons:gamemaker

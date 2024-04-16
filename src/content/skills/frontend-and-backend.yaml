@@ -1,0 +1,13 @@
+entries:
+  - name: Svelte/SvelteKit
+    icon: devicon-plain:svelte
+  - name: React
+    icon: ri:reactjs-line
+  - name: Astro
+    icon: devicon-plain:astro
+  - name: Next.JS
+    icon: ri:nextjs-fill
+  - name: NuxtJS
+    icon: mdi:nuxt
+  - name: VueJS
+    icon: mdi:vuejs

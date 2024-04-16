@@ -1,0 +1,17 @@
+entries:
+  - name: JavaScript
+    icon: devicon-plain:javascript
+  - name: TypeScript
+    icon: devicon-plain:typescript
+  - name: C#
+    icon: mdi:language-csharp
+  - name: Python
+    icon: mdi:language-python
+  - name: C++
+    icon: devicon-plain:cplusplus
+  - name: C
+    icon: devicon-plain:c
+  - name: Rust
+    icon: mdi:language-rust
+  - name: Golang
+    icon: devicon-plain:go
