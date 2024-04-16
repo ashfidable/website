@@ -171,7 +171,6 @@
 	/* Background Colors */
 	--color-background: hsl(0, 0%, 98%);
 	--color-background-body: hsl(0, 0%, 95%);
-	--color-background-card: hsl(0, 0%, 98%);
 
 	/* Borders */
 	--color-border-highlight: hsl(0, 0%, 10%);
@@ -181,13 +180,14 @@
 	--color-heading-text: hsl(265, 91%, 35%);
 	--color-heading-text-hover: hsl(265, 91%, 45%);
 	--color-body-text: hsl(0, 0%, 8%);
-	--color-blockquote-text: hsl(0, 0%, 100%);
 
 	/* Gradients */
 	--color-gradient-from: hsl(265, 91%, 55%);
 	--color-gradient-to: hsl(265, 91%, 65%);
 
 	/* Cards */
+	--color-card-background: hsl(0, 0%, 98%);
+	--color-card-background-hover: hsl(0, 0%, 97%);
 	--color-card-date-text: hsl(265, 91%, 20%);
 
 	/* Input */
@@ -196,7 +196,7 @@
 	--color-input-ring-focus: hsl(265, 91%, 40%);
 
 	/* Buttons */
-	--color-button-normal: hsl(265, 91%, 50%);
+	--color-button-normal: hsl(265, 72%, 68%);
 	--color-button-active: hsl(265, 91%, 40%);
 	--color-button-hover: hsl(265, 91%, 55%);
 	--color-button-text-active: hsl(0, 0%, 96%);
@@ -212,6 +212,7 @@
 	/* Blockquotes */
 	--color-blockquote-indicator: hsl(265, 91%, 35%);
 	--color-blockquote-background: hsla(265, 91%, 35%, 0.4);
+	--color-blockquote-text: hsl(0, 0%, 100%);
 
 	/* Spotify */
 	--color-spotify-progress: hsl(265, 91%, 35%);
