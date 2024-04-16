@@ -27,7 +27,7 @@ const isCurrentPage = (url: string) => {
 					<li class="flex-grow">
 						<a
 							href={link.url}
-							class="group flex items-center gap-2 p-1 py-2 text-sm font-semibold tracking-wide"
+							class="group flex items-center gap-2 p-1 py-2 text-sm font-semibold tracking-wide transition-transform duration-150 ease-in-out"
 							aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 						>
 							<Icon name={link.icon} class="text-lg" />
@@ -65,18 +65,18 @@ const isCurrentPage = (url: string) => {
 <style>
 	a[aria-current='page'] {
 		position: relative;
-		font-weight: 900;
+		font-weight: bold;
 		z-index: 999999;
-		@apply text-button-text-active;
-		view-transition-name: current-page;
 	}
 
 	a[aria-current='page']::before {
 		content: '';
 		position: absolute;
 		inset: 0;
-		@apply rounded-md bg-button-active;
+		@apply scale-105 rounded-md border border-b-2 border-highlight-hover;
+		/* @apply outline-highlight rounded-md outline outline-2; */
 		z-index: -1;
+		view-transition-name: current-page;
 	}
 
 	a[aria-current='page'] svg {
@@ -84,38 +84,7 @@ const isCurrentPage = (url: string) => {
 	}
 
 	section a:not([aria-current='page']):hover {
-		background-color: var(--color-icon-hover);
 		@apply rounded-md;
-		color: var(--color-button-text-active);
-		transition: transform 0.4
-			linear(
-				0,
-				0.004,
-				0.016,
-				0.035,
-				0.063,
-				0.098,
-				0.141,
-				0.191,
-				0.25,
-				0.316,
-				0.391 36.8%,
-				0.563,
-				0.766,
-				1 58.8%,
-				0.946,
-				0.908 69.1%,
-				0.895,
-				0.885,
-				0.879,
-				0.878,
-				0.879,
-				0.885,
-				0.895,
-				0.908 89.7%,
-				0.946,
-				1
-			);
 	}
 
 	section a:not([aria-current='page']):active {
