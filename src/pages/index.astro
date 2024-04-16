@@ -1,13 +1,15 @@
 ---
 import SnippetCard from '$components/cards/snippet-card.astro'
-import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
 import SectionHeading from '$components/SectionHeading.astro'
 import HeroSection from '$components/IndexHeroSection.astro'
 import BaseLayout from '$layouts/base-layout.astro'
 import BlogCard from '$components/cards/blog-card.astro'
+import SkillContainer from '$components/skill-section/skill-container.astro'
 
-const skills = await getCollection('skills')
+let skills = await getCollection('skills')
+
+skills = skills.sort((b, a) => a.data.entries.length - b.data.entries.length)
 
 const snippets = await getCollection('snippets')
 ---
@@ -41,28 +43,6 @@ const snippets = await getCollection('snippets')
 	<!-- Things I know.  -->
 	<section id="things-i-know" class="space-y-4">
 		<SectionHeading title="Things I know" />
-		{
-			skills.map((skill) => {
-				const rawName = skill.id
-				const name = skill.id.charAt(0).toUpperCase() + rawName.slice(1)
-				const cleanName = name.replace('-', ' ')
-
-				return (
-					<div class="flex flex-col gap-2 md:items-start">
-						<h3 class="font-heading text-xl font-semibold text-heading">{cleanName}</h3>
-						<div class="flex flex-wrap gap-2">
-							{skill.data.entries.map((entry) => (
-								<div class="group rounded-md bg-card p-4">
-									<Icon
-										name={entry.icon}
-										class="text-3xl opacity-50 transition-all duration-150 ease-linear group-hover:scale-110 group-hover:text-icon-hover group-hover:opacity-100"
-									/>
-								</div>
-							))}
-						</div>
-					</div>
-				)
-			})
-		}
+		{skills.map((skill) => <SkillContainer skill={skill} />)}
 	</section>
 </BaseLayout>
