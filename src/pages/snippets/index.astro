@@ -9,13 +9,13 @@ import BaseSeo from '$components/base-seo.astro'
 const snippets = await getCollection('snippets')
 
 const filteredSnippets = await snippets.sort(
-	(a, b) => a.data.published.getTime() - b.data.published.getTime()
+	(a, b) => a.data.published_time.getTime() - b.data.published_time.getTime()
 )
 
 const groupedByYear: { [year: string]: CollectionEntry<'snippets'>[] } = {}
 
 for (const item of filteredSnippets) {
-	const year = item.data.published.getFullYear()
+	const year = item.data.published_time.getFullYear()
 	if (!groupedByYear[year]) {
 		groupedByYear[year] = [item]
 	} else {
