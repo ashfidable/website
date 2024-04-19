@@ -8,6 +8,7 @@ import BlockQuote from '$components/posts/atoms/blockquote.astro'
 import A from '$components/posts/atoms/a.astro'
 import Section from '$components/posts/atoms/section.astro'
 import OL from '$components/posts/atoms/ol.astro'
+import UL from '$components/posts/atoms/ul.astro'
 import TOC from '$components/posts/table-of-contents.astro'
 
 import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
@@ -70,7 +71,8 @@ const category = await getEntry(snippet.data.category)
 					a: A,
 					p: P,
 					section: Section,
-					ol: OL
+					ol: OL,
+					ul: UL
 				}}
 			/>
 		</article>

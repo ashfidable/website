@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+
+interface Props extends HTMLAttributes<'ul'> {}
+
+const { ...props } = Astro.props
+---
+
+<ul class="mb-2 ml-2 list-inside list-disc space-y-2 marker:text-heading md:ml-4" {...props}>
+	<slot />
+</ul>
+
+<style>
+	ul > :global(li) > :global(:first-child:not(code)) {
+		@apply mt-2;
+	}
+</style>
