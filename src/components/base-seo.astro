@@ -1,0 +1,43 @@
+---
+import { getImage } from 'astro:assets'
+import Logo from '$assets/images/ashfid-picture-recolor.png'
+
+export type SEO = {}
+
+interface Props {
+	title: string
+	description: string
+	type: 'website' | 'article'
+	keywords: string[]
+}
+
+const { title, description, type, keywords } = Astro.props
+
+const optimizedImage = await getImage({
+	src: Logo,
+	format: 'png',
+	width: '180'
+})
+
+const urlImage = Astro.url.origin + optimizedImage.src
+---
+
+<Fragment slot="SEO">
+	<title>{title}</title>
+	<meta name="description" content={description} />
+	<meta name="keywords" content={keywords.join(', ')} />
+
+	<meta property="og:type" content={type} />
+	<meta property="og:url" content={Astro.url.href} />
+	<meta property="og:title" content={title} />
+	<meta property="og:description" content={description} />
+	<meta property="og:image" content={urlImage} />
+	<meta property="og:image:width" content="960" />
+	<meta property="og:image:height" content="960" />
+
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:url" content={Astro.url.href} />
+	<meta property="twitter:title" content={title} />
+	<meta property="twitter:description" content={description} />
+	<meta property="twitter:image" content={urlImage} />
+</Fragment>
