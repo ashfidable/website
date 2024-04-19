@@ -10,11 +10,13 @@ const sortedToolsAlphabetically = tools.sort((a, b) => a.data.title.localeCompar
 ---
 
 <UsesLayout>
-	<BaseSeo
-		title="Uses"
-		description="All applications used by Ashfid"
-		keywords={['tools', 'programs', 'softwares', 'apps']}
-		type="website"
-	/>
+	<Fragment slot="seo">
+		<BaseSeo
+			title="Uses"
+			description="All applications used by Ashfid"
+			keywords={['tools', 'programs', 'softwares', 'apps']}
+			type="website"
+		/>
+	</Fragment>
 	{sortedToolsAlphabetically.map((tool) => <UsesCard tool={tool} />)}
 </UsesLayout>

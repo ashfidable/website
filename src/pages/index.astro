@@ -16,12 +16,14 @@ const snippets = await getCollection('snippets')
 ---
 
 <BaseLayout>
-	<BaseSeo
-		title="Home"
-		description="Digital Garden of Ashfid"
-		keywords={['ashfid', 'developer']}
-		type="website"
-	/>
+	<Fragment slot="seo">
+		<BaseSeo
+			title="Home"
+			description="Digital Garden of Ashfid"
+			keywords={['ashfid', 'developer']}
+			type="website"
+		/>
+	</Fragment>
 	<HeroSection />
 
 	<!-- Featured Posts (New!) -->

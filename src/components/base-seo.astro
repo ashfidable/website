@@ -8,10 +8,11 @@ interface Props {
 	title: string
 	description: string
 	type: 'website' | 'article'
+	published_date?: Date
 	keywords: string[]
 }
 
-const { title, description, type, keywords } = Astro.props
+const { title, description, type, keywords, published_date } = Astro.props
 
 const optimizedImage = await getImage({
 	src: Logo,
@@ -19,25 +20,29 @@ const optimizedImage = await getImage({
 	width: '180'
 })
 
-const urlImage = Astro.url.origin + optimizedImage.src
+const urlImage = new URL(optimizedImage.src, Astro.url)
 ---
 
-<Fragment slot="SEO">
-	<title>{title}</title>
-	<meta name="description" content={description} />
-	<meta name="keywords" content={keywords.join(', ')} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords.join(', ')} />
 
-	<meta property="og:type" content={type} />
-	<meta property="og:url" content={Astro.url.href} />
-	<meta property="og:title" content={title} />
-	<meta property="og:description" content={description} />
-	<meta property="og:image" content={urlImage} />
-	<meta property="og:image:width" content="960" />
-	<meta property="og:image:height" content="960" />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={Astro.url.href} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={urlImage} />
+<meta property="og:image:width" content="960" />
+<meta property="og:image:height" content="960" />
 
-	<meta property="twitter:card" content="summary_large_image" />
-	<meta property="twitter:url" content={Astro.url.href} />
-	<meta property="twitter:title" content={title} />
-	<meta property="twitter:description" content={description} />
-	<meta property="twitter:image" content={urlImage} />
-</Fragment>
+{
+	published_date ? (
+		<meta property="article:published_time" content={published_date.toDateString()} />
+	) : null
+}
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url.href} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={urlImage} />
