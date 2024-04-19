@@ -6,6 +6,7 @@ import HeroSection from '$components/IndexHeroSection.astro'
 import BaseLayout from '$layouts/base-layout.astro'
 import BlogCard from '$components/cards/blog-card.astro'
 import SkillContainer from '$components/skill-section/skill-container.astro'
+import BaseSeo from '$components/base-seo.astro'
 
 let skills = await getCollection('skills')
 
@@ -14,7 +15,13 @@ skills = skills.sort((b, a) => a.data.entries.length - b.data.entries.length)
 const snippets = await getCollection('snippets')
 ---
 
-<BaseLayout title="Ashfid">
+<BaseLayout>
+	<BaseSeo
+		title="Home"
+		description="Digital Garden of Ashfid"
+		keywords={['ashfid', 'developer']}
+		type="website"
+	/>
 	<HeroSection />
 
 	<!-- Featured Posts (New!) -->

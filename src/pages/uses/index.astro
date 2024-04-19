@@ -2,6 +2,7 @@
 import UsesLayout from '$layouts/uses-layout.astro'
 import UsesCard from '$components/cards/uses-card.astro'
 import { getCollection } from 'astro:content'
+import BaseSeo from '$components/base-seo.astro'
 
 const tools = await getCollection('tools')
 
@@ -9,5 +10,11 @@ const sortedToolsAlphabetically = tools.sort((a, b) => a.data.title.localeCompar
 ---
 
 <UsesLayout>
+	<BaseSeo
+		title="Uses"
+		description="All applications used by Ashfid"
+		keywords={['tools', 'programs', 'softwares', 'apps']}
+		type="website"
+	/>
 	{sortedToolsAlphabetically.map((tool) => <UsesCard tool={tool} />)}
 </UsesLayout>

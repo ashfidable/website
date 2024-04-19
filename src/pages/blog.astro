@@ -1,9 +1,16 @@
 ---
+import BaseSeo from '$components/base-seo.astro'
 import HeroSection from '$components/hero-section.astro'
 import BaseLayout from '$layouts/base-layout.astro'
 ---
 
 <BaseLayout title="Blog">
+	<BaseSeo
+		title="Blog"
+		description="Posts written by Ashfid"
+		keywords={['blog', 'posts', 'writings', 'programming']}
+		type="website"
+	/>
 	<HeroSection title="Blog 📙">
 		<p>Articles I wrote...</p>
 	</HeroSection>

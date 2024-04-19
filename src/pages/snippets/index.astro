@@ -4,6 +4,7 @@ import BaseLayout from '$layouts/base-layout.astro'
 import { getCollection } from 'astro:content'
 import SnippetCard from '$components/cards/snippet-card.astro'
 import type { CollectionEntry } from 'astro:content'
+import BaseSeo from '$components/base-seo.astro'
 
 const snippets = await getCollection('snippets')
 
@@ -23,7 +24,13 @@ for (const item of filteredSnippets) {
 }
 ---
 
-<BaseLayout title="Snippets">
+<BaseLayout>
+	<BaseSeo
+		title="Snippets"
+		description="Useful snippets that I use a lot or found really helpful on Internet."
+		keywords={['snippets', 'codes', 'writings', 'tips', 'tricks']}
+		type="website"
+	/>
 	<HeroSection title="Snippets 📒">
 		<p>Useful snippets that I use a lot or found really helpful on Internet.</p>
 	</HeroSection>

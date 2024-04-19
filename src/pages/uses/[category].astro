@@ -1,4 +1,5 @@
 ---
+import BaseSeo from '$components/base-seo.astro'
 import UsesCard from '$components/cards/uses-card.astro'
 import UsesLayout from '$layouts/uses-layout.astro'
 import { getCollection, type CollectionEntry, getEntries } from 'astro:content'
@@ -26,14 +27,21 @@ export async function getStaticPaths() {
 		props: {
 			tools: tools.filter((tool) =>
 				tool.data.categories.some((cat) => cat.id === category.data.name.toLowerCase())
-			)
+			),
+			category: category.data.name
 		}
 	}))
 }
 
-const { tools } = Astro.props
+const { tools, category } = Astro.props
 ---
 
 <UsesLayout>
+	<BaseSeo
+		title={`Uses - ${category}`}
+		description={`${category} applications used by Ashfid`}
+		keywords={['tools', 'programs', 'softwares', 'apps', category]}
+		type="website"
+	/>
 	{tools.map((tool) => <UsesCard tool={tool} />)}
 </UsesLayout>
