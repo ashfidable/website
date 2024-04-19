@@ -1,42 +1,29 @@
 ---
 import { formatDate } from '$utils/date-formatter'
+import { getReadingTime } from '$utils/reading-time'
+import { Icon } from 'astro-icon/components'
 
 import { type CollectionEntry } from 'astro:content'
 
 interface Props {
-	snippet: CollectionEntry<'snippets'>
+	post: CollectionEntry<'snippets'>
 	category: CollectionEntry<'categories'>
 }
 
-const { snippet, category } = Astro.props
+const { post, category } = Astro.props
 ---
 
-<section class="grid grid-cols-1 gap-2 pt-6 text-base md:grid-cols-2">
-	<section class="rounded-md border border-highlight bg-card p-4">
-		<h3 class="mb-4 border-b-2 border-highlight pb-2 font-heading text-lg font-bold">
-			Post Details
-		</h3>
-		<ul class="flex flex-col gap-2">
-			<li>
-				<strong>Publish Date:</strong>
-				<time datetime={snippet.data.published.toLocaleDateString()}
-					>{formatDate(snippet.data.published)}</time
-				>
-			</li>
-			<li>
-				<strong>Category:</strong>
-				<span>{category.data.name}</span>
-			</li>
-		</ul>
-	</section>
-	<section class="rounded-md border border-highlight bg-card p-4">
-		<h3 class="mb-4 border-b-2 border-highlight pb-2 font-heading text-lg font-bold">Tags</h3>
-		<ul class="flex flex-wrap gap-2">
-			{
-				snippet.data.tags.map((tag) => (
-					<li class="border border-highlight bg-body p-1 px-2 text-sm">#{tag}</li>
-				))
-			}
-		</ul>
-	</section>
-</section>
+<div class="flex gap-2 text-sm">
+	<span class="flex items-center gap-2 rounded-md border border-highlight bg-card p-1 px-2">
+		<Icon name="mdi:calendar" />
+		{formatDate(post.data.published)}</span
+	>
+	<span class="flex items-center gap-2 rounded-md border border-highlight bg-card p-1 px-2">
+		<Icon name={category.data.icon} />
+		{category.data.name}
+	</span>
+	<span class="flex items-center gap-2 rounded-md border border-highlight bg-card px-2">
+		<Icon name="mdi:clock-time-one-outline" />
+		{getReadingTime(post.body)}</span
+	>
+</div>
