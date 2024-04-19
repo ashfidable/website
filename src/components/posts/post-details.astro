@@ -16,7 +16,7 @@ const { post, category } = Astro.props
 <div class="flex gap-2 text-sm">
 	<span class="flex items-center gap-2 rounded-md border border-highlight bg-card p-1 px-2">
 		<Icon name="mdi:calendar" />
-		{formatDate(post.data.published)}</span
+		{formatDate(post.data.published_time)}</span
 	>
 	<span class="flex items-center gap-2 rounded-md border border-highlight bg-card p-1 px-2">
 		<Icon name={category.data.icon} />
