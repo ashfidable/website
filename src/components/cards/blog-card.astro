@@ -6,7 +6,7 @@ const { title, type = 'tool' } = Astro.props
 
 <a
 	href="/blog/test"
-	class="hover:bg-card-hover group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-4 border-highlight bg-card p-4 pb-2 transition-colors duration-150 ease-in-out hover:border-b-pink-500"
+	class="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-4 border-highlight bg-card p-4 pb-2 transition-colors duration-150 ease-in-out hover:border-b-pink-500 hover:bg-card-hover"
 	data-type={type}
 >
 	<div class="space-y-4">
@@ -19,7 +19,7 @@ const { title, type = 'tool' } = Astro.props
 				</div>
 				<!-- <span class="text-fuchsia-900">Category Name</span> -->
 			</div>
-			<h2 class="font-heading text-base font-semibold tracking-wider text-icon">
+			<h2 class="font-heading text-base font-semibold tracking-wider">
 				{title}
 			</h2>
 		</div>
@@ -27,7 +27,8 @@ const { title, type = 'tool' } = Astro.props
 
 	<div class="mt-auto space-y-2">
 		<p class="font-thin text-slate-500">
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac ante non metus ornare
+			consequat. Donec ut massa quis lorem tincidunt.
 		</p>
 		<div class="flex justify-between border-t border-highlight pt-2 font-mono text-sm">
 			<time class="text-datetime-text">29 March 2024</time>
