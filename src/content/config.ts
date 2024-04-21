@@ -23,6 +23,18 @@ const snippetCollection = defineCollection({
 	})
 })
 
+const blogCollection = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string().max(60),
+		description: z.string().max(160),
+		published_time: z.date(),
+		last_modified_time: z.date().optional(),
+		category: reference('categories'),
+		tags: z.array(z.string())
+	})
+})
+
 const categoryCollection = defineCollection({
 	type: 'data',
 	schema: z.object({
@@ -47,5 +59,6 @@ export const collections = {
 	snippets: snippetCollection,
 	categories: categoryCollection,
 	skills: skillCollection,
-	tools: toolCollection
+	tools: toolCollection,
+	blog: blogCollection
 }
