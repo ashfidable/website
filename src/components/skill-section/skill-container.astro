@@ -15,7 +15,7 @@ skill.data.entries = skill.data.entries.sort((b, a) => b.name.localeCompare(a.na
 ---
 
 <div class="flex flex-col gap-2 md:items-start">
-	<h3 class="font-heading text-lg font-semibold text-heading">{title}</h3>
+	<h3 class="font-heading text-xl font-semibold text-heading">{title}</h3>
 	<div class="flex flex-wrap gap-2">
 		{skill.data.entries.map((entry) => <SkillIcon icon={entry.icon} name={entry.name} />)}
 	</div>
