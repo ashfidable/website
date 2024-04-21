@@ -2,8 +2,8 @@
 import Logo from './Logo.astro'
 import { Links } from './NavigationLinks'
 import MobileNavigationBar from './mobile-navigation.astro'
-import StatusCard from '$components/StatusCard.svelte'
 import { Icon } from 'astro-icon/components'
+import Footer from './footer.astro'
 
 const pageName = Astro.url.pathname
 
@@ -12,75 +12,65 @@ const isCurrentPage = (url: string) => {
 }
 ---
 
-<nav
-	class="fixed bottom-0 left-0 right-0 z-[60] flex h-20 gap-4 border-t border-highlight bg-body md:sticky md:top-0 md:h-auto md:max-h-screen md:flex-col md:items-start md:border-x md:border-y-0 md:bg-[transparent] md:p-4"
+<aside
+	class="sticky top-0 hidden h-screen w-full flex-col items-start border-x border-y-0 border-highlight p-0 md:flex"
 >
-	<section class="hidden w-full md:block">
-		<Logo />
-	</section>
-
-	<!-- Desktop Navigation -->
-	<section class="hidden w-full flex-col justify-between gap-4 font-heading md:flex">
-		<ul class="flex flex-grow flex-col gap-4">
-			{
-				Links.map((link) => (
-					<li class="flex-grow">
-						<a
-							href={link.url}
-							class="group flex items-center gap-2 p-1 py-2 text-sm font-semibold tracking-wide transition-transform duration-150 ease-in-out"
-							aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
-						>
-							<Icon name={link.icon} class="text-lg" />
-							<span>{link.name}</span>
-							<Icon
-								name="svg-spinners:dot-revolve"
-								class="loading ml-auto hidden h-4 w-4 text-body group-data-[loading=true]:inline-block"
-							/>
-						</a>
-					</li>
-				))
-			}
-		</ul>
-	</section>
-
-	<!-- Footer -->
-	<footer class="mt-auto hidden w-full md:block">
-		<section class="hidden w-full md:block" transition:persist="status-card">
-			<StatusCard client:load />
+	<nav>
+		<section class="hidden p-4 md:block">
+			<Logo />
 		</section>
-		<section class="flex justify-center gap-2">
-			<a href="/" class="rounded-md bg-card p-2 text-icon hover:text-icon-hover">
-				<span class="sr-only">Email</span>
-				<Icon name="mdi:message-outline" class="text-2xl" />
-			</a>
-			<a href="/" class="rounded-md bg-card p-2 text-icon hover:text-icon-hover">
-				<span class="sr-only">Github</span>
-				<Icon name="logos:github-octocat" class="text-2xl" />
-			</a>
-		</section>
-	</footer>
 
-	<MobileNavigationBar pageName={pageName} />
-</nav>
+		<!-- Desktop Navigation -->
+		<section class="flex flex-col justify-between gap-4 pl-4 font-heading">
+			<ul class="flex flex-grow flex-col gap-4">
+				{
+					Links.map((link) => (
+						<li class="flex-grow">
+							<a
+								href={link.url}
+								class="group flex items-center gap-2 p-1 py-2 text-sm font-semibold tracking-wide transition-transform duration-150 ease-in-out"
+								aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
+							>
+								<Icon name={link.icon} class="text-lg" />
+								<span>{link.name}</span>
+								<Icon
+									name="svg-spinners:dot-revolve"
+									class="loading ml-auto hidden h-4 w-4 text-body group-data-[loading=true]:inline-block"
+								/>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</section>
+	</nav>
+
+	<Footer />
+</aside>
 <style>
+	a {
+		z-index: 50;
+	}
 	a[aria-current='page'] {
 		position: relative;
 		font-weight: bold;
-		z-index: 999999;
+		z-index: 50;
 	}
 
 	a[aria-current='page']::before {
 		content: '';
 		position: absolute;
 		inset: 0;
-		@apply scale-105 rounded-md border border-b-2 border-highlight-hover;
+		@apply border-r-4 border-highlight-hover;
+		/* @apply rounded-md border border-b-2 border-highlight-hover bg-card-hover; */
 		/* @apply outline-highlight rounded-md outline outline-2; */
 		z-index: -1;
 		view-transition-name: current-page;
 	}
 
 	a[aria-current='page'] svg {
-		@apply animate-bounce;
+		@apply animate-bounce text-icon-hover;
+		view-transition-name: current-page-icon;
 	}
 
 	section a:not([aria-current='page']):hover {

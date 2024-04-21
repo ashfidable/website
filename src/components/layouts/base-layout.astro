@@ -6,6 +6,7 @@ import '$styles/globals.css'
 
 import NavigationBar from '$components/navigation-bar/navigation-wrapper.astro'
 import CommandBar from '$components/command-palette/CommandBar.astro'
+import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro'
 ---
 
 <!doctype html>
@@ -28,6 +29,7 @@ import CommandBar from '$components/command-palette/CommandBar.astro'
 		class="mx-auto mb-20 min-h-screen max-w-6xl grid-cols-sidebar-layout bg-body text-body md:mb-auto md:grid"
 	>
 		<NavigationBar />
+		<MobileNavigation />
 		<main class="flex h-full flex-grow flex-col gap-4 text-base md:border-r md:border-highlight">
 			<CommandBar />
 			<div class="space-y-8 px-4 pb-4 pt-4 md:px-4 md:pt-0">
