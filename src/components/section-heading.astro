@@ -1,17 +1,18 @@
 ---
+import { highlightedText } from '$utils/string-formatter'
+
 interface Props {
 	title: string
 }
 
 const { title } = Astro.props
 
-const highlightedTitle = title.split(' ')[0] + ' '
-const restTitle = title.substring(title.indexOf(' ') + 1)
+const { firstWord, restWords } = highlightedText(title)
 ---
 
 <h2 class="font-heading text-xl font-semibold tracking-normal">
 	<span class="font-bold text-heading">
-		{highlightedTitle}
+		{firstWord}
 	</span>
-	<span>{restTitle}</span>
+	<span>{restWords}</span>
 </h2>
