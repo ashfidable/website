@@ -45,7 +45,7 @@
 
 {#if $data}
 	{#if $data.listening_to_spotify}
-		<section class="md:block hidden p-2 px-1 text-sm" transition:fade>
+		<section class="p-2 px-1 text-sm" transition:fade>
 			<span class="block font-mono font-semibold pb-1 border-b border-b-highlight mb-4"
 				>Listening to Spotify</span
 			>
