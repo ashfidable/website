@@ -49,10 +49,13 @@ const category = await getEntry(snippet.data.category)
 			<div
 				class="relative z-30 flex h-28 items-center justify-center rounded-md bg-category-gradient p-4"
 			>
-				<h1 class="font-heading text-3xl font-bold tracking-wide text-[black] [text-wrap:balance]">
+				<div class="absolute inset-0 z-20"></div>
+				<h1
+					class="text-category relative z-30 font-heading text-3xl font-bold tracking-wide [text-wrap:balance]"
+				>
 					<span>{snippet.data.title}</span>
 				</h1>
-				<Icon name={category.data.icon} class="absolute bottom-0 left-8 top-20 text-5xl" />
+				<Icon name={category.data.icon} class="absolute bottom-0 left-8 top-20 z-30 text-5xl" />
 			</div>
 
 			<PostDetails post={snippet} category={category} />
