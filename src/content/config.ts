@@ -56,9 +56,9 @@ const skillCollection = defineCollection({
 })
 
 export const collections = {
+	blog: blogCollection,
 	snippets: snippetCollection,
 	categories: categoryCollection,
 	skills: skillCollection,
-	tools: toolCollection,
-	blog: blogCollection
+	tools: toolCollection
 }
