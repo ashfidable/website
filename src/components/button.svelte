@@ -4,7 +4,7 @@
 </script>
 
 <button
-	class={`rounded-md bg-button p-1 px-2 font-semibold text-button-text-active flex gap-2 items-center font-heading tracking-wide active:scale-105 transition-transform duration-100 ease-[var(--ease-custom)] hover:outline outline-highlight outline-2 active:outline ${classes}`}
+	class={`rounded-md bg-button p-1 px-2 font-semibold text-button-text-active flex gap-2 items-center font-heading tracking-wide active:scale-105 transition-transform duration-100 ease-[var(--ease-custom)] hover:outline outline-highlight-hover outline-2 active:outline hover:bg-button-hover ${classes}`}
 	on:click={onclick}
 	{...$$restProps}
 >
