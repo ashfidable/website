@@ -6,7 +6,8 @@ import { Icon } from 'astro-icon/components'
 import { type CollectionEntry } from 'astro:content'
 
 interface Props {
-	post: CollectionEntry<'snippets'>
+	post: CollectionEntry<'snippets'> & CollectionEntry<'blog'>
+
 	category: CollectionEntry<'categories'>
 }
 
