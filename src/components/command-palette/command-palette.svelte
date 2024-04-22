@@ -231,7 +231,7 @@
 		<div class="h-72 overflow-y-auto space-y-2">
 			{#each Object.keys(filteredCommands) as command, i}
 				<section class="space-y-2">
-					<h4 class="font-bold">{command}</h4>
+					<span class="font-bold">{command}</span>
 					<ul class="space-y-2">
 						{#each filteredCommands[command] as cmd}
 							<li>
