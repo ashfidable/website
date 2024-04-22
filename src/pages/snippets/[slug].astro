@@ -10,6 +10,7 @@ import Section from '$components/posts/atoms/section.astro'
 import OL from '$components/posts/atoms/ol.astro'
 import UL from '$components/posts/atoms/ul.astro'
 import TOC from '$components/posts/table-of-contents.astro'
+import { components } from '$components/posts/atoms'
 
 import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
 import BaseLayout from '$layouts/base-layout.astro'
@@ -51,7 +52,7 @@ const category = await getEntry(snippet.data.category)
 			>
 				<div class="absolute inset-0 z-20"></div>
 				<h1
-					class="text-category relative z-30 font-heading text-3xl font-bold tracking-wide [text-wrap:balance]"
+					class="relative z-30 font-heading text-3xl font-bold tracking-wide text-category [text-wrap:balance]"
 				>
 					<span>{snippet.data.title}</span>
 				</h1>
@@ -66,16 +67,7 @@ const category = await getEntry(snippet.data.category)
 		<article class="flex snap-y flex-col">
 			<Content
 				components={{
-					h1: H1,
-					h2: H2,
-					h3: H3,
-					h4: H4,
-					blockquote: BlockQuote,
-					a: A,
-					p: P,
-					section: Section,
-					ol: OL,
-					ul: UL
+					...components
 				}}
 			/>
 		</article>
