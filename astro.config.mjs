@@ -24,7 +24,8 @@ export default defineConfig({
 		tailwind(),
 		svelte(),
 		expressiveCode({
-			themes: ['github-dark', 'aurora-x', 'rose-pine']
+			themes: ['github-dark', 'aurora-x', 'rose-pine', 'rose-pine-dawn'],
+			themeCssSelector: (theme) => `[data-code-theme="${theme.name}"]`
 		}),
 		mdx({
 			optimize: true
