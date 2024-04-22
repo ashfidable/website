@@ -1,7 +1,6 @@
 ---
 import Logo from './Logo.astro'
 import { Links } from './NavigationLinks'
-import MobileNavigationBar from './mobile-navigation.astro'
 import { Icon } from 'astro-icon/components'
 import Footer from './footer.astro'
 
@@ -12,23 +11,21 @@ const isCurrentPage = (url: string) => {
 }
 ---
 
-<aside
-	class="sticky top-0 hidden h-screen w-full flex-col items-start border-x border-y-0 border-highlight p-0 md:flex"
->
+<aside class="sticky top-0 hidden h-screen w-full flex-col border-x border-highlight md:flex">
 	<nav>
 		<section class="hidden p-4 md:block">
 			<Logo />
 		</section>
 
 		<!-- Desktop Navigation -->
-		<section class="flex flex-col justify-between gap-4 pl-4 font-heading">
-			<ul class="flex flex-grow flex-col gap-4">
+		<section class="flex flex-col justify-between gap-4 font-heading">
+			<ul class="flex flex-grow flex-col gap-4 pl-4">
 				{
 					Links.map((link) => (
-						<li class="flex-grow">
+						<li>
 							<a
 								href={link.url}
-								class="group flex items-center gap-2 p-1 py-2 text-sm font-semibold tracking-wide transition-transform duration-150 ease-in-out"
+								class="group flex items-center gap-2 py-2 text-sm font-semibold tracking-wide transition-transform duration-150 ease-in-out"
 								aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 							>
 								<Icon name={link.icon} class="text-lg" />
@@ -44,7 +41,6 @@ const isCurrentPage = (url: string) => {
 			</ul>
 		</section>
 	</nav>
-
 	<Footer />
 </aside>
 <style>
@@ -73,8 +69,8 @@ const isCurrentPage = (url: string) => {
 		view-transition-name: current-page-icon;
 	}
 
-	section a:not([aria-current='page']):hover {
-		@apply rounded-md;
+	section a:not([aria-current='page']):hover svg {
+		@apply text-icon-hover;
 	}
 
 	section a:not([aria-current='page']):active {
