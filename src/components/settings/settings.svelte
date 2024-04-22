@@ -4,25 +4,28 @@
 	import Button from '$components/button.svelte'
 
 	const themes = ['dark', 'light']
+	const codeThemes = ['github-dark', 'aurora-x', 'rose-pine']
+
+	let codeThemeSelected: string = codeThemes[0]
+	let themeSelected: string = $settingsStore.theme
 
 	let html: HTMLElement
 
-	let open: boolean = false
+	export let isMobile = false
 
-	// TODO: Adding isDesktop or isMobile variable to make this reusable component?
+	let open: boolean = isMobile ? true : false
 
 	onMount(() => {
 		html = document.documentElement
 	})
 
-	function handleThemeChange(e: MouseEvent) {
-		const target = e.target as HTMLElement
-		const themeString = target.dataset.themeString
+	function handleTheme(newTheme: string) {
+		themeSelected = newTheme
+		$settingsStore = { ...$settingsStore, theme: newTheme }
+	}
 
-		if (!html) return
-		if (!themeString) return
-
-		$settingsStore = { ...$settingsStore, theme: themeString }
+	function handleCodeThemeChange(e: MouseEvent) {
+		console.log(codeThemeSelected)
 	}
 
 	function changeRounded(e) {
@@ -43,8 +46,8 @@
 	}
 
 	function closeViaKeyboard(e: KeyboardEvent) {
-		if (e.key === 'Escape' && !open) {
-			open = true
+		if (e.key === 'Escape' && open) {
+			open = false
 		}
 	}
 </script>
@@ -54,7 +57,7 @@
 <div class="md:relative">
 	<!-- Button for opening the options -->
 	<Button onclick={() => toggleButton()} classes="hidden md:block">
-		<div class:animate-bounce={!open} class="text-2xl">
+		<div class:animate-bounce={open} class="text-2xl">
 			<span class="sr-only">Settings Menu</span>
 			<slot name="icon" />
 		</div>
@@ -62,19 +65,20 @@
 	<!-- Options -->
 	{#if open}
 		<div
-			class="md:bg-card md:border md:border-b-4 md:border-highlight md:absolute md:right-0 mt-0 md:mt-6 md:w-72 rounded-md md:p-4 md:space-y-8 space-y-4 z-[70]"
+			class="md:bg-card md:border md:border-b-4 md:border-highlight md:absolute md:right-0 mt-0 md:mt-6 md:w-72 rounded-md md:p-4 space-y-4 z-[70]"
 		>
 			<!-- Theme -->
 			<section class="space-y-2 font-mono">
-				<h4 class=" text-lg font-bold">Theme</h4>
+				<h4 class=" text-base font-bold">Theme</h4>
 				<ul class="md:grid md:grid-cols-6 flex gap-2 md:gap-4">
 					{#each themes as theme}
 						<li>
 							<button
-								data-theme-string={theme}
 								data-theme={theme}
-								on:click={(e) => handleThemeChange(e)}
-								class="w-12 h-12 md:w-6 md:h-6 bg-gradient-to-r from-[var(--color-theme-primary)] to-[--color-theme-secondary] from-65% to-50% border-2 border-highlight rounded-md"
+								on:click={(e) => handleTheme(theme)}
+								class="w-8 h-8 md:w-6 md:h-6 bg-gradient-to-r from-[var(--color-theme-primary)] to-[--color-theme-secondary] from-65% to-50% outline outline-2 outline-highlight rounded-md"
+								class:outline-highlight-hover={theme === themeSelected}
+								class:outline-offset-2={theme === themeSelected}
 							>
 							</button>
 						</li>
@@ -82,12 +86,22 @@
 				</ul>
 			</section>
 
+			<!-- Code Theme -->
+			<!-- <section class="space-y-2 font-mono">
+				<h4 class=" text-lg font-bold">Code Theme</h4>
+				<select bind:value={codeThemeSelected} on:change={handleCodeThemeChange}>
+					{#each codeThemes as theme}
+						<option value={theme}>{theme}</option>
+					{/each}
+				</select>
+			</section> -->
+
 			<!-- UI Settings -->
 			<section class="font-mono space-y-2">
-				<h4 class="text-lg font-bold">UI Settings</h4>
+				<h4 class="text-base font-bold">UI Settings</h4>
 				<ul>
 					<li>
-						<label class="flex items-center justify-between text-base">
+						<label class="flex items-center justify-between text-base accent-base">
 							Rounded
 							<input
 								type="checkbox"
@@ -101,7 +115,7 @@
 		</div>
 	{/if}
 
-	{#if open}
+	{#if open && !isMobile}
 		<button
 			id="settings-overlay"
 			aria-label="overlay-for-settings"
