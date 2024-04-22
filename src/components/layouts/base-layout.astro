@@ -49,36 +49,46 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 				})
 
 				function playClick() {
-					click.volume = 0.2
-					click.currentTime = 0
-					click.play()
+					const getSoundsPreferenceFromStorage = localStorage.getItem('sounds')
+					const sounds = JSON.parse(getSoundsPreferenceFromStorage)
+
+					if (sounds) {
+						click.volume = 0.5
+						click.currentTime = 0
+						click.play()
+					}
 				}
 			})
 		</script>
 
-		<script is:inline>
+		<script>
+			import { themes } from '$components/settings/themes'
+
+			console.log(themes)
 			function getSettings() {
 				if (typeof localStorage !== undefined && localStorage.getItem('settings')) {
-					return JSON.parse(localStorage.getItem('settings'))
+					return JSON.parse(localStorage.getItem('settings')!)
 				}
 
 				if (window.matchMedia('(prefers-color-scheme: dark)')) {
-					console.log('I got dark')
+					const darkTheme = themes.find((t) => t.name === 'dark')
 					return {
-						theme: 'dark',
-						codeTheme: 'default',
+						theme: darkTheme?.name,
+						codeTheme: darkTheme?.codeTheme,
 						rounded: 'on'
 					}
 				}
 
+				const lightTheme = themes.find((t) => t.name === 'light')
+
 				return {
-					theme: 'light',
-					codeTheme: 'default',
+					theme: lightTheme?.name,
+					codeTheme: lightTheme?.codeTheme,
 					rounded: 'on'
 				}
 			}
 
-			function setSettings(newDocument) {
+			function setSettings(newDocument: Document) {
 				const element = newDocument.documentElement
 
 				Object.keys(getSettings()).map((key) => {
