@@ -200,7 +200,7 @@
 		<!-- Search Box -->
 		<input
 			id="command-palette-input"
-			class="text-sm w-full p-1 focus:outline-0 focus:border-highlight-hover rounded-md border-b border-[transparent] bg-input focus:ring-0"
+			class="text-sm w-full p-1 focus:outline-0 focus:border-highlight-hover rounded-md border border-[transparent] bg-input focus:ring-0"
 			bind:value={searchTerm}
 			bind:this={searchBar}
 			autocomplete="off"
