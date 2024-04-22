@@ -13,6 +13,7 @@ let skills = await getCollection('skills')
 skills = skills.sort((b, a) => a.data.entries.length - b.data.entries.length)
 
 const snippets = await getCollection('snippets')
+const posts = await getCollection('blog')
 ---
 
 <BaseLayout>
@@ -30,9 +31,11 @@ const snippets = await getCollection('snippets')
 	<section id="latest-posts" class="space-y-4">
 		<SectionHeading title="Latest Posts" />
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-			<BlogCard type="web" title="This line of text is exactly." />
-			<BlogCard title="This line of text is exactly sixty characters long." />
-			<BlogCard title="This line of text is exactly sixty characters long." />
+			{
+				posts.map((post) => {
+					return <BlogCard post={post} />
+				})
+			}
 		</div>
 	</section>
 

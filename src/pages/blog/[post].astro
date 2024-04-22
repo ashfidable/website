@@ -1,0 +1,65 @@
+---
+import TOC from '$components/posts/table-of-contents.astro'
+import { components } from '$components/posts/atoms'
+
+import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
+import BaseLayout from '$layouts/base-layout.astro'
+import { Icon } from 'astro-icon/components'
+import BaseSeo from '$components/base-seo.astro'
+import PostDetails from '$components/posts/post-details.astro'
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog')
+	return posts.map((post) => ({
+		params: { post: post.slug },
+		props: { post }
+	}))
+}
+
+interface Props {
+	post: CollectionEntry<'blog'>
+}
+
+const { post } = Astro.props
+const { Content, headings } = await post.render()
+const category = await getEntry(post.data.category)
+---
+
+<BaseLayout>
+	<Fragment slot="seo">
+		<BaseSeo
+			title={post.data.title}
+			description={post.data.description}
+			keywords={post.data.tags}
+			published_date={post.data.published_time}
+			type="article"
+		/>
+	</Fragment>
+	<article data-type={category.data.name.toLowerCase()} class="space-y-4">
+		<header class="flex flex-col gap-6" transition:name={`blog-${post.data.title}`}>
+			<div
+				class="relative z-30 flex h-28 items-center justify-center rounded-md bg-category-gradient p-4"
+			>
+				<div class="absolute inset-0 z-20"></div>
+				<h1
+					class="relative z-30 font-heading text-3xl font-bold tracking-wide text-category [text-wrap:balance]"
+				>
+					<span>{post.data.title}</span>
+				</h1>
+				<Icon name={category.data.icon} class="absolute bottom-0 left-8 top-20 z-30 text-5xl" />
+			</div>
+
+			<PostDetails post={post} category={category} />
+		</header>
+
+		<TOC headings={headings} />
+
+		<article class="flex snap-y flex-col">
+			<Content
+				components={{
+					...components
+				}}
+			/>
+		</article>
+	</article>
+</BaseLayout>

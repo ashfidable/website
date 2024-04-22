@@ -1,38 +1,45 @@
 ---
+import { formatDate } from '$utils/date-formatter'
+import { getReadingTime } from '$utils/reading-time'
 import { Icon } from 'astro-icon/components'
+import type { CollectionEntry } from 'astro:content'
+import { getEntry } from 'astro:content'
 
-const { title, type = 'tool' } = Astro.props
+interface Props {
+	post: CollectionEntry<'blog'>
+}
+
+const { post } = Astro.props
+const category = await getEntry(post.data.category)
 ---
 
 <a
-	href="/blog/test"
-	class="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-4 border-highlight bg-card p-4 pb-2 transition-colors duration-150 ease-in-out hover:border-b-pink-500 hover:bg-card-hover"
-	data-type={type}
+	href={`/blog/${post.slug}`}
+	class="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-4 border-highlight bg-card p-4 pb-2 transition-colors duration-150 ease-in-out hover:border-b-category-highlight hover:bg-card-hover"
+	data-type={category.data.name.toLowerCase()}
 >
 	<div class="space-y-4">
-		<div class="flex flex-col justify-between gap-2">
+		<div class="flex flex-col justify-between gap-2" transition:name={`blog-${post.data.title}`}>
 			<div
-				class="inline-flex items-center gap-2 self-start overflow-hidden rounded-md bg-card bg-pink-600 p-1 text-xs font-bold tracking-wide opacity-90"
+				class="inline-flex items-center gap-2 self-start overflow-hidden rounded-md bg-category-gradient p-1 text-xs font-bold tracking-wide opacity-90"
 			>
 				<div class="text-lg">
 					<Icon name="mdi:note-edit" class="text-icon" />
 				</div>
-				<!-- <span class="text-fuchsia-900">Category Name</span> -->
 			</div>
 			<h2 class="font-heading text-base font-semibold tracking-wider">
-				{title}
+				{post.data.title}
 			</h2>
 		</div>
 	</div>
 
 	<div class="mt-auto space-y-2">
 		<p class="font-thin text-slate-500">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac ante non metus ornare
-			consequat. Donec ut massa quis lorem tincidunt.
+			{post.data.description}
 		</p>
 		<div class="flex justify-between border-t border-highlight pt-2 font-mono text-sm">
-			<time class="text-datetime-text">29 March 2024</time>
-			<span>6 mins</span>
+			<time class="text-datetime-text">{formatDate(post.data.published_time)}</time>
+			<span>{getReadingTime(post.body)}</span>
 		</div>
 	</div>
 </a>

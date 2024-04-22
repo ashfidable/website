@@ -1,0 +1,59 @@
+---
+import BaseSeo from '$components/base-seo.astro'
+import BlogCard from '$components/cards/blog-card.astro'
+import HeroSection from '$components/hero-section.astro'
+import BaseLayout from '$layouts/base-layout.astro'
+import type { CollectionEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
+
+const posts = await getCollection('blog')
+
+const filteredPosts = await posts.sort(
+	(a, b) => a.data.published_time.getTime() - b.data.published_time.getTime()
+)
+
+const groupedByYear: { [year: string]: CollectionEntry<'blog'>[] } = {}
+
+for (const item of filteredPosts) {
+	const year = item.data.published_time.getFullYear()
+	if (!groupedByYear[year]) {
+		groupedByYear[year] = [item]
+	} else {
+		groupedByYear[year].push(item)
+	}
+}
+---
+
+<BaseLayout title="Blog">
+	<Fragment slot="seo">
+		<BaseSeo
+			title="Blog"
+			description="Posts written by Ashfid"
+			keywords={['blog', 'posts', 'writings', 'programming']}
+			type="website"
+		/>
+	</Fragment>
+	<HeroSection title="Blog 📙">
+		<p>Articles I wrote...</p>
+	</HeroSection>
+
+	{
+		Object.keys(groupedByYear)
+			.reverse()
+			.map((year) => {
+				const posts = groupedByYear[year]
+				return (
+					<section class="flex flex-col gap-4">
+						<h2 class="font-heading text-xl font-bold">{year}</h2>
+						<ul class="grid grid-cols-1 gap-2 md:grid-cols-3">
+							{posts.map((post) => (
+								<li>
+									<BlogCard post={post} />
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+			})
+	}
+</BaseLayout>
