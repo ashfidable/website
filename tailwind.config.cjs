@@ -6,6 +6,9 @@ module.exports = {
 
 	theme: {
 		extend: {
+			accentColor: {
+				base: 'var(--color-input-accent)'
+			},
 			backgroundColor: {
 				background: 'var(--color-background)',
 				body: 'var(--color-background-body)',
@@ -29,7 +32,7 @@ module.exports = {
 				'datetime-text': 'var(--color-card-date-text)',
 				'icon-hover': 'var(--color-icon-hover)',
 				icon: 'var(--color-icon)',
-				'category-icon': 'var(--color-category-text)',
+				category: 'var(--color-category-text)',
 				'blockquote-text': 'var(--color-blockquote-text)'
 			},
 			borderColor: {
@@ -39,7 +42,8 @@ module.exports = {
 				'blockquote-indicator': 'var(--color-blockquote-indicator)'
 			},
 			outlineColor: {
-				highlight: 'var(--color-border-highlight-hover)'
+				highlight: 'var(--color-border-highlight)',
+				'highlight-hover': 'var(--color-border-highlight-hover)'
 			},
 			textDecorationColor: {
 				link: 'var(--color-link)',
