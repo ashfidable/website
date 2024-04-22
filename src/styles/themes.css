@@ -70,12 +70,13 @@
 	--color-input-background: hsl(255, 22%, 20%);
 	--color-input-ring-normal: hsl(255, 22%, 20%);
 	--color-input-ring-focus: hsl(189, 94%, 53%);
+	--color-input-accent: hsl(189, 94%, 53%);
 
 	/* Buttons */
 	--color-button-normal: hsl(255, 22%, 15%);
-	--color-button-active: hsl(180, 33%, 1%);
-	--color-button-hover: hsl(188, 86%, 53%);
-	--color-button-text-active: hsl(189, 94%, 12%);
+	--color-button-active: hsl(255, 22%, 8%);
+	--color-button-hover: hsl(255, 22%, 18%);
+	--color-button-text-active: hsl(189, 94%, 53%);
 
 	/* Cards */
 	--color-card-background: hsl(256, 22%, 10%);
@@ -133,12 +134,13 @@
 	--color-input-background: hsl(0, 0%, 98%);
 	--color-input-ring-normal: hsl(255, 22%, 20%);
 	--color-input-ring-focus: hsl(265, 91%, 40%);
+	--color-input-accent: hsl(265, 91%, 40%);
 
 	/* Buttons */
-	--color-button-normal: hsl(265, 72%, 68%);
-	--color-button-active: hsl(265, 91%, 40%);
-	--color-button-hover: hsl(265, 91%, 55%);
-	--color-button-text-active: hsl(0, 0%, 96%);
+	--color-button-normal: hsl(0, 0%, 94%);
+	--color-button-active: hsl(0, 0%, 85%);
+	--color-button-hover: hsl(0, 0%, 82%);
+	--color-button-text-active: hsl(265, 91%, 40%);
 
 	/* Icons */
 	--color-icon: hsl(0, 0%, 0%);
@@ -164,13 +166,13 @@
 [data-type='web'] {
 	--color-category-highlight: hsl(271, 76%, 63%);
 	--color-category-background: rgba(111, 22, 190, 1);
-	--color-category-text: white;
+	--color-category-text: black;
 	/* --color-card-date-text: rgba(221, 22, 224, 1); */
 }
 
 [data-type='tool'] {
 	--color-category-highlight: hsl(330, 91%, 69%);
 	--color-category-background: hsl(347, 76%, 63%);
-	--color-category-text: white;
+	--color-category-text: black;
 	/* --color-card-date-text: hsl(330, 91%, 69%); */
 }
