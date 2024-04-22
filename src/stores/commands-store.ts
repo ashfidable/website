@@ -1,6 +1,7 @@
 import { get, writable } from 'svelte/store'
 import { settingsStore } from './settings-store'
 import { navigate } from 'astro:transitions/client'
+import { themes } from '$components/settings/themes'
 
 export type CommandProps = {
 	id?: number
@@ -49,14 +50,19 @@ let initialCommands: CommandProps[] = [
 		delay: 20,
 		run: () => {
 			if (get(settingsStore).theme === 'light') {
+				const darkTheme = themes.find((t) => t.name === 'dark')
 				settingsStore.set({
-					theme: 'dark',
-					...settingsStore
+					...get(settingsStore),
+					theme: darkTheme?.name!,
+					codeTheme: darkTheme?.codeTheme
 				})
 			} else {
+				const lightTheme = themes.find((t) => t.name === 'light')
+
 				settingsStore.set({
-					theme: 'light',
-					...settingsStore
+					...get(settingsStore),
+					theme: lightTheme?.name!,
+					codeTheme: lightTheme?.codeTheme
 				})
 			}
 		},
