@@ -64,7 +64,6 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 		<script>
 			import { themes } from '$components/settings/themes'
 
-			console.log(themes)
 			function getSettings() {
 				if (typeof localStorage !== undefined && localStorage.getItem('settings')) {
 					return JSON.parse(localStorage.getItem('settings')!)
