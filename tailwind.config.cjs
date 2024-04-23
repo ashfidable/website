@@ -21,8 +21,7 @@ module.exports = {
 				'spotify-progress': 'var(--color-spotify-progress)',
 				'spotify-progress-outer': 'var(--color-spotify-progress-background)',
 				input: 'var(--color-input-background)',
-				blockquote: 'var(--color-blockquote-background)',
-				'category-gradient': 'var(--color-category-background)'
+				blockquote: 'var(--color-blockquote-background)'
 			},
 			textColor: {
 				body: 'var(--color-body-text)',

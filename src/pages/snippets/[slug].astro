@@ -37,9 +37,7 @@ const category = await getEntry(snippet.data.category)
 	</Fragment>
 	<article data-type={category.data.name.toLowerCase()} class="space-y-4">
 		<header class="flex flex-col gap-6" transition:name={snippet.data.title}>
-			<div
-				class="relative z-30 flex h-28 items-center justify-center rounded-md bg-category-gradient p-4"
-			>
+			<div class="relative z-30 flex h-28 items-center justify-center rounded-md bg-category p-4">
 				<div class="absolute inset-0 z-20"></div>
 				<h1
 					class="relative z-30 font-heading text-3xl font-bold tracking-wide text-category [text-wrap:balance]"
