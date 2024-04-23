@@ -26,6 +26,7 @@ module.exports = {
 			},
 			textColor: {
 				body: 'var(--color-body-text)',
+				'body-low-contrast': 'var(--color-body-text-low-contrast)',
 				'button-text-active': 'var(--color-button-text-active)',
 				heading: 'var(--color-heading-text)',
 				'heading-hover': 'var(--color-heading-text-hover)',

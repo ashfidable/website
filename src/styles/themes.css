@@ -61,6 +61,7 @@
 	--color-heading-text: hsla(189, 94%, 48%, 0.85);
 	--color-heading-text-hover: hsl(189, 94%, 53%, 0.9);
 	--color-body-text: hsl(255, 22%, 85%);
+	--color-body-text-low-contrast: hsl(260, 6%, 72%);
 
 	/* Gradients */
 	--color-gradient-from: hsl(188, 95%, 50%);
@@ -120,6 +121,7 @@
 	--color-heading-text: hsl(265, 91%, 35%);
 	--color-heading-text-hover: hsl(265, 91%, 45%);
 	--color-body-text: hsl(0, 0%, 8%);
+	--color-body-text-low-contrast: hsl(0, 0%, 21%);
 
 	/* Gradients */
 	--color-gradient-from: hsl(265, 91%, 55%);
