@@ -4,10 +4,11 @@ import { Links } from './NavigationLinks'
 import { Icon } from 'astro-icon/components'
 import Footer from './footer.astro'
 
-const pageName = Astro.url.pathname
-
 const isCurrentPage = (url: string) => {
-	return url === pageName
+	const pathname = Astro.url.pathname
+	const pathParts = pathname.split('/').filter(Boolean)
+	const cleanUrl = url.replace('/', '')
+	return pathParts.some((p) => cleanUrl.includes(p)) || pathname === url
 }
 ---
 
