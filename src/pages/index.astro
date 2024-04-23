@@ -18,12 +18,7 @@ const posts = await getCollection('blog')
 
 <BaseLayout>
 	<Fragment slot="seo">
-		<BaseSeo
-			title="Home"
-			description="Digital Garden of Ashfid"
-			keywords={['ashfid', 'developer']}
-			type="website"
-		/>
+		<BaseSeo title="Home" description="Digital Garden of Ashfid" type="website" />
 	</Fragment>
 	<HeroSection />
 
