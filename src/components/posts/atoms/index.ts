@@ -8,6 +8,7 @@ import A from '$components/posts/atoms/a.astro'
 import Section from '$components/posts/atoms/section.astro'
 import OL from '$components/posts/atoms/ol.astro'
 import UL from '$components/posts/atoms/ul.astro'
+import Image from '$components/posts/atoms/image.astro'
 
 export const components = {
 	h1: H1,
@@ -19,5 +20,6 @@ export const components = {
 	p: P,
 	section: Section,
 	ol: OL,
-	ul: UL
+	ul: UL,
+	img: Image
 }

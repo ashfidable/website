@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { getImage } from 'astro:assets'
+interface Props extends HTMLAttributes<'img'> {}
+
+const { src, ...props } = Astro.props
+
+const desktopImg = await getImage({
+	src: src!,
+	width: 360,
+	format: 'webp'
+})
+
+const mobileImg = await getImage({
+	src: src!,
+	width: 180,
+	format: 'webp'
+})
+---
+
+<div class="mx-auto overflow-hidden rounded-md">
+	<picture>
+		<source media="(max-width: 799px)" srcset={mobileImg.src} />
+		<source media="(min-width: 800px)" srcset={desktopImg.src} />
+		<img src={desktopImg.src} alt={props.alt} />
+	</picture>
+</div>
