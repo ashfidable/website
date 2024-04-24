@@ -57,9 +57,8 @@ module.exports = {
 				'sidebar-layout': '14rem 1fr'
 			},
 			fontFamily: {
-				stylized: 'var(--font-stylized)',
-				heading: 'var(--font-heading)',
-				sans: ['system-ui', 'sans-serif']
+				body: 'var(--font-body)',
+				heading: 'var(--font-heading)'
 			},
 			fontSize: {
 				base: 'clamp(.75rem, 3.5vw, 1rem)',
