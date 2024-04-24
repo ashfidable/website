@@ -21,12 +21,11 @@ It took me some time to streamline my ideas for the website without going beyond
 
 ## What kind of features I want in website?
 
-I want to create a website for myself that has a cozy yet modern feel. It should still adhere to minimalism. Here’s what I’m thinking:
-
-- Extensive use of intuitive icons for categories such as blogs or snippets, settings, and navigation links.
-- A minimalist settings menu for themes, sounds, and layout.
-- A command palette for easy access to pages and settings.
-- A feature to display my Discord activity on the website.
+- Creating a cozy, modern, minimalist website.
+- Using intuitive icons for blogs, settings, and navigation.
+- Minimalist settings for themes, sounds, and layout.
+- Command palette for quick access.
+- Displaying Discord activity on the site. 
 
 ## So about the tech stack..
 
@@ -45,17 +44,18 @@ From the beginning, I wanted to create a cozy website with a **two-layout sideba
 
 ### The Desktop View
 
-The desktop view currently features a sidebar on the left, which includes navigation links and a footer at the end of the sidebar. A Command Bar is positioned at the top of the main content for productivity.
-
-The Command Bar comprises the Command Palette and Settings. I’ll elaborate on these features later.
+- Desktop view has a left sidebar with navigation links.
+- A footer is present at the end of the sidebar.
+- A Command Bar is at the top of the main content for productivity that includes the [Command Palette](#-command-palette) and [Settings](#-settings).
 
 ![Desktop View]($assets/images/posts/desktop_view.jpeg)
 
 ### The Mobile View
 
-The mobile view will have a bottom bar for moving around and a special menu button to open more links and settings. It should be easy to read with just scrolling and using only one thumb.
-
-The Command Bar is made simpler here and is only in the menu bar. There’s no Command Bar for now.
+- Mobile view has a bottom bar for navigation.
+- Special menu button opens more links and settings.
+- Designed for easy reading with one-thumb scrolling.
+- Simplified Command Bar in the menu bar only.
 
 ![Mobile View]($assets/images/posts/mobile_view.jpg)
 
@@ -64,141 +64,45 @@ The Command Bar is made simpler here and is only in the menu bar. There’s no C
 
 I’m listing the pages I want on my website and discussing how I addressed any issues I encountered.
 
-1. 🏠[Home](#🏠-home)
-2. 📙[Blog](#📙-blog)
-3. 📒[Snippets](#📒-snippets)
-4. 🔦[Uses](#🔦-uses)
-
 ### 🏠 Home
 
-Homepage should very simple introduction to all the important pages and little introduction about me. 
-
-**So far, I am happy with:**
-
-- Little hero section about what I want to share
-- Latest Blog Posts
-- Latest Snippets
-- Things I know and good at
-
-**Things I want to add in future:**
-
-- Side Projects or New Projects
-- My favorite bookmarks
-
-**~~Struggles?~~** 
-*It was easier than all other pages once I understood the components I wanted for blog posts and snippets. It's also very icons heavy in the end but that was fun.*
+- Simple introduction to important pages and a bit about me.
+- Happy with current setup: hero section, latest blog posts, snippets, and skills.
+- Future plans: add side projects and favorite bookmarks.
 
 ### 📙 Blog
 
-All my lengthy writings will be here with correct category and tags assigned to each post. Oh wait, you are at my blog currently 😈
+> Also, you are reading this blog currently 😈
 
-**Things I am happy with:**
+- Repository for lengthy writings with categorized and tagged posts.
+- Happy with current setup: blog cards, sorted posts by year, and color-coded categories.
+- Future plans: improve filtering options and add reaction feature to each post.
 
-- Blog Cards.
-- Sorted blog posts by year.
-- Color coded categories and headers.
+[**Astro's Content Collections**](#-content-collections) makes it very easy to create posts and have image optimization at build time. Easily the best feature of any framework till now.
 
-**Things I want to add in future:**
-
-- Better filtering option or dynamic by categories or tags.
-- Reactions to each post.
-
-**Struggles:**
-
-- Getting the blog card look right took some time. It had to be minimal but also fun/whacky. 
-- Working with better colors for category. 
-
-**Snippet for Blog Card:**
-
-```astro wrap title="blog-card.astro"
----
-import { formatDate } from '$utils/date-formatter'
-import { getReadingTime } from '$utils/reading-time'
-import { Icon } from 'astro-icon/components'
-import type { CollectionEntry } from 'astro:content'
-import { getEntry } from 'astro:content'
-
-interface Props {
-	post: CollectionEntry<'blog'>
-}
-
-const { post } = Astro.props
-const category = await getEntry(post.data.category)
----
-
-<a
-	href={`/blog/${post.slug}`}
-	class="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-4 border-highlight bg-card p-4 pb-2 transition-colors duration-150 ease-in-out hover:border-b-category-highlight hover:bg-card-hover"
-	data-type={category.data.name.toLowerCase()}
->
-	<div class="space-y-4">
-		<div class="flex flex-col justify-between gap-2" transition:name={`blog-${post.data.title}`}>
-			<span
-				class="inline-flex self-start rounded-md bg-category p-2 text-lg font-bold tracking-wide opacity-90"
-			>
-				<Icon name={category.data.icon} class="text-icon" />
-			</span>
-			<h2 class="font-heading font-semibold tracking-wider">
-				{post.data.title}
-			</h2>
-		</div>
-	</div>
-
-	<div class="mt-auto space-y-2">
-		<p class="text-body-low-contrast font-thin">
-			{post.data.description}
-		</p>
-		<div class="flex justify-between border-t border-highlight pt-2 font-mono text-sm">
-			<time class="text-datetime-text">{formatDate(post.data.published_time)}</time>
-			<span>{getReadingTime(post.body)}</span>
-		</div>
-	</div>
-</a>
-```
 
 ### 📒 Snippets
 
-This is page for writing small codes for little interactions, tips/tricks to share or installating tools with their configs. This page is for me but I hope it helps someone else out there.
-
-**Things I am happy with:**
-
-- Snippet Cards with minimal styling.
-- Sorted snippet posts by year.
-- Color coded categories and headers.
-
-**Things I want to add in future:**
-
-- Better filtering option or dynamic by categories or tags. Just like Blog Page.
-
-**Struggles:**
-
-- Working with better colors for category. 
+- Collection of small codes, tips/tricks, and tool installations.
+- Happy with: snippet cards, sorted posts by year, and color-coded categories.
+- Future plans: enhance filtering options similar to the blog page.
 
 ### 🔦 Uses
 
-Uses is the page that showcases all kinds of tools I use or used for my projects or productivity. It must be categorized well.
-
-**Things I am happy with:**
-
-- Transitions.
-- Categories.
-- Perfect icons for tools used.
-
-**Things I want to add in future:**
-
-- Each tool with one click installs.
-
-**~~Struggles?~~**
+- Showcases tools used for projects or productivity, well-categorized.
+- Happy with: transitions, categories, and tool icons.
+- Future plans: enable one-click installs for each tool.
 
 ## Features
 
 Interactive/non-interactive features were created specifically for this website. I’ll discuss the struggles I encountered and what I aim to improve.
 
-### ✍️ Content Collections for Posts
+### 📝 Content Collections
 
 Astro's content collections is the best way to write content with markdown. It can be used as database for your categories and posts. It makes referencing each collection so much easier and type-safe.
 
-How to start?
+How to start? Head to [Astro's Content Collection](https://docs.astro.build/en/guides/content-collections/)
+
 1. Create astro project.
 2. Create a folder called `content` in `src` folder.
 3. Add a `config.ts`
@@ -252,7 +156,6 @@ How to start?
     }
     ```
 
-
 ### 🟢 Discord Status - Lanyard
 
 I wanted to display my Discord activity or any digital activity I’m doing, like playing games or listening to Spotify. I found a great app by [Phineas](https://phineas.io/) called [Lanyard](https://github.com/phineas/lanyard). Thanks to [Nuro](https://nuro.dev) that mentioned this application, it was great read about it.
@@ -263,26 +166,25 @@ In short, you join Lanyard’s Discord server and make sure the activity status 
 
 ### 🔍 Command Palette
 
-I love the command palettes in my editors, like *Visual Studio Code*. They make **navigating** through a multitude of files and settings a breeze. It’s also very easy to find a setting. 
+I'm a big fan of command palettes in editors like Visual Studio Code. They make navigating through files and settings a breeze, and finding what you need is usually a one-shot deal.
 
-Just by pressing a keyboard shortcut, typing the page or setting you want, and finding it on the first try. Press Enter and **boom!** You’ve activated that command. It’s incredibly satisfying to me. 
-
-> However, it’s a complex component to create due to considerations around accessibility and behavior.
+Creating such a feature, however, is complex, mainly due to accessibility and behavioral considerations.
 
 ![Visual Studio Command Palette]($assets/images/posts/vscode_cmd.png)
 
-Just like any other front-end developer, I searched for packages that could assist me. However, it turns out that all I needed was a good fuzzy search package. [Fuse.js](https://www.fusejs.io/) is honestly the best JS library for fuzzy search.
+Like any other front-end developer, I searched for packages to help me out. Surprisingly, all I needed was a robust fuzzy search package—enter [Fuse.js](https://www.fusejs.io/), the ultimate JS library for fuzzy search.
 
-**Let me talk about the challenges I faced, as they were quite difficult for me:**
+Now, let's talk challenges:
 
-- Keeping the tab focus trapped within the command palette when it’s open for better accessibility.
-- Ensuring commands can be stored using any external component, as long as you can access a single store.
-- Making the palette keyboard responsive.
-- Ensuring each command has a unique ID that can be assigned to each button without disrupting the search order.
-- Grouping the search results into sections after a user searches for something. This part was the trickiest and isn’t fully reliable yet (I might remove this feature soon 😔).
-- Keeping the input in focus when changing the selected command using the up and down keys.
+- Trapping tab focus within the palette for better accessibility.
+- Enabling storage of commands via any external component.
+- Making the palette keyboard-responsive.
+- Assigning unique IDs to each command button without disrupting search order.
+- Grouping search results into sections post-search, which proved tricky and still needs refinement.
+- Keeping the input focused while changing selected commands with the arrow keys.
 
-*I’ve tackled all the problems mentioned above, and it’s now in a state that can be deployed to production. I still need to improve the implementation of adding commands, but that’s a battle for another day.*
+Despite these hurdles, the palette is now deployable. Improving command addition implementation remains on the to-do list for another day.
+
 
 ![My Command Palette (ignore the command titles)]($assets/images/posts/my_cmd.png)
 
@@ -320,16 +222,11 @@ I considered adding a GIF to demonstrate it, but it’s best experienced firstha
 Developer websites without any code highlighting? That’s impossible. I found [expressive-code](https://expressive-code.com/), which is heavily used by Astro’s own Starlight documentation template. It has almost all the features of an IDE and includes great plugins. Plus, VSCode themes can also be used with it 🎊!
 
 ```csharp title="HelloWorld.cs" wrap
-using System;
-
-class Program
+public void Test() 
 {
-    static void Main()
-    {
-        Console.WriteLine("Hello, World!");
-    }
+	String message = "Hello World";
+	Console.WriteLine(message);
 }
-
 ```
 
 > **Expressive Code** also got multi-theme support. It's very important featureset for me. Expressive Code is built on [Shiki](https://github.com/shikijs/shiki) highlighter.
@@ -346,73 +243,8 @@ OH, links got sounds too! 🕺
 
 I want to add more themes to the list than just dark and light theme. I am okay with the variables I created for this site. My aim to make 6 distinct themes in total this year at least with accessibility in mind.
 
-I am using **tailwind** to place these tokens all over the components but these variables are my starting point.
+I am using **tailwind** to place these tokens all over the components but css variables are my starting point for any design system.
 
-```css title="themes.css" wrap
-[data-theme='dark'] {
-	/* Colors */
-	color-scheme: dark;
-
-	/* Primary Colors: Displaying on Theme Picker */
-	--color-theme-primary: hsl(255, 22%, 10%);
-	--color-theme-secondary: hsl(189, 94%, 53%);
-
-	/* Links */
-	--color-link: hsl(188, 95%, 40%);
-	--color-link-hover: hsl(188, 95%, 50%);
-
-	/* Background Colors */
-	--color-background: hsl(255, 22%, 10%);
-	--color-background-body: hsl(255, 22%, 5%);
-
-	/* Borders */
-	--color-border-highlight: hsl(255, 22%, 20%);
-	--color-border-highlight-hover: hsl(189, 94%, 43%);
-
-	/* Text  */
-	--color-heading-text: hsla(189, 94%, 48%, 0.85);
-	--color-heading-text-hover: hsl(189, 94%, 53%, 0.9);
-	--color-body-text: hsl(255, 22%, 85%);
-	--color-body-text-low-contrast: hsl(260, 6%, 72%);
-
-	/* Gradients */
-	--color-gradient-from: hsl(188, 95%, 50%);
-	--color-gradient-to: hsl(197, 84%, 51%);
-
-	/* Input */
-	--color-input-background: hsl(255, 22%, 20%);
-	--color-input-ring-normal: hsl(255, 22%, 20%);
-	--color-input-ring-focus: hsl(189, 94%, 53%);
-	--color-input-accent: hsl(189, 94%, 53%);
-
-	/* Buttons */
-	--color-button-normal: hsl(255, 22%, 15%);
-	--color-button-active: hsl(255, 22%, 8%);
-	--color-button-hover: hsl(255, 22%, 18%);
-	--color-button-text-active: hsl(189, 94%, 53%);
-
-	/* Cards */
-	--color-card-background: hsl(256, 22%, 10%);
-	--color-card-background-hover: hsl(256, 22%, 15%);
-	--color-card-date-text: hsl(188, 86%, 53%);
-
-	/* Icons */
-	--color-icon: hsl(255, 22%, 85%);
-	--color-icon-hover: hsl(188, 86%, 53%);
-
-	/* Blockquotes */
-	--color-blockquote-indicator: hsl(189, 94%, 53%);
-	--color-blockquote-background: hsla(189, 94%, 53%, 0.5);
-	--color-blockquote-text: hsl(0, 0%, 95%);
-
-	/* Spotify */
-	--color-spotify-progress: hsl(188, 86%, 53%);
-	--color-spotify-progress-background: hsl(255, 22%, 20%);
-
-	/* Code */
-	--color-code-background: hsl(255, 22%, 20%);
-}
-```
 
 ### 🔊 Sounds
 
@@ -423,37 +255,14 @@ It works great with the sound toggle too.
 ### 🌐 SEO
 
 SEO is very important for any post or website to get indexed. I am working very heavily on the SEO. 
-Open Graph tags make it very easy to do. Here's my seo component that works on every page and article, easy to extend:
+Open Graph tags make it very easy to do. Here's my seo component that works on every page and article, easy to extend or customize:
 
 ```astro title="seo.astro" wrap
----
-import { getImage } from 'astro:assets'
-import Logo from '$assets/images/ashfid-picture-recolor.png'
-
-export type SEO = {}
-
-interface Props {
-	title: string
-	description: string
-	type: 'website' | 'article'
-	published_date?: Date
-	tags?: string[]
-}
-
-const { title, description, type, published_date, tags } = Astro.props
-
-const optimizedImage = await getImage({
-	src: Logo,
-	format: 'png',
-	width: '180'
-})
-
-const urlImage = new URL(optimizedImage.src, Astro.url)
----
-
+// Basic tags
 <title>{title}</title>
 <meta name="description" content={description} />
 
+// Open Graph Tags
 <meta property="og:type" content={type} />
 <meta property="og:url" content={Astro.url.href} />
 <meta property="og:title" content={title} />
@@ -462,13 +271,11 @@ const urlImage = new URL(optimizedImage.src, Astro.url)
 <meta property="og:image:width" content="960" />
 <meta property="og:image:height" content="960" />
 
-{
-	published_date ? (
-		<meta property="article:published_time" content={published_date.toDateString()} />
-	) : null
-}
-{tags ? <meta property="article:tag" content={tags.join(', ')} /> : null}
+// Article Open Graph Tags
+<meta property="article:published_time" content={published_date.toDateString()} />
+<meta property="article:tag" content={tags.join(', ')} />
 
+// Twitter Tags
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url.href} />
 <meta property="twitter:title" content={title} />
