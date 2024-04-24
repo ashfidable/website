@@ -7,8 +7,8 @@ const { src, ...props } = Astro.props
 
 const desktopImg = await getImage({
 	src: src!,
-	width: 1920,
-	height: 1080,
+	width: 640,
+	height: 360,
 	format: 'webp',
 	quality: 'mid'
 })
@@ -18,7 +18,7 @@ const mobileImg = await getImage({
 	width: 640,
 	height: 320,
 	format: 'webp',
-	quality: 'low'
+	quality: 'mid'
 })
 ---
 
@@ -35,7 +35,7 @@ const mobileImg = await getImage({
 			height={desktopImg.options.height}
 		/>
 	</picture>
-	<div class="text-body-low-contrast flex justify-center bg-card p-2 text-sm">
+	<div class="flex justify-center bg-card p-2 text-sm text-body-low-contrast">
 		{props.alt}
 	</div>
 </div>
