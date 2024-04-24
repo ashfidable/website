@@ -5,7 +5,6 @@ import H4 from '$components/posts/atoms/h4.astro'
 import P from '$components/posts/atoms/p.astro'
 import BlockQuote from '$components/posts/atoms/blockquote.astro'
 import A from '$components/posts/atoms/a.astro'
-import Section from '$components/posts/atoms/section.astro'
 import OL from '$components/posts/atoms/ol.astro'
 import UL from '$components/posts/atoms/ul.astro'
 import Image from '$components/posts/atoms/image.astro'
@@ -18,7 +17,6 @@ export const components = {
 	blockquote: BlockQuote,
 	a: A,
 	p: P,
-	section: Section,
 	ol: OL,
 	ul: UL,
 	img: Image
