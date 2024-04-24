@@ -8,6 +8,7 @@ import mdx from '@astrojs/mdx'
 
 // Plugins for MDX
 import expressiveCode from 'astro-expressive-code'
+import sectionize from 'remark-sectionize'
 
 // astro-icon integration
 import icon from 'astro-icon'
@@ -17,7 +18,7 @@ import icon from 'astro-icon'
 // https://astro.build/config
 export default defineConfig({
 	markdown: {
-		remarkPlugins: []
+		remarkPlugins: [sectionize]
 	},
 	integrations: [
 		icon(),
@@ -27,9 +28,7 @@ export default defineConfig({
 			themes: ['github-dark', 'aurora-x', 'rose-pine', 'rose-pine-dawn'],
 			themeCssSelector: (theme) => `[data-code-theme="${theme.name}"]`
 		}),
-		mdx({
-			optimize: true
-		})
+		mdx()
 	],
 	trailingSlash: 'never'
 })
