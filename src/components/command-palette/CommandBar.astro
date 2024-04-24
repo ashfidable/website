@@ -34,7 +34,7 @@ const snippets = await getCollection('snippets')
 			emoji: '🔗',
 			delay: 10,
 			run: () => {
-				navigate(`/snippets/${snippet.slug}`)
+				navigate(`${snippet.url}`)
 			},
 			category: 'Pages'
 		})
