@@ -7,21 +7,33 @@ const { src, ...props } = Astro.props
 
 const desktopImg = await getImage({
 	src: src!,
-	width: 360,
-	format: 'webp'
+	width: 1920,
+	format: 'webp',
+	quality: 'mid'
 })
 
 const mobileImg = await getImage({
 	src: src!,
-	width: 180,
-	format: 'webp'
+	width: 640,
+	format: 'webp',
+	quality: 'low'
 })
 ---
 
-<div class="mx-auto overflow-hidden rounded-md">
+<div
+	class="mx-auto mb-4 w-full overflow-hidden rounded-md border border-b-4 border-highlight md:w-1/2"
+>
 	<picture>
 		<source media="(max-width: 799px)" srcset={mobileImg.src} />
 		<source media="(min-width: 800px)" srcset={desktopImg.src} />
-		<img src={desktopImg.src} alt={props.alt} />
+		<img
+			src={desktopImg.src}
+			alt={props.alt}
+			width={desktopImg.options.width}
+			height={desktopImg.options.height}
+		/>
 	</picture>
+	<div class="text-body-low-contrast flex justify-center bg-card p-2 text-sm">
+		{props.alt}
+	</div>
 </div>
