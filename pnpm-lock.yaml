@@ -17,6 +17,9 @@ dependencies:
   '@fontsource-variable/raleway':
     specifier: ^5.0.17
     version: 5.0.17
+  '@fontsource-variable/roboto-condensed':
+    specifier: ^5.0.3
+    version: 5.0.3
   '@fontsource/inter':
     specifier: ^5.0.8
     version: 5.0.8
@@ -993,6 +996,10 @@ packages:
 
   /@fontsource-variable/raleway@5.0.17:
     resolution: {integrity: sha512-wPkYD9UACWS1fM4GUYwKhJDGE5tD1IuVIkGcbccsuip+PmbIRApqDF7tlpkD333xXlmP4tsRZsXkAj8IBTkRrg==}
+    dev: false
+
+  /@fontsource-variable/roboto-condensed@5.0.3:
+    resolution: {integrity: sha512-0GjOjaNXe+dv1pUqciPlTFZi1Z96nIz8RSRn4qn35cMROcdSnuYa2+BTngr1w0oX53HSVCxWL7AAYg7tD2Wfxw==}
     dev: false
 
   /@fontsource/inter@5.0.8:
