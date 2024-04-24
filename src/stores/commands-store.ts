@@ -25,7 +25,7 @@ let initialCommands: CommandProps[] = [
 	},
 	{
 		id: 2,
-		title: 'Fly to Blog',
+		title: 'Go to Blog',
 		emoji: '🔗',
 		delay: 20,
 		run: () => {
@@ -35,7 +35,7 @@ let initialCommands: CommandProps[] = [
 	},
 	{
 		id: 3,
-		title: 'Head to Uses',
+		title: 'Go to Uses',
 		emoji: '🔗',
 		delay: 20,
 		run: () => {
@@ -98,7 +98,7 @@ export const commandsStore = createCommandsStore()
 
 commandsStore.addCommand({
 	id: 3,
-	title: 'Head to Uses',
+	title: 'Go to Uses',
 	emoji: '🔗',
 	delay: 20,
 	run: () => {
