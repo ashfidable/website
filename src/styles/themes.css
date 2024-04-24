@@ -1,9 +1,9 @@
 :root {
 	/* Fonts */
 	--font-heading: 'Roboto Condensed Variable', system-ui, sans-serif;
-	--font-body: 'Inter', system-ui, sans-serif;
-	/* --font-heading: system-ui, sans-serif;
-	--font-body: system-ui, sans-serif; */
+	/* --font-body: 'Inter', system-ui, sans-serif; */
+	/* --font-heading: system-ui, sans-serif; */
+	--font-body: system-ui, sans-serif;
 	--rounded-radius: 0.375rem;
 
 	--ease: linear(
