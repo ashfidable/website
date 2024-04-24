@@ -166,15 +166,13 @@
 }
 
 [data-type='web'] {
-	--color-category-highlight: hsl(271, 76%, 63%);
-	--color-category-background: rgba(111, 22, 190, 1);
-	--color-category-text: black;
-	/* --color-card-date-text: rgba(221, 22, 224, 1); */
+	--color-category-highlight: hsl(243, 68%, 63%);
+	--color-category-background: hsl(251, 76%, 63%);
+	--color-category-text: white;
 }
 
 [data-type='tool'] {
 	--color-category-highlight: hsl(330, 91%, 69%);
 	--color-category-background: hsl(347, 76%, 63%);
 	--color-category-text: black;
-	/* --color-card-date-text: hsl(330, 91%, 69%); */
 }
