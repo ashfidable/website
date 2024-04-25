@@ -42,31 +42,6 @@ let initialCommands: CommandProps[] = [
 			navigate('/uses')
 		},
 		category: 'Pages'
-	},
-	{
-		id: 4,
-		title: `Toggle Theme`,
-		emoji: '🔨',
-		delay: 20,
-		run: () => {
-			if (get(settingsStore).theme === 'light') {
-				const darkTheme = themes.find((t) => t.name === 'dark')
-				settingsStore.set({
-					...get(settingsStore),
-					theme: darkTheme?.name!,
-					codeTheme: darkTheme?.codeTheme
-				})
-			} else {
-				const lightTheme = themes.find((t) => t.name === 'light')
-
-				settingsStore.set({
-					...get(settingsStore),
-					theme: lightTheme?.name!,
-					codeTheme: lightTheme?.codeTheme
-				})
-			}
-		},
-		category: 'Settings'
 	}
 ]
 
@@ -75,9 +50,10 @@ function createCommandsStore() {
 
 	function addCommand(newCommand: CommandProps) {
 		update((commands) => {
-			const isDuplicateCommand = commands.find((command) => command.id === newCommand.id)
+			const isDuplicateCommand = commands.find((command) => command.title === newCommand.title)
 
 			if (isDuplicateCommand) {
+				console.log(isDuplicateCommand)
 				return [...commands]
 			}
 
@@ -97,12 +73,31 @@ function createCommandsStore() {
 export const commandsStore = createCommandsStore()
 
 commandsStore.addCommand({
-	id: 3,
-	title: 'Go to Uses',
-	emoji: '🔗',
+	title: `Toggle Rounded`,
+	emoji: '🔨',
 	delay: 20,
 	run: () => {
-		navigate('/uses')
+		settingsStore.toggleRounded()
 	},
-	category: 'Pages'
+	category: 'Settings'
+})
+
+commandsStore.addCommand({
+	title: `Toggle Dark Theme`,
+	emoji: '🔨',
+	delay: 20,
+	run: () => {
+		settingsStore.changeTheme('dark')
+	},
+	category: 'Settings'
+})
+
+commandsStore.addCommand({
+	title: `Toggle Light Theme`,
+	emoji: '🔨',
+	delay: 20,
+	run: () => {
+		settingsStore.changeTheme('light')
+	},
+	category: 'Settings'
 })
