@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition'
 	import { settingsStore } from '$stores/settings-store'
-	import { afterUpdate } from 'svelte'
+	import { commandsStore } from '$stores/commands-store'
+	import { afterUpdate, onMount } from 'svelte'
 	import { themes } from '$components/settings/themes'
 
 	const DELAY_DURATION = 75
@@ -16,13 +17,29 @@
 		themeSelected = newTheme.name
 		$settingsStore.theme = themeSelected
 		$settingsStore.codeTheme = newTheme.codeTheme
+		apply()
 	}
 
-	$: $settingsStore.rounded = isRounded
+	function handleRounds() {
+		$settingsStore.rounded = isRounded
+		apply()
+	}
 
 	$: afterUpdate(() => {
 		localStorage.setItem('sounds', `${isSounds}`)
 	})
+
+	function apply() {
+		Object.keys($settingsStore).forEach((setting) => {
+			// @ts-ignore
+			const value: string = $settingsStore[setting]
+
+			if (document.documentElement) {
+				document.documentElement.dataset[setting] = value
+			}
+		})
+		localStorage.setItem('settings', JSON.stringify($settingsStore))
+	}
 
 	$: afterUpdate(() => {
 		Object.keys($settingsStore).forEach((setting) => {
@@ -34,11 +51,15 @@
 			}
 		})
 	})
+
+	$: themeSelected = $settingsStore.theme
+	$: isRounded = $settingsStore.rounded
 </script>
 
 <div class="flex items-center gap-4 text-2xl md:text-xl py-4 md:py-0">
 	<div class="flex gap-4 items-center">
 		<button on:click={(e) => (isSounds = !isSounds)} class:text-button-text-active={isSounds}>
+			<span class="sr-only">Sounds</span>
 			{#if isSounds}
 				<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 					<path
@@ -55,7 +76,12 @@
 				</svg>
 			{/if}
 		</button>
-		<button on:click={(e) => (isRounded = !isRounded)} class:text-button-text-active={isRounded}>
+		<button
+			on:click={(e) => (isRounded = !isRounded)}
+			class:text-button-text-active={isRounded}
+			on:click={handleRounds}
+		>
+			<span class="sr-only">Rounds</span>
 			{#if isRounded}
 				<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 					<path
@@ -70,6 +96,7 @@
 			{/if}
 		</button>
 		<button on:click={(e) => (isExpanded = !isExpanded)} class:text-button-text-active={isExpanded}>
+			<span class="sr-only">Themes</span>
 			<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 				<path
 					fill="currentColor"
