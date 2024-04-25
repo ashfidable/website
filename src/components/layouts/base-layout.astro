@@ -25,6 +25,49 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 
 		<slot name="seo" />
 		<ViewTransitions fallback="swap" />
+
+		<script data-astro-rerun>
+			function setSettings(newDocument) {
+				const element = newDocument.documentElement
+
+				Object.keys(getSettings()).map((key) => {
+					const value = getSettings()[key]
+
+					element.dataset[key] = value
+				})
+
+				if (typeof localStorage !== undefined) {
+					localStorage.setItem(
+						'settings',
+						JSON.stringify({
+							...getSettings()
+						})
+					)
+				}
+			}
+
+			function getSettings() {
+				if (typeof localStorage !== undefined && localStorage.getItem('settings')) {
+					return JSON.parse(localStorage.getItem('settings'))
+				}
+
+				const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+				if (isDark) {
+					return {
+						theme: 'dark',
+						rounded: 'true'
+					}
+				} else {
+					return {
+						theme: 'light',
+						rounded: 'true'
+					}
+				}
+			}
+
+			setSettings(document)
+		</script>
 	</head>
 	<body
 		class="mx-auto mb-20 min-h-screen max-w-6xl grid-cols-sidebar-layout bg-body text-body md:mb-auto md:grid"
@@ -65,27 +108,49 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 		<script>
 			import { themes } from '$components/settings/themes'
 
+			document.addEventListener('astro:before-swap', (ev) => {
+				if (getSettings()) {
+					setSettings(ev.newDocument)
+				}
+			})
+
+			document.addEventListener('astro:page-load', () => {
+				if (getSettings()) {
+					const codeTheme = 'codeTheme' in getSettings()
+					if (codeTheme) return
+					const themesDB = themes.find((t) => t.name === getSettings().theme)
+					const currentSetting = JSON.parse(localStorage.getItem('settings')!)
+					localStorage.setItem(
+						'settings',
+						JSON.stringify({ ...currentSetting, codeTheme: themesDB?.codeTheme })
+					)
+
+					setSettings(document)
+				}
+			})
+
 			function getSettings() {
 				if (typeof localStorage !== undefined && localStorage.getItem('settings')) {
 					return JSON.parse(localStorage.getItem('settings')!)
 				}
+				// const darkTheme = themes.find((t) => t.name === 'dark')
+				// const lightTheme = themes.find((t) => t.name === 'light')
 
-				if (window.matchMedia('(prefers-color-scheme: dark)')) {
-					const darkTheme = themes.find((t) => t.name === 'dark')
-					return {
-						theme: darkTheme?.name,
-						codeTheme: darkTheme?.codeTheme,
-						rounded: 'on'
-					}
-				}
+				// const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
-				const lightTheme = themes.find((t) => t.name === 'light')
-
-				return {
-					theme: lightTheme?.name,
-					codeTheme: lightTheme?.codeTheme,
-					rounded: 'on'
-				}
+				// if (isDark) {
+				// 	return {
+				// 		theme: darkTheme?.name,
+				// 		codeTheme: darkTheme?.codeTheme,
+				// 		rounded: 'on'
+				// 	}
+				// } else {
+				// 	return {
+				// 		theme: lightTheme?.name,
+				// 		codeTheme: lightTheme?.codeTheme,
+				// 		rounded: 'on'
+				// 	}
+				// }
 			}
 
 			function setSettings(newDocument: Document) {
@@ -99,14 +164,6 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 
 				localStorage.setItem('settings', JSON.stringify(getSettings()))
 			}
-
-			setSettings(document)
-
-			document.addEventListener('astro:before-swap', (ev) => {
-				if (localStorage.getItem('settings')) {
-					setSettings(ev.newDocument)
-				}
-			})
 		</script>
 	</body>
 </html>
