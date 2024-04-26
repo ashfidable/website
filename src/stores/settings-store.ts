@@ -1,5 +1,4 @@
 import { get, writable } from 'svelte/store'
-import { themes } from '$components/settings/themes'
 
 interface Settings {
 	theme: string
@@ -7,14 +6,13 @@ interface Settings {
 	sound?: boolean
 }
 
-function createSettingsStore() {
-	const darktheme = themes.find((t) => t.name === 'dark')!
+let initialValues: Settings = {
+	theme: 'dark',
+	rounded: true,
+	sound: true
+}
 
-	let initialValues: Settings = {
-		theme: darktheme.name,
-		rounded: true,
-		sound: true
-	}
+function createSettingsStore() {
 	const store = writable<Settings>(initialValues)
 
 	const localStorageAvailable = typeof localStorage !== 'undefined'
@@ -24,10 +22,8 @@ function createSettingsStore() {
 	if (getValueFromLocalStorage !== null) {
 		const value: Settings = JSON.parse(getValueFromLocalStorage)
 		store.set({ ...initialValues, ...value })
-	}
-
-	if (localStorageAvailable) {
 		saveToLocalStorage()
+		applyToLayout()
 	}
 
 	function toggleRounded() {
@@ -54,17 +50,10 @@ function createSettingsStore() {
 	}
 
 	function changeTheme(themeName: string) {
-		const foundTheme = themes.find((t) => t.name === themeName)
-
-		if (!foundTheme) {
-			console.log('No Theme Found')
-			return
-		}
-
 		store.update((values) => {
 			return {
 				...values,
-				theme: foundTheme.name
+				theme: themeName
 			}
 		})
 
@@ -78,10 +67,10 @@ function createSettingsStore() {
 
 	function applyToLayout() {
 		Object.keys(get(store)).map((key) => {
-			const value = get(store)[key]
+			const value = get(store)[key as keyof Settings]
 
-			if (document.documentElement) {
-				document.documentElement.dataset[key] = value
+			if (document.documentElement && key !== 'sound' && key !== 'version') {
+				document.documentElement.setAttribute(`data-${key}`, value as string)
 			}
 		})
 	}
