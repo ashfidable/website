@@ -14,22 +14,11 @@ import sectionize from 'remark-sectionize'
 import icon from 'astro-icon'
 
 // https://astro.build/config
-
-// https://astro.build/config
 export default defineConfig({
 	site: 'https://website-six-drab-67.vercel.app/',
 	markdown: {
 		remarkPlugins: [sectionize]
 	},
-	integrations: [
-		icon(),
-		tailwind(),
-		svelte(),
-		expressiveCode({
-			themes: ['github-dark', 'aurora-x', 'rose-pine', 'rose-pine-dawn'],
-			themeCssSelector: (theme) => `[data-code-theme="${theme.name}"]`
-		}),
-		mdx()
-	],
+	integrations: [icon(), tailwind(), svelte(), expressiveCode(), mdx()],
 	trailingSlash: 'never'
 })
