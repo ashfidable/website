@@ -3,17 +3,17 @@ import { themes } from '$components/settings/themes'
 
 interface Settings {
 	theme: string
-	codeTheme?: string
 	rounded?: boolean
+	sound?: boolean
 }
 
 function createSettingsStore() {
 	const darktheme = themes.find((t) => t.name === 'dark')!
 
-	let initialValues = {
+	let initialValues: Settings = {
 		theme: darktheme.name,
-		codeTheme: darktheme.codeTheme,
-		rounded: true
+		rounded: true,
+		sound: true
 	}
 	const store = writable<Settings>(initialValues)
 
@@ -21,9 +21,13 @@ function createSettingsStore() {
 
 	const getValueFromLocalStorage = localStorageAvailable ? localStorage.getItem('settings') : null
 
-	if (getValueFromLocalStorage !== null && localStorageAvailable) {
+	if (getValueFromLocalStorage !== null) {
 		const value: Settings = JSON.parse(getValueFromLocalStorage)
-		store.set(value)
+		store.set({ ...initialValues, ...value })
+	}
+
+	if (localStorageAvailable) {
+		saveToLocalStorage()
 	}
 
 	function toggleRounded() {
@@ -34,7 +38,19 @@ function createSettingsStore() {
 			}
 		})
 
-		localStorage.setItem('settings', JSON.stringify(get(store)))
+		saveToLocalStorage()
+		applyToLayout()
+	}
+
+	function toggleSounds() {
+		store.update((values) => {
+			return {
+				...values,
+				sound: (values.sound = !values.sound)
+			}
+		})
+
+		saveToLocalStorage()
 	}
 
 	function changeTheme(themeName: string) {
@@ -48,24 +64,33 @@ function createSettingsStore() {
 		store.update((values) => {
 			return {
 				...values,
-				theme: foundTheme.name,
-				codeTheme: foundTheme.codeTheme
+				theme: foundTheme.name
 			}
 		})
 
+		saveToLocalStorage()
+		applyToLayout()
+	}
+
+	function saveToLocalStorage() {
 		localStorage.setItem('settings', JSON.stringify(get(store)))
 	}
 
-	// store.subscribe((value) => {
-	// 	if (localStorageAvailable) {
-	// 		localStorage.setItem('settings', JSON.stringify(value))
-	// 	}
-	// })
+	function applyToLayout() {
+		Object.keys(get(store)).map((key) => {
+			const value = get(store)[key]
+
+			if (document.documentElement) {
+				document.documentElement.dataset[key] = value
+			}
+		})
+	}
 
 	return {
 		...store,
 		toggleRounded,
-		changeTheme
+		changeTheme,
+		toggleSounds
 	}
 }
 

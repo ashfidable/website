@@ -1,56 +1,46 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition'
 	import { settingsStore } from '$stores/settings-store'
-	import { commandsStore } from '$stores/commands-store'
-	import { afterUpdate, onMount } from 'svelte'
+	import { afterUpdate } from 'svelte'
 	import { themes } from '$components/settings/themes'
 
 	const DELAY_DURATION = 75
 	const THEMES = themes
 
-	let themeSelected = $settingsStore.theme
 	let isExpanded = false
 	let isRounded = $settingsStore.rounded
-	let isSounds = true
 
 	function handleTheme(newTheme: (typeof themes)[0]) {
 		themeSelected = newTheme.name
-		$settingsStore.theme = themeSelected
-		$settingsStore.codeTheme = newTheme.codeTheme
-		apply()
+		settingsStore.changeTheme(newTheme.name)
 	}
 
 	function handleRounds() {
-		$settingsStore.rounded = isRounded
-		apply()
+		settingsStore.toggleRounded()
 	}
 
-	$: afterUpdate(() => {
-		localStorage.setItem('sounds', `${isSounds}`)
-	})
+	// function apply() {
+	// 	Object.keys($settingsStore).forEach((setting) => {
+	// 		// @ts-ignore
+	// 		const value: string = $settingsStore[setting]
 
-	function apply() {
-		Object.keys($settingsStore).forEach((setting) => {
-			// @ts-ignore
-			const value: string = $settingsStore[setting]
+	// 		if (document.documentElement) {
+	// 			document.documentElement.dataset[setting] = value
+	// 		}
+	// 	})
+	// 	localStorage.setItem('settings', JSON.stringify($settingsStore))
+	// }
 
-			if (document.documentElement) {
-				document.documentElement.dataset[setting] = value
-			}
-		})
-		localStorage.setItem('settings', JSON.stringify($settingsStore))
-	}
+	// $: afterUpdate(() => {
+	// 	Object.keys($settingsStore).forEach((setting) => {
+	// 		// @ts-ignore
+	// 		const value: string = $settingsStore[setting]
 
-	$: afterUpdate(() => {
-		Object.keys($settingsStore).forEach((setting) => {
-			// @ts-ignore
-			const value: string = $settingsStore[setting]
-
-			if (document.documentElement) {
-				document.documentElement.dataset[setting] = value
-			}
-		})
-	})
+	// 		if (document.documentElement) {
+	// 			document.documentElement.dataset[setting] = value
+	// 		}
+	// 	})
+	// })
 
 	$: themeSelected = $settingsStore.theme
 	$: isRounded = $settingsStore.rounded
@@ -58,9 +48,12 @@
 
 <div class="flex items-center gap-4 text-2xl md:text-xl py-4 md:py-0">
 	<div class="flex gap-4 items-center">
-		<button on:click={(e) => (isSounds = !isSounds)} class:text-button-text-active={isSounds}>
+		<button
+			class:text-button-text-active={$settingsStore.sound}
+			on:click={() => settingsStore.toggleSounds()}
+		>
 			<span class="sr-only">Sounds</span>
-			{#if isSounds}
+			{#if $settingsStore.sound}
 				<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 					<path
 						fill="currentColor"
@@ -77,9 +70,8 @@
 			{/if}
 		</button>
 		<button
-			on:click={(e) => (isRounded = !isRounded)}
-			class:text-button-text-active={isRounded}
-			on:click={handleRounds}
+			on:click={(e) => settingsStore.toggleRounded()}
+			class:text-button-text-active={$settingsStore.rounded}
 		>
 			<span class="sr-only">Rounds</span>
 			{#if isRounded}
@@ -119,8 +111,8 @@
 					class="h-6 w-6 bg-gradient-to-r from-[var(--color-theme-primary)] to-[--color-theme-secondary] from-65% to-50% outline outline-2 outline-highlight rounded-md"
 					in:fade={{ delay: DELAY_DURATION * (index + 1) }}
 					on:click={(e) => handleTheme(theme)}
-					class:outline-highlight-hover={theme.name === themeSelected}
-					class:outline-offset-2={theme.name === themeSelected}
+					class:outline-highlight-hover={theme.name === $settingsStore.theme}
+					class:outline-offset-2={theme.name === $settingsStore.theme}
 				></button>
 			{/if}
 		{/each}
