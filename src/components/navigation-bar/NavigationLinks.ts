@@ -20,8 +20,8 @@ export const Links = [
 		icon: 'mdi:treasure-chest-outline'
 	},
 	{
-		name: 'Uses',
-		url: '/uses',
+		name: 'Tools',
+		url: '/tools',
 		icon: 'mdi:toolbox-outline'
 	}
 ]

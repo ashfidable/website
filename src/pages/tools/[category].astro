@@ -1,7 +1,7 @@
 ---
+import ToolsLayout from '$components/layouts/tools-layout.astro'
 import BaseSeo from '$components/base-seo.astro'
-import UsesCard from '$components/cards/uses-card.astro'
-import UsesLayout from '$layouts/uses-layout.astro'
+import UsesCard from '$components/cards/tool-card.astro'
 import { getCollection, type CollectionEntry, getEntries } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -27,23 +27,14 @@ export async function getStaticPaths() {
 		props: {
 			tools: tools.filter((tool) =>
 				tool.data.categories.some((cat) => cat.id === category.data.name.toLowerCase())
-			),
-			category: category.data.name
+			)
 		}
 	}))
 }
 
-const { tools, category } = Astro.props
+const { tools } = Astro.props
 ---
 
-<UsesLayout>
-	<Fragment slot="seo">
-		<BaseSeo
-			title={`Uses - ${category}`}
-			description={`${category} applications used by Ashfid`}
-			type="website"
-		/>
-	</Fragment>
-
+<ToolsLayout>
 	{tools.map((tool) => <UsesCard tool={tool} />)}
-</UsesLayout>
+</ToolsLayout>
