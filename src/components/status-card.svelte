@@ -20,7 +20,7 @@
 
 	// For Progress Bar
 	function updateTimestamps(spotify_data: typeof $data) {
-		if (spotify_data) {
+		if (spotify_data && data) {
 			currentTimestamp = Date.now()
 			startTimestamp = spotify_data.spotify?.timestamps.start!
 			endTimestamp = spotify_data.spotify?.timestamps.end!
@@ -37,7 +37,9 @@
 
 	$: {
 		clearInterval(clear)
-		clear = setInterval(() => updateTimestamps($data), intervalRate)
+		if ($data) {
+			clear = setInterval(() => updateTimestamps($data), intervalRate)
+		}
 	}
 
 	$: formattedSeconds = currentSeconds < 10 ? '0' + currentSeconds : currentSeconds
