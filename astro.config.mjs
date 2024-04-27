@@ -15,7 +15,7 @@ import icon from 'astro-icon'
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://website-six-drab-67.vercel.app/',
+	site: 'https://ashfid.dev',
 	markdown: {
 		remarkPlugins: [sectionize]
 	},
