@@ -88,56 +88,7 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 			</div>
 		</main>
 
-		<script>
-			document.addEventListener('astro:page-load', (ev) => {
-				const click = new Audio('/audio/clicky.mp3')
-				click.load()
-				const allLinkElements = document.querySelectorAll('nav a[href]')
-
-				click.addEventListener('canplaythrough', () => {
-					allLinkElements.forEach((link) => {
-						link.addEventListener('click', playClick)
-					})
-				})
-
-				function playClick() {
-					const getSoundsPreferenceFromStorage = localStorage.getItem('settings')
-					const sounds = JSON.parse(getSoundsPreferenceFromStorage!).sound
-
-					click.volume = 0.5
-					click.currentTime = 0
-
-					if (sounds) {
-						click.play()
-					}
-				}
-			})
-		</script>
-
-		<script>
-			document.addEventListener('astro:before-swap', (ev) => {
-				if (getSettings()) {
-					setSettings(ev.newDocument)
-				}
-			})
-
-			function getSettings() {
-				if (typeof localStorage !== undefined && localStorage.getItem('settings')) {
-					return JSON.parse(localStorage.getItem('settings')!)
-				}
-			}
-
-			function setSettings(newDocument: Document) {
-				const element = newDocument.documentElement
-
-				Object.keys(getSettings()).map((key) => {
-					const value = getSettings()[key]
-
-					if (key !== 'sound' && key !== 'version') element.dataset[key] = value
-				})
-
-				localStorage.setItem('settings', JSON.stringify(getSettings()))
-			}
-		</script>
+		<script src="$utils/play-audio.ts"></script>
+		<script src="$utils/theme-flash-fix.ts"></script>
 	</body>
 </html>
