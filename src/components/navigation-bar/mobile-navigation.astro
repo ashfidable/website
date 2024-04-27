@@ -115,4 +115,30 @@ const isCurrentPage = (url: string) => {
 			setMode()
 		})
 	})
+
+	document.addEventListener('astro:before-swap', (ev) => {
+		let open = false
+
+		const doc = ev.newDocument
+		const menuOverlay = doc.querySelector('#mobile-menu-overlay')
+		const mobileMenu = doc.querySelector('#mobile-menu-content')
+		const menuButton = doc.querySelector('#mobile-button')
+
+		function setMode() {
+			if (open) {
+				mobileMenu.classList.remove('hidden')
+			} else {
+				mobileMenu.classList.add('hidden')
+			}
+		}
+
+		menuButton?.addEventListener('click', () => {
+			open = true
+			setMode()
+		})
+		menuOverlay?.addEventListener('click', () => {
+			open = false
+			setMode()
+		})
+	})
 </script>
