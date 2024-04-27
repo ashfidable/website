@@ -113,23 +113,20 @@
 			hoverIndex = 0
 			switchSelectedCommand(commandButtons[hoverIndex])
 			searchTerm = ''
+			document.body.style.overflow = 'hidden'
+		}
+		if (!isOpen) {
+			document.body.style.overflow = 'auto'
 		}
 	}
 
 	const keyboardShortcuts = async (e: KeyboardEvent) => {
 		if (e.ctrlKey && e.key === '/' && !isOpen) {
-			isOpen = true
-			if (searchBar && isOpen) {
-				await tick()
-				searchBar.focus()
-				hoverIndex = 0
-				switchSelectedCommand(commandButtons[hoverIndex])
-				searchTerm = ''
-			}
+			setOpen()
 		}
 
 		if (e.key === 'Escape' && isOpen) {
-			isOpen = false
+			setOpen()
 		}
 	}
 
@@ -190,7 +187,7 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
-	class="bg-body w-2/4 max-w-4xl inset-0 bottom-[30vh] z-[100] rounded-md p-2 border border-highlight"
+	class="bg-body w-2/4 max-w-4xl inset-0 z-[100] rounded-md p-2 border border-highlight"
 	open={isOpen}
 	bind:this={dialog}
 	on:keydown={tabTrapFocus}
