@@ -19,11 +19,13 @@ const optimizedImage = await getImage({
 })
 
 const urlImage = new URL(optimizedImage.src, Astro.url)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 ---
 
 <title>{title}</title>
-<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
 
+<meta name="description" content={description} />
 <meta property="og:type" content={type} />
 <meta property="og:url" content={Astro.url.href} />
 <meta property="og:title" content={title} />
