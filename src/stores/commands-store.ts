@@ -1,7 +1,6 @@
-import { get, writable } from 'svelte/store'
+import { writable } from 'svelte/store'
 import { settingsStore } from './settings-store'
 import { navigate } from 'astro:transitions/client'
-import { themes } from '$components/settings/themes'
 
 export type CommandProps = {
 	id?: number
@@ -12,41 +11,10 @@ export type CommandProps = {
 	delay?: number
 }
 
-let initialCommands: CommandProps[] = [
-	{
-		id: 1,
-		title: 'Go to Snippets',
-		emoji: '🔗',
-		delay: 20,
-		run: () => {
-			navigate('/snippets')
-		},
-		category: 'Pages'
-	},
-	{
-		id: 2,
-		title: 'Go to Blog',
-		emoji: '🔗',
-		delay: 20,
-		run: () => {
-			navigate('/blog')
-		},
-		category: 'Pages'
-	},
-	{
-		id: 3,
-		title: 'Go to Uses',
-		emoji: '🔗',
-		delay: 20,
-		run: () => {
-			navigate('/uses')
-		},
-		category: 'Pages'
-	}
-]
+let initialCommands: CommandProps[] = []
 
 function createCommandsStore() {
-	const { subscribe, set, update } = writable<CommandProps[]>(initialCommands)
+	const { subscribe, update } = writable<CommandProps[]>(initialCommands)
 
 	function addCommand(newCommand: CommandProps) {
 		update((commands) => {
@@ -74,30 +42,30 @@ export const commandsStore = createCommandsStore()
 
 commandsStore.addCommand({
 	title: `Toggle Rounded`,
-	emoji: '🔨',
+	emoji: '⚙️',
 	delay: 20,
 	run: () => {
 		settingsStore.toggleRounded()
 	},
-	category: 'Settings'
+	category: 'Preferences'
 })
 
 commandsStore.addCommand({
 	title: `Toggle Dark Theme`,
-	emoji: '🔨',
+	emoji: '⚙️',
 	delay: 20,
 	run: () => {
 		settingsStore.changeTheme('dark')
 	},
-	category: 'Settings'
+	category: 'Preferences'
 })
 
 commandsStore.addCommand({
 	title: `Toggle Light Theme`,
-	emoji: '🔨',
+	emoji: '⚙️',
 	delay: 20,
 	run: () => {
 		settingsStore.changeTheme('light')
 	},
-	category: 'Settings'
+	category: 'Preferences'
 })
