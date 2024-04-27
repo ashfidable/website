@@ -30,7 +30,7 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 				Object.keys(getSettings()).map((key) => {
 					const value = getSettings()[key]
 
-					element.dataset[key] = value
+					if (key !== 'sound' && key !== 'version') element.setAttribute(`data-${key}`, value)
 				})
 
 				if (typeof localStorage !== undefined) {
@@ -61,6 +61,18 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 				}
 			}
 
+			function setVersion() {
+				if (typeof localStorage !== undefined) {
+					const version = JSON.parse(localStorage.getItem('version'))
+
+					if (!version) {
+						localStorage.clear()
+						localStorage.setItem('version', JSON.stringify(1))
+					}
+				}
+			}
+
+			setVersion()
 			setSettings(document)
 		</script>
 	</head>
@@ -76,10 +88,10 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 			</div>
 		</main>
 
-		<script is:inline>
+		<script>
 			document.addEventListener('astro:page-load', (ev) => {
 				const click = new Audio('/audio/clicky.mp3')
-				const allLinkElements = document.querySelectorAll('nav a[href]')
+				const allLinkElements = document.querySelectorAll('a[href]')
 
 				click.addEventListener('canplaythrough', () => {
 					allLinkElements.forEach((link) => {
@@ -89,7 +101,7 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 
 				function playClick() {
 					const getSoundsPreferenceFromStorage = localStorage.getItem('settings')
-					const sounds = JSON.parse(getSoundsPreferenceFromStorage).sound
+					const sounds = JSON.parse(getSoundsPreferenceFromStorage!).sound
 
 					click.volume = 0.5
 					click.currentTime = 0
@@ -120,7 +132,7 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 				Object.keys(getSettings()).map((key) => {
 					const value = getSettings()[key]
 
-					element.dataset[key] = value
+					if (key !== 'sound' && key !== 'version') element.dataset[key] = value
 				})
 
 				localStorage.setItem('settings', JSON.stringify(getSettings()))
