@@ -1,16 +1,14 @@
 ---
 import SettingsRevamp from '$components/settings/settings-revamp.svelte'
 import CommandPalette from '$components/command-palette/command-palette.svelte'
-import { getCollection } from 'astro:content'
-
-const snippets = await getCollection('snippets')
 ---
 
 <div
 	class="hidden items-center justify-between border-b-highlight bg-card p-2 px-4 text-sm md:flex md:border-b-2"
+	transition:persist="command-bar"
 >
 	<CommandPalette client:idle />
-	<section transition:persist="settings"><SettingsRevamp client:idle /></section>
+	<section><SettingsRevamp client:idle /></section>
 </div>
 
 <script>
@@ -20,15 +18,15 @@ const snippets = await getCollection('snippets')
 	const res = await fetch('/api/posts.json')
 	const data = await res.json()
 
-	const allSnippets = data
+	const allPosts = data
 
-	allSnippets.forEach((snippet: any) => {
+	allPosts.forEach((post: any) => {
 		commandsStore.addCommand({
-			title: `Go to ${snippet.title}`,
+			title: `Go to ${post.title}`,
 			emoji: '🔗',
 			delay: 10,
 			run: () => {
-				navigate(`${snippet.url}`)
+				navigate(`${post.url}`)
 			},
 			category: 'Pages'
 		})
