@@ -13,21 +13,34 @@ import CommandPalette from '$components/command-palette/command-palette.svelte'
 <script>
 	import { navigate } from 'astro:transitions/client'
 	import { commandsStore } from '$stores/commands-store'
+	import { Links } from '$components/navigation-bar/NavigationLinks'
 
 	const res = await fetch('/api/posts.json')
 	const data = await res.json()
 
 	const allPosts = data
 
+	Links.forEach((link) => {
+		commandsStore.addCommand({
+			title: link.name,
+			emoji: '🔗',
+			delay: 10,
+			run: () => {
+				navigate(link.url)
+			},
+			category: 'Go To'
+		})
+	})
+
 	allPosts.forEach((post: any) => {
 		commandsStore.addCommand({
-			title: `Go to ${post.title}`,
+			title: `${post.title}`,
 			emoji: '🔗',
 			delay: 10,
 			run: () => {
 				navigate(`${post.url}`)
 			},
-			category: 'Pages'
+			category: 'Go To'
 		})
 	})
 </script>
