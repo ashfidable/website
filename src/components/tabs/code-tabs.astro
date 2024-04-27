@@ -48,8 +48,8 @@ const codeBlocks = await getCodeBlocks()
 	</div>
 </div>
 
-<script data-astro-rerun>
-	document.addEventListener('astro:page-load', (ev) => {
+<script>
+	function setup(document: Document) {
 		const containers = document.querySelectorAll('.tabs-container')
 
 		containers.forEach((container) => {
@@ -129,5 +129,12 @@ const codeBlocks = await getCodeBlocks()
 				switchTab(targetTab)
 			}
 		})
+	}
+	document.addEventListener('astro:page-load', (ev) => {
+		setup(document)
+	})
+
+	document.addEventListener('astro:before-swap', (ev) => {
+		setup(ev.newDocument)
 	})
 </script>
