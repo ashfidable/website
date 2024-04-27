@@ -5,10 +5,9 @@ import CommandPalette from '$components/command-palette/command-palette.svelte'
 
 <div
 	class="hidden items-center justify-between border-b-highlight bg-card p-2 px-4 text-sm md:flex md:border-b-2"
-	transition:persist="command-bar"
 >
-	<CommandPalette client:idle />
-	<section><SettingsRevamp client:idle /></section>
+	<section><CommandPalette client:idle /></section>
+	<section transition:persist="settings"><SettingsRevamp client:idle /></section>
 </div>
 
 <script>
