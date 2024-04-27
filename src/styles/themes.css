@@ -155,7 +155,7 @@
 
 	/* Blockquotes */
 	--color-blockquote-indicator: hsl(265, 91%, 35%);
-	--color-blockquote-background: hsla(265, 91%, 35%, 0.4);
+	--color-blockquote-background: rgb(140, 81, 224);
 	--color-blockquote-text: hsl(0, 0%, 100%);
 
 	/* Spotify */
