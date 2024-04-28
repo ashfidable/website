@@ -88,6 +88,15 @@ const isCurrentPage = (url: string) => {
 	#mobile-menu-overlay {
 		-webkit-tap-highlight-color: transparent;
 	}
+
+	nav {
+		view-transition-name: mobile-navigation;
+	}
+
+	:global(::view-transition-group(mobile-navigation)) {
+		position: fixed;
+		z-index: 100;
+	}
 </style>
 
 <script is:inline>
