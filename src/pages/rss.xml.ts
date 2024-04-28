@@ -13,7 +13,7 @@ export async function GET(context: APIContext) {
 	return rss({
 		title: "Ashfid's Posts",
 		description:
-			'Digital Garden of Ashfid. Writing my thoughts, sharing dev secrets to simplify your coding life!',
+			'I’m a Software Engineer and Programmer. This cozy corner is for sharing my thoughts, tutorials, and much more. Welcome to my digital garden.',
 		site: context.site ?? 'localhost:4321',
 		items: [
 			...posts.map((post) => ({
@@ -30,7 +30,7 @@ export async function GET(context: APIContext) {
 				title: snippet.data.title,
 				description: snippet.data.description,
 				tags: snippet.data.tags.join(', '),
-				link: `/blog/${snippet.slug}`,
+				link: `/snippets/${snippet.slug}`,
 				pubDate: snippet.data.published_time,
 				content: sanitizeHtml(parser.render(snippet.body), {
 					allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
