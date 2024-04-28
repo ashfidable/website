@@ -17,6 +17,7 @@ const snippetCollection = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		published_time: z.date(),
+		last_modified_time: z.date().optional(),
 		url: z.string(),
 		category: reference('categories'),
 		tags: z.array(z.string())
