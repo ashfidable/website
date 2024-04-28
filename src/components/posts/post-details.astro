@@ -1,12 +1,12 @@
 ---
-import { formatDate } from '$utils/date-formatter'
+import { formatDateSlash } from '$utils/date-formatter'
 import { getReadingTime } from '$utils/reading-time'
 import { Icon } from 'astro-icon/components'
 
 import { type CollectionEntry } from 'astro:content'
 
 interface Props {
-	post: CollectionEntry<'snippets'> & CollectionEntry<'blog'>
+	post: CollectionEntry<'snippets'> | CollectionEntry<'blog'>
 
 	category: CollectionEntry<'categories'>
 }
@@ -17,8 +17,16 @@ const { post, category } = Astro.props
 <div class="flex gap-2 text-sm">
 	<span class="flex items-center gap-2 rounded-md border border-highlight bg-card p-1 px-2">
 		<Icon name="mdi:calendar" />
-		{formatDate(post.data.published_time)}</span
+		{formatDateSlash(post.data.published_time)}</span
 	>
+	{
+		post.data.last_modified_time && (
+			<span class="flex items-center gap-2 rounded-md border border-highlight bg-card px-2">
+				<Icon name="mdi:update" />
+				{formatDateSlash(post.data.published_time)}
+			</span>
+		)
+	}
 	<span class="flex items-center gap-2 rounded-md border border-highlight bg-card p-1 px-2">
 		<Icon name={category.data.icon} />
 		{category.data.name}
