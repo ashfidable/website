@@ -15,32 +15,34 @@ import CommandPalette from '$components/command-palette/command-palette.svelte'
 	import { commandsStore } from '$stores/commands-store'
 	import { Links } from '$components/navigation-bar/NavigationLinks'
 
-	const res = await fetch('/api/posts.json')
-	const data = await res.json()
+	document.addEventListener('astro:page-load', async () => {
+		const res = await fetch('/api/posts.json')
+		const data = await res.json()
 
-	const allPosts = data
+		const allPosts = data
 
-	Links.forEach((link) => {
-		commandsStore.addCommand({
-			title: link.name,
-			emoji: '🔗',
-			delay: 100,
-			run: () => {
-				navigate(link.url)
-			},
-			category: 'Go To'
+		Links.forEach((link) => {
+			commandsStore.addCommand({
+				title: link.name,
+				emoji: '🔗',
+				delay: 100,
+				run: () => {
+					navigate(link.url)
+				},
+				category: 'Go To'
+			})
 		})
-	})
 
-	allPosts.forEach((post: any) => {
-		commandsStore.addCommand({
-			title: `${post.title}`,
-			emoji: '🔗',
-			delay: 100,
-			run: () => {
-				navigate(`${post.url}`)
-			},
-			category: 'Go To'
+		allPosts.forEach((post: any) => {
+			commandsStore.addCommand({
+				title: `${post.title}`,
+				emoji: '🔗',
+				delay: 100,
+				run: () => {
+					navigate(`${post.url}`)
+				},
+				category: 'Go To'
+			})
 		})
 	})
 </script>
