@@ -7,3 +7,8 @@ export function formatDate(date: Date) {
 
 	return formattedDate
 }
+
+export function formatDateSlash(date: Date) {
+	const formattedDate = date.toLocaleDateString('en-GB')
+	return formattedDate
+}
