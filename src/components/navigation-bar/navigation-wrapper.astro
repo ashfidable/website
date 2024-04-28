@@ -59,10 +59,12 @@ const isCurrentPage = (url: string) => {
 		position: absolute;
 		inset: 0;
 		@apply border-r-4 border-highlight-hover;
-		/* @apply rounded-md border border-b-2 border-highlight-hover bg-card-hover; */
-		/* @apply outline-highlight rounded-md outline outline-2; */
 		z-index: -1;
 		view-transition-name: current-page;
+	}
+
+	:global(::view-transition-group(current-page)) {
+		animation-timing-function: var(--ease);
 	}
 
 	a[aria-current='page'] svg {
