@@ -21,11 +21,10 @@ function createCommandsStore() {
 			const isDuplicateCommand = commands.find((command) => command.title === newCommand.title)
 
 			if (isDuplicateCommand) {
-				console.log(isDuplicateCommand)
 				return [...commands]
 			}
 
-			let maxId = Math.max(...commands.map((item) => item.id ?? 0))
+			let maxId = commands.length > 0 ? Math.max(...commands.map((item) => item.id ?? 0)) : 0
 			newCommand.id = maxId + 1
 
 			return [...commands, newCommand]
