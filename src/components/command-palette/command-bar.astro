@@ -24,7 +24,7 @@ import CommandPalette from '$components/command-palette/command-palette.svelte'
 		commandsStore.addCommand({
 			title: link.name,
 			emoji: '🔗',
-			delay: 10,
+			delay: 100,
 			run: () => {
 				navigate(link.url)
 			},
@@ -36,7 +36,7 @@ import CommandPalette from '$components/command-palette/command-palette.svelte'
 		commandsStore.addCommand({
 			title: `${post.title}`,
 			emoji: '🔗',
-			delay: 10,
+			delay: 100,
 			run: () => {
 				navigate(`${post.url}`)
 			},

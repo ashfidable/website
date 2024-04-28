@@ -201,7 +201,7 @@
 		bind:this={dialog}
 		on:keydown={tabTrapFocus}
 		on:keydown={cycleThroughCommands}
-		transition:fly={{ duration: 300, y: -500, opacity: 0.5, easing: quartInOut }}
+		transition:fly={{ duration: 75, y: -500, opacity: 0.5, easing: quartInOut }}
 		role="dialog"
 	>
 		<div class="space-y-4">
