@@ -3,7 +3,10 @@ import { Image } from 'astro:assets'
 import AshfidPhoto from '$assets/images/ashfid-picture-recolor.png'
 ---
 
-<a href="/" class="text-accent flex items-center justify-between gap-2 font-heading text-xl">
+<a
+	href="/"
+	class="text-accent flex items-center justify-center gap-2 font-heading text-xl md:justify-between"
+>
 	<div class="h-8 w-8 overflow-hidden rounded-md">
 		<Image src={AshfidPhoto} alt="logo" width={180} loading="eager" />
 	</div>
