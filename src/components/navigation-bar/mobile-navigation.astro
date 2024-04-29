@@ -1,9 +1,9 @@
 ---
 import { MobileLinks, Links } from './NavigationLinks'
-import Settings from '$components/settings/settings.svelte'
 import Footer from './footer.astro'
 import { Icon } from 'astro-icon/components'
 import SettingsRevamp from '$components/settings/settings-revamp.svelte'
+import Logo from './Logo.astro'
 
 const isCurrentPage = (url: string) => {
 	const pathname = Astro.url.pathname
@@ -52,9 +52,11 @@ const isCurrentPage = (url: string) => {
 			class="fixed inset-0 z-50 h-full w-full bg-[black] bg-opacity-20 backdrop-blur-sm"
 			tabindex="-1"></button>
 		<!-- Content for Mobile -->
+
 		<div
 			class="fixed bottom-0 left-0 right-0 z-50 flex flex-col gap-4 rounded-t-md border-t border-highlight bg-body p-4"
 		>
+			<Logo />
 			<SettingsRevamp client:idle />
 			<section class="space-y-4">
 				<span class="text-accent font-mono text-lg font-bold">Navigation</span>
