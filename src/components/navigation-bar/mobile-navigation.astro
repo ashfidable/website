@@ -23,7 +23,7 @@ const isCurrentPage = (url: string) => {
 				<li>
 					<a
 						href={link.url}
-						class="group group flex h-full cursor-pointer flex-col items-center justify-center gap-2 border-highlight-hover aria-[current=page]:border-t-2 aria-[current=page]:bg-button-active aria-[current=page]:font-bold"
+						class="group group flex h-full cursor-pointer flex-col items-center justify-center gap-2 aria-[current=page]:bg-button-active aria-[current=page]:font-bold"
 						aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 					>
 						<Icon name={link.icon} class="text-2xl group-aria-[current=page]:text-icon-hover" />
@@ -65,6 +65,7 @@ const isCurrentPage = (url: string) => {
 						Links.map((link) => (
 							<li>
 								<a
+									id="open-link"
 									href={link.url}
 									class="group group flex flex-col items-center justify-center gap-2 rounded-md border-highlight-hover bg-button p-4 text-base  outline-2 outline-highlight transition-colors duration-150  hover:outline active:outline aria-[current=page]:border-2 aria-[current=page]:bg-button-active aria-[current=page]:font-bold"
 									aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
@@ -91,6 +92,18 @@ const isCurrentPage = (url: string) => {
 		-webkit-tap-highlight-color: transparent;
 	}
 
+	a[aria-current='page']:not(#open-link) {
+		position: relative;
+	}
+
+	a[aria-current='page']:not(#open-link)::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		@apply border-t-2 border-highlight-hover;
+		view-transition-name: indicator;
+	}
+
 	nav {
 		view-transition-name: mobile-navigation;
 	}
@@ -98,6 +111,10 @@ const isCurrentPage = (url: string) => {
 	:global(::view-transition-group(mobile-navigation)) {
 		position: fixed;
 		z-index: 100;
+	}
+	:global(::view-transition-group(indicator)) {
+		position: fixed;
+		z-index: 120;
 	}
 </style>
 
