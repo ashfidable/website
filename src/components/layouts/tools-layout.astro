@@ -44,9 +44,10 @@ const capitalizeCategoryTitle = category === 'tools' ? '' : `- ${capitalizeStrin
 		/>
 	</Fragment>
 	<HeroSection title="Tools I Use 💼">
+		<p class="font-bold">On this page, I have categorized the tools I use in my digital space.</p>
 		<p>
-			<strong>Behold!</strong> On this very page, all the tools I employ in my daily digital dance
-			are neatly tucked into their own little sections.
+			There's <strong>{category === 'tools' ? tools.length : getCount(category)}</strong> tools in
+			total in this page.
 		</p>
 	</HeroSection>
 

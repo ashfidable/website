@@ -22,6 +22,8 @@ for (const item of filteredSnippets) {
 		groupedByYear[year].push(item)
 	}
 }
+
+const snippetsCount = snippets.length
 ---
 
 <BaseLayout>
@@ -34,7 +36,11 @@ for (const item of filteredSnippets) {
 	</Fragment>
 
 	<HeroSection title="Snippets 📒">
-		<p>Useful snippets that I use a lot or found really helpful on Internet.</p>
+		<p class="font-bold">Useful snippets that I use a lot or found really helpful on Internet.</p>
+		<p>
+			So far, I have posted <strong>{snippetsCount}</strong>
+			{snippetsCount > 1 ? 'snippets' : 'snippet'}.
+		</p>
 	</HeroSection>
 
 	{
