@@ -39,7 +39,7 @@ const capitalizeCategoryTitle = category === 'tools' ? '' : `- ${capitalizeStrin
 	<Fragment slot="seo">
 		<BaseSeo
 			title={`Tools ${capitalizeCategoryTitle}`}
-			description={`Explore my use of tools for ${category}.`}
+			description={`Explore the tools I use${category === 'tools' ? '' : ` for ${category}`}.`}
 			type="website"
 		/>
 	</Fragment>
