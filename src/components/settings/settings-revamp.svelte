@@ -22,11 +22,12 @@
 	$: isRounded = $settingsStore.rounded
 </script>
 
-<div class="flex items-center gap-4 text-2xl md:text-xl py-4 md:py-0">
+<div class="flex items-center gap-4 text-2xl md:text-xl py-4 px-2 md:py-0 rounded-md">
 	<div class="flex gap-4 items-center">
 		<button
 			class:text-button-text-active={$settingsStore.sound}
 			on:click={() => settingsStore.toggleSounds()}
+			class="bg-button md:bg-transparent p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-150"
 		>
 			<span class="sr-only">Sounds</span>
 			{#if $settingsStore.sound}
@@ -48,6 +49,7 @@
 		<button
 			on:click={(e) => settingsStore.toggleRounded()}
 			class:text-button-text-active={$settingsStore.rounded}
+			class="bg-button md:bg-transparent p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-150"
 		>
 			<span class="sr-only">Rounds</span>
 			{#if isRounded}
@@ -63,7 +65,11 @@
 				</svg>
 			{/if}
 		</button>
-		<button on:click={(e) => (isExpanded = !isExpanded)} class:text-button-text-active={isExpanded}>
+		<button
+			on:click={(e) => (isExpanded = !isExpanded)}
+			class:text-button-text-active={isExpanded}
+			class="bg-button md:bg-transparent p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-150"
+		>
 			<span class="sr-only">Themes</span>
 			<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 				<path
