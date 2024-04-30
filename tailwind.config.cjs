@@ -23,6 +23,9 @@ module.exports = {
 				input: 'var(--color-input-background)',
 				blockquote: 'var(--color-blockquote-background)'
 			},
+			backgroundImage: {
+				background: 'var(--color-background)'
+			},
 			textColor: {
 				body: 'var(--color-body-text)',
 				'body-low-contrast': 'var(--color-body-text-low-contrast)',
