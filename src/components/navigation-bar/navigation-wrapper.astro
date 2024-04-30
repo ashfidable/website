@@ -20,21 +20,23 @@ const isCurrentPage = (url: string) => {
 
 		<!-- Desktop Navigation -->
 		<section class="flex flex-col justify-between gap-4 font-heading">
-			<ul class="flex flex-grow flex-col gap-4 pl-4">
+			<ul class="flex flex-grow flex-col gap-2 text-sm font-semibold tracking-wide">
 				{
 					Links.map((link) => (
 						<li>
 							<a
 								href={link.url}
-								class="group flex items-center gap-2 py-2 text-sm font-semibold tracking-wide transition-transform duration-150 ease-in-out"
+								class="group transition-transform duration-150"
 								aria-current={isCurrentPage(link.url) ? 'page' : 'false'}
 							>
-								<Icon name={link.icon} class="text-lg" />
-								<span>{link.name}</span>
-								<Icon
-									name="svg-spinners:dot-revolve"
-									class="loading ml-auto mr-4 hidden h-4 w-4 text-body group-data-[loading=true]:inline-block"
-								/>
+								<div class="flex items-center gap-2 py-2 pl-4">
+									<Icon name={link.icon} class="text-lg" />
+									<span>{link.name}</span>
+									<Icon
+										name="svg-spinners:dot-revolve"
+										class="loading ml-auto mr-4 hidden h-4 w-4 text-body group-data-[loading=true]:inline-block"
+									/>
+								</div>
 							</a>
 						</li>
 					))
