@@ -38,10 +38,9 @@
 		background-color: var(--color-gradient-from);
 		background-size: 200%;
 		background-image: linear-gradient(
-			90.2deg,
-			var(--color-gradient-from),
-			var(--color-gradient-to),
-			var(--color-gradient-from)
+			to bottom,
+			var(--color-gradient-from) 25%,
+			var(--color-gradient-to) 75%
 		);
 	}
 

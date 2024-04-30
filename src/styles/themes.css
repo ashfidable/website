@@ -56,8 +56,8 @@
 	--color-body-text-low-contrast: hsl(260, 6%, 72%);
 
 	/* Gradients */
-	--color-gradient-from: hsl(188, 95%, 50%);
-	--color-gradient-to: hsl(197, 84%, 51%);
+	--color-gradient-from: hsl(188, 95%, 60%);
+	--color-gradient-to: hsl(197, 84%, 45%);
 
 	/* Input */
 	--color-input-background: hsl(255, 22%, 20%);
@@ -116,8 +116,8 @@
 	--color-body-text-low-contrast: hsl(0, 0%, 21%);
 
 	/* Gradients */
-	--color-gradient-from: hsl(265, 91%, 55%);
-	--color-gradient-to: hsl(265, 91%, 65%);
+	--color-gradient-from: hsl(265, 91%, 65%);
+	--color-gradient-to: hsl(265, 91%, 55%);
 
 	/* Cards */
 	--color-card-background: hsl(0, 0%, 98%);
