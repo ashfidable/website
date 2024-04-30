@@ -67,6 +67,9 @@ module.exports = {
 			animation: {
 				wave: 'wave-animation 2.5s linear infinite'
 			},
+			easing: {
+				springy: 'var(--ease)'
+			},
 			borderRadius: {
 				md: 'var(--rounded-radius)'
 			}
