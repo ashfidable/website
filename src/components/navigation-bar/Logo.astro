@@ -1,15 +1,21 @@
 ---
 import { Image } from 'astro:assets'
-import AshfidPhoto from '$assets/images/ashfid-picture-recolor.png'
+import ASHFIDPIXEL from '$assets/images/ashfid_pixel.png'
 ---
 
 <a
 	href="/"
-	class="text-accent flex items-center justify-center gap-2 font-heading text-xl md:justify-between"
+	class="text-accent flex items-center justify-center gap-3 font-heading text-xl md:justify-between"
 >
-	<div class="h-8 w-8 overflow-hidden rounded-md">
-		<Image src={AshfidPhoto} alt="logo" width={180} loading="eager" />
+	<div class="mb-1 aspect-square w-8 scale-150 transform overflow-hidden rounded-md md:w-full">
+		<Image src={ASHFIDPIXEL} alt="logo" width={240} loading="eager" quality={'max'} />
 	</div>
 
 	<span class="text-effect text-3xl font-extrabold tracking-widest">ASHFID.</span>
 </a>
+
+<style>
+	img {
+		image-rendering: pixelated;
+	}
+</style>
