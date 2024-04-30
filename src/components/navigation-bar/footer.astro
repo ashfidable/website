@@ -35,7 +35,10 @@ const { isMobile = false } = Astro.props
 	<section class="flex flex-wrap justify-center gap-2">
 		{
 			contacts.map((contact) => (
-				<a href={contact.link} class="rounded-md bg-card p-2 text-icon hover:text-icon-hover">
+				<a
+					href={contact.link}
+					class="ease-springy rounded-md bg-card p-2 text-icon outline-2 outline-highlight-hover transition-[outline] duration-100 hover:bg-button-hover hover:text-icon-hover hover:outline"
+				>
 					<span class="sr-only">{contact.name}</span>
 					<Icon name={contact.icon} class="text-2xl" />
 				</a>
