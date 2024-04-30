@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition'
 	import { settingsStore } from '$stores/settings-store'
-	import { afterUpdate } from 'svelte'
 	import { themes } from '$components/settings/themes'
 
 	const DELAY_DURATION = 75
@@ -18,29 +17,6 @@
 	function handleRounds() {
 		settingsStore.toggleRounded()
 	}
-
-	// function apply() {
-	// 	Object.keys($settingsStore).forEach((setting) => {
-	// 		// @ts-ignore
-	// 		const value: string = $settingsStore[setting]
-
-	// 		if (document.documentElement) {
-	// 			document.documentElement.dataset[setting] = value
-	// 		}
-	// 	})
-	// 	localStorage.setItem('settings', JSON.stringify($settingsStore))
-	// }
-
-	// $: afterUpdate(() => {
-	// 	Object.keys($settingsStore).forEach((setting) => {
-	// 		// @ts-ignore
-	// 		const value: string = $settingsStore[setting]
-
-	// 		if (document.documentElement) {
-	// 			document.documentElement.dataset[setting] = value
-	// 		}
-	// 	})
-	// })
 
 	$: themeSelected = $settingsStore.theme
 	$: isRounded = $settingsStore.rounded
