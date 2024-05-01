@@ -21,7 +21,7 @@ const { post, category } = Astro.props
 	>
 	{
 		post.data.last_modified_time && (
-			<span class="flex items-center gap-2 rounded-md border border-highlight bg-card px-2">
+			<span class="flex items-center gap-2 rounded-md border border-highlight-hover bg-card px-2">
 				<Icon name="mdi:update" class="text-icon-hover" />
 				{formatDateSlash(post.data.last_modified_time)}
 			</span>
