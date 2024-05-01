@@ -9,7 +9,7 @@ interface Props {
 const { pixelScale = 3.5 } = Astro.props
 ---
 
-<div class="character group rounded-md" style={`--pixel-size: ${pixelScale}`}>
+<div class="character group mx-auto rounded-md" style={`--pixel-size: ${pixelScale}`}>
 	<Image
 		src={AshfidPixelSheet}
 		width={960}
