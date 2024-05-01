@@ -1,13 +1,12 @@
 ---
 import TOC from '$components/posts/table-of-contents.astro'
-// import TOC from '$components/posts/toc.svelte'
 import { components } from '$components/posts/atoms'
-
 import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
 import BaseLayout from '$layouts/base-layout.astro'
 import { Icon } from 'astro-icon/components'
 import BaseSeo from '$components/base-seo.astro'
 import PostDetails from '$components/posts/post-details.astro'
+import BackToTop from '$components/back-to-top.svelte'
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog')
@@ -36,6 +35,7 @@ const category = await getEntry(post.data.category)
 			type="article"
 		/>
 	</Fragment>
+	<BackToTop client:visible />
 	<article data-type={category.data.name.toLowerCase()} class="space-y-4">
 		<header class="flex flex-col gap-6" transition:name={`blog-${post.data.title}`}>
 			<div class="relative z-30 flex h-28 items-center justify-center rounded-md bg-category p-4">
