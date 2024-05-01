@@ -22,7 +22,7 @@ const { headings } = Astro.props
 		>
 			{
 				headings.map((heading) => (
-					<li class:list={[{ 'ml-4': heading.depth === 3 }]}>
+					<li class:list={[{ 'ml-4': heading.depth === 3 }, { 'font-bold': heading.depth === 2 }]}>
 						<a href={`#${heading.slug}`}>{heading.text}</a>
 					</li>
 				))
