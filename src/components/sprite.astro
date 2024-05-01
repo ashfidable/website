@@ -1,0 +1,57 @@
+---
+import AshfidPixelSheet from '$assets/images/ashfid_pixel_sheet.png'
+import { Image } from 'astro:assets'
+
+interface Props {
+	pixelScale?: number
+}
+
+const { pixelScale = 3.5 } = Astro.props
+---
+
+<div class="character rounded-md" style={`--pixel-size: ${pixelScale}`}>
+	<Image
+		src={AshfidPixelSheet}
+		width={960}
+		quality="max"
+		alt="Ashfid"
+		class="spritesheet"
+		loading="eager"
+		format="png"
+	/>
+</div>
+
+<style>
+	.character {
+		--dimension: 48px;
+		--pixel-size: 3.5;
+		--frames: 20;
+		--spritesheet-width: calc(var(--dimension) * var(--frames));
+		width: calc(var(--dimension) * var(--pixel-size));
+		height: calc(var(--dimension) * var(--pixel-size));
+		overflow: hidden;
+		display: grid;
+		place-self: center;
+		background-color: transparent;
+	}
+
+	.spritesheet {
+		image-rendering: pixelated;
+		width: calc(var(--spritesheet-width) * var(--pixel-size));
+		max-width: calc(var(--spritesheet-width) * var(--pixel-size));
+	}
+
+	.spritesheet:hover {
+		animation: moveSpritesheet 1.5s steps(var(--frames)) infinite;
+		will-change: transform;
+	}
+
+	@keyframes moveSpritesheet {
+		from {
+			transform: translate(0px, 0px);
+		}
+		to {
+			transform: translate(-100%, 0px);
+		}
+	}
+</style>
