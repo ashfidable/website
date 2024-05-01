@@ -1,33 +1,78 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition'
+	import { fly } from 'svelte/transition'
 	import { settingsStore } from '$stores/settings-store'
 	import { themes } from '$components/settings/themes'
+	import { onMount } from 'svelte'
 
+	const SOUND_TOGGLE_ON_URL = '/audio/sound_toggle_on.mp3'
+	const FLY_IN_OUT_URL = '/audio/fly_in_out.mp3'
 	const DELAY_DURATION = 75
 	const THEMES = themes
 
 	let isExpanded = false
-	let isRounded = $settingsStore.rounded
+	let soundOnBuffer: AudioBuffer
+	let flyInOutBuffer: AudioBuffer
+	let audioContext: AudioContext
 
 	function handleTheme(newTheme: (typeof themes)[0]) {
 		themeSelected = newTheme.name
 		settingsStore.changeTheme(newTheme.name)
 	}
 
-	function handleRounds() {
-		settingsStore.toggleRounded()
+	$: themeSelected = $settingsStore.theme
+
+	function playAudioOnClick(buffer: AudioBuffer, useUserPreference: boolean = true) {
+		const getSoundsPreferenceFromStorage = localStorage.getItem('settings')
+		const sounds = useUserPreference ? JSON.parse(getSoundsPreferenceFromStorage!).sound : true
+
+		if (!buffer) {
+			console.log('Audio Buffer not loaded yet.')
+			return
+		}
+		if (buffer && sounds) {
+			const source = audioContext.createBufferSource()
+			source.buffer = buffer
+
+			const gainNode = audioContext.createGain()
+			gainNode.gain.value = 0.2
+
+			source.connect(gainNode)
+			gainNode.connect(audioContext.destination)
+
+			source.start(0)
+			console.log('Play')
+		}
 	}
 
-	$: themeSelected = $settingsStore.theme
-	$: isRounded = $settingsStore.rounded
+	onMount(() => {
+		audioContext = new AudioContext()
+		fetch(SOUND_TOGGLE_ON_URL)
+			.then((response) => response.arrayBuffer())
+			.then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+			.then((decodedAudioBuffer) => {
+				soundOnBuffer = decodedAudioBuffer
+			})
+			.catch((error) => console.error('Error loading audio file:', error))
+
+		fetch(FLY_IN_OUT_URL)
+			.then((response) => response.arrayBuffer())
+			.then((arrayBuffer) => audioContext.decodeAudioData(arrayBuffer))
+			.then((decodedAudioBuffer) => {
+				flyInOutBuffer = decodedAudioBuffer
+			})
+			.catch((error) => console.error('Error loading audio file:', error))
+	})
 </script>
 
-<div class="flex items-center gap-4 text-2xl md:text-xl py-4 px-2 md:py-0 rounded-md">
-	<div class="flex gap-4 items-center">
+<div class="flex items-center gap-4 text-2xl md:text-xl py-4 md:py-0 rounded-md">
+	<div class="flex gap-2 items-center">
 		<button
 			class:text-button-text-active={$settingsStore.sound}
-			on:click={() => settingsStore.toggleSounds()}
-			class="bg-button md:bg-transparent p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-150"
+			on:click={() => {
+				settingsStore.toggleSounds()
+				playAudioOnClick(soundOnBuffer, false)
+			}}
+			class="bg-button md:bg-card p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-200"
 		>
 			<span class="sr-only">Sounds</span>
 			{#if $settingsStore.sound}
@@ -47,12 +92,15 @@
 			{/if}
 		</button>
 		<button
-			on:click={(e) => settingsStore.toggleRounded()}
+			on:click={(e) => {
+				settingsStore.toggleRounded()
+				playAudioOnClick(soundOnBuffer, true)
+			}}
 			class:text-button-text-active={$settingsStore.rounded}
-			class="bg-button md:bg-transparent p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-150"
+			class="bg-button md:bg-card p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-200"
 		>
 			<span class="sr-only">Rounds</span>
-			{#if isRounded}
+			{#if $settingsStore.rounded}
 				<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
 					<path
 						fill="currentColor"
@@ -66,9 +114,12 @@
 			{/if}
 		</button>
 		<button
-			on:click={(e) => (isExpanded = !isExpanded)}
+			on:click={(e) => {
+				isExpanded = !isExpanded
+				playAudioOnClick(flyInOutBuffer)
+			}}
 			class:text-button-text-active={isExpanded}
-			class="bg-button md:bg-transparent p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-150"
+			class="bg-button md:bg-card p-2 rounded-md hover:bg-button-hover active:bg-button-active ease-springy transition-colors duration-200"
 		>
 			<span class="sr-only">Themes</span>
 			<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -91,7 +142,7 @@
 				<button
 					data-theme={theme.name}
 					class="h-6 w-6 bg-gradient-to-r from-[var(--color-theme-primary)] to-[--color-theme-secondary] from-65% to-50% outline outline-2 outline-highlight rounded-md"
-					in:fade={{ delay: DELAY_DURATION * (index + 1) }}
+					transition:fly={{ delay: DELAY_DURATION * (index + 1), y: -100 }}
 					on:click={(e) => handleTheme(theme)}
 					class:outline-highlight-hover={theme.name === $settingsStore.theme}
 					class:outline-offset-2={theme.name === $settingsStore.theme}
