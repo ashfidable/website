@@ -9,13 +9,13 @@ interface Props {
 const { pixelScale = 3.5 } = Astro.props
 ---
 
-<div class="character rounded-md" style={`--pixel-size: ${pixelScale}`}>
+<div class="character group rounded-md" style={`--pixel-size: ${pixelScale}`}>
 	<Image
 		src={AshfidPixelSheet}
 		width={960}
 		quality="max"
 		alt="Ashfid"
-		class="spritesheet"
+		class="spritesheet group-hover:animate-[moveSpritesheet_1.5s_steps(var(--frames))_infinite]"
 		loading="eager"
 		format="png"
 	/>
@@ -41,12 +41,7 @@ const { pixelScale = 3.5 } = Astro.props
 		max-width: calc(var(--spritesheet-width) * var(--pixel-size));
 	}
 
-	.spritesheet:hover {
-		animation: moveSpritesheet 1.5s steps(var(--frames)) infinite;
-		will-change: transform;
-	}
-
-	@keyframes moveSpritesheet {
+	:global(@keyframes moveSpritesheet) {
 		from {
 			transform: translate(0px, 0px);
 		}
