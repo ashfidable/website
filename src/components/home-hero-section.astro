@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets'
-import ASHFIDPIXEL from '$assets/images/ashfid_pixel.png'
+import Sprite from '$components/sprite.astro'
 import HeroSection from './hero-section.astro'
 ---
 
@@ -15,21 +14,5 @@ import HeroSection from './hero-section.astro'
 			>
 		</p>
 	</HeroSection>
-
-	<div class="overflow-hidden rounded-md">
-		<Image
-			src={ASHFIDPIXEL}
-			alt="Ashfid for Light Mode"
-			width={240}
-			quality={'max'}
-			class="h-full object-cover"
-			loading={'eager'}
-		/>
-	</div>
+	<Sprite />
 </section>
-
-<style>
-	img {
-		image-rendering: pixelated;
-	}
-</style>

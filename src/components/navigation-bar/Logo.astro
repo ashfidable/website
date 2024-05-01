@@ -1,21 +1,8 @@
 ---
-import { Image } from 'astro:assets'
-import ASHFIDPIXEL from '$assets/images/ashfid_pixel.png'
+import Sprite from '$components/sprite.astro'
 ---
 
-<a
-	href="/"
-	class="text-accent flex items-center justify-center gap-3 font-heading text-xl md:justify-between"
->
-	<div class="mb-1 aspect-square w-8 scale-150 transform overflow-hidden rounded-md md:w-full">
-		<Image src={ASHFIDPIXEL} alt="logo" width={240} loading="eager" quality={'max'} />
-	</div>
-
-	<span class="text-effect text-3xl font-extrabold tracking-widest">ASHFID.</span>
+<a href="/" class="text-accent flex items-center justify-center font-heading text-base">
+	<div class="mb-1"><Sprite pixelScale={1} /></div>
+	<span class="text-effect text-3xl font-extrabold">ASHFID.</span>
 </a>
-
-<style>
-	img {
-		image-rendering: pixelated;
-	}
-</style>
