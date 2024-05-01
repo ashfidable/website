@@ -12,9 +12,9 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 	<head>
 		<meta charset="utf-8" />
 		<!-- Icons -->
-		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
 		<link rel="manifest" href="/site.webmanifest" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -84,7 +84,7 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 		<MobileNavigation />
 		<main class="flex h-full flex-grow flex-col gap-4 text-base md:border-r md:border-highlight">
 			<CommandBar />
-			<div class="space-y-8 px-4 pb-4 pt-4 md:px-4 md:pt-0">
+			<div class="flex flex-col gap-8 px-4 pb-4 pt-4 md:px-4 md:pt-0">
 				<slot />
 			</div>
 		</main>
