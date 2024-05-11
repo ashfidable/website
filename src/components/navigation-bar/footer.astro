@@ -30,7 +30,7 @@ const { isMobile = false } = Astro.props
 <!-- Footer -->
 <footer class="mt-auto block w-full pt-2 md:p-4">
 	<section transition:persist={isMobile ? 'mobile-status-card' : 'status-card'}>
-		<StatusCard client:load />
+		<StatusCard client:visible />
 	</section>
 	<section class="flex flex-wrap justify-center gap-2">
 		{
