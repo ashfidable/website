@@ -51,11 +51,11 @@ const snippetsCount = snippets.length
 				return (
 					<section class="flex flex-col gap-4">
 						<h2 class="font-heading text-xl font-bold">{year}</h2>
-						<ul>
+						<div class="space-y-4">
 							{snippets.map((snippet) => (
 								<SnippetCard snippet={snippet} />
 							))}
-						</ul>
+						</div>
 					</section>
 				)
 			})
