@@ -170,3 +170,9 @@
 	--color-category-background: hsl(347, 76%, 63%);
 	--color-category-text: black;
 }
+
+[data-type='development'] {
+	--color-category-highlight: hsl(214, 87%, 58%);
+	--color-category-background: hsl(214, 87%, 48%);
+	--color-category-text: white;
+}
