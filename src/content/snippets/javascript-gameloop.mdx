@@ -1,0 +1,108 @@
+---
+title: JavaScript/TypeScript Gameloop 🕹️
+description: Simple javascript/typescript gameloop that is frame independent that mimics update functions from Unity or godot's _process()
+url: https://starship.rs/
+published_time: 2024-05-14
+category: development
+tags:
+  - gamedev
+  - dev
+  - programming
+  - gaming
+  - js
+  - javascript
+---
+
+import CodeTabs from '$components/tabs/code-tabs.astro'
+
+## Overview
+This snippet provides a game loop in **JavaScript** and **TypeScript** that runs every frame, ensuring more consistent values. It's a basic snippet that can be modified later to include additional functionalities, such as handling tab switching (*as JavaScript is throttled when a tab is switched*).
+
+## The Gameloop Snippet
+
+<CodeTabs>
+    <Fragment slot="JavaScript">
+        ```js
+        // To store last timestep
+        let lastTime = 0;
+        // To store time elapsed between frames
+        let deltaTime = 0;
+
+        // Function for the game loop that will be on loop forever.
+        function gameLoop(currentTime) {
+            // Calculate deltaTime by subtracting the last timestamp from the current timestamp and converting it to seconds
+            deltaTime = (currentTime - lastTime) / 1000;
+            
+            // Update lastTime with the current timestamp
+            lastTime = currentTime;
+
+            // Call the update function to update game objects based on deltaTime
+            update(deltaTime);
+
+            // Call the render function to render game objects
+            render();
+
+            // Request the next frame by recursively calling gameLoop
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Function to update game logic
+        function update(deltaTime) {
+            // Placeholder function to update game objects based on deltaTime
+            // Example: object.position.x += object.velocity.x * deltaTime;
+            // Example 2: generators.map((generator) => generator.update(deltaTime))
+        }
+
+        // Function to render game objects
+        function render() {
+            // Placeholder function to render game objects. You don't need it if you are using frameworks.
+            // Example: sprite.style.hidden = true or false.
+        }
+
+        // Start the game loop by requesting the first frame
+        requestAnimationFrame(gameLoop);
+        ```
+    </Fragment>
+    <Fragment slot="TypeScript">
+        ```ts
+        // To store last timestep
+        let lastTime: number = 0;
+        // To store time elapsed between frames
+        let deltaTime: number = 0;
+
+        // Function for the game loop that will be on loop forever.
+        function gameLoop(currentTime: number): void {
+            // Calculate deltaTime by subtracting the last timestamp from the current timestamp and converting it to seconds
+            deltaTime = (currentTime - lastTime) / 1000;
+            
+            // Update lastTime with the current timestamp
+            lastTime = currentTime;
+
+            // Call the update function to update game objects based on deltaTime
+            update(deltaTime);
+
+            // Call the render function to render game objects
+            render();
+
+            // Request the next frame by recursively calling gameLoop
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Function to update game logic
+        function update(deltaTime: number): void {
+            // Placeholder function to update game objects based on deltaTime
+            // Example: object.position.x += object.velocity.x * deltaTime;
+            // Example 2: generators.map((generator) => generator.update(deltaTime))
+        }
+
+        // Function to render game objects
+        function render(): void {
+            // Placeholder function to render game objects. You don't need it if you are using frameworks.
+            // Example: sprite.style.hidden = true or false.
+        }
+
+        // Start the game loop by requesting the first frame
+        requestAnimationFrame(gameLoop);
+        ```
+    </Fragment>
+</CodeTabs>
