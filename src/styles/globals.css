@@ -1,4 +1,5 @@
 @import url('themes.css') layer(base);
+@import url('animations.css') layer(base);
 
 @tailwind base;
 @tailwind components;
