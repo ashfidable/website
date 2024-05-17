@@ -65,7 +65,8 @@ module.exports = {
 			},
 			fontSize: {
 				base: 'clamp(.75rem, 3.5vw, 1rem)',
-				xl: 'clamp(1rem, 3.5vw, 1.25rem)'
+				xl: 'clamp(1rem, 3.5vw, 1.25rem)',
+				'3xl': 'clamp(1.5rem, 3vw, 2.5rem)'
 			},
 			animation: {
 				wave: 'wave-animation 2.5s linear infinite'
