@@ -4,7 +4,7 @@ import { Icon } from 'astro-icon/components'
 import { getEntry, type CollectionEntry } from 'astro:content'
 
 interface Props {
-	snippet: CollectionEntry<'snippets'>
+	snippet: CollectionEntry<'posts'>
 	as?: 'h2' | 'h3' | 'h4'
 }
 
@@ -14,7 +14,7 @@ const category = await getEntry(snippet.data.category)
 ---
 
 <a
-	href={`/snippets/${snippet?.slug}`}
+	href={snippet?.slug}
 	data-type={category?.data.name.toLowerCase()}
 	class="group flex items-center justify-between gap-4 rounded-md border-x border-b-2 border-t border-highlight bg-card p-4 transition-colors duration-150 ease-in-out hover:border-b-category-highlight hover:bg-card-hover"
 	transition:name={snippet.data.title}

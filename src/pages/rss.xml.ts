@@ -7,8 +7,12 @@ import MarkdownIt from 'markdown-it'
 const parser = new MarkdownIt()
 
 export async function GET(context: APIContext) {
-	const posts = await getCollection('blog')
-	const snippets = await getCollection('snippets')
+	const posts = await getCollection('posts', ({ id }) => {
+		return id.startsWith('blog/')
+	})
+	const snippets = await getCollection('posts', ({ id }) => {
+		return id.startsWith('snippets/')
+	})
 
 	return rss({
 		title: "Ashfid's Posts",

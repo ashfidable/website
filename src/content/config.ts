@@ -11,24 +11,12 @@ const toolCollection = defineCollection({
 	})
 })
 
-const snippetCollection = defineCollection({
-	type: 'content',
-	schema: z.object({
-		title: z.string(),
-		description: z.string(),
-		published_time: z.date(),
-		last_modified_time: z.date().optional(),
-		url: z.string(),
-		category: reference('categories'),
-		tags: z.array(z.string())
-	})
-})
-
-const blogCollection = defineCollection({
+const postCollection = defineCollection({
 	type: 'content',
 	schema: z.object({
 		title: z.string().max(60),
 		description: z.string().max(160),
+		url: z.string().optional(),
 		published_time: z.date(),
 		last_modified_time: z.date().optional(),
 		category: reference('categories'),
@@ -57,8 +45,7 @@ const skillCollection = defineCollection({
 })
 
 export const collections = {
-	blog: blogCollection,
-	snippets: snippetCollection,
+	posts: postCollection,
 	categories: categoryCollection,
 	skills: skillCollection,
 	tools: toolCollection

@@ -6,13 +6,15 @@ import BaseLayout from '$layouts/base-layout.astro'
 import type { CollectionEntry } from 'astro:content'
 import { getCollection } from 'astro:content'
 
-const posts = await getCollection('blog')
+const posts = await getCollection('posts', ({ id }) => {
+	return id.startsWith('blog/')
+})
 
 const filteredPosts = await posts.sort(
 	(a, b) => a.data.published_time.getTime() - b.data.published_time.getTime()
 )
 
-const groupedByYear: { [year: string]: CollectionEntry<'blog'>[] } = {}
+const groupedByYear: { [year: string]: CollectionEntry<'posts'>[] } = {}
 
 for (const item of filteredPosts) {
 	const year = item.data.published_time.getFullYear()

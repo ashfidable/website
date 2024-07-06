@@ -6,13 +6,15 @@ import SnippetCard from '$components/cards/snippet-card.astro'
 import type { CollectionEntry } from 'astro:content'
 import BaseSeo from '$components/base-seo.astro'
 
-const snippets = await getCollection('snippets')
+const snippets = await getCollection('posts', ({ id }) => {
+	return id.startsWith('snippets/')
+})
 
 const filteredSnippets = await snippets.sort(
 	(a, b) => a.data.published_time.getTime() - b.data.published_time.getTime()
 )
 
-const groupedByYear: { [year: string]: CollectionEntry<'snippets'>[] } = {}
+const groupedByYear: { [year: string]: CollectionEntry<'posts'>[] } = {}
 
 for (const item of filteredSnippets) {
 	const year = item.data.published_time.getFullYear()

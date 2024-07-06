@@ -12,8 +12,12 @@ let skills = await getCollection('skills')
 
 skills = skills.sort((b, a) => a.data.entries.length - b.data.entries.length)
 
-const snippets = await getCollection('snippets')
-const posts = await getCollection('blog')
+const snippets = await getCollection('posts', ({ id }) => {
+	return id.startsWith('snippets/')
+})
+const posts = await getCollection('posts', ({ id }) => {
+	return id.startsWith('blog/')
+})
 ---
 
 <BaseLayout>

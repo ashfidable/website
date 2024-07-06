@@ -3,21 +3,22 @@ import TOC from '$components/posts/table-of-contents.astro'
 import { components } from '$components/posts/atoms'
 import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
 import BaseLayout from '$layouts/base-layout.astro'
-import { Icon } from 'astro-icon/components'
 import BaseSeo from '$components/base-seo.astro'
 import PostDetails from '$components/posts/post-details.astro'
 import BackToTop from '$components/back-to-top.svelte'
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog')
+	const posts = await getCollection('posts', ({ id }) => {
+		return id.startsWith('blog/')
+	})
 	return posts.map((post) => ({
-		params: { post: post.slug },
+		params: { post: post.slug.replace('blog/', '') },
 		props: { post }
 	}))
 }
 
 interface Props {
-	post: CollectionEntry<'blog'>
+	post: CollectionEntry<'posts'>
 }
 
 const { post } = Astro.props

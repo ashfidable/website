@@ -1,24 +1,24 @@
 ---
 import TOC from '$components/posts/table-of-contents.astro'
 import { components } from '$components/posts/atoms'
-
 import { getCollection, type CollectionEntry, getEntry } from 'astro:content'
 import BaseLayout from '$layouts/base-layout.astro'
-import { Icon } from 'astro-icon/components'
 import BaseSeo from '$components/base-seo.astro'
 import PostDetails from '$components/posts/post-details.astro'
 import BackToTop from '$components/back-to-top.svelte'
 
 export async function getStaticPaths() {
-	const snippets = await getCollection('snippets')
+	const snippets = await getCollection('posts', ({ id }) => {
+		return id.startsWith('snippets/')
+	})
 	return snippets.map((snippet) => ({
-		params: { slug: snippet.slug },
+		params: { slug: snippet.slug.replace('snippets/', '') },
 		props: { snippet }
 	}))
 }
 
 interface Props {
-	snippet: CollectionEntry<'snippets'>
+	snippet: CollectionEntry<'posts'>
 }
 
 const { snippet } = Astro.props
@@ -38,7 +38,7 @@ const category = await getEntry(snippet.data.category)
 	</Fragment>
 	<BackToTop client:visible />
 	<article data-type={category.data.name.toLowerCase()} class="space-y-4">
-		<header class="flex flex-col gap-6" transition:name={snippet.data.title}>
+		<header class="flex flex-col gap-6" transition:name={`snippets-${snippet.data.title}`}>
 			<div class="relative z-30 flex items-center justify-center rounded-md bg-category p-4">
 				<h1
 					class="relative z-30 text-center font-heading text-3xl font-bold tracking-wide text-category [text-wrap:balance]"

@@ -1,8 +1,12 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 
-const snippets = await getCollection('snippets')
-const blog = await getCollection('blog')
+const snippets = await getCollection('posts', ({ id }) => {
+	return id.startsWith('snippets/')
+})
+const blog = await getCollection('posts', ({ id }) => {
+	return id.startsWith('blog/')
+})
 const formatSnippets = snippets.map((snippet) => {
 	return {
 		title: snippet.data.title,
