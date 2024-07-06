@@ -38,7 +38,7 @@ const category = await getEntry(post.data.category)
 	</Fragment>
 	<BackToTop client:visible />
 	<article data-type={category.data.name.toLowerCase()} class="space-y-4">
-		<header class="flex flex-col gap-6" transition:name={`blog-${post.data.title}`}>
+		<header class="flex flex-col gap-6" transition:name={post.data.title}>
 			<div class="relative z-30 flex items-center justify-center rounded-md bg-category p-4">
 				<h1
 					class="relative z-30 text-center font-heading text-3xl font-bold tracking-wide text-category [text-wrap:balance]"
