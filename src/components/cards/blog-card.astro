@@ -11,10 +11,12 @@ interface Props {
 
 const { post } = Astro.props
 const category = await getEntry(post.data.category)
+
+const pathname = new URL(post.slug, Astro.site).pathname
 ---
 
 <a
-	href={post.slug}
+	href={pathname}
 	class="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-4 border-highlight bg-card p-4 pb-2 transition-colors duration-150 ease-in-out hover:border-b-category-highlight hover:bg-card-hover"
 	data-type={category.data.name.toLowerCase()}
 >
