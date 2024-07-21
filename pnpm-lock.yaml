@@ -56,9 +56,6 @@ dependencies:
   markdown-it:
     specifier: ^14.1.0
     version: 14.1.0
-  mdast-util-to-string:
-    specifier: ^4.0.0
-    version: 4.0.0
   reading-time:
     specifier: ^1.5.0
     version: 1.5.0
@@ -85,6 +82,9 @@ devDependencies:
   mdast-util-from-markdown:
     specifier: ^2.0.0
     version: 2.0.1
+  mdast-util-to-string:
+    specifier: ^4.0.0
+    version: 4.0.0
   prettier:
     specifier: ^3.0.3
     version: 3.3.3
