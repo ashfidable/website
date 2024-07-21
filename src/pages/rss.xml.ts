@@ -24,7 +24,7 @@ export async function GET(context: APIContext) {
 				title: post.data.title,
 				description: post.data.description,
 				tags: post.data.tags.join(', '),
-				link: `/blog/${post.slug}`,
+				link: `${post.slug}`,
 				pubDate: post.data.published_time,
 				content: sanitizeHtml(parser.render(post.body), {
 					allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
@@ -34,7 +34,7 @@ export async function GET(context: APIContext) {
 				title: snippet.data.title,
 				description: snippet.data.description,
 				tags: snippet.data.tags.join(', '),
-				link: `/snippets/${snippet.slug}`,
+				link: `${snippet.slug}`,
 				pubDate: snippet.data.published_time,
 				content: sanitizeHtml(parser.render(snippet.body), {
 					allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
