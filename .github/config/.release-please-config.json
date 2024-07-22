@@ -18,6 +18,7 @@
 			"hidden": false
 		}
 	],
+	"include-component-in-tag": false,
 	"packages": {
 		".": {}
 	}
