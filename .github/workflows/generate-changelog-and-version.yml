@@ -1,34 +1,23 @@
-name: Generate Changelog & Version
+name: 🤖 Generate Changelog and Versions
+
 on:
-  push:
-    branches:
-      - dev
+  pull_request:
+    branches: [dev]
+    types: [closed]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  build:
+  release-please:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20]
     steps:
-      - name: Check Repository
-        uses: actions/checkout@v4
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: ⚡ Run Release Please
+        uses: googleapis/release-please-action@v4
         with:
-          version: 9
-      - name: Use Node.js ${{ matrix.node-version }} with PNPM
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Setup Git User
-        run: |
-            git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
-            git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
-      - name: Generate Release (calls release-it in package.json)
-        run: pnpm ci:release
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: .github/config/.release-please-config.json
+          manifest-file: .github/config/.release-please-manifest.json
+          target-branch: 'dev'
