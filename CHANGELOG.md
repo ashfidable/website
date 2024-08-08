@@ -138,6 +138,13 @@
 * types for post details ([c8abcbf](https://github.com/ashfidable/website/commit/c8abcbfd77179d1176512117a009897eafbfb14f))
 * zindex ([c451b63](https://github.com/ashfidable/website/commit/c451b63894f24436d76ce0990da7bcfa96d99c41))
 
+## [1.1.2](https://github.com/ashfidable/website/compare/v1.1.1...v1.1.2) (2024-08-08)
+
+
+### 🐛 Bug Fixes
+
+* **command-bar:** duplicate prefix ([#30](https://github.com/ashfidable/website/issues/30)) ([d87ce45](https://github.com/ashfidable/website/commit/d87ce45497514cc4ab1c8545acefb1fb39490280))
+
 ## 1.0.1 (2024-07-21)
 
 
