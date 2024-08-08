@@ -1,9 +1,8 @@
 name: 🤖 Generate Changelog and Versions
 
 on:
-  pull_request:
+  push:
     branches: [dev]
-    types: [closed]
 
 permissions:
   contents: write
@@ -11,7 +10,6 @@ permissions:
 
 jobs:
   release-please:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: ⚡ Run Release Please
