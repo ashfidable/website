@@ -10,7 +10,7 @@ const posts = await getCollection('posts', ({ id }) => {
 	return id.startsWith('blog/')
 })
 
-const filteredPosts = await posts.sort(
+const filteredPosts = posts.sort(
 	(a, b) => a.data.published_time.getTime() - b.data.published_time.getTime()
 )
 

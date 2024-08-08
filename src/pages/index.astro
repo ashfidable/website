@@ -48,7 +48,6 @@ const posts = await getCollection('posts', ({ id }) => {
 		<div class="grid grid-cols-1 gap-2 lg:gap-4">
 			{
 				snippets.map((snippet) => {
-					const href = `/snippets/${snippet.slug}`
 					return <SnippetCard as="h3" snippet={snippet} />
 				})
 			}
