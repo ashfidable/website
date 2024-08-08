@@ -18,8 +18,5 @@
 			"hidden": false
 		}
 	],
-	"include-component-in-tag": false,
-	"packages": {
-		".": {}
-	}
+	"include-component-in-tag": false
 }
