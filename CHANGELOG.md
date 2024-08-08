@@ -138,6 +138,13 @@
 * types for post details ([c8abcbf](https://github.com/ashfidable/website/commit/c8abcbfd77179d1176512117a009897eafbfb14f))
 * zindex ([c451b63](https://github.com/ashfidable/website/commit/c451b63894f24436d76ce0990da7bcfa96d99c41))
 
+## [1.1.2](https://github.com/ashfidable/website/compare/v1.1.1...v1.1.2) (2024-08-08)
+
+
+### 🐛 Bug Fixes
+
+* test ([4872bf4](https://github.com/ashfidable/website/commit/4872bf45ca835adcd109a36b9c55a61e21e21665))
+
 ## 1.0.1 (2024-07-21)
 
 
