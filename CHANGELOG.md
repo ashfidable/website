@@ -1,8 +1,28 @@
 ## [1.1.0](https://github.com/ashfidable/website/compare/ashfid.com-v1.0.1...ashfid.com-v1.1.0) (2024-07-22)
 
 
+### 🐛 Bug Fixes
+
+* remove every release-it dependencies ([c774fe0](https://github.com/ashfidable/website/commit/c774fe0cf0840e6b3e7c4d5b7bd8845b8675d98e))
+
+
+## 1.0.1 (2024-07-21)
+
+
+### 🐛 Bug Fixes
+
+* **types and rss:** remove duplication of rss links (closes [#2](https://github.com/ashfidable/website/issues/2)) and types fix for `sanitize-html` `markdown-it` ([#5](https://github.com/ashfidable/website/issues/5)) ([e47ae41](https://github.com/ashfidable/website/commit/e47ae413459d5c5e12b6d8744df889606fca6812))
+
+## 1.0.0 (2024-07-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* ci/cd for generating changelogs and releases (#3)
+
 ### 🌟 New Features
 
+* ci/cd for generating changelogs and releases ([#3](https://github.com/ashfidable/website/issues/3)) ([8f4bd37](https://github.com/ashfidable/website/commit/8f4bd375b0bc5d4933388c39ad329e3676aa032d))
 * &lt;a&gt; atom component ([5d1186a](https://github.com/ashfidable/website/commit/5d1186a591760c02a50c47e21cafa43a539f621e))
 * &lt;blockquote&gt; atom added ([f359456](https://github.com/ashfidable/website/commit/f359456b2aba65ccbb7be4fd2bbc6474338fb760))
 * &lt;section&gt; atom ([811af01](https://github.com/ashfidable/website/commit/811af01eaf4bba62a4102196d839d950643d7083))
@@ -92,66 +112,3 @@
 * uses card added ([f90900b](https://github.com/ashfidable/website/commit/f90900b38ba66c4867333dd4d25e2b9134160755))
 * uses card added ([7a4723e](https://github.com/ashfidable/website/commit/7a4723e918e485b4781ce6408da3ed56e1d0015a))
 * uses index page ([e736345](https://github.com/ashfidable/website/commit/e7363454eeac93f4faa5cba2131be8645513e12f))
-
-
-### 🐛 Bug Fixes
-
-* --color-border to --color-border-highlight ([a9b6753](https://github.com/ashfidable/website/commit/a9b675309343dc7af8dac5b78b63f15b76db538b))
-* audio for mobile ([ceb0a65](https://github.com/ashfidable/website/commit/ceb0a6575401e4b1b16afb48b86cc653695c38d1))
-* bugs in settings and order of operations. Accessibility added. ([0deffcc](https://github.com/ashfidable/website/commit/0deffccf14e87d37fdf8018901bdf49ad3d62a4d))
-* changed those json files to yaml ([af08e9e](https://github.com/ashfidable/website/commit/af08e9ea393cdfc3c9e4649faaf323036753db8d))
-* cleanups ([9ab9316](https://github.com/ashfidable/website/commit/9ab931673ccec34fe29b7a191f39079e928f3a38))
-* commandbar slugs for posts ([2d812a5](https://github.com/ashfidable/website/commit/2d812a5a61620554a432aaab5687025e4156a7b7))
-* commands store to support new themes.ts functionality ([0f63574](https://github.com/ashfidable/website/commit/0f635749fdd0503ac4d0662044ac2f08d8d92426))
-* current page indicator for mobile nav ([545fbc6](https://github.com/ashfidable/website/commit/545fbc6576622416717fc22b853d191e29aea710))
-* favicon.ico link ([f69a6c7](https://github.com/ashfidable/website/commit/f69a6c70ec4b0e903acfa75546d85510d087f9ed))
-* featured to latest in title ([d1d64fc](https://github.com/ashfidable/website/commit/d1d64fc68b86540fa58d8a8e4beb9f9aca691b21))
-* file casing ([d02eb63](https://github.com/ashfidable/website/commit/d02eb63b738d20ec40a0e392881766d62cd79047))
-* flashing white content fixed (still not happy with implementation) ([ab91398](https://github.com/ashfidable/website/commit/ab9139893ba6b3a5569868d143033af629ba687b))
-* fonts to default fonts ([ccfde8c](https://github.com/ashfidable/website/commit/ccfde8c7245802fa2927e0d258f851d85f5124e9))
-* formatting of themes.css ([afa7a2d](https://github.com/ashfidable/website/commit/afa7a2d6fd99f88871b26dead170dccde80d0d28))
-* h4 to span in command palette for accessibility ([bf21b82](https://github.com/ashfidable/website/commit/bf21b82d9120251495eeb7cfb4d6c6f6985846a5))
-* hero section from h3 to h2 ([dcee3df](https://github.com/ashfidable/website/commit/dcee3dffe74cb883f468314adfd9360009393600))
-* home hero section import ([001c5ab](https://github.com/ashfidable/website/commit/001c5abcaa3fd0516670afc41f7cb97b47ded61d))
-* image quality on mobile ([9225689](https://github.com/ashfidable/website/commit/9225689896dfeb36482a12a7b9d7019bdeffaad1))
-* import fixes ([9cdcf0c](https://github.com/ashfidable/website/commit/9cdcf0c5ad04febc00c5899427afdcd2c53a449f))
-* imports ([5300b09](https://github.com/ashfidable/website/commit/5300b09212c39e023daa2968944ed0b9cd614b15))
-* is current page can match the subpaths ([41fdaa1](https://github.com/ashfidable/website/commit/41fdaa13eb3287d25c2aff6538c347660f955b1c))
-* light mode theme ([5243aa0](https://github.com/ashfidable/website/commit/5243aa07445cfcc9f146a47e358f99b81ac849b1))
-* merged blog and snippets in api ([a3ee5b2](https://github.com/ashfidable/website/commit/a3ee5b28c5e71d0b4098df03c7cd1804d8db30c4))
-* mobile navigation huge ([e649e76](https://github.com/ashfidable/website/commit/e649e766aa4e29790a4d2141cf74d8cab0220f82))
-* mobile navigator bug for going to other pages ([5805b8d](https://github.com/ashfidable/website/commit/5805b8d3879aab5b7356d72a5cf933057a817095))
-* navigation wrapper is desktop navigation in functionality ([d793d21](https://github.com/ashfidable/website/commit/d793d21e6ffad4bd2f3a0f1cc2408004e941a8a2))
-* published to published_time ([fd6e3d1](https://github.com/ashfidable/website/commit/fd6e3d1f08ac8b9eed6d63a1e0e581f1606cc7bb))
-* published to published_time for snippet card ([327d49b](https://github.com/ashfidable/website/commit/327d49b9cdd3d5a55b23f8e3a8724950c74000c6))
-* remove every release-it dependencies ([c774fe0](https://github.com/ashfidable/website/commit/c774fe0cf0840e6b3e7c4d5b7bd8845b8675d98e))
-* remove keywords and added tags properly ([f28034f](https://github.com/ashfidable/website/commit/f28034fa49e9028c64c88b3f3f3de47384c77e81))
-* schema for blog ([46fd505](https://github.com/ashfidable/website/commit/46fd5057d62df1929e18c7ed7089236cf5fea702))
-* **slug-paths:** prevent path/slug names to have duplicated prefix like `snippets/` or `blog/` ([#1](https://github.com/ashfidable/website/issues/1)) ([aadd370](https://github.com/ashfidable/website/commit/aadd3706a4a8755c14eff50e137744b6855b50a9))
-* starship installation published to published_time ([cfebdf3](https://github.com/ashfidable/website/commit/cfebdf37cf9b87295146f52c1e9215457ef3b75f))
-* status card transition persist for mobile and navigation, renames ([4189fd5](https://github.com/ashfidable/website/commit/4189fd55621a50790bde68b23da629c27fbff8cd))
-* styles for mobile nav ([98c58f2](https://github.com/ashfidable/website/commit/98c58f2e9d1af5e81a8a8c809d91324e9efa5767))
-* tailwind.config.js ([64d8ec3](https://github.com/ashfidable/website/commit/64d8ec34746fa91740c1f7ddcb6fb9f2cb5d4e27))
-* theme persistent issue and firefox ([c9b871c](https://github.com/ashfidable/website/commit/c9b871c8bc187bb49e14bb1a9e4278504c2068a2))
-* transition names ([58bc6eb](https://github.com/ashfidable/website/commit/58bc6eb3284a442bf4cdc7a5c72a01f6e568a459))
-* **types and rss:** remove duplication of rss links (closes [#2](https://github.com/ashfidable/website/issues/2)) and types fix for `sanitize-html` `markdown-it` ([#5](https://github.com/ashfidable/website/issues/5)) ([e47ae41](https://github.com/ashfidable/website/commit/e47ae413459d5c5e12b6d8744df889606fca6812))
-* types for post details ([c8abcbf](https://github.com/ashfidable/website/commit/c8abcbfd77179d1176512117a009897eafbfb14f))
-* zindex ([c451b63](https://github.com/ashfidable/website/commit/c451b63894f24436d76ce0990da7bcfa96d99c41))
-
-## 1.0.1 (2024-07-21)
-
-
-### 🐛 Bug Fixes
-
-* **types and rss:** remove duplication of rss links (closes [#2](https://github.com/ashfidable/website/issues/2)) and types fix for `sanitize-html` `markdown-it` ([#5](https://github.com/ashfidable/website/issues/5)) ([e47ae41](https://github.com/ashfidable/website/commit/e47ae413459d5c5e12b6d8744df889606fca6812))
-
-## 1.0.0 (2024-07-21)
-
-
-### ⚠ BREAKING CHANGES
-
-* ci/cd for generating changelogs and releases (#3)
-
-### 🌟 New Features
-
-* ci/cd for generating changelogs and releases ([#3](https://github.com/ashfidable/website/issues/3)) ([8f4bd37](https://github.com/ashfidable/website/commit/8f4bd375b0bc5d4933388c39ad329e3676aa032d))
