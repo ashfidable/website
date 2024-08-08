@@ -75,7 +75,8 @@ const codeBlocks = await getCodeBlocks()
 			})
 
 			container.addEventListener('click', (e) => {
-				const clickedTab = e.target.closest('a')
+				const target = e.target as HTMLElement
+				const clickedTab = target?.closest('a')
 				if (!clickedTab) return
 				e.preventDefault()
 
@@ -83,7 +84,7 @@ const codeBlocks = await getCodeBlocks()
 			})
 
 			container.addEventListener('keydown', (e) => {
-				const event = e
+				const event = e as KeyboardEvent
 				switch (event.key) {
 					case 'ArrowLeft':
 						move('left')
@@ -94,8 +95,8 @@ const codeBlocks = await getCodeBlocks()
 				}
 			})
 
-			function switchTab(newTab) {
-				const activePanelId = newTab.getAttribute('href').replace('#', '')
+			function switchTab(newTab: HTMLButtonElement | HTMLAnchorElement) {
+				const activePanelId = newTab.getAttribute('href')?.replace('#', '')
 				const activePanel = container?.querySelector(`section[id='${activePanelId}']`)
 
 				buttons?.forEach((tab) => {
@@ -114,7 +115,7 @@ const codeBlocks = await getCodeBlocks()
 				newTab.focus()
 			}
 
-			function move(direction) {
+			function move(direction: 'left' | 'right') {
 				const currentTab = document.activeElement
 
 				const targetSibling =
@@ -126,7 +127,7 @@ const codeBlocks = await getCodeBlocks()
 					? targetSibling.querySelector('a')
 					: buttons[direction === 'left' ? buttons.length - 1 : 0]
 
-				switchTab(targetTab)
+				switchTab(targetTab!)
 			}
 		})
 	}

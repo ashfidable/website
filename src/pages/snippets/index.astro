@@ -10,7 +10,7 @@ const snippets = await getCollection('posts', ({ id }) => {
 	return id.startsWith('snippets/')
 })
 
-const filteredSnippets = await snippets.sort(
+const filteredSnippets = snippets.sort(
 	(a, b) => a.data.published_time.getTime() - b.data.published_time.getTime()
 )
 
