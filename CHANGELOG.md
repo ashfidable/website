@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/ashfidable/website/compare/v1.1.1...v1.1.2) (2024-08-08)
+
+
+### 🐛 Bug Fixes
+
+* **command-bar:** duplicate prefix ([#30](https://github.com/ashfidable/website/issues/30)) ([d87ce45](https://github.com/ashfidable/website/commit/d87ce45497514cc4ab1c8545acefb1fb39490280))
+
+
 ## [1.1.0](https://github.com/ashfidable/website/compare/ashfid.com-v1.0.1...ashfid.com-v1.1.0) (2024-07-22)
 
 
