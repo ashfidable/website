@@ -6,6 +6,18 @@
 * **command-bar:** duplicate prefix ([#30](https://github.com/ashfidable/website/issues/30)) ([d87ce45](https://github.com/ashfidable/website/commit/d87ce45497514cc4ab1c8545acefb1fb39490280))
 
 
+## [1.2.0](https://github.com/ashfidable/website/compare/v1.1.2...v1.2.0) (2024-08-09)
+
+
+### 🌟 New Features
+
+* box shadows for sides and background color changes ([#36](https://github.com/ashfidable/website/issues/36)) ([734961b](https://github.com/ashfidable/website/commit/734961bad62444a4193326dc69caced111ad407f))
+
+
+### 🐛 Bug Fixes
+
+* **typescript:** types and hints ([56cd116](https://github.com/ashfidable/website/commit/56cd11683faa78d34cdc3d1f60f8b96b58deebf5))
+
 ## [1.1.0](https://github.com/ashfidable/website/compare/ashfid.com-v1.0.1...ashfid.com-v1.1.0) (2024-07-22)
 
 
