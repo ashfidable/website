@@ -8,6 +8,7 @@
 	html {
 		font-family: var(--font-body);
 		background: var(--color-background);
+		background-image: var(--color-background-image);
 	}
 
 	html,
@@ -17,11 +18,20 @@
 
 	html {
 		scrollbar-gutter: stable;
+		background-attachment: fixed;
 	}
 
 	code {
 		background-color: var(--color-code-background);
 		@apply rounded-md px-2;
+	}
+
+	body > :first-child {
+		box-shadow: -30px 5px 30px 16px var(--color-box-shadow);
+	}
+
+	body > :last-child {
+		box-shadow: 30px 5px 30px 16px var(--color-box-shadow);
 	}
 }
 
