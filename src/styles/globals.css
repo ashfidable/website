@@ -26,11 +26,11 @@
 		@apply rounded-md px-2;
 	}
 
-	body > :first-child {
+	body > aside {
 		box-shadow: -30px 5px 30px 16px var(--color-box-shadow);
 	}
 
-	body > :last-child {
+	body > main {
 		box-shadow: 30px 5px 30px 16px var(--color-box-shadow);
 	}
 }
