@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store'
 import { settingsStore } from './settings-store'
-import { navigate } from 'astro:transitions/client'
 
 export type CommandProps = {
 	id?: number

@@ -12,6 +12,6 @@ const formatPosts = posts.map((post) => {
 	}
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async () => {
 	return new Response(JSON.stringify(formatPosts))
 }
