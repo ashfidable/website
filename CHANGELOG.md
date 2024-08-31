@@ -6,6 +6,19 @@
 * **command-bar:** duplicate prefix ([#30](https://github.com/ashfidable/website/issues/30)) ([d87ce45](https://github.com/ashfidable/website/commit/d87ce45497514cc4ab1c8545acefb1fb39490280))
 
 
+## [1.3.0](https://github.com/ashfidable/website/compare/v1.2.0...v1.3.0) (2024-08-31)
+
+
+### 🌟 New Features
+
+* code mirror with custom themes and results window ([1a901c9](https://github.com/ashfidable/website/commit/1a901c9a5c35031b30d6b17d3ece9188a65de9d1))
+* codemirror custom theme ([e5158ad](https://github.com/ashfidable/website/commit/e5158adb608dbd1abaf2d344ea1d80e701211ae5))
+
+
+### 🚀 Documentations
+
+* javascript gameloop post with code editor ([1e89a1a](https://github.com/ashfidable/website/commit/1e89a1a0cc3f22f63c9d8baa31ec9eb5365bdba4))
+
 ## [1.2.0](https://github.com/ashfidable/website/compare/v1.1.2...v1.2.0) (2024-08-09)
 
 
