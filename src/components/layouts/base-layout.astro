@@ -1,10 +1,10 @@
 ---
-import { ViewTransitions } from 'astro:transitions'
 import '$styles/globals.css'
 
 import NavigationBar from '$components/navigation-bar/navigation-wrapper.astro'
 import CommandBar from '$components/command-palette/command-bar.astro'
 import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro'
+import { ClientRouter } from 'astro:transitions'
 ---
 
 <!doctype html>
@@ -21,9 +21,8 @@ import MobileNavigation from '$components/navigation-bar/mobile-navigation.astro
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<!-- Meta Tags -->
 		<meta name="generator" content={Astro.generator} />
-
+		<ClientRouter />
 		<slot name="seo" />
-		<ViewTransitions fallback="swap" />
 
 		<script data-astro-rerun>
 			function setSettings(newDocument) {

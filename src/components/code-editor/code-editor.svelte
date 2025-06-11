@@ -18,6 +18,11 @@
 	import TwoRowIcon from './icons/two-row-icon.svelte'
 	import ResetIcon from './icons/reset-icon.svelte'
 
+	enum CodeType {
+		HTML,
+		CSS,
+		JS
+	}
 	interface Props {
 		title?: string
 		baseHtml?: string
@@ -37,13 +42,6 @@
 	const resetStyle = baseStyles
 	const resetScript = baseScript
 
-	// svelte-ignore non_reactive_update
-	enum CodeType {
-		HTML,
-		CSS,
-		JS
-	}
-
 	let editorElement: HTMLElement
 	let editorView: EditorView
 
@@ -51,7 +49,7 @@
 	let isResetting = $state(false)
 	let isTwoColumn = $state(true)
 
-	let debounceTimeout: number = -1
+	let debounceTimeout: ReturnType<typeof setTimeout>
 	let debounceSeconds: number = 250
 
 	let currentCodeType = $state(CodeType.HTML)
