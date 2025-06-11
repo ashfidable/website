@@ -13,6 +13,39 @@ import HeroSection from './hero-section.astro'
 				>Let's ditch the over-engineering and have some fun!</span
 			>
 		</p>
+		<div class="flex justify-center pt-2 md:justify-end">
+			<a
+				href="https://www.buymeacoffee.com/ashfid"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex transform items-center rounded-lg border-b-4 border-lime-700 bg-lime-500 px-4 py-2 font-heading font-medium
+				text-black transition-all duration-200 hover:scale-105 hover:border-yellow-700 hover:bg-yellow-400 hover:shadow-lg"
+			>
+				<img
+					src="https://cdn.buymeacoffee.com/buttons/bmc-new-btn-logo.svg"
+					alt="Buy me a Coffee"
+					class="mr-2 h-6"
+				/>
+				<span>Buy me a Coffee</span>
+			</a>
+		</div>
 	</HeroSection>
 	<Sprite />
 </section>
+
+<style>
+	/* Add a subtle bounce animation on hover */
+	a:hover img {
+		animation: bounce 0.5s ease infinite;
+	}
+
+	@keyframes bounce {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-3px);
+		}
+	}
+</style>
