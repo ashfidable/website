@@ -49,8 +49,7 @@
     "remark-mdx-frontmatter": "^5.2.0",
     "typescript": "^5.9.3",
     "vite": "catalog:",
-    "vite-plus": "catalog:",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-plus": "catalog:"
   },
   "devEngines": {
     "packageManager": {
