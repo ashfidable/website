@@ -11,7 +11,17 @@ tags:
   - svelte
 ---
 
-import Sprite from '$components/sprite.astro'
+import { Sprite } from '$components/site'
+import { PostImage } from '$components/mdx'
+import desktopView from '$assets/images/posts/desktop_view.jpeg'
+import mobileView from '$assets/images/posts/mobile_view.jpg'
+import recolor from '$assets/images/ashfid-picture-recolor.png'
+import discordStatus from '$assets/images/posts/discord_status_bar.png'
+import vscodeCommand from '$assets/images/posts/vscode_cmd.png'
+import myCommand from '$assets/images/posts/my_cmd.png'
+import settingsOld from '$assets/images/posts/settings_old.png'
+import settingsCollapsed from '$assets/images/posts/settings_collapsed.png'
+import settingsExpanded from '$assets/images/posts/settings_expanded.png'
 
 ## Why this website?
 
@@ -48,7 +58,7 @@ From the beginning, I wanted to create a cozy website with a **two-layout sideba
 - A footer is present at the end of the sidebar.
 - A Command Bar is at the top of the main content for productivity that includes the [Command Palette](#-command-palette) and [Settings](#-settings).
 
-![Desktop View]($assets/images/posts/desktop_view.jpeg)
+<PostImage src={desktopView} alt="Desktop View" />
 
 ### The Mobile View
 
@@ -57,7 +67,7 @@ From the beginning, I wanted to create a cozy website with a **two-layout sideba
 - Designed for easy reading with one-thumb scrolling.
 - Simplified Command Bar in the menu bar only.
 
-![Mobile View]($assets/images/posts/mobile_view.jpg)
+<PostImage src={mobileView} alt="Mobile View" />
 
 
 ## Pages
@@ -101,7 +111,7 @@ Interactive/non-interactive features were created specifically for this website.
 
 For a long time during the development phase, I was using a picture created by [Kostur](https://k0stur.art), and I really liked it. I was content with it. I love his minimalistic artistic take on it. I will always use it for Discord. Thank you, Kostur!
 
-![Kostur's Take]($assets/images/ashfid-picture-recolor.png)
+<PostImage src={recolor} alt="Kostur's Take" />
 
 **However, I wanted a more cozy logo in general.** My wife started making pixel art this year and began drawing me in various ways. She enjoyed doing it, and we ended up loving this one. It fits the color schemes and vibes of this website better, and I am happier with it.
 
@@ -177,7 +187,7 @@ I wanted to display my Discord activity or any digital activity I’m doing, lik
 
 In short, you join Lanyard’s Discord server and make sure the activity status privacy is turned on. Then, you get your Discord’s developer ID and use it to connect to Lanyard’s websocket server or REST API. To make things easier, I used [svelte-lanyard](https://github.com/malloryhayr/svelte-lanyard) and entered my Discord account’s developer ID. It shows your current activity with lots of details.
 
-![Discord Status Activity using Lanyard]($assets/images/posts/discord_status_bar.png)
+<PostImage src={discordStatus} alt="Discord Status Activity using Lanyard" />
 
 ### 🔍 Command Palette
 
@@ -185,7 +195,7 @@ I'm a big fan of command palettes in editors like Visual Studio Code. They make 
 
 Creating such a feature, however, is complex, mainly due to accessibility and behavioral considerations.
 
-![Visual Studio Command Palette]($assets/images/posts/vscode_cmd.png)
+<PostImage src={vscodeCommand} alt="Visual Studio Command Palette" />
 
 Like any other front-end developer, I searched for packages to help me out. Surprisingly, all I needed was a robust fuzzy search package—enter [Fuse.js](https://www.fusejs.io/), the ultimate JS library for fuzzy search.
 
@@ -201,17 +211,17 @@ Now, let's talk challenges:
 Despite these hurdles, the palette is now deployable. Improving command addition implementation remains on the to-do list for another day.
 
 
-![My Command Palette (ignore the command titles)]($assets/images/posts/my_cmd.png)
+<PostImage src={myCommand} alt="My Command Palette (ignore the command titles)" />
 
 ### ⚙️ Settings
 
 I had to prototype the settings menu in many styles, but I was not satisfied. I was content with the dropdown settings menu for a long time. However, I never really felt it was a part of my website, even though it functioned well. I didn’t take it that seriously until I desired a more minimalistic approach, with icons for settings.
 
-![Old dropdown menu of settings]($assets/images/posts/settings_old.png)
+<PostImage src={settingsOld} alt="Old dropdown menu of settings" />
 
 The new menu settings reside on the command bar of the desktop view or at the top of the menu in the mobile view. It’s straightforward and no-nonsense so far. I’m very pleased with it now because I can move this component around and still be satisfied with it.
 
-![New settings menu - theme collapsed]($assets/images/posts/settings_collapsed.png)
+<PostImage src={settingsCollapsed} alt="New settings menu - theme collapsed" />
 
 **My Struggles:**
 
@@ -220,13 +230,13 @@ The new menu settings reside on the command bar of the desktop view or at the to
 
 I still have 2-3 settings to create. So far, **flipping the layout** and providing **dyslexia support for fonts** come to mind.
 
-![New settings menu - theme expanded]($assets/images/posts/settings_expanded.png)
+<PostImage src={settingsExpanded} alt="New settings menu - theme expanded" />
 
 ### 🚇 View Transitions
 
 I fell in love with the [‘whole view transitions’ video released by Google](https://www.youtube.com/watch?v=JCJUPJ_zDQ4&pp=ygUWdmlldyB0cmFuc2l0aW9uIGdvb2dsZQ%3D%3D), which allows for native-like application transitions from page to page. I wanted to incorporate this into my website. By the time I started building my site, Astro had added view transitions as a feature for **Chromium browsers**, with a fallback for **non-Chromium browsers**.
 
-I considered adding a GIF to demonstrate it, but it’s best experienced firsthand. It’s most noticeable on the [Uses](/uses) page when you switch categories, or anytime you navigate from the home page to the blog or snippets. It ensures that pages morph with a fade, which is the default transition.
+I considered adding a GIF to demonstrate it, but it’s best experienced firsthand. It’s most noticeable on the [Tools](/tools) page when you switch categories, or anytime you navigate from the home page to the blog or snippets. It ensures that pages morph with a fade, which is the default transition.
 
 **My Struggles:**
 - Knowing what element should morph without motion sickness.

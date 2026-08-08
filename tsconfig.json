@@ -1,15 +1,25 @@
 {
-	"extends": "astro/tsconfigs/strict",
-	"compilerOptions": {
-		"baseUrl": ".",
-		"jsx": "react",
-		"paths": {
-			"$components/*": ["src/components/*"],
-			"$styles/*": ["src/styles/*"],
-			"$layouts/*": ["src/components/layouts/*"],
-			"$assets/*": ["src/assets/*"],
-			"$utils/*": ["src/utils/*"],
-			"$stores/*": ["src/stores/*"]
-		}
-	}
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.mdx", "vite.config.ts"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "$components/*": ["src/components/*"],
+      "$assets/*": ["src/assets/*"],
+      "$styles/*": ["src/styles/*"],
+      "$utils/*": ["src/utils/*"],
+      "$content/*": ["src/content/*"],
+      "@/*": ["src/*"]
+    }
+  }
 }
