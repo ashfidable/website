@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3000",
-    "start": "node .output/server/index.mjs",
-    "build": "vite build",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "build": "pnpm clean && vite build && pnpm verify:pages",
+    "verify:pages": "node scripts/verify-pages-build.mjs",
     "preview": "vite preview",
     "check": "tsc --noEmit",
     "generate-routes": "tsr generate"
