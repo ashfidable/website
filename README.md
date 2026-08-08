@@ -41,5 +41,22 @@ publishing to catch invalid frontmatter or MDX.
 Useful commands:
 
 - `pnpm check` — type-check the project
-- `pnpm build` — create the production server and prerendered static routes
-- `pnpm start` — run the production server output
+- `pnpm build` — clean old output, build every route, and verify the Cloudflare Pages bundle
+- `pnpm preview` — preview the production build locally
+
+## Cloudflare Pages
+
+This site is fully prerendered. Configure the Pages project with:
+
+- Framework preset: `None`
+- Build command: `pnpm build`
+- Build output directory: `dist/client`
+- Root directory: `/`
+
+Do not publish `dist`. TanStack Start places the deployable static site in `dist/client` and its
+server bundle in `dist/server`. The build starts by deleting the entire `dist` folder and fails if
+the static output contains an old `/_astro/` reference or a missing generated asset.
+
+When migrating an existing Pages project from Astro, update the output directory, clear the Pages
+build cache, and redeploy. If a custom Cloudflare Cache Rule caches HTML, purge that cache after the
+first corrected deployment.
