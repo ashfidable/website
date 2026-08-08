@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { Palette, Radius, Square, Volume2, VolumeX } from 'lucide-react'
 import { themeNames, useSettings, type ThemeName } from '@/providers/settings-provider'
+import { playAudio } from '@/utils/play-audio'
 import { Icon } from './icon'
 
 const themeLabels: Record<ThemeName, string> = {
@@ -16,13 +17,6 @@ const themeLabels: Record<ThemeName, string> = {
   peach: 'Peach Horizon',
   meadow: 'Sunny Meadow',
   sand: 'Golden Sand',
-}
-
-function play(url: string, enabled = true) {
-  if (!enabled) return
-  const audio = new Audio(url)
-  audio.volume = 0.2
-  void audio.play().catch(() => {})
 }
 
 const controlClass =
@@ -64,7 +58,7 @@ export function Settings() {
         className={`${controlClass} ${settings.sound ? 'bg-site-button-active text-site-icon-hover' : ''}`}
         onClick={() => {
           settings.toggleSound()
-          play('/audio/sound_toggle_on.mp3')
+          playAudio('/audio/sound_toggle_on.mp3')
         }}
         aria-label={settings.sound ? 'Mute interface sounds' : 'Enable interface sounds'}
         aria-pressed={settings.sound}
@@ -78,7 +72,7 @@ export function Settings() {
         className={`${controlClass} ${settings.rounded ? 'bg-site-button-active text-site-icon-hover' : ''}`}
         onClick={() => {
           settings.toggleRounded()
-          play('/audio/sound_toggle_on.mp3', settings.sound)
+          playAudio('/audio/sound_toggle_on.mp3', settings.sound)
         }}
         aria-label={settings.rounded ? 'Use square corners' : 'Use rounded corners'}
         aria-pressed={settings.rounded}
@@ -92,7 +86,7 @@ export function Settings() {
         className={`${controlClass} ${themesOpen ? 'bg-site-button-active text-site-icon-hover' : ''}`}
         onClick={() => {
           setThemesOpen((open) => !open)
-          play('/audio/fly_in_out.mp3', settings.sound)
+          playAudio('/audio/fly_in_out.mp3', settings.sound)
         }}
         aria-label="Choose color theme"
         aria-expanded={themesOpen}
@@ -126,7 +120,7 @@ export function Settings() {
                   onClick={() => {
                     settings.changeTheme(theme)
                     setThemesOpen(false)
-                    play('/audio/sound_toggle_on.mp3', settings.sound)
+                    playAudio('/audio/sound_toggle_on.mp3', settings.sound)
                   }}
                 >
                   <span

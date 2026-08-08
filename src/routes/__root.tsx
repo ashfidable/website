@@ -1,9 +1,10 @@
-import { HeadContent, Outlet, Scripts, createRootRoute } from '@tanstack/react-router'
-import type { ReactNode } from 'react'
+import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from '@tanstack/react-router'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { CommandPalette } from '@/components/command-palette'
 import { DesktopNavigation, MobileNavigation } from '@/components/navigation'
 import { Settings } from '@/components/settings'
-import { SettingsProvider } from '@/providers/settings-provider'
+import { SettingsProvider, useSettings } from '@/providers/settings-provider'
+import { playAudio } from '@/utils/play-audio'
 import appCss from '../styles/globals.css?url'
 
 const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`
@@ -27,7 +28,22 @@ export const Route = createRootRoute({
 })
 
 function App() {
-  return <SettingsProvider><DesktopNavigation /><MobileNavigation /><main className="flex h-full min-w-0 flex-grow flex-col gap-4 text-base md:border-r md:border-site-border"><div className="hidden items-center justify-between border-b-2 border-site-border bg-site-card px-4 py-1 text-sm md:flex"><CommandPalette /><Settings /></div><div className="flex min-w-0 flex-col gap-8 px-4 pb-4 pt-4 md:pt-0" style={{ viewTransitionName: 'page-content' }}><Outlet /></div></main></SettingsProvider>
+  return <SettingsProvider><NavigationSound /><DesktopNavigation /><MobileNavigation /><main className="flex h-full min-w-0 flex-grow flex-col gap-4 text-base md:border-r md:border-site-border"><div className="hidden items-center justify-between border-b-2 border-site-border bg-site-card px-4 py-1 text-sm md:flex"><CommandPalette /><Settings /></div><div className="flex min-w-0 flex-col gap-8 px-4 pb-4 pt-4 md:pt-0" style={{ viewTransitionName: 'page-content' }}><Outlet /></div></main></SettingsProvider>
+}
+
+function NavigationSound() {
+  const pathname = useLocation({ select: (location) => location.pathname })
+  const { sound } = useSettings()
+  const previousPathname = useRef(pathname)
+
+  useEffect(() => {
+    if (pathname === previousPathname.current) return
+    previousPathname.current = pathname
+    if (!document.startViewTransition) return
+    playAudio('/audio/sound_toggle_on.mp3', sound)
+  }, [pathname, sound])
+
+  return null
 }
 
 function RootDocument({ children }: { children: ReactNode }) {
