@@ -1,5 +1,5 @@
-import { navigation } from '$content/index'
+import { navigation } from "$content/index";
 
-export const links = navigation
+export const links = navigation;
 
-export const mobileLinks = links.slice(0, 3)
+export const mobileLinks = links.slice(0, 3);
