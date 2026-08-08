@@ -1,14 +1,12 @@
-export function formatDate(date: Date) {
-	let day = date.getDate()
-	let monthName = date.toLocaleString('default', { month: 'long' })
-	let year = date.getFullYear()
+export function formatDate(value: Date | string) {
+  const date = new Date(value)
+  const day = date.getDate()
+  const monthName = date.toLocaleString('default', { month: 'long' })
+  const year = date.getFullYear()
 
-	let formattedDate = day + ' ' + monthName + ' ' + year
-
-	return formattedDate
+  return `${day} ${monthName} ${year}`
 }
 
-export function formatDateSlash(date: Date) {
-	const formattedDate = date.toLocaleDateString('en-GB')
-	return formattedDate
+export function formatDateSlash(value: Date | string) {
+  return new Date(value).toLocaleDateString('en-GB')
 }

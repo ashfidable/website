@@ -13,8 +13,7 @@ tags:
   - javascript
 ---
 
-import CodeTabs from '$components/tabs/code-tabs.astro'
-import CodeEditor from '$components/code-editor/code-editor.svelte'
+import { CodeTab, CodeTabs } from '$components/code-tabs'
 
 
 
@@ -24,7 +23,7 @@ This snippet provides a game loop in **JavaScript** and **TypeScript** that runs
 ## The Gameloop Snippet
 
 <CodeTabs>
-    <Fragment slot="JavaScript">
+    <CodeTab label="JavaScript">
         ```js wrap
         // To store last timestep
         let lastTime = 0;
@@ -65,8 +64,8 @@ This snippet provides a game loop in **JavaScript** and **TypeScript** that runs
         // Start the game loop by requesting the first frame
         requestAnimationFrame(gameLoop);
         ```
-    </Fragment>
-    <Fragment slot="TypeScript">
+    </CodeTab>
+    <CodeTab label="TypeScript">
         ```ts wrap
         // To store last timestep
         let lastTime: number = 0;
@@ -107,6 +106,6 @@ This snippet provides a game loop in **JavaScript** and **TypeScript** that runs
         // Start the game loop by requesting the first frame
         requestAnimationFrame(gameLoop);
         ```
-    </Fragment>
+    </CodeTab>
 </CodeTabs>
 

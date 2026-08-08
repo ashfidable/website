@@ -1,19 +1,12 @@
-import calculateReadingTime from 'reading-time'
-import { fromMarkdown } from 'mdast-util-from-markdown'
-import { toString } from 'mdast-util-to-string'
-
 export function getReadingTime(text: string) {
-	if (!text || !text.length) return undefined
-	try {
-		const { minutes } = calculateReadingTime(toString(fromMarkdown(text)), {
-			wordsPerMinute: 150
-		})
-		if (minutes && minutes > 0) {
-			const minuteOrMinutes = minutes > 1 ? 'mins' : 'min'
-			return `${Math.ceil(minutes)} ${minuteOrMinutes} read`
-		}
-		return undefined
-	} catch (e) {
-		return undefined
-	}
+  if (!text) return undefined
+  const withoutFrontmatter = text.replace(/^---[\s\S]*?---/, '')
+  const words = withoutFrontmatter
+    .replace(/<[^>]+>|[`#*_>[\]()-]/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length
+  if (!words) return undefined
+  const minutes = Math.ceil(words / 150)
+  return `${minutes} ${minutes > 1 ? 'mins' : 'min'} read`
 }
