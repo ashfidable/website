@@ -13,12 +13,11 @@ tags:
   - javascript
 ---
 
-import { CodeTab, CodeTabs } from '$components/code-tabs'
-
-
+import { CodeTab, CodeTabs } from "$components/code-tabs";
 
 ## Overview
-This snippet provides a game loop in **JavaScript** and **TypeScript** that runs every frame, ensuring more consistent values. It's a basic snippet that can be modified later to include additional functionalities, such as handling tab switching (*as JavaScript is throttled when a tab is switched*).
+
+This snippet provides a game loop in **JavaScript** and **TypeScript** that runs every frame, ensuring more consistent values. It's a basic snippet that can be modified later to include additional functionalities, such as handling tab switching (_as JavaScript is throttled when a tab is switched_).
 
 ## The Gameloop Snippet
 
@@ -34,7 +33,7 @@ This snippet provides a game loop in **JavaScript** and **TypeScript** that runs
         function gameLoop(currentTime) {
             // Calculate deltaTime by subtracting the last timestamp from the current timestamp and converting it to seconds
             deltaTime = (currentTime - lastTime) / 1000;
-            
+
             // Update lastTime with the current timestamp
             lastTime = currentTime;
 
@@ -76,7 +75,7 @@ This snippet provides a game loop in **JavaScript** and **TypeScript** that runs
         function gameLoop(currentTime: number): void {
             // Calculate deltaTime by subtracting the last timestamp from the current timestamp and converting it to seconds
             deltaTime = (currentTime - lastTime) / 1000;
-            
+
             // Update lastTime with the current timestamp
             lastTime = currentTime;
 
@@ -107,5 +106,5 @@ This snippet provides a game loop in **JavaScript** and **TypeScript** that runs
         requestAnimationFrame(gameLoop);
         ```
     </CodeTab>
-</CodeTabs>
 
+</CodeTabs>

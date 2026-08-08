@@ -11,21 +11,21 @@ tags:
   - svelte
 ---
 
-import { Sprite } from '$components/site'
-import { PostImage } from '$components/mdx'
-import desktopView from '$assets/images/posts/desktop_view.jpeg'
-import mobileView from '$assets/images/posts/mobile_view.jpg'
-import recolor from '$assets/images/ashfid-picture-recolor.png'
-import discordStatus from '$assets/images/posts/discord_status_bar.png'
-import vscodeCommand from '$assets/images/posts/vscode_cmd.png'
-import myCommand from '$assets/images/posts/my_cmd.png'
-import settingsOld from '$assets/images/posts/settings_old.png'
-import settingsCollapsed from '$assets/images/posts/settings_collapsed.png'
-import settingsExpanded from '$assets/images/posts/settings_expanded.png'
+import { Sprite } from "$components/site";
+import { PostImage } from "$components/mdx";
+import desktopView from "$assets/images/posts/desktop_view.jpeg";
+import mobileView from "$assets/images/posts/mobile_view.jpg";
+import recolor from "$assets/images/ashfid-picture-recolor.png";
+import discordStatus from "$assets/images/posts/discord_status_bar.png";
+import vscodeCommand from "$assets/images/posts/vscode_cmd.png";
+import myCommand from "$assets/images/posts/my_cmd.png";
+import settingsOld from "$assets/images/posts/settings_old.png";
+import settingsCollapsed from "$assets/images/posts/settings_collapsed.png";
+import settingsExpanded from "$assets/images/posts/settings_expanded.png";
 
 ## Why this website?
 
-I’ve wanted to create this website for a very long time. Back in 2022, I wondered what I would do with a website if I ever built one for myself. I’ve always loved journaling in large notebooks or private digital applications, but I also wanted a **personal digital space** where I could share my thoughts, tutorials, and interests with my friends on the internet (*or for myself in future*). 
+I’ve wanted to create this website for a very long time. Back in 2022, I wondered what I would do with a website if I ever built one for myself. I’ve always loved journaling in large notebooks or private digital applications, but I also wanted a **personal digital space** where I could share my thoughts, tutorials, and interests with my friends on the internet (_or for myself in future_).
 
 It took me some time to streamline my ideas for the website without going beyond my scope. In 2023, I began researching how personal blogs and websites are managed effortlessly and sought a suitable **tech stack** to work with. I needed an easier way to handle a large amount of content. Most websites tend to be heavily interactive; I was looking for the **perfect balance**.
 
@@ -35,7 +35,7 @@ It took me some time to streamline my ideas for the website without going beyond
 - Using intuitive icons for blogs, settings, and navigation.
 - Minimalist settings for themes, sounds, and layout.
 - Command palette for quick access.
-- Displaying Discord activity on the site. 
+- Displaying Discord activity on the site.
 
 ## So about the tech stack..
 
@@ -50,7 +50,7 @@ There are a few more dependencies based on the above-mentioned tools and depende
 
 ## Layout
 
-From the beginning, I wanted to create a cozy website with a **two-layout sidebar** for the *desktop view* and a **bottom-bar navigation** for *mobile view*. As a result, I spent a considerable amount of time prototyping it.
+From the beginning, I wanted to create a cozy website with a **two-layout sidebar** for the _desktop view_ and a **bottom-bar navigation** for _mobile view_. As a result, I spent a considerable amount of time prototyping it.
 
 ### The Desktop View
 
@@ -68,7 +68,6 @@ From the beginning, I wanted to create a cozy website with a **two-layout sideba
 - Simplified Command Bar in the menu bar only.
 
 <PostImage src={mobileView} alt="Mobile View" />
-
 
 ## Pages
 
@@ -89,7 +88,6 @@ I’m listing the pages I want on my website and discussing how I addressed any 
 - Future plans: improve filtering options and add reaction feature to each post.
 
 [**Astro's Content Collections**](#-content-collections) makes it very easy to create posts and have image optimization at build time. Easily the best feature of any framework till now.
-
 
 ### 📒 Snippets
 
@@ -117,7 +115,7 @@ For a long time during the development phase, I was using a picture created by [
 
 Oh by the way, hover over the sprite - it's **animated too** 🥳.
 
-<Sprite pixelScale="8"/>
+<Sprite pixelScale="8" />
 
 > This is just the starting of many **animations** for the sprite. There will be more animations doing **different kind of activities for more context on each page**.
 
@@ -127,30 +125,32 @@ Astro's content collections is the best way to write content with markdown. It c
 
 How to start?
 
-1. Create astro project.
-2. Create a folder called `content` in `src` folder.
-3. Add a `config.ts`
-4. Make your own collection schema (example for blog post) and export them:
+1.  Create astro project.
+2.  Create a folder called `content` in `src` folder.
+3.  Add a `config.ts`
+4.  Make your own collection schema (example for blog post) and export them:
+
     ```ts wrap title="src/content/config.ts"
-    import { z, defineCollection } from 'astro:content'
+    import { z, defineCollection } from "astro:content";
 
     const blogCollection = defineCollection({
-      type: 'content',
+      type: "content",
       schema: z.object({
         title: z.string().max(60),
         description: z.string().max(160),
         published_time: z.date(),
         last_modified_time: z.date().optional(),
-        tags: z.array(z.string())
-      })
-    })
+        tags: z.array(z.string()),
+      }),
+    });
 
     export const collections = {
       blog: blogCollection,
-    }
+    };
     ```
-5. Create a folder called `blog` in `content` folder created above.
-6. Create new markdown files with same schema as above.
+
+5.  Create a folder called `blog` in `content` folder created above.
+6.  Create new markdown files with same schema as above.
     ```md
     ---
     title: Testing Post
@@ -164,22 +164,23 @@ How to start?
       - programming
     ---
     ```
-7. Query those markdown files using `getCollection` function exported by 'astro:content' and render them!
+7.  Query those markdown files using `getCollection` function exported by 'astro:content' and render them!
     ```astro
     ---
     import { getCollection } from 'astro:content'
 
-    const posts = await getCollection('blog')
-    ---
+        const posts = await getCollection('blog')
+        ---
 
-    {
-      posts.map(async post => {
-        const { Content } = await post.render()
-        return <p>{post.title} <Content/></p>
-      })
-    }
-    ```
-> Head to [Astro's Content Collection](https://docs.astro.build/en/guides/content-collections/) for more information
+        {
+          posts.map(async post => {
+            const { Content } = await post.render()
+            return <p>{post.title} <Content/></p>
+          })
+        }
+        ```
+
+    > Head to [Astro's Content Collection](https://docs.astro.build/en/guides/content-collections/) for more information
 
 ### 🟢 Discord Status - Lanyard
 
@@ -210,7 +211,6 @@ Now, let's talk challenges:
 
 Despite these hurdles, the palette is now deployable. Improving command addition implementation remains on the to-do list for another day.
 
-
 <PostImage src={myCommand} alt="My Command Palette (ignore the command titles)" />
 
 ### ⚙️ Settings
@@ -239,6 +239,7 @@ I fell in love with the [‘whole view transitions’ video released by Google](
 I considered adding a GIF to demonstrate it, but it’s best experienced firsthand. It’s most noticeable on the [Tools](/tools) page when you switch categories, or anytime you navigate from the home page to the blog or snippets. It ensures that pages morph with a fade, which is the default transition.
 
 **My Struggles:**
+
 - Knowing what element should morph without motion sickness.
 - Theme toggles.
 
@@ -247,7 +248,7 @@ I considered adding a GIF to demonstrate it, but it’s best experienced firstha
 Developer websites without any code highlighting? That’s impossible. I found [expressive-code](https://expressive-code.com/), which is heavily used by Astro’s own Starlight documentation template. It has almost all the features of an IDE and includes great plugins. Plus, VSCode themes can also be used with it 🎊!
 
 ```csharp title="HelloWorld.cs" wrap
-public void Test() 
+public void Test()
 {
 	String message = "Hello World";
 	Console.WriteLine(message);
@@ -270,7 +271,6 @@ I want to add more themes to the list than just dark and light theme. I am okay 
 
 I am using **tailwind** to place these tokens all over the components but css variables are my starting point for any design system.
 
-
 ### 🔊 Sounds
 
 I added basic sounds to navigation links that activate when the user interacts with them. I still want to add different types of sounds to different buttons.
@@ -279,7 +279,7 @@ It works great with the sound toggle too.
 
 ### 🌐 SEO
 
-SEO is very important for any post or website to get indexed. I am working very heavily on the SEO. 
+SEO is very important for any post or website to get indexed. I am working very heavily on the SEO.
 Open Graph tags make it very easy to do. Here's my seo component that works on every page and article, easy to extend or customize:
 
 ```astro title="seo.astro" wrap
@@ -310,7 +310,8 @@ Open Graph tags make it very easy to do. Here's my seo component that works on e
 
 ## Seems like all features are done- NO!
 
-Important features are done but many accessibility is still not consistent. 
+Important features are done but many accessibility is still not consistent.
+
 - Little bugs will be present.
 - Even though view transitions API got reduced motion built in, I still wanted it to be a css variable to toggle.
 - Color contrasts needs to be better.
@@ -321,7 +322,7 @@ Important features are done but many accessibility is still not consistent.
 
 The points above are not in order. But it's very important for me to implement them very soon.
 
-## Result 
+## Result
 
 Well, the result is this very [website](/). Support me by just looking around the website or by forgetting me in your bookmarks page (if I even get there) 🎊!
 

@@ -4,12 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "vp dev --port 3000",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
-    "build": "pnpm clean && vite build && pnpm verify:pages",
+    "build": "pnpm clean && vp build && pnpm verify:pages",
     "verify:pages": "node scripts/verify-pages-build.mjs",
-    "preview": "vite preview",
+    "preview": "vp preview",
     "check": "tsc --noEmit",
+    "format": "vp fmt",
     "generate-routes": "tsr generate"
   },
   "dependencies": {
@@ -37,8 +38,8 @@
     "@mdx-js/rollup": "^3.1.1",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/router-cli": "^1.167.25",
-    "@types/node": "^24.2.1",
     "@types/mdx": "^2.0.13",
+    "@types/node": "^24.2.1",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.4",
@@ -47,14 +48,15 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
     "vite-tsconfig-paths": "^5.1.4"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "lightningcss",
-      "sharp"
-    ]
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.20.0",
+      "onFail": "download"
+    }
   }
 }

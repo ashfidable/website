@@ -1,0 +1,14 @@
+onlyBuiltDependencies:
+  - esbuild
+  - lightningcss
+  - sharp
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@0.2.8
+  vite-plus: 0.2.8
+overrides:
+  vite: "catalog:"
+peerDependencyRules:
+  allowAny:
+    - vite
+  allowedVersions:
+    vite: "*"

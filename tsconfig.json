@@ -12,14 +12,13 @@
     "strict": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
-    "baseUrl": ".",
     "paths": {
-      "$components/*": ["src/components/*"],
-      "$assets/*": ["src/assets/*"],
-      "$styles/*": ["src/styles/*"],
-      "$utils/*": ["src/utils/*"],
-      "$content/*": ["src/content/*"],
-      "@/*": ["src/*"]
+      "$components/*": ["./src/components/*"],
+      "$assets/*": ["./src/assets/*"],
+      "$styles/*": ["./src/styles/*"],
+      "$utils/*": ["./src/utils/*"],
+      "$content/*": ["./src/content/*"],
+      "@/*": ["./src/*"]
     }
   }
 }
