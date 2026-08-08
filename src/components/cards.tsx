@@ -3,63 +3,49 @@ import type { ElementType } from 'react'
 import type { Post, Skill, Tool } from '$content/index'
 import { getCategory, postPath } from '$content/index'
 import { formatDate } from '$utils/date-formatter'
-import { getReadingTime } from '$utils/reading-time'
-import { convertToTitleCase } from '$utils/string-formatter'
 import { Icon } from './icon'
 
 function transitionName(value: string) { return value.toLowerCase().replace(/[^a-z0-9]+/g, '-') }
 
-export function BlogCard({ post }: { post: Post }) {
-  const category = getCategory(post.category)
-  return (
-    <Link to={postPath(post) as any} data-type={category?.name.toLowerCase()} className="group flex h-full flex-col justify-between gap-4 overflow-hidden rounded-md border border-b-4 border-site-border bg-site-card p-4 pb-2 transition-colors duration-150 ease-in-out hover:border-b-site-category-border hover:bg-site-card-hover">
-      <div className="space-y-4">
-        <div className="flex flex-col justify-between gap-2" style={{ viewTransitionName: transitionName(post.title) }}>
-          <span className="inline-flex self-start rounded-md bg-site-category p-2 text-lg font-bold tracking-wide opacity-90"><Icon name={category?.icon} className="text-site-icon" /></span>
-          <h2 className="font-site-heading font-semibold tracking-wider">{post.title}</h2>
-        </div>
-      </div>
-      <div className="mt-auto space-y-2">
-        <p className="text-site-muted">{post.description}</p>
-        <div className="flex justify-between border-t border-site-border pt-2 font-mono text-sm">
-          <time className="text-site-datetime">{formatDate(post.published_time)}</time>
-          <span>{getReadingTime(post.body)}</span>
-        </div>
-      </div>
-    </Link>
-  )
+export function BlogCard({ post, as: Heading = 'h3' }: { post: Post; as?: ElementType }) {
+  return <PostListCard post={post} heading={Heading} />
 }
 
 export function SnippetCard({ snippet, as: Heading = 'h4' }: { snippet: Post; as?: ElementType }) {
-  const category = getCategory(snippet.category)
+  return <PostListCard post={snippet} heading={Heading} />
+}
+
+function PostListCard({ post, heading: Heading }: { post: Post; heading: ElementType }) {
+  const category = getCategory(post.category)
   return (
-    <Link to={postPath(snippet) as any} data-type={category?.name.toLowerCase()} className="group flex items-center justify-between gap-4 rounded-md border-x border-b-2 border-t border-site-border bg-site-card p-4 transition-colors duration-150 hover:border-b-site-category-border hover:bg-site-card-hover" style={{ viewTransitionName: transitionName(snippet.title) }}>
-      <div className="flex items-center gap-2">
-        <div className="rounded-md bg-site-category p-1"><Icon name={category?.icon} className="text-site-category-foreground group-hover:animate-bounce" /></div>
-        <Heading className="font-site-heading text-base font-semibold tracking-wider">{snippet.title}</Heading>
+    <Link to={postPath(post) as any} data-type={category?.name.toLowerCase()} className="group flex items-center justify-between gap-3 border-b border-site-border px-1 py-1.5 transition-colors duration-150 hover:border-site-category-border hover:text-site-heading" style={{ viewTransitionName: transitionName(post.title) }}>
+      <div className="flex min-w-0 items-center gap-2">
+        <div className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-site-category"><Icon name={category?.icon} className="text-xs text-site-category-foreground" /></div>
+        <Heading className="truncate font-site-heading text-sm font-semibold tracking-wide">{post.title}</Heading>
       </div>
-      <span className="hidden font-mono text-site-datetime md:block">{formatDate(snippet.published_time)}</span>
+      <time className="hidden shrink-0 font-mono text-xs text-site-datetime sm:block" dateTime={post.published_time.toISOString()}>{formatDate(post.published_time)}</time>
     </Link>
   )
 }
 
 export function ToolCard({ tool }: { tool: Tool }) {
   return (
-    <a href={tool.url} className="cursor-pointer rounded-md border-x border-b-2 border-t border-site-border bg-site-card p-2 hover:border-site-border-hover" rel="external nofollow" style={{ viewTransitionName: transitionName(tool.title) }}>
-      <div className="flex items-center gap-4"><div className="flex h-4 w-4 items-center"><Icon name={tool.icon} className="text-base" /></div><h4 className="font-site-heading font-bold tracking-wide">{tool.title}</h4></div>
+    <a href={tool.url} title={tool.description} className="group flex min-w-0 cursor-pointer items-center gap-2 rounded-md border-x border-b-2 border-t border-site-border bg-site-card p-2 transition-[border-color,background-color,transform] duration-150 hover:-translate-y-px hover:border-site-border-hover hover:bg-site-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-site-ring" rel="external nofollow" style={{ viewTransitionName: transitionName(tool.title) }}>
+      <span className="grid h-8 w-8 shrink-0 place-items-center rounded bg-site-button text-site-icon-hover transition-transform duration-150 group-hover:scale-105"><Icon name={tool.icon} className="text-xl" /></span>
+      <h4 className="min-w-0 truncate font-site-heading text-sm font-bold leading-tight tracking-wide">{tool.title}</h4>
     </a>
   )
 }
 
 export function SkillContainer({ skill }: { skill: Skill }) {
   return (
-    <div className="flex flex-col gap-2 md:items-start">
-      <h3 className="font-site-heading text-xl font-semibold text-site-heading">{convertToTitleCase(skill.id)}</h3>
+    <div className="grid gap-2 py-3 sm:grid-cols-[12rem_1fr] sm:items-center">
+      <h3 className="font-site-heading text-sm font-semibold tracking-wide text-site-foreground">{skill.title}</h3>
       <div className="flex flex-wrap gap-2">
-        {[...skill.entries].sort((a, b) => a.name.localeCompare(b.name)).map((entry) => (
-          <div key={entry.name} className="group relative inline-block rounded-md bg-site-card p-4">
-            <span className="pointer-events-none absolute inset-x-0 top-0 inline-block w-max -translate-y-12 scale-0 rounded-md border border-site-border bg-site-card p-2 font-bold opacity-0 transition-all duration-150 group-hover:scale-100 group-hover:opacity-100">{entry.name}</span>
-            <Icon name={entry.icon} className="text-3xl opacity-50 transition-all duration-150 group-hover:scale-110 group-hover:text-site-icon-hover group-hover:opacity-100" />
+        {skill.entries.map((entry) => (
+          <div key={entry.name} className="group relative grid h-9 w-9 place-items-center rounded-md transition-colors duration-150 hover:bg-site-card-hover">
+            <span className="pointer-events-none absolute left-1/2 top-0 z-20 inline-block w-max -translate-x-1/2 -translate-y-9 scale-95 rounded-md border border-site-border bg-site-card px-2 py-1 text-xs font-bold opacity-0 shadow-lg transition-all duration-150 group-hover:scale-100 group-hover:opacity-100">{entry.name}</span>
+            <Icon name={entry.icon} className="text-2xl text-site-foreground opacity-75 transition-all duration-150 group-hover:scale-110 group-hover:opacity-100" />
           </div>
         ))}
       </div>

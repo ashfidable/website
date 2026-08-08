@@ -1,4 +1,6 @@
-const siteUrl = 'https://ashfid.dev'
+import { site } from '$content/index'
+
+const siteUrl = site.url
 const socialImage = `${siteUrl}/images/android-chrome-192x192.png`
 
 export function seo({ title, description, path = '/', type = 'website', published, tags }: { title: string; description: string; path?: string; type?: 'website' | 'article'; published?: Date; tags?: string[] }) {

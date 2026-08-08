@@ -1,18 +1,19 @@
-# build output
+# generated output
 dist/
+.tanstack/
 
 # dependencies
 node_modules/
 
 # vscode
 .vscode/
-.astro/
 
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.polish-server*.log
 
 
 # environment variables

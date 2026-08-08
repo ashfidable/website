@@ -6,7 +6,7 @@ import rehypeExpressiveCode from 'rehype-expressive-code'
 import rehypeSlug from 'rehype-slug'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { readFileSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -28,8 +28,9 @@ const iconCollections = {
   'svg-spinners': svgSpinners,
 }
 
-function siteIcons() {
+function siteIcons(): Plugin {
   const virtualId = '\0virtual:site-icons'
+  const configPath = fileURLToPath(new URL('./site.config.json', import.meta.url))
   return {
     name: 'site-icons',
     resolveId(id: string) {
@@ -39,12 +40,15 @@ function siteIcons() {
       if (id !== virtualId) return null
       const sourceRoot = fileURLToPath(new URL('./src', import.meta.url))
       const matches = new Set<string>()
+      const sources = [readFileSync(configPath, 'utf8')]
       for (const relative of readdirSync(sourceRoot, { recursive: true }) as string[]) {
-        if (!/\.(tsx?|mdx|yaml)$/.test(relative)) continue
-        const source = readFileSync(
+        if (!/\.(tsx?|mdx)$/.test(relative)) continue
+        sources.push(readFileSync(
           fileURLToPath(new URL(`./src/${relative.replace(/\\/g, '/')}`, import.meta.url)),
           'utf8',
-        )
+        ))
+      }
+      for (const source of sources) {
         for (const match of source.matchAll(
           /(?:devicon-plain|file-icons|logos|mdi|ri|simple-icons|svg-spinners):[a-zA-Z0-9-]+/g,
         )) {
@@ -65,6 +69,12 @@ function siteIcons() {
         }
       }
       return `export default ${JSON.stringify(selected)}`
+    },
+    handleHotUpdate({ file, server }) {
+      if (file !== configPath) return
+      const iconModule = server.moduleGraph.getModuleById(virtualId)
+      if (iconModule) server.moduleGraph.invalidateModule(iconModule)
+      server.ws.send({ type: 'full-reload' })
     },
   }
 }

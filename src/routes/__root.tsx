@@ -6,7 +6,7 @@ import { Settings } from '@/components/settings'
 import { SettingsProvider } from '@/providers/settings-provider'
 import appCss from '../styles/globals.css?url'
 
-const settingsScript = `(function(){try{var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`
+const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`
 
 export const Route = createRootRoute({
   head: () => ({
@@ -27,9 +27,9 @@ export const Route = createRootRoute({
 })
 
 function App() {
-  return <SettingsProvider><DesktopNavigation /><MobileNavigation /><main className="flex h-full flex-grow flex-col gap-4 text-base md:border-r md:border-site-border"><div className="hidden items-center justify-between border-b-2 border-site-border bg-site-card px-4 py-2 text-sm md:flex"><CommandPalette /><Settings /></div><div className="flex flex-col gap-8 px-4 pb-4 pt-4 md:px-4 md:pt-0"><Outlet /></div></main></SettingsProvider>
+  return <SettingsProvider><DesktopNavigation /><MobileNavigation /><main className="flex h-full min-w-0 flex-grow flex-col gap-4 text-base md:border-r md:border-site-border"><div className="hidden items-center justify-between border-b-2 border-site-border bg-site-card px-4 py-1 text-sm md:flex"><CommandPalette /><Settings /></div><div className="flex min-w-0 flex-col gap-8 px-4 pb-4 pt-4 md:pt-0" style={{ viewTransitionName: 'page-content' }}><Outlet /></div></main></SettingsProvider>
 }
 
 function RootDocument({ children }: { children: ReactNode }) {
-  return <html lang="en" data-theme="dark" data-rounded="true" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: settingsScript }} /><HeadContent /></head><body className="mx-auto mb-20 min-h-screen max-w-6xl bg-site-page text-site-foreground md:mb-auto md:grid md:grid-cols-[14rem_1fr]">{children}<Scripts /></body></html>
+  return <html lang="en" data-theme="dark" data-rounded="true" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: settingsScript }} /><HeadContent /></head><body className="min-h-screen w-full text-site-foreground"><div data-site-shell className="mx-auto mb-20 min-h-screen w-full max-w-[66.25rem] bg-site-page md:mb-auto md:grid md:grid-cols-[12.75rem_minmax(0,1fr)]">{children}</div><Scripts /></body></html>
 }

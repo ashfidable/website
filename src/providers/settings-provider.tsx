@@ -1,6 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 
-export type ThemeName = 'dark' | 'light'
+export const themeNames = [
+  'dark',
+  'light',
+  'dusk',
+  'forest',
+  'ember',
+  'ocean',
+  'rose',
+  'mint',
+  'lavender',
+  'peach',
+  'meadow',
+  'sand',
+] as const
+export type ThemeName = (typeof themeNames)[number]
 type Settings = { theme: ThemeName; rounded: boolean; sound: boolean }
 type SettingsContextValue = Settings & {
   changeTheme: (theme: ThemeName) => void
@@ -15,7 +29,14 @@ function readSettings(): Settings {
   if (typeof window === 'undefined') return defaults
   try {
     const saved = localStorage.getItem('settings')
-    if (saved) return { ...defaults, ...JSON.parse(saved) }
+    if (saved) {
+      const parsed = JSON.parse(saved) as Partial<Settings>
+      return {
+        ...defaults,
+        ...parsed,
+        theme: themeNames.includes(parsed.theme as ThemeName) ? parsed.theme as ThemeName : defaults.theme,
+      }
+    }
   } catch {}
   return { ...defaults, theme: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light' }
 }

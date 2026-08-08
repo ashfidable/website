@@ -1,7 +1,22 @@
-import { useState } from 'react'
-import { useSettings, type ThemeName } from '@/providers/settings-provider'
+import { useEffect, useId, useRef, useState } from 'react'
+import { Palette, Radius, Square, Volume2, VolumeX } from 'lucide-react'
+import { themeNames, useSettings, type ThemeName } from '@/providers/settings-provider'
+import { Icon } from './icon'
 
-const themes: ThemeName[] = ['dark', 'light']
+const themeLabels: Record<ThemeName, string> = {
+  dark: 'Circuit Dark',
+  light: 'Paper Light',
+  dusk: 'Violet Dusk',
+  forest: 'Deep Forest',
+  ember: 'Warm Ember',
+  ocean: 'Clear Ocean',
+  rose: 'Soft Rose',
+  mint: 'Alpine Mint',
+  lavender: 'Lavender Sky',
+  peach: 'Peach Horizon',
+  meadow: 'Sunny Meadow',
+  sand: 'Golden Sand',
+}
 
 function play(url: string, enabled = true) {
   if (!enabled) return
@@ -10,30 +25,123 @@ function play(url: string, enabled = true) {
   void audio.play().catch(() => {})
 }
 
+const controlClass =
+  'grid h-10 w-10 place-items-center rounded-md bg-site-button text-site-icon outline-none transition-[background-color,color,transform,box-shadow] duration-150 ease-springy hover:-translate-y-0.5 hover:bg-site-button-hover hover:text-site-icon-hover active:translate-y-0 focus-visible:ring-2 focus-visible:ring-site-ring focus-visible:ring-offset-2 focus-visible:ring-offset-site-page md:h-8 md:w-8 md:bg-site-card'
+
 export function Settings() {
   const settings = useSettings()
-  const [expanded, setExpanded] = useState(false)
-  const buttonClass = 'rounded-md bg-site-button p-2 transition-colors duration-200 ease-springy hover:bg-site-button-hover active:bg-site-button-active md:bg-site-card'
+  const [themesOpen, setThemesOpen] = useState(false)
+  const themePickerRef = useRef<HTMLDivElement>(null)
+  const themePickerId = useId()
+
+  useEffect(() => {
+    if (!themesOpen) return
+
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (!themePickerRef.current?.contains(event.target as Node)) setThemesOpen(false)
+    }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setThemesOpen(false)
+    }
+
+    window.addEventListener('pointerdown', closeOnOutsideClick)
+    window.addEventListener('keydown', closeOnEscape)
+    return () => {
+      window.removeEventListener('pointerdown', closeOnOutsideClick)
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [themesOpen])
 
   return (
-    <div className="flex items-center gap-4 rounded-md py-4 text-2xl md:py-0 md:text-xl">
-      <div className="flex items-center gap-2">
-        <button className={`${buttonClass} ${settings.sound ? 'text-site-active-foreground' : ''}`} onClick={() => { settings.toggleSound(); play('/audio/sound_toggle_on.mp3') }} aria-pressed={settings.sound}>
-          <span className="sr-only">Sounds</span>
-          <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d={settings.sound ? 'M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.84-5 6.7v2.07c4-.91 7-4.49 7-8.77s-3-7.86-7-8.77M16.5 12c0-1.77-1-3.29-2.5-4.03V16c1.5-.71 2.5-2.24 2.5-4M3 9v6h4l5 5V4L7 9z' : 'M12 4L9.91 6.09L12 8.18M4.27 3L3 4.27L7.73 9H3v6h4l5 5v-6.73l4.25 4.26c-.67.51-1.42.93-2.25 1.17v2.07c1.38-.32 2.63-.95 3.68-1.81L19.73 21L21 19.73l-9-9'} /></svg>
-        </button>
-        <button className={`${buttonClass} ${settings.rounded ? 'text-site-active-foreground' : ''}`} onClick={() => { settings.toggleRounded(); play('/audio/sound_toggle_on.mp3', settings.sound) }} aria-pressed={settings.rounded}>
-          <span className="sr-only">Rounded corners</span>
-          <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d={settings.rounded ? 'M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5m0 2C6.34 5 5 6.34 5 8v8c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V8c0-1.66-1.34-3-3-3z' : 'M3 3h18v18H3zm2 2v14h14V5z'} /></svg>
-        </button>
-        <button className={`${buttonClass} ${expanded ? 'text-site-active-foreground' : ''}`} onClick={() => { setExpanded((value) => !value); play('/audio/fly_in_out.mp3', settings.sound) }} aria-expanded={expanded}>
-          <span className="sr-only">Themes</span>
-          <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m19.228 18.732l1.767-1.767l1.768 1.767a2.5 2.5 0 1 1-3.535 0M8.878 1.08l11.314 11.313a1 1 0 0 1 0 1.415l-8.485 8.485a1 1 0 0 1-1.414 0l-8.485-8.485a1 1 0 0 1 0-1.415l7.778-7.778l-2.122-2.121zM11 6.03L3.929 13.1H18.07z" /></svg>
-        </button>
-      </div>
-      <div className={`flex w-full gap-2 overflow-hidden transition-all duration-75 ease-in-out ${expanded ? 'md:w-16' : 'md:w-0'}`}>
-        {expanded && themes.map((theme, index) => <button key={theme} data-theme={theme} aria-label={`${theme} theme`} aria-pressed={settings.theme === theme} className="h-6 w-6 shrink-0 rounded-md bg-gradient-to-r from-[var(--color-theme-primary)] from-65% to-[var(--color-theme-secondary)] to-50% outline-2 outline-site-border aria-pressed:outline-site-border-hover aria-pressed:outline-offset-2" style={{ animation: `panel-in 150ms ease-out ${75 * index}ms both` }} onClick={() => settings.changeTheme(theme)} />)}
-      </div>
+    <div
+      ref={themePickerRef}
+      role="toolbar"
+      aria-label="Site preferences"
+      className="relative flex flex-wrap items-center gap-2 rounded-md py-4 text-2xl md:flex-nowrap md:py-0 md:text-xl"
+    >
+      <button
+        type="button"
+        className={`${controlClass} ${settings.sound ? 'bg-site-button-active text-site-icon-hover' : ''}`}
+        onClick={() => {
+          settings.toggleSound()
+          play('/audio/sound_toggle_on.mp3')
+        }}
+        aria-label={settings.sound ? 'Mute interface sounds' : 'Enable interface sounds'}
+        aria-pressed={settings.sound}
+        title={settings.sound ? 'Mute sounds' : 'Enable sounds'}
+      >
+        {settings.sound ? <Volume2 className="h-[1em] w-[1em]" /> : <VolumeX className="h-[1em] w-[1em]" />}
+      </button>
+
+      <button
+        type="button"
+        className={`${controlClass} ${settings.rounded ? 'bg-site-button-active text-site-icon-hover' : ''}`}
+        onClick={() => {
+          settings.toggleRounded()
+          play('/audio/sound_toggle_on.mp3', settings.sound)
+        }}
+        aria-label={settings.rounded ? 'Use square corners' : 'Use rounded corners'}
+        aria-pressed={settings.rounded}
+        title={settings.rounded ? 'Use square corners' : 'Use rounded corners'}
+      >
+        {settings.rounded ? <Radius className="h-[1em] w-[1em]" /> : <Square className="h-[1em] w-[1em]" />}
+      </button>
+
+      <button
+        type="button"
+        className={`${controlClass} ${themesOpen ? 'bg-site-button-active text-site-icon-hover' : ''}`}
+        onClick={() => {
+          setThemesOpen((open) => !open)
+          play('/audio/fly_in_out.mp3', settings.sound)
+        }}
+        aria-label="Choose color theme"
+        aria-expanded={themesOpen}
+        aria-controls={themePickerId}
+        title="Choose color theme"
+      >
+        <Palette className="h-[1em] w-[1em]" />
+      </button>
+
+      {themesOpen && (
+        <div
+          id={themePickerId}
+          role="menu"
+          aria-label="Color themes"
+          className="back-to-top-enter z-50 order-last mt-2 max-h-[calc(100vh-6rem)] w-80 overflow-y-auto rounded-md border border-site-border bg-site-card p-2 shadow-2xl md:absolute md:bottom-auto md:left-auto md:right-0 md:top-full md:mt-2"
+        >
+          <div className="border-b border-site-border px-2 pb-2 pt-1">
+            <p className="font-site-heading text-sm font-bold text-site-foreground">Choose a theme</p>
+            <p className="mt-0.5 text-xs text-site-muted">Your preference is saved on this device.</p>
+          </div>
+          <div className="mt-2 grid grid-cols-2 gap-1">
+            {themeNames.map((theme) => {
+              const selected = settings.theme === theme
+              return (
+                <button
+                  key={theme}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={selected}
+                  className={`flex min-w-0 items-center gap-2 rounded-md px-2 py-2 text-left text-sm outline-none transition-colors duration-150 hover:bg-site-button-hover focus-visible:ring-2 focus-visible:ring-site-ring ${selected ? 'bg-site-button-active font-semibold text-site-active-foreground' : 'text-site-foreground'}`}
+                  onClick={() => {
+                    settings.changeTheme(theme)
+                    setThemesOpen(false)
+                    play('/audio/sound_toggle_on.mp3', settings.sound)
+                  }}
+                >
+                  <span
+                    data-theme={theme}
+                    className="h-5 w-5 shrink-0 rounded-full border border-site-border bg-gradient-to-br from-[var(--color-theme-primary)] from-50% to-[var(--color-theme-secondary)] to-50%"
+                    aria-hidden="true"
+                  />
+                  <span className="truncate">{themeLabels[theme]}</span>
+                  {selected && <Icon name="mdi:check-bold" className="ml-auto shrink-0 text-site-icon-hover" />}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

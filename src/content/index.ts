@@ -1,18 +1,38 @@
 import type { ComponentType } from 'react'
 import type { MDXComponents } from 'mdx/types'
-import { parse } from 'yaml'
 import { z } from 'zod'
+import rawConfig from '../../site.config.json'
 
-const categorySchema = z.object({ name: z.string(), icon: z.string().optional() })
+const iconLinkSchema = z.object({ name: z.string(), url: z.string(), icon: z.string() })
+const siteSchema = z.object({
+  name: z.string(),
+  title: z.string(),
+  url: z.string().url(),
+  description: z.string(),
+  discordId: z.string(),
+  supportUrl: z.string().url(),
+})
+const categorySchema = z.object({ id: z.string(), name: z.string(), icon: z.string() })
 const toolSchema = z.object({
+  id: z.string(),
   title: z.string(),
   description: z.string(),
   categories: z.array(z.string()),
   url: z.string().url(),
-  icon: z.string().optional(),
+  icon: z.string(),
 })
 const skillSchema = z.object({
-  entries: z.array(z.object({ name: z.string(), icon: z.string().optional() })),
+  id: z.string(),
+  title: z.string(),
+  entries: z.array(z.object({ name: z.string(), icon: z.string() })),
+})
+const configSchema = z.object({
+  site: siteSchema,
+  navigation: z.array(iconLinkSchema),
+  socialLinks: z.array(iconLinkSchema),
+  categories: z.array(categorySchema),
+  tools: z.array(toolSchema),
+  skills: z.array(skillSchema),
 })
 const postSchema = z.object({
   title: z.string().max(60),
@@ -30,9 +50,10 @@ type MdxModule = {
   source: string
 }
 
-export type Category = z.infer<typeof categorySchema> & { id: string }
-export type Tool = z.infer<typeof toolSchema> & { id: string }
-export type Skill = z.infer<typeof skillSchema> & { id: string }
+export type SiteConfig = z.infer<typeof configSchema>
+export type Category = z.infer<typeof categorySchema>
+export type Tool = z.infer<typeof toolSchema>
+export type Skill = z.infer<typeof skillSchema>
 export type Post = z.infer<typeof postSchema> & {
   id: string
   slug: string
@@ -41,37 +62,10 @@ export type Post = z.infer<typeof postSchema> & {
   Content: MdxModule['default']
 }
 
-function idFromPath(path: string) {
-  return path.split('/').at(-1)!.replace(/\.(yaml|mdx)$/, '')
-}
-
-function loadYaml<T>(modules: Record<string, unknown>, schema: z.ZodType<T>) {
-  return Object.entries(modules).map(([path, source]) => ({
-    id: idFromPath(path),
-    ...schema.parse(parse(source as string)),
-  }))
-}
-
-const categorySources = import.meta.glob('./categories/*.yaml', {
-  eager: true,
-  query: '?raw',
-  import: 'default',
-})
-const toolSources = import.meta.glob('./tools/*.yaml', {
-  eager: true,
-  query: '?raw',
-  import: 'default',
-})
-const skillSources = import.meta.glob('./skills/*.yaml', {
-  eager: true,
-  query: '?raw',
-  import: 'default',
-})
 const postModules = import.meta.glob('./posts/**/*.mdx', { eager: true }) as Record<string, MdxModule>
 
-export const categories = loadYaml(categorySources, categorySchema) as Category[]
-export const tools = loadYaml(toolSources, toolSchema) as Tool[]
-export const skills = loadYaml(skillSources, skillSchema) as Skill[]
+export const siteConfig = configSchema.parse(rawConfig)
+export const { site, navigation, socialLinks, categories, tools, skills } = siteConfig
 
 export const posts: Post[] = Object.entries(postModules).map(([path, module]) => {
   const relative = path.replace('./posts/', '').replace(/\.mdx$/, '')

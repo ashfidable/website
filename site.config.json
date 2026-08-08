@@ -1,0 +1,262 @@
+{
+  "site": {
+    "name": "ASHFID.",
+    "title": "ashfid.dev",
+    "url": "https://ashfid.dev",
+    "description": "A software engineer's digital garden for notes, tutorials, snippets, and tools.",
+    "discordId": "394953409855488012",
+    "supportUrl": "https://www.buymeacoffee.com/ashfid"
+  },
+  "navigation": [
+    { "name": "Home", "url": "/", "icon": "ri:home-heart-line" },
+    { "name": "Blog", "url": "/blog", "icon": "mdi:book-minus-outline" },
+    { "name": "Snippets", "url": "/snippets", "icon": "mdi:treasure-chest-outline" },
+    { "name": "Tools", "url": "/tools", "icon": "mdi:toolbox-outline" }
+  ],
+  "socialLinks": [
+    { "name": "GitHub", "url": "https://github.com/ashfidable", "icon": "mdi:github" },
+    { "name": "RSS", "url": "/rss.xml", "icon": "mdi:rss" }
+  ],
+  "categories": [
+    { "id": "development", "name": "Development", "icon": "mdi:code-not-equal-variant" },
+    { "id": "entertainment", "name": "Entertainment", "icon": "mdi:movie-open-outline" },
+    { "id": "note-taking", "name": "Note-Taking", "icon": "mdi:note-edit-outline" },
+    { "id": "productivity", "name": "Productivity", "icon": "mdi:progress-check" },
+    { "id": "tool", "name": "Tool", "icon": "mdi:toolbox" },
+    { "id": "web", "name": "Web", "icon": "mdi:web" }
+  ],
+  "tools": [
+    {
+      "id": "apple-notes",
+      "title": "Apple Notes",
+      "description": "Capture thoughts and keep them up to date across Apple devices and the web.",
+      "url": "https://www.icloud.com/notes",
+      "categories": ["productivity", "note-taking"],
+      "icon": "mdi:notebook-edit-outline"
+    },
+    {
+      "id": "discord",
+      "title": "Discord",
+      "description": "Community chat, voice, and collaboration.",
+      "url": "https://discord.com",
+      "categories": ["entertainment", "development"],
+      "icon": "logos:discord-icon"
+    },
+    {
+      "id": "edge",
+      "title": "Microsoft Edge",
+      "description": "Microsoft's cross-platform web browser.",
+      "url": "https://microsoft.com/edge",
+      "categories": ["development", "productivity", "entertainment"],
+      "icon": "logos:microsoft-edge"
+    },
+    {
+      "id": "figma",
+      "title": "Figma",
+      "description": "Design, prototype, develop, and collect feedback in one place.",
+      "url": "https://www.figma.com/",
+      "categories": ["development", "productivity"],
+      "icon": "logos:figma"
+    },
+    {
+      "id": "github",
+      "title": "GitHub Mobile",
+      "description": "Review and manage development work on the go.",
+      "url": "https://github.com/mobile",
+      "categories": ["development", "productivity"],
+      "icon": "simple-icons:github"
+    },
+    {
+      "id": "godot",
+      "title": "Godot",
+      "description": "A free, open-source 2D and 3D game engine.",
+      "url": "https://godotengine.org",
+      "categories": ["development", "productivity"],
+      "icon": "logos:godot-icon"
+    },
+    {
+      "id": "icloud",
+      "title": "iCloud",
+      "description": "Apple's cloud storage and device synchronization service.",
+      "url": "https://www.icloud.com/",
+      "categories": ["development", "productivity", "entertainment"],
+      "icon": "simple-icons:icloud"
+    },
+    {
+      "id": "instagram",
+      "title": "Instagram",
+      "description": "Photo and video sharing.",
+      "url": "https://www.instagram.com/",
+      "categories": ["entertainment"],
+      "icon": "simple-icons:instagram"
+    },
+    {
+      "id": "netflix",
+      "title": "Netflix",
+      "description": "Films, series, and documentaries on demand.",
+      "url": "https://www.netflix.com/",
+      "categories": ["entertainment"],
+      "icon": "logos:netflix-icon"
+    },
+    {
+      "id": "notion",
+      "title": "Notion",
+      "description": "A connected workspace for notes, plans, and knowledge.",
+      "url": "https://notion.so",
+      "categories": ["note-taking", "productivity"],
+      "icon": "logos:notion-icon"
+    },
+    {
+      "id": "obsidian",
+      "title": "Obsidian",
+      "description": "A private, flexible knowledge base built on Markdown files.",
+      "url": "https://obsidian.md/",
+      "categories": ["note-taking"],
+      "icon": "logos:obsidian-icon"
+    },
+    {
+      "id": "playstation",
+      "title": "PlayStation",
+      "description": "Games, friends, and console activity on the go.",
+      "url": "https://apps.apple.com/us/app/playstation-app/id410896080",
+      "categories": ["entertainment"],
+      "icon": "simple-icons:playstation"
+    },
+    {
+      "id": "powertoys",
+      "title": "PowerToys",
+      "description": "Windows utilities for power users and custom workflows.",
+      "url": "https://github.com/microsoft/PowerToys",
+      "categories": ["development", "productivity"],
+      "icon": "mdi:power-settings"
+    },
+    {
+      "id": "safari",
+      "title": "Safari",
+      "description": "Apple's privacy-focused browser for its devices.",
+      "url": "https://www.apple.com/safari/",
+      "categories": ["development", "productivity"],
+      "icon": "logos:safari"
+    },
+    {
+      "id": "spotify",
+      "title": "Spotify",
+      "description": "Music, podcasts, and audio from creators worldwide.",
+      "url": "https://spotify.com",
+      "categories": ["entertainment"],
+      "icon": "logos:spotify-icon"
+    },
+    {
+      "id": "steam",
+      "title": "Steam",
+      "description": "PC games, communities, and game development tools.",
+      "url": "https://store.steampowered.com/",
+      "categories": ["entertainment"],
+      "icon": "simple-icons:steam"
+    },
+    {
+      "id": "terminal",
+      "title": "Windows Terminal",
+      "description": "A modern host for command-line shells on Windows.",
+      "url": "https://github.com/microsoft/terminal",
+      "categories": ["development"],
+      "icon": "simple-icons:windowsterminal"
+    },
+    {
+      "id": "threads",
+      "title": "Threads",
+      "description": "A text-focused social network from Instagram.",
+      "url": "https://www.threads.net/login",
+      "categories": ["entertainment"],
+      "icon": "simple-icons:threads"
+    },
+    {
+      "id": "unity",
+      "title": "Unity",
+      "description": "A cross-platform engine for interactive 2D and 3D experiences.",
+      "url": "https://unity.com",
+      "categories": ["development", "productivity"],
+      "icon": "simple-icons:unity"
+    },
+    {
+      "id": "unreal",
+      "title": "Unreal Engine",
+      "description": "Epic's real-time 3D creation and game engine.",
+      "url": "https://www.unrealengine.com",
+      "categories": ["development", "productivity"],
+      "icon": "simple-icons:unrealengine"
+    },
+    {
+      "id": "vscode",
+      "title": "Visual Studio Code",
+      "description": "A lightweight, extensible source code editor.",
+      "url": "https://code.visualstudio.com/",
+      "categories": ["development", "productivity", "note-taking"],
+      "icon": "logos:visual-studio-code"
+    },
+    {
+      "id": "waze",
+      "title": "Waze",
+      "description": "Community-powered navigation and live traffic information.",
+      "url": "https://waze.com",
+      "categories": ["entertainment", "productivity"],
+      "icon": "simple-icons:waze"
+    },
+    {
+      "id": "whatsapp",
+      "title": "WhatsApp",
+      "description": "Private messaging, voice, and video calls.",
+      "url": "https://web.whatsapp.com",
+      "categories": ["productivity"],
+      "icon": "logos:whatsapp-icon"
+    },
+    {
+      "id": "youtube",
+      "title": "YouTube",
+      "description": "Video, live streams, education, and entertainment.",
+      "url": "https://youtube.com",
+      "categories": ["entertainment"],
+      "icon": "logos:youtube-icon"
+    }
+  ],
+  "skills": [
+    {
+      "id": "programming-languages",
+      "title": "Programming Languages",
+      "entries": [
+        { "name": "JavaScript", "icon": "logos:javascript" },
+        { "name": "TypeScript", "icon": "logos:typescript-icon" },
+        { "name": "C#", "icon": "logos:c-sharp" },
+        { "name": "Python", "icon": "logos:python" },
+        { "name": "C++", "icon": "logos:c-plusplus" },
+        { "name": "C", "icon": "logos:c" },
+        { "name": "Rust", "icon": "logos:rust" },
+        { "name": "Golang", "icon": "logos:go" }
+      ]
+    },
+    {
+      "id": "frontend-and-backend",
+      "title": "Frontend and Backend",
+      "entries": [
+        { "name": "Svelte/SvelteKit", "icon": "logos:svelte-icon" },
+        { "name": "React", "icon": "logos:react" },
+        { "name": "Astro", "icon": "logos:astro-icon" },
+        { "name": "TanStack Start", "icon": "simple-icons:tanstack" },
+        { "name": "Next.js", "icon": "logos:nextjs-icon" },
+        { "name": "Nuxt", "icon": "logos:nuxt-icon" },
+        { "name": "Vue", "icon": "logos:vue" }
+      ]
+    },
+    {
+      "id": "game-engines",
+      "title": "Game Engines",
+      "entries": [
+        { "name": "Unity", "icon": "simple-icons:unity" },
+        { "name": "Godot", "icon": "logos:godot-icon" },
+        { "name": "Unreal Engine", "icon": "simple-icons:unrealengine" },
+        { "name": "MonoGame", "icon": "simple-icons:monogame" },
+        { "name": "GameMaker", "icon": "simple-icons:gamemaker" }
+      ]
+    }
+  ]
+}

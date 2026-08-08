@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useLanyard } from 'use-lanyard'
 import { Icon } from './icon'
-
-const discordId = '394953409855488012'
+import { site } from '$content/index'
 
 export function StatusCard() {
-  const data = useLanyard(discordId)
+  const data = useLanyard(site.discordId as `${bigint}`)
   const [, tick] = useState(0)
   useEffect(() => {
     const timer = window.setInterval(() => tick((value) => value + 1), 1000)
