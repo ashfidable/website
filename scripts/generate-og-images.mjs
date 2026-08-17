@@ -42,10 +42,7 @@ function imageDataUrl(path) {
 }
 
 function card({ title, description, label, artwork, artworkAlt }) {
-  const cleanTitle = title
-    .replace(/\p{Extended_Pictographic}|\uFE0F/gu, "")
-    .trim()
-    .toUpperCase();
+  const cleanTitle = title.replace(/\p{Extended_Pictographic}|\uFE0F/gu, "").trim();
 
   return element(
     "div",
@@ -56,153 +53,125 @@ function card({ title, description, label, artwork, artworkAlt }) {
         display: "flex",
         position: "relative",
         overflow: "hidden",
-        backgroundColor: "#0b0a0f",
+        backgroundColor: "#05050a",
         color: "#f4f1fa",
         fontFamily: "Manrope",
       },
     },
-    element("div", {
-      style: {
-        position: "absolute",
-        left: 28,
-        top: 28,
-        width: 1144,
-        height: 574,
-        border: "4px solid #3de3f5",
-      },
-    }),
-    element("div", {
-      style: {
-        position: "absolute",
-        left: 28,
-        right: 28,
-        top: 28,
-        height: 66,
-        backgroundColor: "#3de3f5",
-      },
-    }),
     element(
       "div",
       {
         style: {
           position: "absolute",
-          left: 54,
-          top: 49,
-          alignItems: "center",
-          color: "#0b0a0f",
-          fontSize: 22,
-          fontWeight: 800,
-          letterSpacing: "0.08em",
-        },
-      },
-      "ASHFID.DEV",
-    ),
-    element(
-      "div",
-      {
-        style: {
-          position: "absolute",
-          right: 54,
-          top: 51,
-          color: "#0b0a0f",
-          fontSize: 18,
-          fontWeight: 800,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
-        },
-      },
-      label,
-    ),
-    element(
-      "div",
-      {
-        style: {
-          position: "absolute",
-          left: 54,
-          top: 132,
-          width: 660,
-          flexDirection: "column",
-        },
-      },
-      element(
-        "div",
-        {
-          style: {
-            maxHeight: 230,
-            overflow: "hidden",
-            color: "#f7f4ff",
-            fontFamily: "Manrope",
-            fontSize: 54,
-            fontWeight: 800,
-            lineHeight: 0.98,
-            letterSpacing: "-0.055em",
-          },
-        },
-        cleanTitle,
-      ),
-      element(
-        "div",
-        {
-          style: {
-            marginTop: 30,
-            maxHeight: 112,
-            overflow: "hidden",
-            color: "#b9b4c4",
-            fontSize: 24,
-            lineHeight: 1.38,
-          },
-        },
-        description,
-      ),
-    ),
-    element(
-      "div",
-      {
-        style: {
-          position: "absolute",
-          left: 54,
-          bottom: 48,
-          padding: "12px 18px",
-          backgroundColor: "#3de3f5",
-          color: "#0b0a0f",
-          fontSize: 16,
-          fontWeight: 800,
-          letterSpacing: "0.08em",
-        },
-      },
-      "READ AT ASHFID.DEV",
-    ),
-    element("div", {
-      style: {
-        position: "absolute",
-        right: 50,
-        top: 139,
-        width: 362,
-        height: 410,
-        backgroundColor: "#3de3f5",
-      },
-    }),
-    element(
-      "div",
-      {
-        style: {
-          position: "absolute",
-          right: 66,
-          top: 123,
-          width: 362,
-          height: 410,
+          left: 30,
+          top: 30,
+          width: 1140,
+          height: 570,
           overflow: "hidden",
-          border: "4px solid #3de3f5",
+          border: "2px solid #292532",
+          borderRadius: 24,
           backgroundColor: "#0b0a0f",
         },
       },
-      element("img", {
-        src: artwork,
-        alt: artworkAlt ?? "",
-        width: 362,
-        height: 410,
-        style: { width: "100%", height: "100%", objectFit: "cover" },
-      }),
+      element(
+        "div",
+        {
+          style: {
+            position: "absolute",
+            left: 42,
+            top: 34,
+            alignItems: "center",
+            fontSize: 27,
+            fontWeight: 800,
+            letterSpacing: "0.06em",
+          },
+        },
+        element("span", { style: { color: "#3de3f5" } }, "ASHFID"),
+        element("span", { style: { color: "#1798d0" } }, "."),
+      ),
+      element(
+        "div",
+        {
+          style: {
+            position: "absolute",
+            left: 42,
+            top: 124,
+            width: 660,
+            flexDirection: "column",
+          },
+        },
+        element(
+          "div",
+          {
+            style: {
+              color: "#3de3f5",
+              fontSize: 19,
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+            },
+          },
+          label,
+        ),
+        element(
+          "div",
+          {
+            style: {
+              marginTop: 17,
+              maxHeight: 205,
+              overflow: "hidden",
+              color: "#f7f4ff",
+              fontSize: 57,
+              fontWeight: 800,
+              lineHeight: 1.04,
+              letterSpacing: "-0.045em",
+            },
+          },
+          cleanTitle,
+        ),
+        element(
+          "div",
+          {
+            style: {
+              marginTop: 25,
+              maxHeight: 112,
+              overflow: "hidden",
+              color: "#c4bfce",
+              fontSize: 24,
+              lineHeight: 1.42,
+            },
+          },
+          description,
+        ),
+      ),
+      element(
+        "div",
+        {
+          style: {
+            position: "absolute",
+            right: 38,
+            top: 38,
+            width: 360,
+            height: 494,
+            padding: 7,
+            overflow: "hidden",
+            borderRadius: 22,
+            backgroundImage: "linear-gradient(145deg, #3de3f5 0%, #1798d0 100%)",
+          },
+        },
+        element("img", {
+          src: artwork,
+          alt: artworkAlt ?? "",
+          width: 346,
+          height: 480,
+          style: {
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: 16,
+          },
+        }),
+      ),
     ),
   );
 }
