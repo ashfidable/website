@@ -1,4 +1,4 @@
-# ashfid.dev
+# ashfid.dev - digital garden
 
 Personal website built with TanStack Start, React, MDX, Tailwind CSS, and shadcn-style UI primitives.
 
@@ -74,22 +74,36 @@ review:
 Useful commands:
 
 - `vp run check`: type-check the project
-- `vp run build`: clean old output, build every route, and verify the Cloudflare Pages bundle
+- `pnpm run build`: reject legacy Pages builds, build every route, and verify the Worker bundle
+- `pnpm run deploy`: deploy the verified bundle with Wrangler
 - `vp preview`: preview the production build locally
 
-## Cloudflare Pages
+## Cloudflare Workers
 
-This site is fully prerendered. Configure the Pages project with:
+This is a TanStack Start Worker with prerendered static assets, D1, and a rate-limit binding. It must
+be deployed as a Worker; a Pages static upload cannot run the server functions or rate limiter.
 
-- Framework preset: `None`
-- Build command: `vp run build`
-- Build output directory: `dist/client`
+Configure Workers Builds with:
+
+- Production branch: `main`
+- Build command: `pnpm run build`
+- Deploy command: `pnpm run deploy`
 - Root directory: `/`
 
-Do not publish `dist`. TanStack Start places the deployable static site in `dist/client` and its
-server bundle in `dist/server`. The build starts by deleting the entire `dist` folder and fails if
-the static output contains an old `/_astro/` reference or a missing generated asset.
+The Cloudflare Vite plugin generates `dist/server/wrangler.json`, which points Wrangler at the
+Worker entry in `dist/server` and the assets in `dist/client`. Do not upload either directory to
+Pages manually. The build fails if it detects the Pages environment, a missing Worker bundle, a
+stale root `dist/index.html`, an old `/_astro/` reference, or a missing generated asset.
 
-When migrating an existing Pages project from Astro, update the output directory, clear the Pages
-build cache, and redeploy. If a custom Cloudflare Cache Rule caches HTML, purge that cache after the
-first corrected deployment.
+For a manual release, run:
+
+```bash
+pnpm run check
+pnpm run build
+pnpm run deploy
+```
+
+Test the generated `workers.dev` URL before moving the production custom domains. Once the Worker is
+verified, remove `ashfid.dev` and `www.ashfid.dev` from the legacy Pages project and attach them to
+the Worker. The legacy Pages Git integration should then be disabled or deleted so a push cannot
+publish a second deployment target.
