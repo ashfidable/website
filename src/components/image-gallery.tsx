@@ -189,33 +189,34 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
               </button>
             );
           })}
-        </div>
-
-        {remainingCount > 0 && (
-          <div className="mt-3 flex flex-col gap-2 rounded-md border border-site-border bg-site-card p-2 pl-3 sm:flex-row sm:items-center sm:justify-between">
-            <span className="text-sm tabular-nums text-site-muted" aria-live="polite">
-              {visibleImages.length} of {images.length} screenshots
-            </span>
-            <div className="grid grid-cols-2 gap-2 sm:flex">
+          {remainingCount > 0 && (
+            <div className="flex aspect-[16/10] flex-col overflow-hidden rounded-md border border-site-border bg-site-card">
               <button
                 type="button"
-                className="rounded-md border border-site-border-hover bg-site-surface px-3 py-2 text-sm font-medium text-site-foreground outline-none transition-colors hover:bg-site-card-hover focus-visible:ring-2 focus-visible:ring-site-ring"
+                className="group flex min-h-0 flex-1 flex-col items-center justify-center gap-1 px-3 text-site-foreground outline-none transition-colors hover:bg-site-card-hover focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring"
                 onClick={() =>
                   setVisibleCount((count) => Math.min(count + nextCount, images.length))
                 }
               >
-                Load {nextCount} more
+                <Icon
+                  name="mdi:image-multiple-outline"
+                  className="text-xl text-site-icon-hover transition-transform duration-150 group-hover:scale-110"
+                />
+                <span className="text-sm font-semibold">Load {nextCount} more</span>
+                <span className="text-xs tabular-nums text-site-muted" aria-live="polite">
+                  {remainingCount} remaining
+                </span>
               </button>
               <button
                 type="button"
-                className="rounded-md px-3 py-2 text-sm font-medium text-site-muted outline-none transition-[background-color,color] hover:bg-site-card-hover hover:text-site-foreground focus-visible:ring-2 focus-visible:ring-site-ring"
+                className="border-t border-site-border px-3 py-2 text-xs font-medium text-site-muted outline-none transition-[background-color,color] hover:bg-site-card-hover hover:text-site-foreground focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring"
                 onClick={() => setVisibleCount(images.length)}
               >
                 Load All
               </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <Dialog.Portal>

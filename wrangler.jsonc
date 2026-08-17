@@ -3,5 +3,23 @@
   "name": "website",
   "main": "@tanstack/react-start/server-entry",
   "compatibility_date": "2026-08-17",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "website-db",
+      "database_id": "f1939490-55df-4015-8920-8f883bf53d00",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "ratelimits": [
+    {
+      "name": "LIKE_RATE_LIMITER",
+      "namespace_id": "2026081701",
+      "simple": {
+        "limit": 5,
+        "period": 60,
+      },
+    },
+  ],
 }

@@ -12,7 +12,10 @@
     "preview": "vp preview",
     "check": "tsc --noEmit",
     "format": "vp fmt",
-    "generate-routes": "tsr generate"
+    "generate-routes": "tsr generate",
+    "cf:typegen": "wrangler types",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local"
   },
   "dependencies": {
     "@iconify-json/devicon-plain": "^1.2.0",
@@ -24,10 +27,12 @@
     "@iconify-json/svg-spinners": "^1.2.4",
     "@mdx-js/react": "^3.1.1",
     "@radix-ui/react-dialog": "^1.1.15",
+    "@tanstack/react-query": "^5.101.4",
     "@tanstack/react-router": "^1.170.23",
     "@tanstack/react-start": "^1.168.40",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "drizzle-orm": "^0.45.2",
     "fuse.js": "^7.5.0",
     "lucide-react": "^0.539.0",
     "react": "^19.2.0",
@@ -47,6 +52,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.4",
+    "drizzle-kit": "^0.31.10",
     "rehype-expressive-code": "^0.41.5",
     "rehype-slug": "^6.0.0",
     "remark-frontmatter": "^5.0.0",
