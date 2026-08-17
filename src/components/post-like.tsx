@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useId, useRef, useState } from "react";
+import { addPostLikes, getPostLikes } from "@/features/post-likes/post-likes";
 import { Icon } from "./icon";
 
 const maxLikes = 5;
@@ -108,8 +109,6 @@ export function PostLike({ state }: { state: ReturnType<typeof usePostLikes> }) 
 export function usePostLikes(postKey: string) {
   const queryClient = useQueryClient();
   const queryKey = ["post-likes", postKey] as const;
-  const [category, slug] = postKey.split(":");
-  const path = `/api/likes/${category}/${slug}`;
   const [taps, setTaps] = useState(0);
   const [limited, setLimited] = useState(false);
   const queued = useRef(0);
@@ -117,15 +116,7 @@ export function usePostLikes(postKey: string) {
   const limitTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const { data: total, isPending: pending } = useQuery({
     queryKey,
-    queryFn: async () => {
-      const response = await fetch(path);
-      if (!response.ok) throw new Error(`Could not load post likes (${response.status})`);
-
-      const total: unknown = await response.json();
-      if (typeof total !== "number") throw new Error("Invalid post like count");
-
-      return total;
-    },
+    queryFn: () => getPostLikes({ data: { postKey } }),
     staleTime: 60_000,
   });
   function rollBack(amount: number) {
@@ -133,35 +124,18 @@ export function usePostLikes(postKey: string) {
     queryClient.setQueryData<number>(queryKey, (current = amount) => Math.max(0, current - amount));
   }
   const { mutate, isPending: saving } = useMutation({
-    mutationFn: async (amount: number) => {
-      const response = await fetch(path, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount }),
-      });
-      if (response.status === 429) {
-        return {
-          retryAfter: Number(response.headers.get("Retry-After")) || 60,
-        };
-      }
-      if (!response.ok) throw new Error(`Could not save post likes (${response.status})`);
-
-      const total: unknown = await response.json();
-      if (typeof total !== "number") throw new Error("Invalid post like count");
-
-      return { total };
-    },
-    onSuccess: async (result, amount) => {
-      if (result.retryAfter !== undefined) {
+    mutationFn: (amount: number) => addPostLikes({ data: { postKey, amount } }),
+    onSuccess: async (total, amount) => {
+      if (total === null) {
         rollBack(amount);
         setLimited(true);
         if (limitTimer.current) clearTimeout(limitTimer.current);
-        limitTimer.current = setTimeout(() => setLimited(false), result.retryAfter * 1000);
+        limitTimer.current = setTimeout(() => setLimited(false), 60_000);
         await queryClient.invalidateQueries({ queryKey });
         return;
       }
 
-      queryClient.setQueryData(queryKey, result.total);
+      queryClient.setQueryData(queryKey, total);
       await queryClient.invalidateQueries({ queryKey });
     },
     onError: (_error, amount) => rollBack(amount),

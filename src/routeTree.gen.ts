@@ -20,7 +20,6 @@ import { Route as SnippetsIndexRouteImport } from './routes/snippets.index'
 import { Route as SnippetsSlugRouteImport } from './routes/snippets.$slug'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsCategoryRouteImport } from './routes/tools.$category'
-import { Route as ApiLikesCategorySlugRouteImport } from './routes/api/likes.$category.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -77,11 +76,6 @@ const ToolsCategoryRoute = ToolsCategoryRouteImport.update({
   path: '/tools/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiLikesCategorySlugRoute = ApiLikesCategorySlugRouteImport.update({
-  id: '/api/likes/$category/$slug',
-  path: '/api/likes/$category/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -95,7 +89,6 @@ export interface FileRoutesByFullPath {
   '/blog/': typeof BlogIndexRoute
   '/snippets/': typeof SnippetsIndexRoute
   '/tools/': typeof ToolsIndexRoute
-  '/api/likes/$category/$slug': typeof ApiLikesCategorySlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -109,7 +102,6 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogIndexRoute
   '/snippets': typeof SnippetsIndexRoute
   '/tools': typeof ToolsIndexRoute
-  '/api/likes/$category/$slug': typeof ApiLikesCategorySlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -124,7 +116,6 @@ export interface FileRoutesById {
   '/blog/': typeof BlogIndexRoute
   '/snippets/': typeof SnippetsIndexRoute
   '/tools/': typeof ToolsIndexRoute
-  '/api/likes/$category/$slug': typeof ApiLikesCategorySlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -140,7 +131,6 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/snippets/'
     | '/tools/'
-    | '/api/likes/$category/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -154,7 +144,6 @@ export interface FileRouteTypes {
     | '/blog'
     | '/snippets'
     | '/tools'
-    | '/api/likes/$category/$slug'
   id:
     | '__root__'
     | '/'
@@ -168,7 +157,6 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/snippets/'
     | '/tools/'
-    | '/api/likes/$category/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -183,7 +171,6 @@ export interface RootRouteChildren {
   BlogIndexRoute: typeof BlogIndexRoute
   SnippetsIndexRoute: typeof SnippetsIndexRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
-  ApiLikesCategorySlugRoute: typeof ApiLikesCategorySlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -265,13 +252,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/likes/$category/$slug': {
-      id: '/api/likes/$category/$slug'
-      path: '/api/likes/$category/$slug'
-      fullPath: '/api/likes/$category/$slug'
-      preLoaderRoute: typeof ApiLikesCategorySlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -287,7 +267,6 @@ const rootRouteChildren: RootRouteChildren = {
   BlogIndexRoute: BlogIndexRoute,
   SnippetsIndexRoute: SnippetsIndexRoute,
   ToolsIndexRoute: ToolsIndexRoute,
-  ApiLikesCategorySlugRoute: ApiLikesCategorySlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

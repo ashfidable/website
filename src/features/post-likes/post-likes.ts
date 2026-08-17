@@ -14,11 +14,9 @@ const postKeySchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*:[a-z0-9]+(?:-[a-z0-9]+)*$/),
 });
 
-export const postLikeBatchSchema = z.object({
+const postLikeSchema = postKeySchema.extend({
   amount: z.number().int().min(1).max(5),
 });
-
-const postLikeSchema = postKeySchema.extend(postLikeBatchSchema.shape);
 
 export const getPostLikes = createServerFn({ method: "GET" })
   .validator(postKeySchema)
