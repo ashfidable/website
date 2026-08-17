@@ -3,6 +3,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { CommandPalette } from "@/components/command-palette";
 import { DesktopNavigation, MobileNavigation } from "@/components/navigation";
 import { Settings } from "@/components/settings";
+import { QueryProvider } from "@/providers/query-provider";
 import { SettingsProvider, useSettings } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
 import appCss from "../styles/globals.css?url";
@@ -40,24 +41,26 @@ export const Route = createRootRoute({
 
 function App() {
   return (
-    <SettingsProvider>
-      <NavigationSound />
-      <DesktopNavigation />
-      <MobileNavigation />
-      <main className="flex h-full min-w-0 flex-grow flex-col gap-4 text-base md:border-r md:border-site-border">
-        <div className="hidden items-center justify-between border-b-2 border-site-border bg-site-card px-4 py-1 text-sm md:flex">
-          <CommandPalette />
-          <Settings />
-        </div>
-        <div
-          data-page-content
-          className="flex min-w-0 flex-col gap-8 px-4 pb-4 pt-4 md:pt-0"
-          style={{ viewTransitionName: "page-content" }}
-        >
-          <Outlet />
-        </div>
-      </main>
-    </SettingsProvider>
+    <QueryProvider>
+      <SettingsProvider>
+        <NavigationSound />
+        <DesktopNavigation />
+        <MobileNavigation />
+        <main className="flex h-full min-w-0 flex-grow flex-col gap-4 text-base md:border-r md:border-site-border">
+          <div className="hidden items-center justify-between border-b-2 border-site-border bg-site-card px-4 py-1 text-sm md:flex">
+            <CommandPalette />
+            <Settings />
+          </div>
+          <div
+            data-page-content
+            className="flex min-w-0 flex-col gap-8 px-4 pb-4 pt-4 md:pt-0"
+            style={{ viewTransitionName: "page-content" }}
+          >
+            <Outlet />
+          </div>
+        </main>
+      </SettingsProvider>
+    </QueryProvider>
   );
 }
 

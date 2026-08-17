@@ -5,6 +5,7 @@ import { getReadingTime } from "$utils/reading-time";
 import { BackToTop } from "./back-to-top";
 import { Icon } from "./icon";
 import { extractHeadings, mdxComponents, TableOfContents } from "./mdx";
+import { PostLike, PostLikeSummary } from "./post-like";
 
 function transitionName(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-");
@@ -13,10 +14,11 @@ function transitionName(value: string) {
 export function PostPage({ post }: { post: Post }) {
   const category = getCategory(post.category);
   const Content = post.Content;
+  const postKey = `${post.category}:${post.slug}`;
   return (
     <>
       <BackToTop />
-      <article data-type={category?.id} className="space-y-4">
+      <article data-type={category?.id} className="relative space-y-4">
         <header
           className="flex flex-col gap-6"
           style={{ viewTransitionName: transitionName(post.title) }}
@@ -46,12 +48,14 @@ export function PostPage({ post }: { post: Post }) {
               <Icon name="mdi:clock-time-one-outline" className="text-site-icon-hover" />
               {getReadingTime(post.body)}
             </span>
+            <PostLikeSummary postKey={postKey} />
           </div>
         </header>
         <TableOfContents headings={extractHeadings(post.body)} />
         <article className="flex snap-y flex-col">
           <Content components={mdxComponents} />
         </article>
+        <PostLike postKey={postKey} />
       </article>
     </>
   );
