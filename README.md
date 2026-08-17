@@ -6,8 +6,8 @@ Site metadata, navigation, categories, tools, skill groups, and icon mappings ar
 `site.config.json`. Long-form posts remain in `src/content/posts` as MDX.
 
 ```bash
-pnpm install
-pnpm dev
+vp install
+vp run dev
 ```
 
 ## Add a blog post
@@ -35,7 +35,7 @@ You can also import and use React components because post files use MDX.
 
 `title`, `description`, `published_time`, `category`, and `tags` are required.
 The category must match an ID in `site.config.json`. You can optionally add
-`last_modified_time: YYYY-MM-DD`. Run `pnpm check` and `pnpm build` before
+`last_modified_time: YYYY-MM-DD`. Run `vp run check` and `vp run build` before
 publishing to catch invalid frontmatter or MDX.
 
 Every page includes Open Graph and X/Twitter metadata. The build generates 1200×630 PNG share
@@ -48,7 +48,7 @@ social_image: src/assets/images/posts/my-post/cover.jpg
 social_image_alt: A concise description of the cover image
 ```
 
-Run `pnpm generate:og` to preview regenerated cards without building the entire site. Generated
+Run `vp run generate:og` to preview regenerated cards without building the entire site. Generated
 PNGs are ignored by Git because both development and production build commands recreate them.
 
 Image selection is predictable:
@@ -73,16 +73,16 @@ review:
 
 Useful commands:
 
-- `pnpm check`: type-check the project
-- `pnpm build`: clean old output, build every route, and verify the Cloudflare Pages bundle
-- `pnpm preview`: preview the production build locally
+- `vp run check`: type-check the project
+- `vp run build`: clean old output, build every route, and verify the Cloudflare Pages bundle
+- `vp preview`: preview the production build locally
 
 ## Cloudflare Pages
 
 This site is fully prerendered. Configure the Pages project with:
 
 - Framework preset: `None`
-- Build command: `pnpm build`
+- Build command: `vp run build`
 - Build output directory: `dist/client`
 - Root directory: `/`
 

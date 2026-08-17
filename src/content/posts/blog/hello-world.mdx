@@ -1,5 +1,5 @@
 ---
-title: Hello, World! 👋
+title: Hello, World!
 description: Starting the journey of managing personal website and how I did it
 published_time: 2024-04-23
 last_modified_time: 2026-08-17
@@ -79,13 +79,13 @@ From the beginning, I wanted to create a cozy website with a **two-layout sideba
 
 I’m listing the pages I want on my website and discussing how I addressed any issues I encountered.
 
-### 🏠 Home
+### Home
 
 - Simple introduction to important pages and a bit about me.
 - Happy with current setup: hero section, latest blog posts, snippets, and skills.
 - Future plans: add side projects and favorite bookmarks.
 
-### 📙 Blog
+### Blog
 
 > Also, you are reading this blog currently 😈
 
@@ -97,13 +97,13 @@ I’m listing the pages I want on my website and discussing how I addressed any 
 
 > **Current implementation:** Vite discovers the MDX files with `import.meta.glob`, Zod validates their frontmatter, and `vite-imagetools` handles post-image transforms during the build.
 
-### 📒 Snippets
+### Snippets
 
 - Collection of small codes, tips/tricks, and tool installations.
 - Happy with: snippet cards, sorted posts by year, and color-coded categories.
 - Future plans: enhance filtering options similar to the blog page.
 
-### 🔦 Uses
+### Uses
 
 - Showcases tools used for projects or productivity, well-categorized.
 - Happy with: transitions, categories, and tool icons.
@@ -113,7 +113,7 @@ I’m listing the pages I want on my website and discussing how I addressed any 
 
 Interactive/non-interactive features were created specifically for this website. I’ll discuss the struggles I encountered and what I aim to improve.
 
-### 🌟 Branding..
+### Branding..
 
 For a long time during the development phase, I was using a picture created by [Kostur](https://k0stur.art), and I really liked it. I was content with it. I love his minimalistic artistic take on it. I will always use it for Discord. Thank you, Kostur!
 
@@ -127,13 +127,13 @@ Oh by the way, hover over the sprite - it's **animated too** 🥳.
 
 > This is just the starting of many **animations** for the sprite. There will be more animations doing **different kind of activities for more context on each page**.
 
-### 📝 <del>Astro Content Collections</del>
+### <del>Astro Content Collections</del>
 
 <del>This section originally documented an Astro Content Collections setup using `defineCollection`, `getCollection`, and `astro:content`. That implementation has been retired.</del>
 
 > **Replacement:** Posts remain MDX files, but `src/content/index.ts` now imports them through Vite, validates the exported frontmatter with Zod, and exposes typed blog and snippet collections to TanStack Start routes.
 
-### 🟢 Discord Status - Lanyard
+### Discord Status - Lanyard
 
 I wanted to display my Discord activity or any digital activity I’m doing, like playing games or listening to Spotify. I found a great app by [Phineas](https://phineas.io/) called [Lanyard](https://github.com/phineas/lanyard). Thanks to [Nuro](https://nuro.dev) that mentioned this application, it was great read about it.
 
@@ -143,7 +143,7 @@ In short, you join Lanyard’s Discord server and make sure the activity status 
 
 <PostImage src={discordStatus} alt="Discord Status Activity using Lanyard" />
 
-### 🔍 Command Palette
+### Command Palette
 
 I'm a big fan of command palettes in editors like Visual Studio Code. They make navigating through files and settings a breeze, and finding what you need is usually a one-shot deal.
 
@@ -166,7 +166,7 @@ Despite these hurdles, the palette is now deployable. Improving command addition
 
 <PostImage src={myCommand} alt="My Command Palette (ignore the command titles)" />
 
-### ⚙️ Settings
+### Settings
 
 I had to prototype the settings menu in many styles, but I was not satisfied. I was content with the dropdown settings menu for a long time. However, I never really felt it was a part of my website, even though it functioned well. I didn’t take it that seriously until I desired a more minimalistic approach, with icons for settings.
 
@@ -185,7 +185,7 @@ I still have 2-3 settings to create. So far, **flipping the layout** and providi
 
 <PostImage src={settingsExpanded} alt="New settings menu - theme expanded" />
 
-### 🚇 View Transitions
+### View Transitions
 
 I fell in love with the [‘whole view transitions’ video released by Google](https://www.youtube.com/watch?v=JCJUPJ_zDQ4&pp=ygUWdmlldyB0cmFuc2l0aW9uIGdvb2dsZQ%3D%3D), which allows for native-like application transitions from page to page. I wanted to incorporate this into my website. <del>The original implementation used Astro’s view-transition support and client-side router.</del>
 
@@ -198,7 +198,7 @@ I considered adding a GIF to demonstrate it, but it’s best experienced firstha
 - Knowing what element should morph without motion sickness.
 - Theme toggles.
 
-### 🧑‍💻 Code Highlighting
+### Code Highlighting
 
 Developer websites without any code highlighting? That’s impossible. I found [Expressive Code](https://expressive-code.com/). <del>I first adopted it through the Astro ecosystem and its use in Starlight.</del> It remains part of the site and now runs as a rehype plugin in the Vite MDX pipeline, with the same IDE-like features, plugins, and VS Code themes 🎊!
 
@@ -212,7 +212,7 @@ public void Test()
 
 > **Expressive Code** also got multi-theme support. It's very important featureset for me. Expressive Code is built on [Shiki](https://github.com/shikijs/shiki) highlighter.
 
-### 🧭 Navigation Indicators
+### Navigation Indicators
 
 Navigation indicators are essential for the currently active page, with accessibility in mind, using the aria-current attribute. I also added small indicators for pages that take time to load - this was trickier, but very fun to implement. <del>The original indicators were tied to Astro’s view-transitions API and client-side router.</del>
 
@@ -222,19 +222,19 @@ The mobile view also has indicators, just without any for loading.
 
 OH, links got sounds too! 🕺
 
-### 🎨 Themes
+### Themes
 
 I want to add more themes to the list than just dark and light theme. I am okay with the variables I created for this site. My aim to make 6 distinct themes in total this year at least with accessibility in mind.
 
 I am using **tailwind** to place these tokens all over the components but css variables are my starting point for any design system.
 
-### 🔊 Sounds
+### Sounds
 
 I added basic sounds to navigation links that activate when the user interacts with them. I still want to add different types of sounds to different buttons.
 
 It works great with the sound toggle too.
 
-### 🌐 SEO
+### SEO
 
 SEO is very important for any post or website to get indexed. I am working very heavily on the SEO.
 <del>The original Astro component manually rendered title, canonical, Open Graph, article, and Twitter metadata from `Astro.url`.</del>

@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm generate:og && vp dev --port 3000",
+    "dev": "vp run generate:og && vp dev --port 3000",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
-    "build": "pnpm clean && pnpm generate:og && vp build && pnpm verify:pages",
+    "build": "vp run clean && vp run generate:og && vp build && vp run verify:pages",
     "generate:og": "node scripts/generate-og-images.mjs",
     "verify:pages": "node scripts/verify-pages-build.mjs",
     "preview": "vp preview",
