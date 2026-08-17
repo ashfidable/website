@@ -37,6 +37,7 @@
     "zod": "^4.0.17"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.52.1",
     "@mdx-js/rollup": "^3.1.1",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.3.3",
@@ -56,6 +57,7 @@
     "vite": "catalog:",
     "vite-imagetools": "^12.0.0",
     "vite-plus": "catalog:",
+    "wrangler": "^4.123.0",
     "yaml": "^2.9.0"
   },
   "devEngines": {
