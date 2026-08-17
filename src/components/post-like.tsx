@@ -63,7 +63,7 @@ export function PostLike({ postKey }: { postKey: string }) {
               +{likes.taps}
             </span>
           )}
-          <HeartFill key={`heart-${likes.taps}`} likes={likes.taps} />
+          <HeartFill likes={likes.taps} />
           <span className="like-total text-effect" aria-hidden="true">
             <strong className="like-total-value">{likes.total}</strong>
           </span>
@@ -101,29 +101,59 @@ function usePostLikes(postKey: string) {
 
 function HeartFill({ likes }: { likes: number }) {
   const clipId = useId();
-  const fill = (likes / maxLikes) * 24;
+  const baseGradientId = useId();
+  const fillGradientId = useId();
+  const fill = likes / maxLikes;
 
   return (
     <svg
       viewBox="0 0 24 24"
-      className={`size-12 overflow-visible ${likes > 0 ? "like-heart-hit" : ""}`}
+      className="size-12 overflow-visible"
       aria-hidden="true"
     >
       <defs>
         <clipPath id={clipId}>
-          <rect x="0" y={24 - fill} width="24" height={fill} />
+          <rect
+            x="0"
+            y="0"
+            width="24"
+            height="24"
+            className="like-fill-mask"
+            style={{ transform: `scaleY(${fill})` }}
+          />
         </clipPath>
+        <linearGradient
+          id={baseGradientId}
+          x1="3"
+          y1="2"
+          x2="21"
+          y2="22"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="var(--color-gradient-from)" stopOpacity="0.32" />
+          <stop offset="1" stopColor="var(--color-gradient-to)" stopOpacity="0.48" />
+        </linearGradient>
+        <linearGradient
+          id={fillGradientId}
+          x1="3"
+          y1="2"
+          x2="21"
+          y2="22"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="var(--color-gradient-from)" />
+          <stop offset="1" stopColor="var(--color-gradient-to)" />
+        </linearGradient>
       </defs>
-      <path d={heartPath} className="fill-site-button" />
+      <path d={heartPath} fill={`url(#${baseGradientId})`} />
       <path
         d={heartPath}
         fill="none"
-        stroke="currentColor"
+        stroke={`url(#${fillGradientId})`}
         strokeWidth="1.6"
         strokeLinejoin="round"
-        className="text-site-muted transition-colors group-hover:text-red-400"
       />
-      <path d={heartPath} clipPath={`url(#${clipId})`} className="fill-red-500" />
+      <path d={heartPath} clipPath={`url(#${clipId})`} fill={`url(#${fillGradientId})`} />
     </svg>
   );
 }
