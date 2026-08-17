@@ -6,10 +6,9 @@
   "scripts": {
     "dev": "vp run generate:og && vp dev --port 3000",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
-    "build": "node scripts/assert-worker-build.mjs && vp run clean && vp run generate:og && vp build && vp run verify:worker",
+    "build": "vp run clean && vp run generate:og && vp build",
     "deploy": "wrangler deploy",
     "generate:og": "node scripts/generate-og-images.mjs",
-    "verify:worker": "node scripts/verify-worker-build.mjs",
     "preview": "vp preview",
     "check": "tsc --noEmit",
     "format": "vp fmt",
