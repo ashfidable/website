@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SnippetCard } from "@/components/cards";
+import { PostSearchList } from "@/components/post-search-list";
 import { HeroSection } from "@/components/site";
 import { snippets } from "$content/index";
 import { seo } from "@/lib/seo";
@@ -15,13 +16,6 @@ export const Route = createFileRoute("/snippets/")({
 });
 
 function SnippetIndex() {
-  const groups = [...snippets]
-    .sort((a, b) => a.published_time.getTime() - b.published_time.getTime())
-    .reduce<Record<string, typeof snippets>>((result, post) => {
-      const year = String(post.published_time.getFullYear());
-      (result[year] ??= []).push(post);
-      return result;
-    }, {});
   return (
     <>
       <HeroSection title="Snippets 📒">
@@ -33,18 +27,11 @@ function SnippetIndex() {
           {snippets.length === 1 ? "snippet" : "snippets"}.
         </p>
       </HeroSection>
-      {Object.keys(groups)
-        .reverse()
-        .map((year) => (
-          <section key={year} className="flex flex-col gap-4">
-            <h2 className="font-site-heading text-xl font-bold">{year}</h2>
-            <div>
-              {groups[year]?.map((snippet) => (
-                <SnippetCard key={snippet.id} snippet={snippet} />
-              ))}
-            </div>
-          </section>
-        ))}
+      <PostSearchList
+        posts={snippets}
+        noun="snippet"
+        renderPost={(snippet) => <SnippetCard snippet={snippet} />}
+      />
     </>
   );
 }

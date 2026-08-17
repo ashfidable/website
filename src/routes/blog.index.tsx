@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BlogCard } from "@/components/cards";
+import { PostSearchList } from "@/components/post-search-list";
 import { HeroSection } from "@/components/site";
 import { blogPosts } from "$content/index";
 import { seo } from "@/lib/seo";
@@ -10,13 +11,6 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function BlogIndex() {
-  const groups = [...blogPosts]
-    .sort((a, b) => a.published_time.getTime() - b.published_time.getTime())
-    .reduce<Record<string, typeof blogPosts>>((result, post) => {
-      const year = String(post.published_time.getFullYear());
-      (result[year] ??= []).push(post);
-      return result;
-    }, {});
   return (
     <>
       <HeroSection title="Blog 📙">
@@ -28,20 +22,11 @@ function BlogIndex() {
           {blogPosts.length === 1 ? "article" : "articles"} so far.
         </p>
       </HeroSection>
-      {Object.keys(groups)
-        .reverse()
-        .map((year) => (
-          <section key={year} className="flex flex-col gap-4">
-            <h2 className="font-site-heading text-xl font-bold">{year}</h2>
-            <ul>
-              {groups[year]?.map((post) => (
-                <li key={post.id}>
-                  <BlogCard post={post} />
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+      <PostSearchList
+        posts={blogPosts}
+        noun="article"
+        renderPost={(post) => <BlogCard post={post} />}
+      />
     </>
   );
 }

@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev --port 3000",
+    "dev": "pnpm generate:og && vp dev --port 3000",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
-    "build": "pnpm clean && vp build && pnpm verify:pages",
+    "build": "pnpm clean && pnpm generate:og && vp build && pnpm verify:pages",
+    "generate:og": "node scripts/generate-og-images.mjs",
     "verify:pages": "node scripts/verify-pages-build.mjs",
     "preview": "vp preview",
     "check": "tsc --noEmit",
@@ -27,6 +28,7 @@
     "@tanstack/react-start": "^1.168.40",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "fuse.js": "^7.5.0",
     "lucide-react": "^0.539.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -36,6 +38,7 @@
   },
   "devDependencies": {
     "@mdx-js/rollup": "^3.1.1",
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/router-cli": "^1.167.25",
     "@types/mdx": "^2.0.13",
@@ -47,9 +50,13 @@
     "rehype-slug": "^6.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
+    "satori": "^0.29.0",
+    "typeface-manrope": "^1.0.0",
     "typescript": "^5.9.3",
     "vite": "catalog:",
-    "vite-plus": "catalog:"
+    "vite-imagetools": "^12.0.0",
+    "vite-plus": "catalog:",
+    "yaml": "^2.9.0"
   },
   "devEngines": {
     "packageManager": {

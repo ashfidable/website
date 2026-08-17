@@ -15,14 +15,15 @@ export const themeNames = [
   "sand",
 ] as const;
 export type ThemeName = (typeof themeNames)[number];
-type Settings = { theme: ThemeName; rounded: boolean; sound: boolean };
+type Settings = { theme: ThemeName; rounded: boolean; sound: boolean; hideSpoilers: boolean };
 type SettingsContextValue = Settings & {
   changeTheme: (theme: ThemeName) => void;
   toggleRounded: () => void;
   toggleSound: () => void;
+  toggleSpoilers: () => void;
 };
 
-const defaults: Settings = { theme: "dark", rounded: true, sound: true };
+const defaults: Settings = { theme: "dark", rounded: true, sound: true, hideSpoilers: true };
 const SettingsContext = createContext<SettingsContextValue | null>(null);
 
 function readSettings(): Settings {
@@ -62,6 +63,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       changeTheme: (theme) => setSettings((current) => ({ ...current, theme })),
       toggleRounded: () => setSettings((current) => ({ ...current, rounded: !current.rounded })),
       toggleSound: () => setSettings((current) => ({ ...current, sound: !current.sound })),
+      toggleSpoilers: () =>
+        setSettings((current) => ({ ...current, hideSpoilers: !current.hideSpoilers })),
     }),
     [settings],
   );

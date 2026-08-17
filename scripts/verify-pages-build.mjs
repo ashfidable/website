@@ -44,6 +44,17 @@ for (const htmlUrl of htmlFiles) {
     throw new Error(`Astro output leaked into ${fileURLToPath(htmlUrl)}`);
   }
 
+  for (const match of html.matchAll(
+    /content="https:\/\/ashfid\.dev(\/images\/og\/[^"?#]+\.png)"/g,
+  )) {
+    const pathname = match[1];
+    const assetUrl = new URL(`.${pathname}`, outputUrl);
+    if (!(await exists(assetUrl))) {
+      throw new Error(`Missing Open Graph image ${pathname} referenced by ${fileURLToPath(htmlUrl)}`);
+    }
+    checkedAssets.add(pathname);
+  }
+
   for (const match of html.matchAll(/(?:href|src)="(\/[^"?#]+)(?:[?#][^"]*)?"/g)) {
     const pathname = match[1];
     if (!/\.[a-z0-9]+$/i.test(pathname)) continue;

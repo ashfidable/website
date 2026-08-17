@@ -20,6 +20,7 @@
   "categories": [
     { "id": "development", "name": "Development", "icon": "mdi:code-not-equal-variant" },
     { "id": "entertainment", "name": "Entertainment", "icon": "mdi:movie-open-outline" },
+    { "id": "game-review", "name": "Game Review", "icon": "mdi:gamepad-variant-outline" },
     { "id": "note-taking", "name": "Note-Taking", "icon": "mdi:note-edit-outline" },
     { "id": "productivity", "name": "Productivity", "icon": "mdi:progress-check" },
     { "id": "tool", "name": "Tool", "icon": "mdi:toolbox" },

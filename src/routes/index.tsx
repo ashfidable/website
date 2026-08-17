@@ -21,7 +21,7 @@ function Home() {
       <HomeHeroSection />
       <section id="latest-posts" className="space-y-4">
         <SectionHeading title="Latest Posts" />
-        <div>
+        <div className="space-y-1">
           {blogPosts.map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}
@@ -29,7 +29,7 @@ function Home() {
       </section>
       <section id="latest-snippets" className="space-y-4">
         <SectionHeading title="Latest Snippets" />
-        <div>
+        <div className="space-y-1">
           {snippets.map((snippet) => (
             <SnippetCard key={snippet.id} as="h3" snippet={snippet} />
           ))}

@@ -1,12 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { categories, posts, postPath } from "$content/index";
+import { categories, posts, postPath, tools } from "$content/index";
+
+const toolCategoryPaths = categories
+  .filter((category) => tools.some((tool) => tool.categories.includes(category.id)))
+  .map((category) => `/tools/${category.id}`);
+
 const urls = [
   "/",
   "/blog",
   "/snippets",
   "/tools",
   ...posts.map(postPath),
-  ...categories.map((category) => `/tools/${category.id}`),
+  ...toolCategoryPaths,
 ];
 export const Route = createFileRoute("/sitemap-index.xml")({
   server: {

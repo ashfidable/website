@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { Palette, Radius, Square, Volume2, VolumeX } from "lucide-react";
+import { Eye, EyeOff, Palette, Radius, Square, Volume2, VolumeX } from "lucide-react";
 import { themeNames, useSettings, type ThemeName } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
 import { Icon } from "./icon";
@@ -86,6 +86,24 @@ export function Settings() {
           <Radius className="h-[1em] w-[1em]" />
         ) : (
           <Square className="h-[1em] w-[1em]" />
+        )}
+      </button>
+
+      <button
+        type="button"
+        className={`${controlClass} ${settings.hideSpoilers ? "bg-site-button-active text-site-icon-hover" : ""}`}
+        onClick={() => {
+          settings.toggleSpoilers();
+          playAudio("/audio/sound_toggle_on.mp3", settings.sound);
+        }}
+        aria-label="Spoiler protection"
+        aria-pressed={settings.hideSpoilers}
+        title={settings.hideSpoilers ? "Show spoilers" : "Hide spoilers"}
+      >
+        {settings.hideSpoilers ? (
+          <EyeOff className="h-[1em] w-[1em]" />
+        ) : (
+          <Eye className="h-[1em] w-[1em]" />
         )}
       </button>
 

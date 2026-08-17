@@ -17,7 +17,10 @@ export const Route = createFileRoute("/blog/$post")({
           path: `/blog/${post.slug}`,
           type: "article",
           published: post.published_time,
+          modified: post.last_modified_time,
           tags: post.tags,
+          image: `/images/og/blog/${post.slug}.png`,
+          imageAlt: post.social_image_alt,
         })
       : {};
   },

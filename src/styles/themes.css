@@ -631,3 +631,14 @@
   --color-category-background: hsl(214, 87%, 48%);
   --color-category-text: white;
 }
+
+[data-type="game-review"] {
+  --color-category-highlight: hsl(157, 84%, 54%);
+  --color-category-background: hsl(157, 90%, 34%);
+  --color-category-gradient: linear-gradient(
+    to bottom right,
+    hsl(157, 84%, 54%),
+    hsl(157, 90%, 34%)
+  );
+  --color-category-text: hsl(157, 100%, 7%);
+}

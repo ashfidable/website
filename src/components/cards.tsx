@@ -22,12 +22,12 @@ function PostListCard({ post, heading: Heading }: { post: Post; heading: Element
   return (
     <Link
       to={postPath(post) as any}
-      data-type={category?.name.toLowerCase()}
-      className="group flex items-center justify-between gap-3 border-b border-site-border px-1 py-1.5 transition-colors duration-150 hover:border-site-category-border hover:text-site-heading"
+      data-type={category?.id}
+      className="group flex items-center justify-between gap-3 border-b border-site-border px-1 py-2 transition-colors duration-150 hover:border-site-category-border hover:text-site-heading"
       style={{ viewTransitionName: transitionName(post.title) }}
     >
       <div className="flex min-w-0 items-center gap-2">
-        <div className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-site-category">
+        <div className="category-surface grid h-6 w-6 shrink-0 place-items-center rounded-md">
           <Icon name={category?.icon} className="text-xs text-site-category-foreground" />
         </div>
         <Heading className="truncate font-site-heading text-sm font-semibold tracking-wide">

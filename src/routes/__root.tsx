@@ -7,7 +7,7 @@ import { SettingsProvider, useSettings } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
 import appCss from "../styles/globals.css?url";
 
-const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`;
+const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true,hideSpoilers:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -50,6 +50,7 @@ function App() {
           <Settings />
         </div>
         <div
+          data-page-content
           className="flex min-w-0 flex-col gap-8 px-4 pb-4 pt-4 md:pt-0"
           style={{ viewTransitionName: "page-content" }}
         >

@@ -2,13 +2,15 @@
 title: Hello, World! 👋
 description: Starting the journey of managing personal website and how I did it
 published_time: 2024-04-23
-last_modified_time: 2024-05-01
+last_modified_time: 2026-08-17
 category: web
 tags:
   - website
   - personal
-  - astro
-  - svelte
+  - vite-plus
+  - tanstack-start
+social_image: src/assets/images/posts/desktop_view.jpeg
+social_image_alt: A dark themed earlier version of the ashfid.dev homepage
 ---
 
 import { Sprite } from "$components/site";
@@ -22,6 +24,8 @@ import myCommand from "$assets/images/posts/my_cmd.png";
 import settingsOld from "$assets/images/posts/settings_old.png";
 import settingsCollapsed from "$assets/images/posts/settings_collapsed.png";
 import settingsExpanded from "$assets/images/posts/settings_expanded.png";
+
+> **Updated 17 August 2026:** This post describes the site’s original Astro and Svelte build. The site now uses [TanStack Start](https://tanstack.com/start/latest) with [Vite+](https://viteplus.dev/). TanStack Start provides the Router-based React application layer, while Vite+ brings development, builds, linting, formatting, and related tooling into one workflow. The original sections remain below as a record of how the site was first built.
 
 ## Why this website?
 
@@ -39,14 +43,16 @@ It took me some time to streamline my ideas for the website without going beyond
 
 ## So about the tech stack..
 
-Since this is my personal website and project, I wanted to try something that's quite trendy and for the right reasons. Here are the important tools and dependencies:
+Since this is my personal website and project, I wanted to try something that's quite trendy and for the right reasons. These were the important tools and dependencies when I first built it:
 
-- [Astro](https://astro.build)
+- <del>Astro</del>
 - [TailwindCSS](https://tailwindcss.com)
-- [Svelte](https://svelte.dev/)
-- [Astro-icon](https://github.com/natemoo-re/astro-icon)
+- <del>Svelte</del>
+- <del>Astro-icon</del>
 
-There are a few more dependencies based on the above-mentioned tools and dependencies. I will discuss these in each section.
+> **Current stack:** The site now uses **TanStack Start**, **React**, **Vite+**, and **Tailwind CSS**. Icons come from selected **Iconify** JSON collections and are rendered through the site’s own React icon component.
+
+There were a few more dependencies based on the tools above. I discuss them in each section as part of the original implementation.
 
 ## Layout
 
@@ -87,7 +93,9 @@ I’m listing the pages I want on my website and discussing how I addressed any 
 - Happy with current setup: blog cards, sorted posts by year, and color-coded categories.
 - Future plans: improve filtering options and add reaction feature to each post.
 
-[**Astro's Content Collections**](#-content-collections) makes it very easy to create posts and have image optimization at build time. Easily the best feature of any framework till now.
+<del>Astro’s Content Collections originally loaded these posts and optimized their images at build time.</del>
+
+> **Current implementation:** Vite discovers the MDX files with `import.meta.glob`, Zod validates their frontmatter, and `vite-imagetools` handles post-image transforms during the build.
 
 ### 📒 Snippets
 
@@ -119,74 +127,19 @@ Oh by the way, hover over the sprite - it's **animated too** 🥳.
 
 > This is just the starting of many **animations** for the sprite. There will be more animations doing **different kind of activities for more context on each page**.
 
-### 📝 Content Collections
+### 📝 <del>Astro Content Collections</del>
 
-Astro's content collections is the best way to write content with markdown. It can be used as database for your categories and posts. It makes referencing each collection so much easier and type-safe.
+<del>This section originally documented an Astro Content Collections setup using `defineCollection`, `getCollection`, and `astro:content`. That implementation has been retired.</del>
 
-How to start?
-
-1.  Create astro project.
-2.  Create a folder called `content` in `src` folder.
-3.  Add a `config.ts`
-4.  Make your own collection schema (example for blog post) and export them:
-
-    ```ts wrap title="src/content/config.ts"
-    import { z, defineCollection } from "astro:content";
-
-    const blogCollection = defineCollection({
-      type: "content",
-      schema: z.object({
-        title: z.string().max(60),
-        description: z.string().max(160),
-        published_time: z.date(),
-        last_modified_time: z.date().optional(),
-        tags: z.array(z.string()),
-      }),
-    });
-
-    export const collections = {
-      blog: blogCollection,
-    };
-    ```
-
-5.  Create a folder called `blog` in `content` folder created above.
-6.  Create new markdown files with same schema as above.
-    ```md
-    ---
-    title: Testing Post
-    description: Testing Description
-    published_time: 2024-04-03
-    last_modified_time: 2024-05-05
-    tags:
-      - svelte
-      - astro
-      - website
-      - programming
-    ---
-    ```
-7.  Query those markdown files using `getCollection` function exported by 'astro:content' and render them!
-    ```astro
-    ---
-    import { getCollection } from 'astro:content'
-
-        const posts = await getCollection('blog')
-        ---
-
-        {
-          posts.map(async post => {
-            const { Content } = await post.render()
-            return <p>{post.title} <Content/></p>
-          })
-        }
-        ```
-
-    > Head to [Astro's Content Collection](https://docs.astro.build/en/guides/content-collections/) for more information
+> **Replacement:** Posts remain MDX files, but `src/content/index.ts` now imports them through Vite, validates the exported frontmatter with Zod, and exposes typed blog and snippet collections to TanStack Start routes.
 
 ### 🟢 Discord Status - Lanyard
 
 I wanted to display my Discord activity or any digital activity I’m doing, like playing games or listening to Spotify. I found a great app by [Phineas](https://phineas.io/) called [Lanyard](https://github.com/phineas/lanyard). Thanks to [Nuro](https://nuro.dev) that mentioned this application, it was great read about it.
 
-In short, you join Lanyard’s Discord server and make sure the activity status privacy is turned on. Then, you get your Discord’s developer ID and use it to connect to Lanyard’s websocket server or REST API. To make things easier, I used [svelte-lanyard](https://github.com/malloryhayr/svelte-lanyard) and entered my Discord account’s developer ID. It shows your current activity with lots of details.
+In short, you join Lanyard’s Discord server and make sure the activity status privacy is turned on. Then, you get your Discord’s developer ID and use it to connect to Lanyard’s websocket server or REST API. <del>I originally used `svelte-lanyard` to connect the Svelte implementation.</del>
+
+> **Current implementation:** The React status card now uses the `use-lanyard` hook and reads the Discord ID from the validated site configuration.
 
 <PostImage src={discordStatus} alt="Discord Status Activity using Lanyard" />
 
@@ -198,7 +151,7 @@ Creating such a feature, however, is complex, mainly due to accessibility and be
 
 <PostImage src={vscodeCommand} alt="Visual Studio Command Palette" />
 
-Like any other front-end developer, I searched for packages to help me out. Surprisingly, all I needed was a robust fuzzy search package—enter [Fuse.js](https://www.fusejs.io/), the ultimate JS library for fuzzy search.
+Like any other front-end developer, I searched for packages to help me out. Surprisingly, all I needed was a robust fuzzy search package: [Fuse.js](https://www.fusejs.io/), the ultimate JS library for fuzzy search.
 
 Now, let's talk challenges:
 
@@ -234,7 +187,9 @@ I still have 2-3 settings to create. So far, **flipping the layout** and providi
 
 ### 🚇 View Transitions
 
-I fell in love with the [‘whole view transitions’ video released by Google](https://www.youtube.com/watch?v=JCJUPJ_zDQ4&pp=ygUWdmlldyB0cmFuc2l0aW9uIGdvb2dsZQ%3D%3D), which allows for native-like application transitions from page to page. I wanted to incorporate this into my website. By the time I started building my site, Astro had added view transitions as a feature for **Chromium browsers**, with a fallback for **non-Chromium browsers**.
+I fell in love with the [‘whole view transitions’ video released by Google](https://www.youtube.com/watch?v=JCJUPJ_zDQ4&pp=ygUWdmlldyB0cmFuc2l0aW9uIGdvb2dsZQ%3D%3D), which allows for native-like application transitions from page to page. I wanted to incorporate this into my website. <del>The original implementation used Astro’s view-transition support and client-side router.</del>
+
+> **Current implementation:** TanStack Router now handles client-side navigation with view transitions enabled by default. Stable `viewTransitionName` values preserve the page, heading, navigation, and category morphs.
 
 I considered adding a GIF to demonstrate it, but it’s best experienced firsthand. It’s most noticeable on the [Tools](/tools) page when you switch categories, or anytime you navigate from the home page to the blog or snippets. It ensures that pages morph with a fade, which is the default transition.
 
@@ -245,7 +200,7 @@ I considered adding a GIF to demonstrate it, but it’s best experienced firstha
 
 ### 🧑‍💻 Code Highlighting
 
-Developer websites without any code highlighting? That’s impossible. I found [expressive-code](https://expressive-code.com/), which is heavily used by Astro’s own Starlight documentation template. It has almost all the features of an IDE and includes great plugins. Plus, VSCode themes can also be used with it 🎊!
+Developer websites without any code highlighting? That’s impossible. I found [Expressive Code](https://expressive-code.com/). <del>I first adopted it through the Astro ecosystem and its use in Starlight.</del> It remains part of the site and now runs as a rehype plugin in the Vite MDX pipeline, with the same IDE-like features, plugins, and VS Code themes 🎊!
 
 ```csharp title="HelloWorld.cs" wrap
 public void Test()
@@ -259,7 +214,9 @@ public void Test()
 
 ### 🧭 Navigation Indicators
 
-Navigation indicators are essential for the currently active page, with accessibility in mind, using the aria-current attribute. I also added small indicators for pages that take time to load - this was trickier, but very fun to implement. Working with Astro’s view transitions API and client-side routing is a joy.
+Navigation indicators are essential for the currently active page, with accessibility in mind, using the aria-current attribute. I also added small indicators for pages that take time to load - this was trickier, but very fun to implement. <del>The original indicators were tied to Astro’s view-transitions API and client-side router.</del>
+
+> **Current implementation:** TanStack Router’s `Link`, location, and router-state APIs now drive active and pending navigation states.
 
 The mobile view also has indicators, just without any for loading.
 
@@ -280,33 +237,9 @@ It works great with the sound toggle too.
 ### 🌐 SEO
 
 SEO is very important for any post or website to get indexed. I am working very heavily on the SEO.
-Open Graph tags make it very easy to do. Here's my seo component that works on every page and article, easy to extend or customize:
+<del>The original Astro component manually rendered title, canonical, Open Graph, article, and Twitter metadata from `Astro.url`.</del>
 
-```astro title="seo.astro" wrap
-// Basic tags
-<title>{title}</title>
-<meta name="description" content={description} />
-
-// Open Graph Tags
-<meta property="og:type" content={type} />
-<meta property="og:url" content={Astro.url.href} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={urlImage} />
-<meta property="og:image:width" content="960" />
-<meta property="og:image:height" content="960" />
-
-// Article Open Graph Tags
-<meta property="article:published_time" content={published_date.toDateString()} />
-<meta property="article:tag" content={tags.join(', ')} />
-
-// Twitter Tags
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url.href} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={urlImage} />
-```
+> **Current implementation:** A shared React `seo()` helper builds canonical links and metadata for TanStack Start route heads. Article dates use ISO timestamps, and tags are derived from the validated MDX frontmatter.
 
 ## Seems like all features are done- NO!
 

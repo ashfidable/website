@@ -1,6 +1,7 @@
 # generated output
 dist/
 .tanstack/
+public/images/og/
 
 # dependencies
 node_modules/

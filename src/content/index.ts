@@ -34,6 +34,12 @@ const configSchema = z.object({
   tools: z.array(toolSchema),
   skills: z.array(skillSchema),
 });
+const reviewSchema = z.object({
+  rating: z.number().min(0).max(5),
+  platform: z.string(),
+  playtime_hours: z.number().positive(),
+  status: z.string(),
+});
 const postSchema = z.object({
   title: z.string().max(60),
   description: z.string().max(160),
@@ -42,6 +48,17 @@ const postSchema = z.object({
   last_modified_time: z.coerce.date().optional(),
   category: z.string(),
   tags: z.array(z.string()),
+  social_image: z.string().optional(),
+  social_image_alt: z.string().optional(),
+  review: reviewSchema.optional(),
+}).superRefine((post, context) => {
+  if (post.category === "game-review" && !post.review) {
+    context.addIssue({
+      code: "custom",
+      path: ["review"],
+      message: "Game reviews require rating, platform, playtime_hours, and status.",
+    });
+  }
 });
 
 type MdxModule = {

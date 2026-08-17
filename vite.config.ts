@@ -7,6 +7,7 @@ import rehypeSlug from "rehype-slug";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { defineConfig, type Plugin, lazyPlugins } from "vite-plus";
+import { imagetools } from "vite-imagetools";
 import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { icons as devicon } from "@iconify-json/devicon-plain";
@@ -91,6 +92,18 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   plugins: lazyPlugins(() => [
+    imagetools({
+      defaultDirectives: (url) => {
+        if (
+          url.searchParams.has("as") ||
+          !url.pathname.replace(/\\/g, "/").includes("/src/assets/images/posts/")
+        ) {
+          return new URLSearchParams();
+        }
+
+        return new URLSearchParams({ format: "webp", quality: "78", effort: "max" });
+      },
+    }),
     siteIcons(),
     tanstackStart({
       pages: [
