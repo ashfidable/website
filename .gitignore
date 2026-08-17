@@ -1,6 +1,7 @@
 # generated output
 dist/
 .tanstack/
+.wrangler/
 public/images/og/
 
 # dependencies

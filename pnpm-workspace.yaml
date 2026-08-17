@@ -1,7 +1,3 @@
-onlyBuiltDependencies:
-  - esbuild
-  - lightningcss
-  - sharp
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@0.2.8
   vite-plus: 0.2.8
@@ -12,3 +8,8 @@ peerDependencyRules:
     - vite
   allowedVersions:
     vite: "*"
+allowBuilds:
+  esbuild: true
+  lightningcss: true
+  sharp: true
+  workerd: true
