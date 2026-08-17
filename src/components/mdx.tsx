@@ -76,7 +76,7 @@ export const mdxComponents: MDXComponents = {
       />
     </h4>
   ),
-  p: (props) => <p {...props} className="mb-2 [text-wrap:balance]" />,
+  p: (props) => <p {...props} className="mb-2" />,
   a: (props) => (
     <a
       {...props}
