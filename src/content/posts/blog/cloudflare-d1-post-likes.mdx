@@ -1,0 +1,422 @@
+---
+title: Adding Likes to My Static Blog with D1
+description: How I kept my TanStack Start blog prerendered while adding typed post likes with Cloudflare Workers, D1, Drizzle, Query, and rate limiting.
+published_time: 2026-08-17
+category: development
+tags:
+  - cloudflare
+  - tanstack-start
+  - d1
+  - drizzle
+  - react-query
+  - development
+---
+
+I wanted to add a small reaction feature to my blog: press a heart up to five times, save those likes, and show the total to everyone. There is no registration or login on this website, so the feature also needed a reasonable way to slow down spam without turning a heart button into an authentication project.
+
+The website was already mostly static. My blog posts are MDX files, TanStack Start prerenders them during the build, and Cloudflare serves the generated assets. I did not want to give that up just because one part of a page needed a database.
+
+The result is a hybrid setup:
+
+- Blog pages are still prerendered.
+- Static assets are still served from Cloudflare's network.
+- TanStack Start server functions handle the dynamic work.
+- D1 stores one total for each post.
+- Drizzle owns the schema and migrations.
+- TanStack Query loads, updates, and refreshes the total.
+- Cloudflare's rate-limit binding allows five likes per IP, per post, per minute.
+
+This post documents the setup so I can rebuild it later without rediscovering every small detail.
+
+## Pages, Workers, and the Vite plugin
+
+Cloudflare shows Workers and Pages together in the dashboard, but the deployment models still matter. A Pages deployment that uploads only `dist/client` cannot run a TanStack Start server function. The full application needs to be deployed as a Worker with its static assets.
+
+That does not make every page dynamically rendered. [TanStack Start can prerender known routes at build time](https://tanstack.com/start/latest/docs/framework/react/guide/static-prerendering), while the Worker handles server functions and any routes that actually need server code. Cloudflare's Vite plugin builds both sides together and generates the deployment configuration that Wrangler uses.
+
+[Static-asset requests on Workers remain free](https://developers.cloudflare.com/workers/static-assets/migration-guides/migrate-from-pages/), like they are on Pages. Worker billing applies when code runs, such as a server-function request that reads or writes likes.
+
+I installed Wrangler and the Cloudflare Vite plugin in the repository instead of relying on a global install:
+
+```bash
+pnpm add @tanstack/react-query drizzle-orm zod
+pnpm add --save-dev @cloudflare/vite-plugin wrangler drizzle-kit
+```
+
+Keeping Wrangler in `devDependencies` pins the deployment tool for the project and lets local development, CI, and another machine use the same version.
+
+The important part of my Vite configuration looks like this:
+
+```ts title="vite.config.ts"
+import { cloudflare } from "@cloudflare/vite-plugin";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig } from "vite-plus";
+
+export default defineConfig({
+  plugins: [
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+        crawlLinks: true,
+        autoSubfolderIndex: true,
+        failOnError: true,
+      },
+    }),
+    viteReact(),
+  ],
+});
+```
+
+The plugin accepts `wrangler.jsonc`, `wrangler.json`, or `wrangler.toml`. I use JSONC because the schema gives editor help and the format allows comments. There is no need to declare an asset output directory when using the Vite plugin; [it fills that into the generated Wrangler configuration](https://developers.cloudflare.com/workers/vite-plugin/reference/static-assets/) during the build.
+
+For this project, the build produces `dist/client` for browser assets and `dist/server` for the Worker. I deploy through Wrangler rather than entering `dist/client` as a Pages output directory.
+
+## Logging in and creating D1
+
+Wrangler opens Cloudflare's OAuth flow in the browser:
+
+```bash
+pnpm exec wrangler login
+pnpm exec wrangler whoami
+```
+
+Then I created the remote database:
+
+```bash
+pnpm exec wrangler d1 create website-db
+```
+
+Cloudflare returns a database ID. That ID belongs in the Wrangler configuration and is not a secret. OAuth credentials stay outside the repository in Wrangler's own configuration.
+
+Here is the relevant configuration for this website:
+
+```jsonc title="wrangler.jsonc"
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "website",
+  "main": "@tanstack/react-start/server-entry",
+  "compatibility_date": "2026-08-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "website-db",
+      "database_id": "YOUR_DATABASE_ID",
+      "migrations_dir": "migrations",
+    },
+  ],
+  "ratelimits": [
+    {
+      "name": "LIKE_RATE_LIMITER",
+      "namespace_id": "2026081701",
+      "simple": {
+        "limit": 5,
+        "period": 60,
+      },
+    },
+  ],
+}
+```
+
+Both bindings become available through `env.DB` and `env.LIKE_RATE_LIMITER` inside the Worker. The rate-limit namespace is a positive integer written as a string. I chose a unique value for this feature because bindings with the same namespace share counters for the same keys.
+
+After changing bindings, I regenerate the Cloudflare types:
+
+```bash
+pnpm run cf:typegen
+```
+
+That script runs [`wrangler types`](https://developers.cloudflare.com/workers/languages/typescript/), producing the definitions that make `env.DB` and `env.LIKE_RATE_LIMITER` type-safe.
+
+## Defining the database with Drizzle
+
+D1 uses SQLite, so the Drizzle configuration is short:
+
+```ts title="drizzle.config.ts"
+import { defineConfig } from "drizzle-kit";
+
+export default defineConfig({
+  dialect: "sqlite",
+  schema: "./src/db/schema.ts",
+  out: "./migrations",
+});
+```
+
+For now, I only need one row per post:
+
+```ts title="src/db/schema.ts"
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+export const postLikes = sqliteTable("post_likes", {
+  postKey: text("post_key").primaryKey(),
+  count: integer("like_count").notNull().default(0),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+});
+```
+
+The key combines the category and slug, for example:
+
+```text
+game-review:final-fantasy-7-remake-review
+```
+
+I [generate migrations with Drizzle](https://orm.drizzle.team/docs/drizzle-kit-generate) and let Wrangler apply them:
+
+```json title="package.json"
+{
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local"
+  }
+}
+```
+
+```bash
+pnpm run db:generate
+pnpm run db:migrate:local
+pnpm dev
+```
+
+The [local database is separate](https://developers.cloudflare.com/d1/best-practices/local-development/) from the remote D1 database. Local data lives under `.wrangler`, which I keep out of Git. Applying a migration locally does not touch production.
+
+I do not need a separate `dev:worker` or `wrangler dev` script for this setup. The Cloudflare Vite plugin brings the Workers runtime and local bindings into the normal Vite development server, so `pnpm dev` runs the client and server pieces together.
+
+I also keep one migration applier. Drizzle generates the SQL, and Wrangler applies it both locally and remotely. Mixing Wrangler's migration journal with Drizzle's separate migration runner would make it harder to tell which tool owns the database history.
+
+I can inspect the local table when debugging:
+
+```bash
+pnpm exec wrangler d1 execute website-db --local \
+  --command "SELECT * FROM post_likes"
+```
+
+## Keeping the server functions typed
+
+My first version added a file API route and then called it with `fetch`. That worked, but it duplicated the transport layer:
+
+- The client built a URL and JSON body.
+- The route parsed and validated the body.
+- The route called a server function.
+- The client parsed the response as `unknown`.
+
+That defeated one of the best parts of TanStack Start. A [server function is already a typed, same-origin RPC](https://tanstack.com/start/latest/docs/framework/react/guide/server-functions). It can be imported into client code and called like a function; TanStack replaces its implementation with a client stub while keeping the validated input and return types.
+
+The feature now has two server functions in one file:
+
+```ts title="src/features/post-likes/post-likes.ts" wrap
+import { env } from "cloudflare:workers";
+import { eq, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
+import { createServerFn } from "@tanstack/react-start";
+import { getRequestHeader } from "@tanstack/react-start/server";
+import { z } from "zod";
+import { postLikes } from "@/db/schema";
+
+const postKeySchema = z.object({
+  postKey: z
+    .string()
+    .min(3)
+    .max(160)
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*:[a-z0-9]+(?:-[a-z0-9]+)*$/),
+});
+
+const postLikeSchema = postKeySchema.extend({
+  amount: z.number().int().min(1).max(5),
+});
+
+export const getPostLikes = createServerFn({ method: "GET" })
+  .validator(postKeySchema)
+  .handler(async ({ data }) => {
+    const row = await drizzle(env.DB)
+      .select({ count: postLikes.count })
+      .from(postLikes)
+      .where(eq(postLikes.postKey, data.postKey))
+      .get();
+
+    return row?.count ?? 0;
+  });
+
+export const addPostLikes = createServerFn({ method: "POST" })
+  .validator(postLikeSchema)
+  .handler(async ({ data }) => {
+    const ip = getRequestHeader("cf-connecting-ip") ?? "local";
+    const key = `${ip}:${data.postKey}`;
+
+    // A batch spends one rate-limit token per like, not per request.
+    for (let like = 0; like < data.amount; like += 1) {
+      const { success } = await env.LIKE_RATE_LIMITER.limit({ key });
+      if (!success) return null;
+    }
+
+    // SQLite must increment the count so concurrent writes cannot overwrite it.
+    const [row] = await drizzle(env.DB)
+      .insert(postLikes)
+      .values({
+        postKey: data.postKey,
+        count: data.amount,
+        updatedAt: new Date(),
+      })
+      .onConflictDoUpdate({
+        target: postLikes.postKey,
+        set: {
+          count: sql`${postLikes.count} + ${data.amount}`,
+          updatedAt: new Date(),
+        },
+      })
+      .returning({ count: postLikes.count });
+
+    return row.count;
+  });
+```
+
+Zod validates the network boundary. TypeScript infers the client input from those schemas and the result from each handler. `getPostLikes` returns a number. `addPostLikes` returns the new total or `null` when the rate limiter refuses the batch. I do not need separate response types or another API route.
+
+The atomic SQL expression is important. Reading a number into JavaScript and writing `count + amount` later could lose likes when two requests arrive together. Letting SQLite perform `like_count + amount` keeps the update in one statement.
+
+## Using the server functions with TanStack Query
+
+TanStack Query is still useful even though TanStack Start handles the network boundary. Query owns loading state, caching, optimistic UI, mutations, and [refreshing the total after a mutation](https://tanstack.com/query/latest/docs/framework/react/guides/invalidations-from-mutations).
+
+The key part is that the query and mutation call the server functions directly:
+
+```ts wrap
+const queryKey = ["post-likes", postKey] as const;
+
+const { data: total, isPending: pending } = useQuery({
+  queryKey,
+  queryFn: () => getPostLikes({ data: { postKey } }),
+  staleTime: 60_000,
+});
+
+const { mutate, isPending: saving } = useMutation({
+  mutationFn: (amount: number) => addPostLikes({ data: { postKey, amount } }),
+  onSuccess: async (total, amount) => {
+    if (total === null) {
+      rollBack(amount);
+      setLimited(true);
+      if (limitTimer.current) clearTimeout(limitTimer.current);
+      limitTimer.current = setTimeout(() => setLimited(false), 60_000);
+      await queryClient.invalidateQueries({ queryKey });
+      return;
+    }
+
+    queryClient.setQueryData(queryKey, total);
+    await queryClient.invalidateQueries({ queryKey });
+  },
+  onError: (_error, amount) => rollBack(amount),
+});
+```
+
+There is deliberately no `fetch`, `JSON.stringify`, manual response check, or `unknown` result here.
+
+The interface updates optimistically as soon as someone presses the heart. If the write fails or the server returns `null`, the optimistic likes roll back. After a successful mutation, I store the returned total and invalidate the query so it checks D1 again. That keeps both the header heart and floating heart in sync because they share one hook instance on the post page.
+
+## Batching the five presses
+
+The heart is meant to feel a little like a game interaction. Someone can press it once or rapidly press it up to five times. I wanted every press to appear immediately without causing five database writes.
+
+The client keeps the queued amount in a ref and waits 500 milliseconds after the latest press:
+
+```ts
+const batchDelay = 500;
+const queued = useRef(0);
+const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+function flush() {
+  if (queued.current === 0) return;
+
+  const amount = queued.current;
+  queued.current = 0;
+  if (timer.current) clearTimeout(timer.current);
+  mutate(amount);
+}
+
+function sendLike() {
+  if (pending || saving || limited || taps === 5) return;
+
+  const nextTaps = taps + 1;
+  setTaps(nextTaps);
+  queryClient.setQueryData<number>(queryKey, (current = 0) => current + 1);
+  queued.current += 1;
+
+  if (timer.current) clearTimeout(timer.current);
+  if (nextTaps === 5) flush();
+  else timer.current = setTimeout(flush, batchDelay);
+}
+```
+
+One press sends one like after the short delay. Three quick presses send one mutation with an amount of three. Reaching five flushes immediately. The server still spends one rate-limit token per like, so batching network traffic does not bypass the five-like rule.
+
+## What the rate limit actually means
+
+The rate-limit key is the IP address plus the post key:
+
+```ts
+const key = `${ip}:${data.postKey}`;
+```
+
+That makes the limit **five likes per IP, per post, per minute**:
+
+- Two different IPs get separate allowances on the same post.
+- One IP gets a separate allowance for each post.
+- People on the same home, office, or mobile-network IP may share an allowance.
+- Someone who changes IP or uses another proxy gets a new allowance.
+- Local development falls back to `local`, so local browser sessions share one local counter.
+
+This is not a true user identity system. [Cloudflare documents](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/) that Worker rate-limit counters are local to a Cloudflare location, permissive, and eventually consistent. I treat this as a cheap abuse guard that protects D1 from casual spam, not as exact accounting or a voting system.
+
+I also decided not to store IP addresses in the likes table. D1 only needs the public total, while Cloudflare's short-lived counter handles the current limit. If I later need a permanent “this visitor already reacted” rule, that should be designed separately with a guest token or a privacy-conscious identifier—not squeezed into this aggregate table.
+
+When the limit is reached, the client disables both like buttons, rolls back the rejected optimistic amount, refreshes the total, and shows **Try again in 1 minute**. Showing the cooldown immediately is much clearer than allowing more presses that silently disappear.
+
+## Moving from local development to production
+
+Before deployment, I check the code and build the complete application:
+
+```bash
+pnpm run check
+pnpm run build
+pnpm run preview
+```
+
+Then I inspect and apply only the pending production migrations:
+
+```bash
+pnpm exec wrangler d1 migrations list website-db --remote
+pnpm exec wrangler d1 migrations apply website-db --remote
+pnpm exec wrangler d1 migrations list website-db --remote
+```
+
+The second list should be empty. [Wrangler records applied migrations](https://developers.cloudflare.com/d1/reference/migrations/) in D1, so the same file is not applied twice. Finally, I deploy the Worker and its generated assets together:
+
+```bash
+pnpm run deploy
+```
+
+For the first deployment, I test the `workers.dev` URL before moving the real domain. A direct Pages upload of `dist/client` would contain the prerendered pages but not the server-function runtime. Once the Worker version works, the custom domain can move from the old Pages project to the Worker, and future Git builds should use Workers Builds with these commands:
+
+```text
+Build command:  pnpm run build
+Deploy command: pnpm run deploy
+```
+
+## The parts I want to remember
+
+The static and server parts do not need separate applications. Prerendering decides which pages become HTML during the build; the Cloudflare Vite plugin packages those pages and the TanStack Start server runtime into one Worker deployment.
+
+Wrangler belongs in the repository. D1 migrations should be generated once, tested locally, committed, and applied remotely before deploying code that needs them. Local D1 data never becomes production data by accident.
+
+Most importantly, TanStack Start server functions are already typed RPC endpoints. If the client is manually building a fetch request only to reach a server function through another route, that extra layer probably does not belong there.
+
+The final setup stays small: one table, two server functions, one shared query hook, and one rate-limit binding. It is enough for post likes now, while Drizzle leaves a straightforward path for guestbook entries and other small database features later.
+
+## References
+
+- [TanStack Start server functions](https://tanstack.com/start/latest/docs/framework/react/guide/server-functions)
+- [Cloudflare Vite plugin](https://developers.cloudflare.com/workers/vite-plugin/)
+- [Static assets on Workers](https://developers.cloudflare.com/workers/static-assets/)
+- [Cloudflare D1 migrations](https://developers.cloudflare.com/d1/reference/migrations/)
+- [Cloudflare Workers rate-limit binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
+- [Migrating from Pages to Workers](https://developers.cloudflare.com/workers/static-assets/migration-guides/migrate-from-pages/)
