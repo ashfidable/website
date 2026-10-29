@@ -138,16 +138,60 @@
   }
 }
 
-/* Individual posts fade in as one article, with time to settle into reading. */
+/* Reveal reading blocks down the page immediately after the cat command finishes. */
 @media screen and (prefers-reduced-motion: no-preference) {
   .fade-in-late:has(> [data-terminal-post]) {
-    animation: fade-in 800ms cubic-bezier(0.4, 0, 0.2, 1) backwards;
-    animation-delay: var(--delay, 0ms);
+    animation: none;
+  }
+
+  [data-terminal-post] > header,
+  [data-terminal-post] > nav,
+  [data-post-body] > * {
+    animation: post-reveal 220ms ease-out backwards;
+    animation-delay: calc(var(--delay, 60ms) - 60ms + var(--post-row, 0) * 30ms);
+  }
+
+  [data-terminal-post] > nav {
+    --post-row: 1;
+  }
+  /* Cap the cascade so long articles are ready to read within 400ms. */
+  [data-post-body] > * {
+    --post-row: 6;
+  }
+  [data-post-body] > :nth-child(1) {
+    --post-row: 2;
+  }
+  [data-post-body] > :nth-child(2) {
+    --post-row: 3;
+  }
+  [data-post-body] > :nth-child(3) {
+    --post-row: 4;
+  }
+  [data-post-body] > :nth-child(4) {
+    --post-row: 5;
+  }
+
+  [data-terminal-post] > header:focus-within,
+  [data-terminal-post] > nav:focus-within,
+  [data-post-body] > :focus-within {
+    animation: none;
   }
 }
 
-@media screen and (max-width: 639px) and (prefers-reduced-motion: no-preference) {
+@keyframes post-reveal {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+/* Mobile does not type the command, so reading content starts immediately. */
+@media screen and (max-width: 639px) {
   .fade-in-late:has(> [data-terminal-post]) {
-    animation-delay: 60ms;
+    --delay: 60ms !important;
   }
 }

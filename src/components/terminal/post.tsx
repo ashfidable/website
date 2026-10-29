@@ -203,7 +203,10 @@ export function TerminalPost({ post }: { post: Post }) {
                 )}
 
                 {/* Body in the reading font for long-form comfort; code blocks keep their mono. */}
-                <div className="mt-8 flex max-w-[72ch] snap-y flex-col font-site-body leading-relaxed">
+                <div
+                  data-post-body
+                  className="mt-8 flex max-w-[72ch] snap-y flex-col font-site-body leading-relaxed"
+                >
                   <Content components={mdxComponents} />
                 </div>
               </article>
