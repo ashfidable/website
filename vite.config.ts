@@ -4,6 +4,7 @@ import mdx from "@mdx-js/rollup";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { redact } from "@tanstack/redact/vite";
 import viteReact from "@vitejs/plugin-react";
 import rehypeExpressiveCode from "rehype-expressive-code";
 import rehypeSlug from "rehype-slug";
@@ -142,6 +143,7 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+  ssr: { noExternal: true },
   plugins: lazyPlugins(() => [
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     imagetools({
@@ -239,6 +241,7 @@ export default defineConfig({
     // MDX emits React runtime calls itself. Keeping .mdx out of the Babel pass
     // avoids the React plugin attempting to parse raw MDX during development.
     viteReact({ include: /\.(js|jsx|ts|tsx)$/ }),
+    redact(),
     tailwindcss(),
   ]),
 });

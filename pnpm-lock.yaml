@@ -252,6 +252,9 @@ importers:
       '@tanstack/react-start':
         specifier: ^1.168.40
         version: 1.168.40(@voidzero-dev/vite-plus-core@0.2.8(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(typescript@5.9.3)(yaml@2.9.0))(esbuild@0.28.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(rollup@4.62.4)(supports-color@10.2.2)
+      '@tanstack/redact':
+        specifier: ^0.2.3
+        version: 0.2.3(@cloudflare/vite-plugin@1.52.1(@voidzero-dev/vite-plus-core@0.2.8(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(typescript@5.9.3)(yaml@2.9.0))(wrangler@4.123.0))(@voidzero-dev/vite-plus-core@0.2.8(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(typescript@5.9.3)(yaml@2.9.0))
       drizzle-orm:
         specifier: ^0.45.2
         version: 0.45.2
@@ -2256,6 +2259,23 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  '@tanstack/redact@0.2.3':
+    resolution: {integrity: sha512-a+KRpHdWPDfM9tOci9k8Oxm3YlEC8thBac8nxN5k7tzLWM6hagz+hZr0A0ZLjRcpHMOEHVxASx33WyUVvfpffw==}
+    peerDependencies:
+      '@cloudflare/vite-plugin': 1.65.0
+      next: ~15.5.0 || ~16.0.0 || ~16.1.0 || ~16.2.0 || ~16.3.0 || ~16.4.0
+      vinext: ~1.3.0
+      vite: '>=5'
+    peerDependenciesMeta:
+      '@cloudflare/vite-plugin':
+        optional: true
+      next:
+        optional: true
+      vinext:
+        optional: true
+      vite:
+        optional: true
 
   '@tanstack/router-cli@1.167.25':
     resolution: {integrity: sha512-Nwg0ukiwwQBE755a6dQ2sYVNWuWCu09e9zAb0QrUMb7GjlZxmNv0CZFq1ZhJJG/1mjFLyW6pbxr7cImlip0MhA==}
@@ -5586,6 +5606,13 @@ snapshots:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
       use-sync-external-store: 1.6.0(react@19.2.8)
+
+  '@tanstack/redact@0.2.3(@cloudflare/vite-plugin@1.52.1(@voidzero-dev/vite-plus-core@0.2.8(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(typescript@5.9.3)(yaml@2.9.0))(wrangler@4.123.0))(@voidzero-dev/vite-plus-core@0.2.8(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(typescript@5.9.3)(yaml@2.9.0))':
+    dependencies:
+      magic-string: 0.30.21
+    optionalDependencies:
+      '@cloudflare/vite-plugin': 1.52.1(@voidzero-dev/vite-plus-core@0.2.8(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(typescript@5.9.3)(yaml@2.9.0))(wrangler@4.123.0)
+      vite: '@voidzero-dev/vite-plus-core@0.2.8(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.12)(typescript@5.9.3)(yaml@2.9.0)'
 
   '@tanstack/router-cli@1.167.25(supports-color@10.2.2)':
     dependencies:
