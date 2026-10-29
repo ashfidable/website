@@ -1,12 +1,13 @@
 import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, type ReactNode } from "react";
 import { TerminalShell } from "@/components/terminal/shell";
+import { HalloweenBackground } from "@/components/halloween-background";
 import { QueryProvider } from "@/providers/query-provider";
 import { SettingsProvider, useSettings } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
 import appCss from "../styles/globals.css?url";
 
-const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true,hideSpoilers:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`;
+const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','halloween','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true,hideSpoilers:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -94,6 +95,7 @@ function Document({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="min-h-screen w-full text-site-foreground">
+        <HalloweenBackground />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-site-card focus:p-3 focus:text-site-heading focus:outline-2 focus:outline-site-ring"

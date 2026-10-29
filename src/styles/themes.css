@@ -297,6 +297,50 @@
   --color-code-background: hsl(21, 16%, 18%);
 }
 
+/* Spooky Halloween: pumpkin orange, purple shadows, and ghostly pale text. */
+[data-theme="halloween"] {
+  color-scheme: dark;
+  --font-heading: Georgia, "Times New Roman", serif;
+  --font-body: "Segoe UI", system-ui, sans-serif;
+  --color-theme-primary: #181020;
+  --color-theme-secondary: #ff9b45;
+  --color-background: #181020;
+  --color-background-image:
+    radial-gradient(ellipse at top left, #733da32b, transparent 55%),
+    radial-gradient(ellipse at bottom right, #ff9b4514, transparent 50%);
+  --color-background-body: #0e0913;
+  --color-box-shadow: #08050dcc;
+  --color-border-highlight: #493557;
+  --color-border-highlight-hover: #ff9b45;
+  --color-heading-text: #ff9b45;
+  --color-heading-text-hover: #ffc180;
+  --color-body-text: #f2e8da;
+  --color-body-text-low-contrast: #bdacc9;
+  --color-gradient-from: #ff9b45;
+  --color-gradient-to: #c49aef;
+  --color-card-background: #21172c;
+  --color-card-background-hover: #30213e;
+  --color-card-date-text: #c49aef;
+  --color-input-background: #291d35;
+  --color-input-ring-normal: #735887;
+  --color-input-ring-focus: #ff9b45;
+  --color-input-accent: #ff9b45;
+  --color-button-normal: #291d35;
+  --color-button-active: #120c19;
+  --color-button-hover: #382847;
+  --color-button-text-active: #ff9b45;
+  --color-icon: #f2e8da;
+  --color-icon-hover: #ff9b45;
+  --color-link: #ff9b45;
+  --color-link-hover: #ffc180;
+  --color-blockquote-indicator: #c49aef;
+  --color-blockquote-background: #30213e;
+  --color-blockquote-text: #f2e8da;
+  --color-spotify-progress: #b8d975;
+  --color-spotify-progress-background: #493557;
+  --color-code-background: #291d35;
+}
+
 /* Clear Ocean — a crisp daylight palette with strong cobalt contrast. */
 [data-theme="ocean"] {
   color-scheme: light;

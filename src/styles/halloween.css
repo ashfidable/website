@@ -1,0 +1,110 @@
+.halloween-background {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+html[data-theme="halloween"] .halloween-background {
+  display: block;
+}
+
+html[data-theme="halloween"] [data-site-shell] {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-theme="halloween"] section[data-terminal-window] {
+  background-color: color-mix(in srgb, var(--color-card-background) 88%, transparent);
+}
+
+.halloween-friend {
+  position: absolute;
+  width: clamp(48px, 7vw, 100px);
+  opacity: 0.5;
+}
+
+.halloween-friend svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.halloween-ghost-one {
+  left: 3%;
+  top: 19%;
+}
+.halloween-bat-one {
+  right: 3%;
+  top: 12%;
+  --float-duration: 11s;
+  --float-delay: -4s;
+}
+.halloween-ghost-two {
+  right: 4%;
+  top: 65%;
+  --float-duration: 14s;
+  --float-delay: -7s;
+}
+.halloween-bat-two {
+  left: 4%;
+  top: 55%;
+  --float-duration: 13s;
+  --float-delay: -9s;
+}
+.halloween-pumpkin {
+  left: 7%;
+  bottom: 3%;
+  --float-duration: 16s;
+  --float-delay: -3s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-theme="halloween"] .halloween-friend {
+    animation: halloween-float var(--float-duration, 12s) ease-in-out var(--float-delay, -2s)
+      infinite;
+  }
+
+  html[data-theme="halloween"] .halloween-bat-wings {
+    transform-origin: 50px 32px;
+    animation: halloween-flap 2.8s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes halloween-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-6deg);
+  }
+  50% {
+    transform: translate3d(12px, -22px, 0) rotate(6deg);
+  }
+}
+
+@keyframes halloween-flap {
+  from {
+    transform: scaleY(0.75);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (max-width: 639px) {
+  .halloween-bat-two,
+  .halloween-pumpkin {
+    display: none;
+  }
+  .halloween-friend {
+    width: 64px;
+  }
+}
+
+@media print {
+  html[data-theme="halloween"] .halloween-background {
+    display: none;
+  }
+}

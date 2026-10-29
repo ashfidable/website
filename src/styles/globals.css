@@ -2,6 +2,7 @@
 @import "./themes.css" layer(base);
 @import "./animations.css" layer(base);
 @import "./terminal.css" layer(components);
+@import "./halloween.css" layer(components);
 
 @theme inline {
   --color-site-page: var(--color-background-body);
