@@ -1,6 +1,7 @@
 @import "tailwindcss" source('../');
 @import "./themes.css" layer(base);
 @import "./animations.css" layer(base);
+@import "./terminal.css" layer(components);
 
 @theme inline {
   --color-site-page: var(--color-background-body);
@@ -62,48 +63,9 @@
     background-color: var(--color-code-background);
     padding-inline: 0.5rem;
   }
-
-  [data-site-shell] > aside {
-    box-shadow: -30px 5px 30px 16px var(--color-box-shadow);
-  }
-  [data-site-shell] > main {
-    box-shadow: 30px 5px 30px 16px var(--color-box-shadow);
-  }
 }
 
 @layer components {
-  .category-surface {
-    background-color: var(--color-category-background);
-    background-image: var(--color-category-gradient, none);
-  }
-
-  .home-hero {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-  }
-
-  @media (min-width: 48rem) {
-    .home-hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 180px;
-      align-items: stretch;
-    }
-  }
-
-  .text-effect {
-    color: transparent;
-    font-weight: 900;
-    background-clip: text;
-    background-color: var(--color-gradient-from);
-    background-size: 200%;
-    background-image: linear-gradient(
-      to bottom,
-      var(--color-gradient-from) 25%,
-      var(--color-gradient-to) 75%
-    );
-  }
-
   .character {
     --dimension: 48px;
     --pixel-size: 3.5;
@@ -122,36 +84,69 @@
     width: calc(var(--spritesheet-width) * var(--pixel-size));
     max-width: calc(var(--spritesheet-width) * var(--pixel-size));
   }
+}
 
-  .desktop-nav-link[aria-current="page"] {
-    position: relative;
-    font-weight: 700;
-    z-index: 50;
+/* One viewport; only the terminal content panel scrolls. */
+html[data-terminal="true"],
+html[data-terminal="true"] body {
+  height: 100dvh;
+  min-height: 0;
+  overflow: clip;
+  overscroll-behavior: none;
+}
+[data-site-shell][data-chrome="app"] {
+  display: block;
+  height: 100%;
+  min-height: 0;
+  max-width: 62rem;
+  margin-bottom: 0;
+  background: transparent;
+}
+[data-site-shell][data-chrome="app"] > main {
+  min-height: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+[data-site-shell][data-chrome="app"] [data-page-content] {
+  height: 100%;
+  min-height: 0;
+  padding-block: 1rem;
+}
+@media (min-width: 48rem) {
+  [data-site-shell][data-chrome="app"] [data-page-content] {
+    padding-block: 1.5rem;
   }
-  .desktop-nav-link[aria-current="page"] svg {
-    color: var(--color-icon-hover);
+}
+
+/* Phones use the whole screen; spacing belongs inside the app, not around it. */
+@media screen and (max-width: 639px) {
+  [data-site-shell][data-chrome="app"] [data-page-content] {
+    padding: 0;
   }
-  .mobile-nav-link[aria-current="page"] {
-    position: relative;
+  [data-site-shell][data-chrome="app"] section[data-terminal-window] {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
-  .mobile-nav-link[aria-current="page"]::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-top: 2px solid var(--color-border-highlight-hover);
+  section[data-terminal-window] > div:first-child {
+    padding-top: max(0.375rem, env(safe-area-inset-top));
   }
+  section[data-terminal-window] > footer {
+    padding-bottom: max(0.375rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Route navigation updates the terminal contents while the window stays in place.
+   Explicit window and tool morphs keep their own named transitions below. */
+html[data-terminal="true"]::view-transition-old(root),
+html[data-terminal="true"]::view-transition-new(root) {
+  animation: none;
 }
 
 ::view-transition-group(*) {
   animation-duration: 220ms;
   animation-timing-function: var(--ease);
-}
-
-::view-transition-old(page-content) {
-  animation: route-out-up 340ms cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-::view-transition-new(page-content) {
-  animation: route-in-up 340ms cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 html[data-search-transition] [data-page-content] {
@@ -163,53 +158,124 @@ html[data-search-transition]::view-transition-new(root) {
   animation: none;
 }
 
-@keyframes route-out-up {
-  to {
-    opacity: 0;
-    transform: translateY(-36px);
-  }
+/* Terminal window min/max transitions.
+   View-transition names only exist while a transition runs, so route changes are untouched. */
+html[data-calm-transition="window"] [data-terminal-window] {
+  view-transition-name: terminal-window;
 }
-
-@keyframes route-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(44px);
-  }
+html[data-calm-transition]::view-transition-group(*) {
+  animation-duration: 360ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
-
-@keyframes palette-in {
-  from {
-    opacity: 0.5;
-    transform: translateY(-30rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+html[data-calm-transition="window"]::view-transition-group(terminal-window) {
+  animation-duration: 420ms;
 }
-
-@keyframes panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+html[data-calm-transition="window"]::view-transition-image-pair(terminal-window) {
+  overflow: hidden;
+  border-radius: 0.75rem;
 }
-
-[data-slot="dialog-content"][data-state="open"] {
-  animation: palette-in 75ms ease-in-out;
+html[data-calm-transition="window"]::view-transition-old(terminal-window),
+html[data-calm-transition="window"]::view-transition-new(terminal-window) {
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+  animation-duration: 260ms;
 }
-.back-to-top-enter {
-  animation: panel-in 150ms ease-out;
-}
-
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation-duration: 1ms !important;
+  }
+}
+
+::highlight(post-find) {
+  background-color: var(--color-heading-text);
+  color: var(--color-card-background);
+}
+::highlight(post-find-current) {
+  background-color: var(--color-body-text);
+  color: var(--color-card-background);
+  text-decoration: underline;
+}
+
+/* Print the whole article, including content outside the terminal's scroll viewport. */
+@media print {
+  html[data-terminal="true"] {
+    --color-heading-text: #000;
+    --color-body-text: #000;
+    --color-body-text-low-contrast: #444;
+    --color-card-background: #fff;
+  }
+  html[data-terminal="true"],
+  html[data-terminal="true"] body,
+  [data-site-shell][data-chrome="app"],
+  [data-site-shell][data-chrome="app"] > main,
+  [data-site-shell][data-chrome="app"] [data-page-content],
+  [data-terminal-window],
+  [data-terminal-scroll] {
+    position: static !important;
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+  }
+  [data-terminal-window] > :not([data-terminal-scroll]),
+  [data-terminal-output],
+  [data-terminal-route] > div > section > :first-child,
+  [data-terminal-route] > div > section:not(:first-child),
+  [data-terminal-post] nav,
+  [data-terminal-post] button {
+    display: none !important;
+  }
+  [data-terminal-route][hidden] {
+    display: block !important;
+  }
+  [data-terminal-route] .fade-in-late {
+    opacity: 1;
+    animation: none;
+  }
+  [data-terminal-post] {
+    color: black;
+  }
+  [data-terminal-post] pre,
+  [data-terminal-post] pre * {
+    color: black !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  [data-terminal-post] pre {
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+  }
+  [data-terminal-post] h1,
+  [data-terminal-post] h2,
+  [data-terminal-post] h3 {
+    break-after: avoid;
+  }
+  [data-terminal-post] img {
+    max-height: 90vh;
+    object-fit: contain;
+  }
+  ::highlight(post-find),
+  ::highlight(post-find-current) {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: none;
   }
 }

@@ -146,7 +146,6 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
               settings.toggleSpoilers();
               playAudio("/audio/sound_toggle_on.mp3", settings.sound);
             }}
-            aria-label="Spoiler protection"
             aria-pressed={settings.hideSpoilers}
             title={settings.hideSpoilers ? "Show spoilers" : "Hide spoilers"}
           >
@@ -167,7 +166,7 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
                 type="button"
                 className="group relative aspect-[16/10] overflow-hidden rounded-md bg-site-card outline-none focus-visible:ring-2 focus-visible:ring-site-ring focus-visible:ring-offset-2 focus-visible:ring-offset-site-page"
                 onClick={(event) => openImage(index, event.currentTarget)}
-                aria-label={`Open ${alt}`}
+                title={`Open ${alt}`}
               >
                 <ResponsiveImage
                   image={src}
@@ -251,7 +250,7 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
             >
               {activeIndex === null ? 0 : activeIndex + 1} / {images.length}
             </div>
-            <div className="flex items-center gap-1" aria-label="Zoom controls">
+            <div role="group" className="flex items-center gap-1" aria-label="Zoom controls">
               <button
                 type="button"
                 className={viewerButtonClass}
@@ -265,7 +264,7 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
                 type="button"
                 className="min-w-14 rounded-md px-2 py-2 font-mono text-xs tabular-nums text-white/65 outline-none transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white/80"
                 onClick={resetView}
-                aria-label="Reset zoom"
+                aria-label={`${Math.round(zoom * 100)}%: reset zoom`}
               >
                 {Math.round(zoom * 100)}%
               </button>

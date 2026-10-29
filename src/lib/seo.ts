@@ -46,9 +46,7 @@ export function seo({
       ...(published
         ? [{ property: "article:published_time", content: published.toISOString() }]
         : []),
-      ...(modified
-        ? [{ property: "article:modified_time", content: modified.toISOString() }]
-        : []),
+      ...(modified ? [{ property: "article:modified_time", content: modified.toISOString() }] : []),
       ...(tags ?? []).map((tag) => ({ property: "article:tag", content: tag })),
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:url", content: url },

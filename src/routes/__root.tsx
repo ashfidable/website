@@ -1,8 +1,6 @@
 import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, type ReactNode } from "react";
-import { CommandPalette } from "@/components/command-palette";
-import { DesktopNavigation, MobileNavigation } from "@/components/navigation";
-import { Settings } from "@/components/settings";
+import { TerminalShell } from "@/components/terminal/shell";
 import { QueryProvider } from "@/providers/query-provider";
 import { SettingsProvider, useSettings } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
@@ -31,6 +29,7 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
   notFoundComponent: () => (
     <div className="p-8">
+      <title>Page not found | Ashfid</title>
       <h1 className="text-2xl font-bold text-site-heading">Page not found</h1>
       <a href="/" className="underline">
         Return home
@@ -42,24 +41,18 @@ export const Route = createRootRoute({
 function App() {
   return (
     <QueryProvider>
-      <SettingsProvider>
-        <NavigationSound />
-        <DesktopNavigation />
-        <MobileNavigation />
-        <main className="flex h-full min-w-0 flex-grow flex-col gap-4 text-base md:border-r md:border-site-border">
-          <div className="hidden items-center justify-between border-b-2 border-site-border bg-site-card px-4 py-1 text-sm md:flex">
-            <CommandPalette />
-            <Settings />
-          </div>
-          <div
-            data-page-content
-            className="flex min-w-0 flex-col gap-8 px-4 pb-4 pt-4 md:pt-0"
-            style={{ viewTransitionName: "page-content" }}
-          >
+      <NavigationSound />
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="flex h-full min-h-0 min-w-0 flex-col text-base"
+      >
+        <div data-page-content className="flex min-h-0 flex-col px-4">
+          <TerminalShell>
             <Outlet />
-          </div>
-        </main>
-      </SettingsProvider>
+          </TerminalShell>
+        </div>
+      </main>
     </QueryProvider>
   );
 }
@@ -81,16 +74,33 @@ function NavigationSound() {
 
 function RootDocument({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" data-theme="dark" data-rounded="true" suppressHydrationWarning>
+    <SettingsProvider>
+      <Document>{children}</Document>
+    </SettingsProvider>
+  );
+}
+
+function Document({ children }: { children: ReactNode }) {
+  return (
+    <html
+      lang="en"
+      data-theme="dark"
+      data-rounded="true"
+      data-terminal="true"
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: settingsScript }} />
         <HeadContent />
       </head>
       <body className="min-h-screen w-full text-site-foreground">
-        <div
-          data-site-shell
-          className="mx-auto mb-20 min-h-screen w-full max-w-[66.25rem] bg-site-page md:mb-auto md:grid md:grid-cols-[12.75rem_minmax(0,1fr)]"
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-site-card focus:p-3 focus:text-site-heading focus:outline-2 focus:outline-site-ring"
         >
+          Skip to content
+        </a>
+        <div data-site-shell data-chrome="app" className="mx-auto w-full">
           {children}
         </div>
         <Scripts />

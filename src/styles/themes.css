@@ -596,7 +596,7 @@
   --color-card-date-text: hsl(35, 75%, 28%);
   --color-input-background: hsl(45, 60%, 99%);
   --color-input-ring-normal: hsl(42, 28%, 56%);
-  --color-input-ring-focus: hsl(38, 85%, 44%);
+  --color-input-ring-focus: hsl(38, 85%, 39%);
   --color-input-accent: hsl(38, 85%, 44%);
   --color-button-normal: hsl(44, 38%, 87%);
   --color-button-active: hsl(43, 36%, 80%);
@@ -635,10 +635,6 @@
 [data-type="game-review"] {
   --color-category-highlight: hsl(46, 92%, 62%);
   --color-category-background: hsl(46, 90%, 47%);
-  --color-category-gradient: linear-gradient(
-    to bottom right,
-    hsl(46, 92%, 62%),
-    hsl(46, 90%, 47%)
-  );
+  --color-category-gradient: linear-gradient(to bottom right, hsl(46, 92%, 62%), hsl(46, 90%, 47%));
   --color-category-text: hsl(46, 100%, 8%);
 }

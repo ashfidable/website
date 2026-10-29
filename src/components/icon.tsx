@@ -1,6 +1,6 @@
 import icons from "virtual:site-icons";
 
-type IconData = { body: string; width: number; height: number; left?: number; top?: number };
+type IconData = { url: string; width: number; height: number; left?: number; top?: number };
 
 export function Icon({ name, className }: { name?: string; className?: string }) {
   if (!name) return null;
@@ -14,7 +14,8 @@ export function Icon({ name, className }: { name?: string; className?: string })
       height="1em"
       className={className}
       aria-hidden="true"
-      dangerouslySetInnerHTML={{ __html: icon.body }}
-    />
+    >
+      <use href={`${icon.url}#icon`} />
+    </svg>
   );
 }

@@ -1,77 +1,19 @@
-import type { ComponentType } from "react";
+import { createElement, type ComponentType } from "react";
 import type { MDXComponents } from "mdx/types";
-import { z } from "zod";
-import rawConfig from "../../site.config.json";
-
-const iconLinkSchema = z.object({ name: z.string(), url: z.string(), icon: z.string() });
-const siteSchema = z.object({
-  name: z.string(),
-  title: z.string(),
-  url: z.string().url(),
-  description: z.string(),
-  discordId: z.string(),
-  supportUrl: z.string().url(),
-});
-const categorySchema = z.object({ id: z.string(), name: z.string(), icon: z.string() });
-const toolSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  description: z.string(),
-  categories: z.array(z.string()),
-  url: z.string().url(),
-  icon: z.string(),
-});
-const skillSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  entries: z.array(z.object({ name: z.string(), icon: z.string() })),
-});
-const configSchema = z.object({
-  site: siteSchema,
-  navigation: z.array(iconLinkSchema),
-  socialLinks: z.array(iconLinkSchema),
-  categories: z.array(categorySchema),
-  tools: z.array(toolSchema),
-  skills: z.array(skillSchema),
-});
-const reviewSchema = z.object({
-  rating: z.number().min(0).max(5),
-  platform: z.string(),
-  playtime_hours: z.number().positive(),
-  status: z.string(),
-});
-const postSchema = z.object({
-  title: z.string().max(60),
-  description: z.string().max(160),
-  url: z.string().optional(),
-  published_time: z.coerce.date(),
-  last_modified_time: z.coerce.date().optional(),
-  category: z.string(),
-  tags: z.array(z.string()),
-  social_image: z.string().optional(),
-  social_image_alt: z.string().optional(),
-  review: reviewSchema.optional(),
-}).superRefine((post, context) => {
-  if (post.category === "game-review" && !post.review) {
-    context.addIssue({
-      code: "custom",
-      path: ["review"],
-      message: "Game reviews require rating, platform, playtime_hours, and status.",
-    });
-  }
-});
+import rawConfig from "virtual:site-config";
+import type { SiteConfig, PostFrontmatter } from "./schema";
+export type { SiteConfig } from "./schema";
 
 type MdxModule = {
   default: ComponentType<{ components?: MDXComponents }>;
-  frontmatter: Record<string, unknown>;
+  frontmatter: PostFrontmatter;
   source: string;
 };
 
-export type SiteConfig = z.infer<typeof configSchema>;
-export type Category = z.infer<typeof categorySchema>;
-export type Tool = z.infer<typeof toolSchema>;
-export type Skill = z.infer<typeof skillSchema>;
-export type Post = z.infer<typeof postSchema> & {
+export type Category = SiteConfig["categories"][number];
+export type Tool = SiteConfig["tools"][number];
+export type Skill = SiteConfig["skills"][number];
+export type Post = PostFrontmatter & {
   id: string;
   slug: string;
   kind: "blog" | "snippets";
@@ -79,15 +21,35 @@ export type Post = z.infer<typeof postSchema> & {
   Content: MdxModule["default"];
 };
 
-const postModules = import.meta.glob("./posts/**/*.mdx", { eager: true }) as Record<
-  string,
-  MdxModule
->;
+const postMetadata = import.meta.glob("./posts/**/*.mdx", {
+  eager: true,
+  query: "?metadata",
+  import: "default",
+}) as Record<string, Pick<MdxModule, "frontmatter" | "source">>;
+const postLoaders = import.meta.glob<MdxModule>("./posts/**/*.mdx");
+const loadedContent = new Map<string, MdxModule["default"]>();
+const loadingContent = new Map<string, Promise<void>>();
 
-export const siteConfig = configSchema.parse(rawConfig);
-export const { site, navigation, socialLinks, categories, tools, skills } = siteConfig;
+function loadContent(path: string) {
+  let pending = loadingContent.get(path);
+  if (!pending) {
+    pending = postLoaders[path]()
+      .then((module) => {
+        loadedContent.set(path, module.default);
+      })
+      .catch((error) => {
+        loadingContent.delete(path);
+        throw error;
+      });
+    loadingContent.set(path, pending);
+  }
+  return pending;
+}
 
-export const posts: Post[] = Object.entries(postModules).map(([path, module]) => {
+export const siteConfig = rawConfig;
+export const { site, terminal, socialLinks, categories, tools, skills } = siteConfig;
+
+export const posts: Post[] = Object.entries(postMetadata).map(([path, module]) => {
   const relative = path.replace("./posts/", "").replace(/\.mdx$/, "");
   const [kind, ...slugParts] = relative.split("/");
   if (kind !== "blog" && kind !== "snippets") throw new Error(`Unknown post kind: ${kind}`);
@@ -97,8 +59,16 @@ export const posts: Post[] = Object.entries(postModules).map(([path, module]) =>
     slug: slugParts.join("/"),
     kind,
     body: module.source,
-    Content: module.default,
-    ...postSchema.parse(module.frontmatter),
+    Content: (props) => {
+      const Content = loadedContent.get(path);
+      if (!Content) throw loadContent(path);
+      return createElement(Content, props);
+    },
+    ...module.frontmatter,
+    published_time: new Date(module.frontmatter.published_time),
+    last_modified_time: module.frontmatter.last_modified_time
+      ? new Date(module.frontmatter.last_modified_time)
+      : undefined,
   };
 });
 
@@ -115,4 +85,11 @@ export function getPost(kind: Post["kind"], slug: string) {
 
 export function postPath(post: Post) {
   return `/${post.kind}/${post.slug}`;
+}
+
+/** Resolve the article before its route renders, on both the server and the client. */
+export async function loadPost(kind: Post["kind"], slug: string) {
+  const post = getPost(kind, slug);
+  if (post) await loadContent(`./posts/${post.id}.mdx`);
+  return post;
 }

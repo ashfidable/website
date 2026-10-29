@@ -7,24 +7,58 @@
     "discordId": "394953409855488012",
     "supportUrl": "https://www.buymeacoffee.com/ashfid"
   },
-  "navigation": [
-    { "name": "Home", "url": "/", "icon": "ri:home-heart-line" },
-    { "name": "Blog", "url": "/blog", "icon": "mdi:book-minus-outline" },
-    { "name": "Snippets", "url": "/snippets", "icon": "mdi:treasure-chest-outline" },
-    { "name": "Tools", "url": "/tools", "icon": "mdi:toolbox-outline" }
-  ],
+  "terminal": {
+    "user": "ashfid",
+    "host": "garden"
+  },
   "socialLinks": [
-    { "name": "GitHub", "url": "https://github.com/ashfidable", "icon": "mdi:github" },
-    { "name": "RSS", "url": "/rss.xml", "icon": "mdi:rss" }
+    {
+      "name": "GitHub",
+      "url": "https://github.com/ashfidable",
+      "icon": "mdi:github"
+    },
+    {
+      "name": "RSS",
+      "url": "/rss.xml",
+      "icon": "mdi:rss"
+    }
   ],
   "categories": [
-    { "id": "development", "name": "Development", "icon": "mdi:code-not-equal-variant" },
-    { "id": "entertainment", "name": "Entertainment", "icon": "mdi:movie-open-outline" },
-    { "id": "game-review", "name": "Game Review", "icon": "mdi:gamepad-variant-outline" },
-    { "id": "note-taking", "name": "Note-Taking", "icon": "mdi:note-edit-outline" },
-    { "id": "productivity", "name": "Productivity", "icon": "mdi:progress-check" },
-    { "id": "tool", "name": "Tool", "icon": "mdi:toolbox" },
-    { "id": "web", "name": "Web", "icon": "mdi:web" }
+    {
+      "id": "development",
+      "name": "Development",
+      "icon": "mdi:code-not-equal-variant"
+    },
+    {
+      "id": "entertainment",
+      "name": "Entertainment",
+      "icon": "mdi:movie-open-outline"
+    },
+    {
+      "id": "game-review",
+      "name": "Game Review",
+      "icon": "mdi:gamepad-variant-outline"
+    },
+    {
+      "id": "note-taking",
+      "name": "Note-Taking",
+      "icon": "mdi:note-edit-outline"
+    },
+    {
+      "id": "productivity",
+      "name": "Productivity",
+      "icon": "mdi:progress-check"
+    },
+    {
+      "id": "tool",
+      "name": "Tool",
+      "icon": "mdi:toolbox"
+    },
+    {
+      "id": "web",
+      "name": "Web",
+      "icon": "mdi:web"
+    }
   ],
   "tools": [
     {
@@ -34,6 +68,14 @@
       "url": "https://www.icloud.com/notes",
       "categories": ["productivity", "note-taking"],
       "icon": "mdi:notebook-edit-outline"
+    },
+    {
+      "id": "craft",
+      "title": "Craft",
+      "description": "Beautiful documents and notes that stay in sync across devices.",
+      "url": "https://www.craft.do",
+      "categories": ["note-taking", "productivity"],
+      "icon": "custom:craft"
     },
     {
       "id": "discord",
@@ -172,6 +214,14 @@
       "icon": "simple-icons:threads"
     },
     {
+      "id": "todoist",
+      "title": "Todoist",
+      "description": "A to-do list and task manager for work and life.",
+      "url": "https://todoist.com",
+      "categories": ["productivity"],
+      "icon": "logos:todoist-icon"
+    },
+    {
       "id": "unity",
       "title": "Unity",
       "description": "A cross-platform engine for interactive 2D and 3D experiences.",
@@ -225,38 +275,98 @@
       "id": "programming-languages",
       "title": "Programming Languages",
       "entries": [
-        { "name": "JavaScript", "icon": "logos:javascript" },
-        { "name": "TypeScript", "icon": "logos:typescript-icon" },
-        { "name": "C#", "icon": "logos:c-sharp" },
-        { "name": "Python", "icon": "logos:python" },
-        { "name": "C++", "icon": "logos:c-plusplus" },
-        { "name": "C", "icon": "logos:c" },
-        { "name": "Rust", "icon": "logos:rust" },
-        { "name": "Golang", "icon": "logos:go" }
+        {
+          "name": "JavaScript",
+          "icon": "logos:javascript"
+        },
+        {
+          "name": "TypeScript",
+          "icon": "logos:typescript-icon"
+        },
+        {
+          "name": "C#",
+          "icon": "logos:c-sharp"
+        },
+        {
+          "name": "Python",
+          "icon": "logos:python"
+        },
+        {
+          "name": "C++",
+          "icon": "logos:c-plusplus"
+        },
+        {
+          "name": "C",
+          "icon": "logos:c"
+        },
+        {
+          "name": "Rust",
+          "icon": "logos:rust"
+        },
+        {
+          "name": "Golang",
+          "icon": "logos:go"
+        }
       ]
     },
     {
       "id": "frontend-and-backend",
       "title": "Frontend and Backend",
       "entries": [
-        { "name": "Svelte/SvelteKit", "icon": "logos:svelte-icon" },
-        { "name": "React", "icon": "logos:react" },
-        { "name": "Astro", "icon": "logos:astro-icon" },
-        { "name": "TanStack Start", "icon": "simple-icons:tanstack" },
-        { "name": "Next.js", "icon": "logos:nextjs-icon" },
-        { "name": "Nuxt", "icon": "logos:nuxt-icon" },
-        { "name": "Vue", "icon": "logos:vue" }
+        {
+          "name": "Svelte/SvelteKit",
+          "icon": "logos:svelte-icon"
+        },
+        {
+          "name": "React",
+          "icon": "logos:react"
+        },
+        {
+          "name": "Astro",
+          "icon": "logos:astro-icon"
+        },
+        {
+          "name": "TanStack Start",
+          "icon": "simple-icons:tanstack"
+        },
+        {
+          "name": "Next.js",
+          "icon": "logos:nextjs-icon"
+        },
+        {
+          "name": "Nuxt",
+          "icon": "logos:nuxt-icon"
+        },
+        {
+          "name": "Vue",
+          "icon": "logos:vue"
+        }
       ]
     },
     {
       "id": "game-engines",
       "title": "Game Engines",
       "entries": [
-        { "name": "Unity", "icon": "simple-icons:unity" },
-        { "name": "Godot", "icon": "logos:godot-icon" },
-        { "name": "Unreal Engine", "icon": "simple-icons:unrealengine" },
-        { "name": "MonoGame", "icon": "simple-icons:monogame" },
-        { "name": "GameMaker", "icon": "simple-icons:gamemaker" }
+        {
+          "name": "Unity",
+          "icon": "simple-icons:unity"
+        },
+        {
+          "name": "Godot",
+          "icon": "logos:godot-icon"
+        },
+        {
+          "name": "Unreal Engine",
+          "icon": "simple-icons:unrealengine"
+        },
+        {
+          "name": "MonoGame",
+          "icon": "simple-icons:monogame"
+        },
+        {
+          "name": "GameMaker",
+          "icon": "simple-icons:gamemaker"
+        }
       ]
     }
   ]
