@@ -103,7 +103,7 @@ export function ToolsPanel({ category }: { category?: string }) {
   const shown = category ? tools.filter((tool) => tool.categories.includes(category)) : tools;
   const command = category ? `ls ${category}/` : "ls";
   return (
-    <section>
+    <section data-tools-panel>
       <h1 className="break-words font-normal">
         <span className="font-semibold text-site-heading sm:sr-only">Tools I use</span>
         <span aria-hidden="true" className="hidden sm:inline">
@@ -122,10 +122,7 @@ export function ToolsPanel({ category }: { category?: string }) {
           </span>
         </span>
       </h1>
-      <div
-        className="fade-in-late mt-2"
-        style={{ "--delay": `${60 + "ls".length * CHAR_MS + 60}ms` } as CSSProperties}
-      >
+      <div className="mt-2">
         <p className="text-site-muted"># apps and services I use, or have used, every day</p>
         <div role="group" aria-label="Filter tools" className="my-3 flex flex-wrap gap-1.5">
           {["all", ...used.map((category) => category.id)].map((id) => (
@@ -133,6 +130,8 @@ export function ToolsPanel({ category }: { category?: string }) {
               key={id}
               to={id === "all" ? "/tools" : "/tools/$category"}
               params={{ category: id }}
+              viewTransition
+              resetScroll={false}
               aria-current={selected === id ? "page" : undefined}
               className={`min-h-9 rounded border px-2 py-1 transition-colors sm:min-h-0 sm:py-0.5 duration-200 ${focusRing} ${
                 selected === id

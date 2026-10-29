@@ -158,6 +158,13 @@ html[data-search-transition]::view-transition-new(root) {
   animation: none;
 }
 
+/* Only the category list names tools; search results can contain the same tools. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-tools-panel] [data-tool-row] {
+    view-transition-name: var(--vt);
+  }
+}
+
 /* Terminal window min/max transitions.
    View-transition names only exist while a transition runs, so route changes are untouched. */
 html[data-calm-transition="window"] [data-terminal-window] {

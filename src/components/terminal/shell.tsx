@@ -9,6 +9,7 @@ import {
   type FormEvent,
   type KeyboardEvent,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { flushSync } from "react-dom";
 import { TerminalStatusSlot } from "./status-slot";
@@ -233,13 +234,64 @@ function Presence() {
   );
 }
 
+// Scroll updates stay local so the terminal and article do not rerender on every percentage.
+function ReadingProgress({
+  panelRef,
+  page,
+  windowMode,
+}: {
+  panelRef: RefObject<HTMLDivElement | null>;
+  page: string;
+  windowMode: WindowMode;
+}) {
+  const [progress, setProgress] = useState(0);
+  // Reading progress follows the terminal panel at every screen size.
+  useEffect(() => {
+    const panel = panelRef.current;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const element = panel;
+      if (!element) return;
+      const max = element.scrollHeight - element.clientHeight;
+      setProgress(max > 0 ? Math.min(100, Math.round((element.scrollTop / max) * 100)) : 100);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    const observer = new ResizeObserver(schedule);
+    if (panel) observer.observe(panel);
+    const content = panel?.querySelector("[data-terminal-route]");
+    if (content) observer.observe(content);
+    panel?.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      panel?.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [panelRef, page, windowMode]);
+
+  return (
+    <button
+      type="button"
+      onClick={() => panelRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+      title="Back to top"
+      aria-label={`${progress}% read — back to top`}
+      className={`rounded tabular-nums text-site-foreground hover:text-site-heading ${focusRing}`}
+    >
+      ↑ {progress}%
+    </button>
+  );
+}
+
 function StatusBar({
   progress,
-  onTop,
   likeSlot,
 }: {
-  progress: number | null;
-  onTop: () => void;
+  progress: ReactNode;
   likeSlot: (element: HTMLSpanElement | null) => void;
 }) {
   return (
@@ -251,17 +303,7 @@ function StatusBar({
       </p>
       <nav aria-label="Links" className="flex min-h-7 shrink-0 items-center gap-3">
         <span ref={likeSlot} data-status-like className="empty:hidden inline-flex" />
-        {progress !== null && (
-          <button
-            type="button"
-            onClick={onTop}
-            title="Back to top"
-            aria-label={`${progress}% read — back to top`}
-            className={`rounded tabular-nums text-site-foreground hover:text-site-heading ${focusRing}`}
-          >
-            ↑ {progress}%
-          </button>
-        )}
+        {progress}
         {socialLinks.map((social) => (
           <a
             key={social.name}
@@ -308,7 +350,6 @@ export function TerminalShell({ children }: { children: ReactNode }) {
   const [value, setValue] = useState("");
   const [output, setOutput] = useState<{ id: number; step: Step } | null>(null);
   const [likeSlot, setLikeSlot] = useState<HTMLSpanElement | null>(null);
-  const [progress, setProgress] = useState<number | null>(null);
 
   const { pathname } = location;
   const isPost = /^\/(blog|snippets)\/[^/]+\/?$/.test(pathname);
@@ -372,30 +413,6 @@ export function TerminalShell({ children }: { children: ReactNode }) {
       html.style.overflow = overflow;
     };
   }, [windowMode]);
-
-  // Reading progress follows the terminal panel at every screen size.
-  useEffect(() => {
-    if (!isPost || windowMode === "min") return setProgress(null);
-    const panel = panelRef.current;
-    const update = () => {
-      const element = panel;
-      if (!element) return;
-      const max = element.scrollHeight - element.clientHeight;
-      setProgress(max > 0 ? Math.min(100, Math.round((element.scrollTop / max) * 100)) : 100);
-    };
-    update();
-    const observer = new ResizeObserver(update);
-    if (panel) observer.observe(panel);
-    const content = panel?.querySelector("[data-terminal-route]");
-    if (content) observer.observe(content);
-    panel?.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    return () => {
-      observer.disconnect();
-      panel?.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-    };
-  }, [isPost, pathname, windowMode]);
 
   const say = (command: string, content: ReactNode) =>
     setOutput({ id: Date.now(), step: { command, label: command, content } });
@@ -798,9 +815,12 @@ export function TerminalShell({ children }: { children: ReactNode }) {
       </form>
 
       <StatusBar
-        progress={progress}
+        progress={
+          isPost ? (
+            <ReadingProgress panelRef={panelRef} page={pathname} windowMode={windowMode} />
+          ) : null
+        }
         likeSlot={setLikeSlot}
-        onTop={() => panelRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
       />
     </section>
   );
