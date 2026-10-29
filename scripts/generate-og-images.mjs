@@ -208,7 +208,9 @@ function readFrontmatter(source, path) {
   return parse(match[1]);
 }
 
-const defaultArtwork = await imageDataUrl(resolve(root, "public/images/android-chrome-512x512.png"));
+const defaultArtwork = await imageDataUrl(
+  resolve(root, "public/images/android-chrome-512x512.png"),
+);
 await renderCard(
   {
     title: config.site.title,
@@ -223,7 +225,9 @@ await renderCard(
 const postFiles = (await walk(postsRoot)).filter((path) => path.endsWith(".mdx"));
 for (const path of postFiles) {
   const metadata = readFrontmatter(await readFile(path, "utf8"), path);
-  const postId = relative(postsRoot, path).replaceAll("\\", "/").replace(/\.mdx$/, "");
+  const postId = relative(postsRoot, path)
+    .replaceAll("\\", "/")
+    .replace(/\.mdx$/, "");
   const artwork = metadata.social_image
     ? await imageDataUrl(resolve(root, metadata.social_image))
     : defaultArtwork;

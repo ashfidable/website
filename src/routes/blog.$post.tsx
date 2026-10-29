@@ -1,11 +1,11 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { PostPage } from "@/components/post-page";
-import { getPost } from "$content/index";
+import { TerminalPost } from "@/components/terminal/post";
+import { getPost, loadPost } from "$content/index";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$post")({
-  loader: ({ params }) => {
-    if (!getPost("blog", params.post)) throw notFound();
+  loader: async ({ params }) => {
+    if (!(await loadPost("blog", params.post))) throw notFound();
     return { slug: params.post };
   },
   head: ({ params }) => {
@@ -28,5 +28,5 @@ export const Route = createFileRoute("/blog/$post")({
 });
 function BlogPost() {
   const { post: slug } = Route.useParams();
-  return <PostPage post={getPost("blog", slug)!} />;
+  return <TerminalPost key={slug} post={getPost("blog", slug)!} />;
 }

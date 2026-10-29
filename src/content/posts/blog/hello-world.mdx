@@ -17,7 +17,7 @@ import { Sprite } from "$components/site";
 import { PostImage } from "$components/mdx";
 import desktopView from "$assets/images/posts/desktop_view.jpeg";
 import mobileView from "$assets/images/posts/mobile_view.jpg";
-import recolor from "$assets/images/ashfid-picture-recolor.png";
+import recolor from "$assets/images/ashfid-picture-recolor.png?w=640&format=webp&quality=78";
 import discordStatus from "$assets/images/posts/discord_status_bar.png";
 import vscodeCommand from "$assets/images/posts/vscode_cmd.png";
 import myCommand from "$assets/images/posts/my_cmd.png";
@@ -64,7 +64,7 @@ From the beginning, I wanted to create a cozy website with a **two-layout sideba
 - A footer is present at the end of the sidebar.
 - A Command Bar is at the top of the main content for productivity that includes the [Command Palette](#-command-palette) and [Settings](#-settings).
 
-<PostImage src={desktopView} alt="Desktop View" />
+<PostImage src={desktopView} alt="Desktop View" width={2516} height={1462} />
 
 ### The Mobile View
 
@@ -73,7 +73,7 @@ From the beginning, I wanted to create a cozy website with a **two-layout sideba
 - Designed for easy reading with one-thumb scrolling.
 - Simplified Command Bar in the menu bar only.
 
-<PostImage src={mobileView} alt="Mobile View" />
+<PostImage src={mobileView} alt="Mobile View" width={1284} height={2470} />
 
 ## Pages
 
@@ -93,7 +93,10 @@ I’m listing the pages I want on my website and discussing how I addressed any 
 - Happy with current setup: blog cards, sorted posts by year, and color-coded categories.
 - Future plans: improve filtering options and add reaction feature to each post.
 
-<del>Astro’s Content Collections originally loaded these posts and optimized their images at build time.</del>
+<del>
+  Astro’s Content Collections originally loaded these posts and optimized their images at build
+  time.
+</del>
 
 > **Current implementation:** Vite discovers the MDX files with `import.meta.glob`, Zod validates their frontmatter, and `vite-imagetools` handles post-image transforms during the build.
 
@@ -117,7 +120,7 @@ Interactive/non-interactive features were created specifically for this website.
 
 For a long time during the development phase, I was using a picture created by [Kostur](https://k0stur.art), and I really liked it. I was content with it. I love his minimalistic artistic take on it. I will always use it for Discord. Thank you, Kostur!
 
-<PostImage src={recolor} alt="Kostur's Take" />
+<PostImage src={recolor} alt="Kostur's Take" width={5000} height={5000} />
 
 **However, I wanted a more cozy logo in general.** My wife started making pixel art this year and began drawing me in various ways. She enjoyed doing it, and we ended up loving this one. It fits the color schemes and vibes of this website better, and I am happier with it.
 
@@ -129,7 +132,10 @@ Oh by the way, hover over the sprite - it's **animated too** 🥳.
 
 ### <del>Astro Content Collections</del>
 
-<del>This section originally documented an Astro Content Collections setup using `defineCollection`, `getCollection`, and `astro:content`. That implementation has been retired.</del>
+<del>
+  This section originally documented an Astro Content Collections setup using `defineCollection`,
+  `getCollection`, and `astro:content`. That implementation has been retired.
+</del>
 
 > **Replacement:** Posts remain MDX files, but `src/content/index.ts` now imports them through Vite, validates the exported frontmatter with Zod, and exposes typed blog and snippet collections to TanStack Start routes.
 
@@ -141,7 +147,12 @@ In short, you join Lanyard’s Discord server and make sure the activity status 
 
 > **Current implementation:** The React status card now uses the `use-lanyard` hook and reads the Discord ID from the validated site configuration.
 
-<PostImage src={discordStatus} alt="Discord Status Activity using Lanyard" />
+<PostImage
+  src={discordStatus}
+  alt="Discord Status Activity using Lanyard"
+  width={438}
+  height={260}
+/>
 
 ### Command Palette
 
@@ -149,7 +160,7 @@ I'm a big fan of command palettes in editors like Visual Studio Code. They make 
 
 Creating such a feature, however, is complex, mainly due to accessibility and behavioral considerations.
 
-<PostImage src={vscodeCommand} alt="Visual Studio Command Palette" />
+<PostImage src={vscodeCommand} alt="Visual Studio Command Palette" width={1181} height={706} />
 
 Like any other front-end developer, I searched for packages to help me out. Surprisingly, all I needed was a robust fuzzy search package: [Fuse.js](https://www.fusejs.io/), the ultimate JS library for fuzzy search.
 
@@ -164,17 +175,27 @@ Now, let's talk challenges:
 
 Despite these hurdles, the palette is now deployable. Improving command addition implementation remains on the to-do list for another day.
 
-<PostImage src={myCommand} alt="My Command Palette (ignore the command titles)" />
+<PostImage
+  src={myCommand}
+  alt="My Command Palette (ignore the command titles)"
+  width={1362}
+  height={680}
+/>
 
 ### Settings
 
 I had to prototype the settings menu in many styles, but I was not satisfied. I was content with the dropdown settings menu for a long time. However, I never really felt it was a part of my website, even though it functioned well. I didn’t take it that seriously until I desired a more minimalistic approach, with icons for settings.
 
-<PostImage src={settingsOld} alt="Old dropdown menu of settings" />
+<PostImage src={settingsOld} alt="Old dropdown menu of settings" width={632} height={475} />
 
 The new menu settings reside on the command bar of the desktop view or at the top of the menu in the mobile view. It’s straightforward and no-nonsense so far. I’m very pleased with it now because I can move this component around and still be satisfied with it.
 
-<PostImage src={settingsCollapsed} alt="New settings menu - theme collapsed" />
+<PostImage
+  src={settingsCollapsed}
+  alt="New settings menu - theme collapsed"
+  width={428}
+  height={105}
+/>
 
 **My Struggles:**
 
@@ -183,7 +204,12 @@ The new menu settings reside on the command bar of the desktop view or at the to
 
 I still have 2-3 settings to create. So far, **flipping the layout** and providing **dyslexia support for fonts** come to mind.
 
-<PostImage src={settingsExpanded} alt="New settings menu - theme expanded" />
+<PostImage
+  src={settingsExpanded}
+  alt="New settings menu - theme expanded"
+  width={798}
+  height={96}
+/>
 
 ### View Transitions
 
@@ -237,7 +263,11 @@ It works great with the sound toggle too.
 ### SEO
 
 SEO is very important for any post or website to get indexed. I am working very heavily on the SEO.
-<del>The original Astro component manually rendered title, canonical, Open Graph, article, and Twitter metadata from `Astro.url`.</del>
+
+<del>
+  The original Astro component manually rendered title, canonical, Open Graph, article, and Twitter
+  metadata from `Astro.url`.
+</del>
 
 > **Current implementation:** A shared React `seo()` helper builds canonical links and metadata for TanStack Start route heads. Article dates use ISO timestamps, and tags are derived from the validated MDX frontmatter.
 

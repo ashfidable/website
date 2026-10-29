@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { posts, postPath } from "$content/index";
 const escape = (value: string) =>
   value.replace(
-    /[<>&'\"]/g,
+    /[<>&'"]/g,
     (char) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[char]!,
   );
 export const Route = createFileRoute("/rss.xml")({

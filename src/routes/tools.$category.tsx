@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { ToolsPage, toolsTitle } from "@/components/tools-page";
+import { ToolsPanel } from "@/components/terminal/panels";
+import { capitalizeString } from "$utils/string-formatter";
 import { categories } from "$content/index";
 import { seo } from "@/lib/seo";
 export const Route = createFileRoute("/tools/$category")({
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/tools/$category")({
   },
   head: ({ params }) =>
     seo({
-      title: toolsTitle(params.category),
+      title: `Tools - ${capitalizeString(params.category)}`,
       description: `Explore the tools I use for ${params.category}.`,
       path: `/tools/${params.category}`,
     }),
@@ -17,5 +18,5 @@ export const Route = createFileRoute("/tools/$category")({
 });
 function ToolCategory() {
   const { category } = Route.useParams();
-  return <ToolsPage category={category} />;
+  return <ToolsPanel key={category} category={category} />;
 }

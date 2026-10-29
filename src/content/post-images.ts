@@ -12,8 +12,7 @@ const finalFantasyAvifModules = import.meta.glob<string>(
   {
     eager: true,
     import: "default",
-    query:
-      "?w=480;960;1920&format=avif&quality=50&withoutEnlargement&as=srcset",
+    query: "?w=480;960;1920&format=avif&quality=50&withoutEnlargement&as=srcset",
   },
 );
 
@@ -22,8 +21,7 @@ const finalFantasyWebpModules = import.meta.glob<OptimizedImage>(
   {
     eager: true,
     import: "default",
-    query:
-      "?w=480;960;1920&format=webp&quality=72&withoutEnlargement&as=picture",
+    query: "?w=480;960;1920&format=webp&quality=72&withoutEnlargement&as=picture",
   },
 );
 

@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ToolsPage } from "@/components/tools-page";
+import { TerminalHome } from "@/components/terminal/panels";
 import { seo } from "@/lib/seo";
+
 export const Route = createFileRoute("/tools/")({
   head: () => seo({ title: "Tools", description: "Explore the tools I use.", path: "/tools" }),
-  component: () => <ToolsPage />,
+  component: () => <TerminalHome tab="tools" />,
 });

@@ -10,6 +10,7 @@ const urls = [
   "/blog",
   "/snippets",
   "/tools",
+  "/config",
   ...posts.map(postPath),
   ...toolCategoryPaths,
 ];

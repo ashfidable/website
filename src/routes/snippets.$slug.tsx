@@ -1,11 +1,11 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { PostPage } from "@/components/post-page";
-import { getPost } from "$content/index";
+import { TerminalPost } from "@/components/terminal/post";
+import { getPost, loadPost } from "$content/index";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/snippets/$slug")({
-  loader: ({ params }) => {
-    if (!getPost("snippets", params.slug)) throw notFound();
+  loader: async ({ params }) => {
+    if (!(await loadPost("snippets", params.slug))) throw notFound();
     return { slug: params.slug };
   },
   head: ({ params }) => {
@@ -28,5 +28,5 @@ export const Route = createFileRoute("/snippets/$slug")({
 });
 function SnippetPost() {
   const { slug } = Route.useParams();
-  return <PostPage post={getPost("snippets", slug)!} />;
+  return <TerminalPost key={slug} post={getPost("snippets", slug)!} />;
 }

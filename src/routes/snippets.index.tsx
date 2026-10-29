@@ -1,37 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SnippetCard } from "@/components/cards";
-import { PostSearchList } from "@/components/post-search-list";
-import { HeroSection } from "@/components/site";
-import { snippets } from "$content/index";
+import { TerminalHome } from "@/components/terminal/panels";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/snippets/")({
   head: () =>
     seo({
       title: "Snippets",
-      description: "Useful snippets that I use a lot or found really helpful on Internet.",
+      description: "Useful code snippets and development notes.",
       path: "/snippets",
     }),
-  component: SnippetIndex,
+  component: () => <TerminalHome tab="snippets" />,
 });
-
-function SnippetIndex() {
-  return (
-    <>
-      <HeroSection title="Snippets 📒">
-        <p className="font-bold">
-          Useful snippets that I use a lot or found really helpful on Internet.
-        </p>
-        <p>
-          So far, I have posted <strong>{snippets.length}</strong>{" "}
-          {snippets.length === 1 ? "snippet" : "snippets"}.
-        </p>
-      </HeroSection>
-      <PostSearchList
-        posts={snippets}
-        noun="snippet"
-        renderPost={(snippet) => <SnippetCard snippet={snippet} />}
-      />
-    </>
-  );
-}

@@ -5,9 +5,10 @@ export function getRouter() {
   return createRouter({
     routeTree,
     scrollRestoration: true,
+    scrollToTopSelectors: ["[data-terminal-scroll]"],
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
-    defaultViewTransition: true,
+    defaultViewTransition: false,
   });
 }
 

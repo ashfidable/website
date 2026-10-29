@@ -1,0 +1,92 @@
+/* Terminal layout styles. Everything reads from theme variables so every theme works. */
+
+.type-in {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  max-width: 100%;
+  width: 0;
+  animation: type-in calc(var(--chars) * var(--char-ms, 35ms)) steps(var(--chars)) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+.fade-in-late {
+  opacity: 0;
+  animation: fade-in 200ms ease-out forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+.blink {
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes type-in {
+  to {
+    width: calc(var(--chars) * 1ch);
+  }
+}
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .type-in {
+    width: auto;
+    animation: none;
+  }
+  .fade-in-late {
+    opacity: 1;
+    animation: none;
+  }
+  .blink {
+    animation: none;
+  }
+}
+
+/* Long post filenames stay readable on narrow screens. */
+@media (max-width: 639px) {
+  .type-in {
+    overflow-wrap: anywhere;
+    white-space: normal;
+    width: auto;
+    animation: none;
+  }
+}
+
+/* Mobile shows section names directly and keeps content visible without typing delays. */
+@media screen and (max-width: 639px) {
+  [data-terminal-window] .fade-in-late {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* Native popover supplies outside-click and Escape dismissal without menu state. */
+.terminal-more-menu {
+  position: fixed;
+  inset: calc(3.5rem + env(safe-area-inset-top)) 0.75rem auto auto;
+  width: min(16rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - 6rem);
+  overflow-y: auto;
+  margin: 0;
+}
+.terminal-more-menu::backdrop {
+  background: transparent;
+}
+@media (min-width: 640px) {
+  .terminal-more-menu {
+    display: none;
+  }
+}
+@media print {
+  .terminal-more-menu {
+    display: none;
+  }
+}
