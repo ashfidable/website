@@ -335,7 +335,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
 
   const changeMode = (next: WindowMode) => calmTransition("window", () => setWindowMode(next));
   const openTab = (id: TabId) => {
-    navigate({ to: tabPath(id) });
+    void navigate({ to: tabPath(id) });
   };
 
   // Clear transient output on navigation. The router resets the panel after rendering.
@@ -486,7 +486,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
         ...filterEntries(latestPosts, needle),
         ...filterEntries(latestSnippets, needle),
       ][0];
-      if (needle && hit) navigate({ to: `/${hit.kind}/${hit.slug}` as any });
+      if (needle && hit) void navigate({ to: `/${hit.kind}/${hit.slug}` as any });
       return;
     }
     const command = value.trim();

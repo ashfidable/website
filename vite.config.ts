@@ -130,8 +130,11 @@ function siteIcons(): Plugin {
 }
 
 export default defineConfig({
-  fmt: {},
+  fmt: {
+    ignorePatterns: ["src/routeTree.gen.ts", "worker-configuration.d.ts", "migrations/meta/**"],
+  },
   lint: {
+    ignorePatterns: ["src/routeTree.gen.ts", "worker-configuration.d.ts"],
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
     rules: { "vite-plus/prefer-vite-plus-imports": "error" },
     options: { typeAware: true, typeCheck: true },
@@ -195,8 +198,8 @@ export default defineConfig({
         return resolved ? `\0${resolved.id}.metadata.js` : null;
       },
       load(id) {
-        if (!id.endsWith(".mdx.metadata.js")) return null;
-        const path = id.replace(/^\0/, "").slice(0, -".metadata.js".length);
+        if (!id.startsWith("\0") || !id.endsWith(".mdx.metadata.js")) return null;
+        const path = id.slice(1, -".metadata.js".length);
         this.addWatchFile(path);
         const source = readFileSync(path, "utf8");
         const frontmatter = parseYaml(/^---\r?\n([\s\S]*?)\r?\n---/.exec(source)?.[1] ?? "");
