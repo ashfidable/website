@@ -1,0 +1,345 @@
+/* Boop-the-cat lives behind the minimized terminal. */
+.cat-game {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  font-family: var(--font-mono, monospace);
+  color: var(--color-heading-text);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.cat-game button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%BE%3C/text%3E%3C/svg%3E")
+      16 16,
+    pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-game button:focus-visible {
+  outline: 2px solid var(--color-heading-text);
+  outline-offset: 4px;
+  border-radius: 1rem;
+}
+.cat-game img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 10px 10px #0003);
+}
+
+.cat-hud {
+  position: absolute;
+  top: max(1.25rem, env(safe-area-inset-top));
+  left: 50%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+/* Die-cut sticker: bold fill, thick white edge, a little lift off the page. */
+.cat-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.3em 0.8em 0.35em;
+  border: 4px solid #fff;
+  border-radius: 999px;
+  background: var(--chip, #ff9f43);
+  color: #3a2314;
+  font-family: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", system-ui, sans-serif;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  white-space: nowrap;
+  rotate: var(--turn, 0deg);
+  box-shadow:
+    0 0 0 1px #0001,
+    0 3px 0 #0000001a,
+    0 10px 18px -6px #0004;
+}
+.cat-chip b {
+  display: inline-block;
+  font-weight: 900;
+}
+.cat-score {
+  --turn: -4deg;
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+}
+.cat-best {
+  --chip: #6fe3c4;
+  --turn: 5deg;
+  font-size: clamp(1rem, 2.6vw, 1.3rem);
+}
+.cat-best[data-new="true"] {
+  margin-right: 0.9rem;
+  box-shadow:
+    0 0 0 1px #0001,
+    0 0 22px #6fe3c4aa,
+    0 10px 18px -6px #0004;
+}
+.cat-new {
+  --chip: #ff6b9a;
+  --turn: 14deg;
+  position: absolute;
+  top: -0.9rem;
+  right: -1.6rem;
+  padding: 0.2em 0.45em;
+  border-width: 3px;
+  font-size: 0.7rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cat-combo {
+  --chip: #b98cff;
+  --turn: -8deg;
+  font-size: clamp(1rem, 2.6vw, 1.3rem);
+  color: #fff;
+}
+
+.cat-pop {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: clamp(96px, 19vmin, 180px);
+  translate: -50% -50%;
+  rotate: var(--tilt);
+}
+.cat-pop[data-state="hit"],
+.cat-pop[data-state="out"] {
+  pointer-events: none;
+}
+.cat-pop[data-state="hit"] img {
+  scale: 0.6;
+  opacity: 0;
+}
+.cat-pop[data-state="out"] img {
+  opacity: 0;
+}
+.cat-pop[data-fancy="true"] img {
+  filter: drop-shadow(0 0 14px #ffd54a) drop-shadow(0 10px 10px #0003);
+}
+
+/* Maple sits on the dock if you stop playing. The dock stays clickable above her. */
+.cat-perched {
+  position: absolute;
+  left: 50%;
+  bottom: 4.4rem;
+  width: 88px;
+  translate: -50% 0;
+}
+
+.cat-float {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  translate: -50% -50%;
+  font-family: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #3a2314;
+  white-space: nowrap;
+  pointer-events: none;
+  /* Sticker lettering: a fat white outline painted behind the fill. */
+  -webkit-text-stroke: 7px #fff;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 4px 4px #0003);
+}
+.cat-float[data-big="true"] {
+  font-size: clamp(2.5rem, 11vw, 5.5rem);
+  color: #ff6b9a;
+  -webkit-text-stroke-width: 12px;
+  letter-spacing: 0.04em;
+}
+
+.cat-zoomies,
+.cat-rain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cat-zoomies img {
+  position: absolute;
+  bottom: 18%;
+  width: clamp(110px, 22vmin, 200px);
+  opacity: 0;
+}
+.cat-zoomies img:last-child {
+  bottom: 40%;
+  scale: -1 1;
+}
+.cat-rain img {
+  position: absolute;
+  top: -25%;
+  width: clamp(70px, 12vmin, 120px);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cat-pop img {
+    animation: cat-peek 320ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+  .cat-pop[data-hurt="true"] img {
+    animation: cat-squish 280ms ease-out;
+  }
+  .cat-pop,
+  .cat-perched {
+    transition: scale 160ms ease;
+  }
+  .cat-pop:hover,
+  .cat-perched:hover {
+    scale: 1.08;
+  }
+  .cat-pop img {
+    transition:
+      scale 260ms cubic-bezier(0.3, 1.6, 0.5, 1),
+      opacity 260ms ease,
+      translate 380ms ease-in;
+  }
+  .cat-pop[data-state="hit"] img {
+    animation: none;
+    scale: 1.35 0.5;
+  }
+  .cat-pop[data-state="out"] img {
+    animation: none;
+    translate: 0 60%;
+  }
+  .cat-perched img {
+    animation: cat-sit 500ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+  .cat-combo,
+  .cat-score b {
+    animation: cat-bump 240ms cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+  .cat-hud .cat-chip {
+    transition: rotate 200ms ease;
+  }
+  .cat-new {
+    animation: cat-slap 420ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+  }
+  .cat-float {
+    animation: cat-rise 900ms ease-out both;
+  }
+  .cat-float[data-big="true"] {
+    animation: cat-shout 1.4s ease-out both;
+  }
+  .cat-zoomies img:first-child {
+    animation: cat-dash-right 1.6s cubic-bezier(0.5, 0, 0.5, 1) both;
+  }
+  .cat-zoomies img:last-child {
+    animation: cat-dash-left 1.6s 150ms cubic-bezier(0.5, 0, 0.5, 1) both;
+  }
+  .cat-rain img {
+    animation: cat-fall 2.4s ease-in both;
+  }
+}
+
+@keyframes cat-peek {
+  from {
+    scale: 0.2 0;
+    translate: 0 40%;
+  }
+}
+@keyframes cat-sit {
+  from {
+    translate: 0 120%;
+  }
+}
+@keyframes cat-squish {
+  40% {
+    scale: 1.25 0.7;
+  }
+}
+@keyframes cat-bump {
+  from {
+    scale: 1.6;
+  }
+}
+@keyframes cat-slap {
+  from {
+    scale: 2.4;
+    rotate: -30deg;
+    opacity: 0;
+  }
+}
+@keyframes cat-rise {
+  from {
+    opacity: 1;
+    scale: 0.6;
+  }
+  30% {
+    opacity: 1;
+    scale: 1.1;
+  }
+  to {
+    opacity: 0;
+    translate: -50% -180%;
+  }
+}
+@keyframes cat-shout {
+  from {
+    opacity: 0;
+    scale: 0.3;
+  }
+  20%,
+  70% {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 1.2;
+  }
+}
+@keyframes cat-dash-right {
+  from {
+    opacity: 1;
+    left: -30%;
+  }
+  to {
+    opacity: 1;
+    left: 110%;
+  }
+}
+@keyframes cat-dash-left {
+  from {
+    opacity: 1;
+    left: 110%;
+  }
+  to {
+    opacity: 1;
+    left: -30%;
+  }
+}
+@keyframes cat-fall {
+  from {
+    opacity: 1;
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  to {
+    opacity: 1;
+    translate: 0 160vh;
+    rotate: var(--spin);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-zoomies,
+  .cat-rain {
+    display: none;
+  }
+}
+@media print {
+  .cat-game {
+    display: none !important;
+  }
+}

@@ -12,6 +12,7 @@ import {
   type RefObject,
 } from "react";
 import { flushSync } from "react-dom";
+import { CatHideout, type CatTrick } from "../cat-hideout";
 import { TerminalStatusSlot } from "./status-slot";
 import { CommandInput } from "./command-input";
 import { usePostFind } from "./use-post-find";
@@ -50,6 +51,8 @@ const COMMANDS = [
   "sudo",
   "exit",
   "print",
+  "meow",
+  "pspsps",
 ];
 
 /* ---------------------------------------------------------------------------------------------- */
@@ -347,6 +350,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
   const dockRef = useRef<HTMLButtonElement>(null);
   const previousMode = useRef<WindowMode>("normal");
   const [windowMode, setWindowMode] = useState<WindowMode>("normal");
+  const [catTrick, setCatTrick] = useState<CatTrick | null>(null);
   const [indicator, setIndicator] = useState<{ left: number; width: number }>();
   const [value, setValue] = useState("");
   const [output, setOutput] = useState<{ id: number; step: Step } | null>(null);
@@ -561,6 +565,10 @@ export function TerminalShell({ children }: { children: ReactNode }) {
         return say(command, "nice try 🙂");
       case "exit":
         return say(command, "there’s no escape from the garden 🌱");
+      case "meow":
+      case "pspsps":
+        setCatTrick((current) => ({ kind: first, id: (current?.id ?? 0) + 1 }));
+        return changeMode("min");
     }
   };
 
@@ -574,8 +582,8 @@ export function TerminalShell({ children }: { children: ReactNode }) {
       </div>
     ) : null;
 
-  if (windowMode === "min")
-    return (
+  const terminal =
+    windowMode === "min" ? (
       <>
         <h1 className="sr-only">Ashfid’s digital garden</h1>
         <button
@@ -599,229 +607,246 @@ export function TerminalShell({ children }: { children: ReactNode }) {
           />
         </button>
       </>
+    ) : (
+      <section
+        aria-label="Ashfid’s digital garden"
+        data-terminal-window
+        className={`flex min-h-0 flex-col overflow-hidden bg-site-card font-mono text-sm ${
+          windowMode === "max"
+            ? "fixed inset-0 z-[80]"
+            : "relative z-10 flex-1 rounded-md border border-b-4 border-site-border shadow-lg"
+        }`}
+      >
+        {/* Title bar = tabs */}
+        <div className="flex shrink-0 items-end gap-3 border-b border-site-border bg-site-button px-1 pt-1.5 gap-x-0 sm:gap-x-3 sm:px-2 md:px-3">
+          <button
+            type="button"
+            onClick={() => changeMode("min")}
+            aria-label="Minimize window"
+            title="Minimize and meet the cats"
+            className={`mb-1 grid min-h-11 w-9 shrink-0 place-items-center rounded text-site-muted sm:hidden ${focusRing}`}
+          >
+            −
+          </button>
+          <WindowControls
+            mode={windowMode}
+            onMinimize={() => changeMode("min")}
+            onToggleMaximize={() => changeMode(windowMode === "max" ? "normal" : "max")}
+          />
+          <div
+            ref={tablistRef}
+            role="tablist"
+            aria-label="Sections"
+            onKeyDown={onTabKeyDown}
+            className="relative -mb-px flex min-w-0 flex-1 pb-px sm:overflow-x-auto"
+          >
+            {/* Accent bar that slides between tabs. */}
+            <span
+              aria-hidden="true"
+              className={`pointer-events-none absolute left-0 top-0 z-10 hidden sm:block h-0.5 rounded-b bg-site-heading transition-[transform,width,opacity] duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${indicator ? "opacity-100" : "opacity-0"}`}
+              style={{
+                width: indicator?.width,
+                transform: `translateX(${indicator?.left ?? 0}px)`,
+              }}
+            />
+            {tabs.map((item, index) => {
+              const selected = item.id === active;
+              const nextSelected = tabs[index + 1]?.id === active;
+              return (
+                <Link
+                  key={item.id}
+                  id={tabId(item.id)}
+                  to={item.href}
+                  role="tab"
+                  aria-selected={selected}
+                  aria-controls={`${baseId}-panel`}
+                  tabIndex={selected ? 0 : -1}
+                  className={`group relative -mb-px min-h-11 min-w-0 flex-1 ${primaryTabIds.includes(item.id) ? "flex" : "hidden sm:flex"} items-center justify-center gap-1 rounded-t-md border border-b-0 px-0.5 py-2 text-xs sm:min-h-0 sm:flex-none sm:shrink-0 sm:gap-1.5 sm:px-3.5 sm:text-sm outline-none transition-colors duration-200 aria-selected:focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring md:px-4 ${
+                    selected
+                      ? "border-site-border bg-site-card text-site-foreground"
+                      : "border-transparent text-site-muted hover:bg-site-card/50 hover:text-site-foreground"
+                  }`}
+                >
+                  <span
+                    className={`hidden transition-colors sm:inline ${selected ? "text-site-heading" : "text-site-muted group-hover:text-site-foreground"}`}
+                  >
+                    {index + 1}.
+                  </span>
+                  <span
+                    className={`min-w-0 [overflow-wrap:anywhere] ${selected ? "font-semibold" : ""}`}
+                  >
+                    {item.label}
+                  </span>
+                  {!selected && !nextSelected && index < tabs.length - 1 && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute right-0 top-1/2 hidden h-4 w-px -translate-y-1/2 bg-site-border sm:block"
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+          <button
+            type="button"
+            popoverTarget={moreId}
+            aria-label={moreActive ? `More sections, ${tab.label} selected` : "More sections"}
+            className={`terminal-more-trigger -mb-px flex min-h-11 w-1/4 shrink-0 items-center justify-center gap-1 rounded-t-md border border-b-0 text-xs outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring sm:hidden ${moreActive ? "border-site-border bg-site-card font-semibold text-site-heading" : "border-transparent text-site-muted hover:text-site-heading"}`}
+          >
+            <span className="min-w-0 [overflow-wrap:anywhere]">More</span>{" "}
+            <span aria-hidden="true">⌄</span>
+          </button>
+        </div>
+        <nav
+          id={moreId}
+          popover="auto"
+          aria-label="More sections"
+          className="terminal-more-menu rounded-md border border-site-border bg-site-card p-2 font-mono text-sm text-site-foreground shadow-xl"
+        >
+          {moreTabs.map((item) => (
+            <Link
+              key={item.id}
+              to={item.href}
+              onClick={() => document.getElementById(moreId)?.hidePopover()}
+              aria-current={item.id === active ? "page" : undefined}
+              className={`flex min-h-11 w-full items-center justify-between gap-4 rounded px-3 text-left hover:bg-site-card-hover ${focusRing} ${item.id === active ? "bg-site-button font-semibold text-site-heading" : ""}`}
+            >
+              {item.label}
+              {item.id === active && <span aria-hidden="true">✓</span>}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Panel — route content stays mounted (hidden) while search/command output shows. */}
+        <div
+          ref={panelRef}
+          data-terminal-scroll
+          tabIndex={0}
+          id={`${baseId}-panel`}
+          role="tabpanel"
+          aria-labelledby={tabId(active)}
+          className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 leading-relaxed sm:py-5 md:px-6"
+        >
+          {overlay && <div data-terminal-output>{overlay}</div>}
+          <div data-terminal-route hidden={overlay !== null}>
+            <TerminalStatusSlot.Provider value={likeSlot}>{children}</TerminalStatusSlot.Provider>
+          </div>
+        </div>
+
+        {isPost && query && (
+          <div
+            className="flex shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-site-border bg-site-button px-4 py-1 text-xs md:px-6"
+            data-post-find-controls
+          >
+            <span role="status" aria-live="polite">
+              {!find.supported
+                ? "Use your browser’s Find command"
+                : find.count
+                  ? `${find.index + 1} / ${find.count} matches`
+                  : "No matches"}
+            </span>
+            <div className="flex w-full items-center gap-1 sm:w-auto">
+              <button
+                type="button"
+                onClick={find.previous}
+                disabled={!find.count}
+                title="Previous match (Shift+Enter)"
+                className={`flex min-h-7 flex-1 items-center justify-center gap-1 rounded border border-site-border bg-site-card px-1 py-0.5 text-site-foreground [&_kbd]:px-1 [&_kbd]:text-[10px] [&_kbd]:whitespace-nowrap sm:flex-none sm:px-2 hover:bg-site-card-hover disabled:cursor-default disabled:opacity-50 ${focusRing}`}
+              >
+                <span className="whitespace-nowrap text-xs">
+                  ↑<span className="hidden sm:inline"> Prev</span>
+                </span>
+                <Kbd>⇧ Enter</Kbd>
+              </button>
+              <button
+                type="button"
+                onClick={find.next}
+                disabled={!find.count}
+                title="Next match (Enter)"
+                className={`flex min-h-7 flex-1 items-center justify-center gap-1 rounded border border-site-border bg-site-card px-1 py-0.5 text-site-foreground [&_kbd]:px-1 [&_kbd]:text-[10px] [&_kbd]:whitespace-nowrap sm:flex-none sm:px-2 hover:bg-site-card-hover disabled:cursor-default disabled:opacity-50 ${focusRing}`}
+              >
+                <span className="whitespace-nowrap text-xs">
+                  ↓<span className="hidden sm:inline"> Next</span>
+                </span>
+                <Kbd>Enter</Kbd>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setValue("");
+                  inputRef.current?.focus();
+                }}
+                title="Close search (Escape)"
+                className={`flex min-h-7 flex-1 items-center justify-center gap-1 rounded border border-site-border bg-site-card px-1 py-0.5 text-site-foreground [&_kbd]:px-1 [&_kbd]:text-[10px] [&_kbd]:whitespace-nowrap sm:flex-none sm:px-2 hover:bg-site-card-hover disabled:cursor-default disabled:opacity-50 ${focusRing}`}
+              >
+                <span className="whitespace-nowrap text-xs">
+                  ×<span className="hidden sm:inline"> Close</span>
+                </span>
+                <Kbd>Esc</Kbd>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Prompt */}
+        <form
+          onSubmit={run}
+          role="search"
+          className="flex shrink-0 flex-wrap items-center gap-1 border-t border-site-border px-4 py-2.5 md:px-6"
+        >
+          <label htmlFor={`${baseId}-prompt`} className="sr-only">
+            {isPost
+              ? "Type a word or phrase to search this post, or type a command like print or help"
+              : "Search posts, snippets and tools, or type a command like help"}
+          </label>
+          <span aria-hidden="true" className="hidden shrink-0 whitespace-nowrap sm:inline">
+            <Prompt path={query && !isPost ? "~" : tab.path} />
+          </span>
+          <CommandInput
+            id={`${baseId}-prompt`}
+            inputRef={inputRef}
+            type="search"
+            value={value}
+            onChange={(event) => {
+              setValue(event.target.value);
+              setOutput(null);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                event.preventDefault();
+                setValue("");
+                setOutput(null);
+              }
+              if (event.key === "Enter" && event.shiftKey && isPost && query) {
+                event.preventDefault();
+                find.previous();
+              }
+            }}
+            placeholder={isPost ? "Type a word to search this post" : "type to search, or help"}
+            autoComplete="off"
+            autoCapitalize="off"
+            spellCheck={false}
+          />
+          <span aria-hidden="true" className="hidden shrink-0 text-xs text-site-muted md:inline">
+            {isCommand && value.trim() ? "↵ run" : <Kbd>/</Kbd>}
+          </span>
+        </form>
+
+        <StatusBar
+          progress={
+            isPost ? (
+              <ReadingProgress panelRef={panelRef} page={pathname} windowMode={windowMode} />
+            ) : null
+          }
+          likeSlot={setLikeSlot}
+        />
+      </section>
     );
 
   return (
-    <section
-      aria-label="Ashfid’s digital garden"
-      data-terminal-window
-      className={`flex min-h-0 flex-col overflow-hidden bg-site-card font-mono text-sm ${
-        windowMode === "max"
-          ? "fixed inset-0 z-[80]"
-          : "flex-1 rounded-md border border-b-4 border-site-border shadow-lg"
-      }`}
-    >
-      {/* Title bar = tabs */}
-      <div className="flex shrink-0 items-end gap-3 border-b border-site-border bg-site-button px-1 pt-1.5 gap-x-0 sm:gap-x-3 sm:px-2 md:px-3">
-        <WindowControls
-          mode={windowMode}
-          onMinimize={() => changeMode("min")}
-          onToggleMaximize={() => changeMode(windowMode === "max" ? "normal" : "max")}
-        />
-        <div
-          ref={tablistRef}
-          role="tablist"
-          aria-label="Sections"
-          onKeyDown={onTabKeyDown}
-          className="relative -mb-px flex min-w-0 flex-1 pb-px sm:overflow-x-auto"
-        >
-          {/* Accent bar that slides between tabs. */}
-          <span
-            aria-hidden="true"
-            className={`pointer-events-none absolute left-0 top-0 z-10 hidden sm:block h-0.5 rounded-b bg-site-heading transition-[transform,width,opacity] duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${indicator ? "opacity-100" : "opacity-0"}`}
-            style={{ width: indicator?.width, transform: `translateX(${indicator?.left ?? 0}px)` }}
-          />
-          {tabs.map((item, index) => {
-            const selected = item.id === active;
-            const nextSelected = tabs[index + 1]?.id === active;
-            return (
-              <Link
-                key={item.id}
-                id={tabId(item.id)}
-                to={item.href}
-                role="tab"
-                aria-selected={selected}
-                aria-controls={`${baseId}-panel`}
-                tabIndex={selected ? 0 : -1}
-                className={`group relative -mb-px min-h-11 min-w-0 flex-1 ${primaryTabIds.includes(item.id) ? "flex" : "hidden sm:flex"} items-center justify-center gap-1 rounded-t-md border border-b-0 px-0.5 py-2 text-xs sm:min-h-0 sm:flex-none sm:shrink-0 sm:gap-1.5 sm:px-3.5 sm:text-sm outline-none transition-colors duration-200 aria-selected:focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring md:px-4 ${
-                  selected
-                    ? "border-site-border bg-site-card text-site-foreground"
-                    : "border-transparent text-site-muted hover:bg-site-card/50 hover:text-site-foreground"
-                }`}
-              >
-                <span
-                  className={`hidden transition-colors sm:inline ${selected ? "text-site-heading" : "text-site-muted group-hover:text-site-foreground"}`}
-                >
-                  {index + 1}.
-                </span>
-                <span
-                  className={`min-w-0 [overflow-wrap:anywhere] ${selected ? "font-semibold" : ""}`}
-                >
-                  {item.label}
-                </span>
-                {!selected && !nextSelected && index < tabs.length - 1 && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute right-0 top-1/2 hidden h-4 w-px -translate-y-1/2 bg-site-border sm:block"
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </div>
-        <button
-          type="button"
-          popoverTarget={moreId}
-          aria-label={moreActive ? `More sections, ${tab.label} selected` : "More sections"}
-          className={`terminal-more-trigger -mb-px flex min-h-11 w-1/4 shrink-0 items-center justify-center gap-1 rounded-t-md border border-b-0 text-xs outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring sm:hidden ${moreActive ? "border-site-border bg-site-card font-semibold text-site-heading" : "border-transparent text-site-muted hover:text-site-heading"}`}
-        >
-          <span className="min-w-0 [overflow-wrap:anywhere]">More</span>{" "}
-          <span aria-hidden="true">⌄</span>
-        </button>
-      </div>
-      <nav
-        id={moreId}
-        popover="auto"
-        aria-label="More sections"
-        className="terminal-more-menu rounded-md border border-site-border bg-site-card p-2 font-mono text-sm text-site-foreground shadow-xl"
-      >
-        {moreTabs.map((item) => (
-          <Link
-            key={item.id}
-            to={item.href}
-            onClick={() => document.getElementById(moreId)?.hidePopover()}
-            aria-current={item.id === active ? "page" : undefined}
-            className={`flex min-h-11 w-full items-center justify-between gap-4 rounded px-3 text-left hover:bg-site-card-hover ${focusRing} ${item.id === active ? "bg-site-button font-semibold text-site-heading" : ""}`}
-          >
-            {item.label}
-            {item.id === active && <span aria-hidden="true">✓</span>}
-          </Link>
-        ))}
-      </nav>
-
-      {/* Panel — route content stays mounted (hidden) while search/command output shows. */}
-      <div
-        ref={panelRef}
-        data-terminal-scroll
-        tabIndex={0}
-        id={`${baseId}-panel`}
-        role="tabpanel"
-        aria-labelledby={tabId(active)}
-        className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 leading-relaxed sm:py-5 md:px-6"
-      >
-        {overlay && <div data-terminal-output>{overlay}</div>}
-        <div data-terminal-route hidden={overlay !== null}>
-          <TerminalStatusSlot.Provider value={likeSlot}>{children}</TerminalStatusSlot.Provider>
-        </div>
-      </div>
-
-      {isPost && query && (
-        <div
-          className="flex shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-site-border bg-site-button px-4 py-1 text-xs md:px-6"
-          data-post-find-controls
-        >
-          <span role="status" aria-live="polite">
-            {!find.supported
-              ? "Use your browser’s Find command"
-              : find.count
-                ? `${find.index + 1} / ${find.count} matches`
-                : "No matches"}
-          </span>
-          <div className="flex w-full items-center gap-1 sm:w-auto">
-            <button
-              type="button"
-              onClick={find.previous}
-              disabled={!find.count}
-              title="Previous match (Shift+Enter)"
-              className={`flex min-h-7 flex-1 items-center justify-center gap-1 rounded border border-site-border bg-site-card px-1 py-0.5 text-site-foreground [&_kbd]:px-1 [&_kbd]:text-[10px] [&_kbd]:whitespace-nowrap sm:flex-none sm:px-2 hover:bg-site-card-hover disabled:cursor-default disabled:opacity-50 ${focusRing}`}
-            >
-              <span className="whitespace-nowrap text-xs">
-                ↑<span className="hidden sm:inline"> Prev</span>
-              </span>
-              <Kbd>⇧ Enter</Kbd>
-            </button>
-            <button
-              type="button"
-              onClick={find.next}
-              disabled={!find.count}
-              title="Next match (Enter)"
-              className={`flex min-h-7 flex-1 items-center justify-center gap-1 rounded border border-site-border bg-site-card px-1 py-0.5 text-site-foreground [&_kbd]:px-1 [&_kbd]:text-[10px] [&_kbd]:whitespace-nowrap sm:flex-none sm:px-2 hover:bg-site-card-hover disabled:cursor-default disabled:opacity-50 ${focusRing}`}
-            >
-              <span className="whitespace-nowrap text-xs">
-                ↓<span className="hidden sm:inline"> Next</span>
-              </span>
-              <Kbd>Enter</Kbd>
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setValue("");
-                inputRef.current?.focus();
-              }}
-              title="Close search (Escape)"
-              className={`flex min-h-7 flex-1 items-center justify-center gap-1 rounded border border-site-border bg-site-card px-1 py-0.5 text-site-foreground [&_kbd]:px-1 [&_kbd]:text-[10px] [&_kbd]:whitespace-nowrap sm:flex-none sm:px-2 hover:bg-site-card-hover disabled:cursor-default disabled:opacity-50 ${focusRing}`}
-            >
-              <span className="whitespace-nowrap text-xs">
-                ×<span className="hidden sm:inline"> Close</span>
-              </span>
-              <Kbd>Esc</Kbd>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Prompt */}
-      <form
-        onSubmit={run}
-        role="search"
-        className="flex shrink-0 flex-wrap items-center gap-1 border-t border-site-border px-4 py-2.5 md:px-6"
-      >
-        <label htmlFor={`${baseId}-prompt`} className="sr-only">
-          {isPost
-            ? "Type a word or phrase to search this post, or type a command like print or help"
-            : "Search posts, snippets and tools, or type a command like help"}
-        </label>
-        <span aria-hidden="true" className="hidden shrink-0 whitespace-nowrap sm:inline">
-          <Prompt path={query && !isPost ? "~" : tab.path} />
-        </span>
-        <CommandInput
-          id={`${baseId}-prompt`}
-          inputRef={inputRef}
-          type="search"
-          value={value}
-          onChange={(event) => {
-            setValue(event.target.value);
-            setOutput(null);
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Escape") {
-              event.preventDefault();
-              setValue("");
-              setOutput(null);
-            }
-            if (event.key === "Enter" && event.shiftKey && isPost && query) {
-              event.preventDefault();
-              find.previous();
-            }
-          }}
-          placeholder={isPost ? "Type a word to search this post" : "type to search, or help"}
-          autoComplete="off"
-          autoCapitalize="off"
-          spellCheck={false}
-        />
-        <span aria-hidden="true" className="hidden shrink-0 text-xs text-site-muted md:inline">
-          {isCommand && value.trim() ? "↵ run" : <Kbd>/</Kbd>}
-        </span>
-      </form>
-
-      <StatusBar
-        progress={
-          isPost ? (
-            <ReadingProgress panelRef={panelRef} page={pathname} windowMode={windowMode} />
-          ) : null
-        }
-        likeSlot={setLikeSlot}
-      />
-    </section>
+    <>
+      <CatHideout active={windowMode === "min"} trick={catTrick} />
+      {terminal}
+    </>
   );
 }
