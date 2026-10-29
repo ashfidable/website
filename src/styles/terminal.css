@@ -147,14 +147,14 @@
   [data-terminal-post] > header,
   [data-terminal-post] > nav,
   [data-post-body] > * {
-    animation: post-reveal 220ms ease-out backwards;
-    animation-delay: calc(var(--delay, 60ms) - 60ms + var(--post-row, 0) * 30ms);
+    animation: post-reveal 360ms cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+    animation-delay: calc(var(--delay, 60ms) - 60ms + var(--post-row, 0) * 20ms);
   }
 
   [data-terminal-post] > nav {
     --post-row: 1;
   }
-  /* Cap the cascade so long articles are ready to read within 400ms. */
+  /* Cap the cascade so long articles are ready to read within 480ms. */
   [data-post-body] > * {
     --post-row: 6;
   }
@@ -181,11 +181,11 @@
 @keyframes post-reveal {
   from {
     opacity: 0;
-    clip-path: inset(0 0 100% 0);
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
-    clip-path: inset(0);
+    transform: translateY(0);
   }
 }
 
