@@ -137,3 +137,17 @@
     contain: layout paint;
   }
 }
+
+/* Individual posts fade in as one article, with time to settle into reading. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .fade-in-late:has(> [data-terminal-post]) {
+    animation: fade-in 800ms cubic-bezier(0.4, 0, 0.2, 1) backwards;
+    animation-delay: var(--delay, 0ms);
+  }
+}
+
+@media screen and (max-width: 639px) and (prefers-reduced-motion: no-preference) {
+  .fade-in-late:has(> [data-terminal-post]) {
+    animation-delay: 60ms;
+  }
+}
