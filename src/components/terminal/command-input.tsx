@@ -5,7 +5,7 @@ type CommandInputProps = Omit<ComponentProps<"input">, "ref" | "value"> & {
   value: string;
 };
 
-export function CommandInput({ inputRef, value, ...props }: CommandInputProps) {
+export function CommandInput({ inputRef, value, placeholder, ...props }: CommandInputProps) {
   const [caret, setCaret] = useState({ position: 0, scroll: 0, selected: false });
 
   function syncCaret() {
@@ -34,11 +34,19 @@ export function CommandInput({ inputRef, value, ...props }: CommandInputProps) {
         {...props}
         ref={inputRef}
         value={value}
+        placeholder={placeholder}
         onSelect={syncCaret}
         onScroll={syncCaret}
         onFocus={syncCaret}
-        className="block w-full min-w-0 bg-transparent pr-[1ch] caret-transparent outline-none placeholder:text-site-muted [&::-webkit-search-cancel-button]:hidden"
+        className="block w-full min-w-0 bg-transparent pr-[1ch] caret-transparent outline-none placeholder:text-transparent [&::-webkit-search-cancel-button]:hidden"
       />
+      <span
+        aria-hidden="true"
+        className="terminal-command-placeholder pointer-events-none absolute inset-x-0 top-0 truncate text-site-muted transition-opacity duration-150 motion-reduce:transition-none"
+        hidden={value.length > 0}
+      >
+        {placeholder}
+      </span>
       <span
         aria-hidden="true"
         className="terminal-command-caret pointer-events-none absolute inset-0 whitespace-pre text-site-heading"

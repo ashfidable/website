@@ -22,6 +22,10 @@
   visibility: hidden;
 }
 
+.terminal-command-input:focus-within .terminal-command-placeholder {
+  opacity: 0.6;
+}
+
 /* Reveal text without laying out the terminal for every typed character. */
 @keyframes type-in {
   from {
