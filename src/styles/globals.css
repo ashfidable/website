@@ -145,8 +145,8 @@ html[data-terminal="true"]::view-transition-new(root) {
 }
 
 ::view-transition-group(*) {
-  animation-duration: 220ms;
-  animation-timing-function: var(--ease);
+  animation-duration: 480ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 html[data-search-transition] [data-page-content] {

@@ -8,6 +8,7 @@ import { focusRing, isoDate, shellDir, shellUser } from "./data";
 
 export const CHAR_MS = 22;
 const GAP_MS = 140;
+const ROW_GAP_MS = 140;
 
 export const stackLabels: Record<string, string> = {
   "programming-languages": "languages",
@@ -26,7 +27,12 @@ export function Prompt({ path = "~" }: { path?: string }) {
   );
 }
 
-export type Step = { command: string; label?: string; content: ReactNode };
+export type Step = {
+  command: string;
+  label?: string;
+  content: ReactNode;
+  staggerRows?: number;
+};
 
 /** Types each command, then fades in its output — replays whenever it remounts. */
 export function Script({
@@ -39,10 +45,10 @@ export function Script({
   headingLevel?: 1 | 2;
 }) {
   let clock = 60;
-  const timing = steps.map(({ command }) => {
+  const timing = steps.map(({ command, staggerRows }) => {
     const start = clock;
     const output = start + command.length * CHAR_MS + 60;
-    clock = output + GAP_MS;
+    clock = output + Math.max(0, (staggerRows ?? 1) - 1) * ROW_GAP_MS + GAP_MS;
     return { start, output };
   });
 
@@ -73,8 +79,13 @@ export function Script({
               </span>
             </Tag>
             <div
-              className="fade-in-late mt-2"
-              style={{ "--delay": `${timing[index].output}ms` } as CSSProperties}
+              className={`${step.staggerRows ? "stagger-output" : "fade-in-late"} mt-2`}
+              style={
+                {
+                  "--delay": `${timing[index].output}ms`,
+                  "--row-gap": `${ROW_GAP_MS}ms`,
+                } as CSSProperties
+              }
             >
               {step.content}
             </div>
@@ -132,10 +143,10 @@ export function PostRows({
 }) {
   return (
     <ul>
-      {items.map((post) => {
+      {items.map((post, index) => {
         const category = getCategory(post.category);
         return (
-          <li key={post.id}>
+          <li key={post.id} data-reveal-row style={{ "--row": String(index) } as CSSProperties}>
             <Link
               to={postPath(post) as any}
               className={`group -mx-2 flex flex-col rounded px-2 py-2 transition-colors hover:bg-site-card-hover md:grid md:grid-cols-[6.5rem_minmax(0,1fr)_7.5rem_3.5rem] md:items-baseline md:gap-x-4 md:py-1 ${focusRing}`}
@@ -198,9 +209,23 @@ export function ToolRows({ items, query = "" }: { items: Tool[]; query?: string 
 
 export const linkClass = `rounded text-site-link underline-offset-4 hover:text-site-link-hover hover:underline ${focusRing}`;
 
-export function MoreLink({ onClick, children }: { onClick: () => void; children: ReactNode }) {
+export function MoreLink({
+  onClick,
+  children,
+  row = 0,
+}: {
+  onClick: () => void;
+  children: ReactNode;
+  row?: number;
+}) {
   return (
-    <button type="button" onClick={onClick} className={`mt-1 ${linkClass}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      data-reveal-row
+      style={{ "--row": String(row) } as CSSProperties}
+      className={`mt-1 ${linkClass}`}
+    >
       {children}
     </button>
   );

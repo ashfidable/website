@@ -90,3 +90,29 @@
     display: none;
   }
 }
+
+/* Home output fades row by row while keeping its final layout from the start. */
+.stagger-output [data-reveal-row] {
+  opacity: 0;
+  animation: fade-in 420ms ease-out both;
+  animation-delay: calc(var(--delay, 0ms) + var(--row, 0) * var(--row-gap, 140ms));
+}
+
+/* Keyboard navigation should never land on an invisible link. */
+.stagger-output [data-reveal-row]:focus-within {
+  opacity: 1;
+  animation: none;
+}
+
+@media (max-width: 639px) {
+  .stagger-output {
+    --delay: 60ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  .stagger-output [data-reveal-row] {
+    opacity: 1;
+    animation: none;
+  }
+}

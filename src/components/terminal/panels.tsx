@@ -23,19 +23,24 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
   return [
     {
       command: "whoami",
+      staggerRows: 2,
       content: (
         <div className="terminal-hero flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:gap-4">
-          <div className="shrink-0 rounded bg-site-button p-1">
+          <div data-reveal-row className="shrink-0 rounded bg-site-button p-1">
             <Sprite pixelScale={1.5} />
           </div>
           <div className="min-w-0 space-y-1">
-            <h1 className="font-bold">
+            <h1 data-reveal-row className="font-bold">
               <span className="text-site-heading">Ashfid</span>
               <span className="mt-1 block font-normal text-site-muted sm:mt-0 sm:inline">
                 <span className="hidden sm:inline"> — </span>software engineer · game dev
               </span>
             </h1>
-            <p className="max-w-[68ch] leading-relaxed">
+            <p
+              data-reveal-row
+              style={{ "--row": "1" } as CSSProperties}
+              className="max-w-[68ch] leading-relaxed"
+            >
               Welcome to my digital garden 🌱 I write tutorials, game reviews, and break down how
               game mechanics work.
               <span className="hidden sm:inline"> No over-engineering, just fun.</span>
@@ -47,11 +52,14 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
     {
       command: "ls -lt ~/blog | head -3",
       label: "Latest posts",
+      staggerRows: Math.min(latestPosts.length, 3) + Number(latestPosts.length > 3),
       content: (
         <>
           <PostRows items={latestPosts.slice(0, 3)} />
           {latestPosts.length > 3 && (
-            <MoreLink onClick={() => openTab("blog")}>→ all {latestPosts.length} posts</MoreLink>
+            <MoreLink row={3} onClick={() => openTab("blog")}>
+              → all {latestPosts.length} posts
+            </MoreLink>
           )}
         </>
       ),
@@ -59,11 +67,12 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
     {
       command: "ls -lt ~/snippets | head -3",
       label: "Latest snippets",
+      staggerRows: Math.min(latestSnippets.length, 3) + Number(latestSnippets.length > 3),
       content: (
         <>
           <PostRows items={latestSnippets.slice(0, 3)} />
           {latestSnippets.length > 3 && (
-            <MoreLink onClick={() => openTab("snippets")}>
+            <MoreLink row={3} onClick={() => openTab("snippets")}>
               → all {latestSnippets.length} snippets
             </MoreLink>
           )}
@@ -73,10 +82,16 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
     {
       command: "cat stack.txt",
       label: "Stack",
+      staggerRows: sortedSkills.length,
       content: (
         <dl className="space-y-1.5 md:space-y-1">
-          {sortedSkills.map((skill) => (
-            <div key={skill.id} className="flex flex-col md:flex-row md:gap-4">
+          {sortedSkills.map((skill, index) => (
+            <div
+              key={skill.id}
+              data-reveal-row
+              style={{ "--row": String(index) } as CSSProperties}
+              className="flex flex-col md:flex-row md:gap-4"
+            >
               <dt className="shrink-0 text-site-heading md:w-24">
                 <span aria-hidden="true">{stackLabels[skill.id] ?? skill.id}</span>
                 <span className="sr-only">{skill.title}</span>
