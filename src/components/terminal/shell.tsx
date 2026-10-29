@@ -13,6 +13,7 @@ import {
 } from "react";
 import { flushSync } from "react-dom";
 import { TerminalStatusSlot } from "./status-slot";
+import { CommandInput } from "./command-input";
 import { usePostFind } from "./use-post-find";
 import { useLanyard } from "use-lanyard";
 import { site, socialLinks, tools } from "$content/index";
@@ -783,9 +784,9 @@ export function TerminalShell({ children }: { children: ReactNode }) {
         <span aria-hidden="true" className="hidden shrink-0 whitespace-nowrap sm:inline">
           <Prompt path={query && !isPost ? "~" : tab.path} />
         </span>
-        <input
+        <CommandInput
           id={`${baseId}-prompt`}
-          ref={inputRef}
+          inputRef={inputRef}
           type="search"
           value={value}
           onChange={(event) => {
@@ -807,7 +808,6 @@ export function TerminalShell({ children }: { children: ReactNode }) {
           autoComplete="off"
           autoCapitalize="off"
           spellCheck={false}
-          className="min-w-0 flex-1 bg-transparent text-base caret-site-heading outline-none placeholder:text-site-muted md:text-sm [&::-webkit-search-cancel-button]:hidden"
         />
         <span aria-hidden="true" className="hidden shrink-0 text-xs text-site-muted md:inline">
           {isCommand && value.trim() ? "↵ run" : <Kbd>/</Kbd>}

@@ -18,6 +18,10 @@
   animation: blink 1s steps(1) infinite;
 }
 
+.terminal-command-input:not(:focus-within) .terminal-command-caret {
+  visibility: hidden;
+}
+
 /* Reveal text without laying out the terminal for every typed character. */
 @keyframes type-in {
   from {
