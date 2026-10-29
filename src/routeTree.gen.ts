@@ -14,6 +14,7 @@ import { Route as ConfigRouteImport } from './routes/config'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as SitemapIndexDotxmlRouteImport } from './routes/sitemap-index[.]xml'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as ApiPostsDotjsonRouteImport } from './routes/api/posts[.]json'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogPostRouteImport } from './routes/blog.$post'
@@ -47,6 +48,11 @@ const SitemapIndexDotxmlRoute = SitemapIndexDotxmlRouteImport.update({
   path: '/sitemap-index.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPostsDotjsonRoute = ApiPostsDotjsonRouteImport.update({
   id: '/api/posts.json',
   path: '/api/posts.json',
@@ -73,14 +79,14 @@ const SnippetsSlugRoute = SnippetsSlugRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
-  id: '/tools/',
-  path: '/tools/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRoute,
 } as any)
 const ToolsCategoryRoute = ToolsCategoryRouteImport.update({
-  id: '/tools/$category',
-  path: '/tools/$category',
-  getParentRoute: () => rootRouteImport,
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => ToolsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/api/posts.json': typeof ApiPostsDotjsonRoute
   '/blog/$post': typeof BlogPostRoute
   '/snippets/$slug': typeof SnippetsSlugRoute
@@ -118,6 +125,7 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/rss.xml': typeof RssDotxmlRoute
   '/sitemap-index.xml': typeof SitemapIndexDotxmlRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/api/posts.json': typeof ApiPostsDotjsonRoute
   '/blog/$post': typeof BlogPostRoute
   '/snippets/$slug': typeof SnippetsSlugRoute
@@ -134,6 +142,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/rss.xml'
     | '/sitemap-index.xml'
+    | '/tools'
     | '/api/posts.json'
     | '/blog/$post'
     | '/snippets/$slug'
@@ -162,6 +171,7 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/rss.xml'
     | '/sitemap-index.xml'
+    | '/tools'
     | '/api/posts.json'
     | '/blog/$post'
     | '/snippets/$slug'
@@ -177,13 +187,12 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   RssDotxmlRoute: typeof RssDotxmlRoute
   SitemapIndexDotxmlRoute: typeof SitemapIndexDotxmlRoute
+  ToolsRoute: typeof ToolsRouteWithChildren
   ApiPostsDotjsonRoute: typeof ApiPostsDotjsonRoute
   BlogPostRoute: typeof BlogPostRoute
   SnippetsSlugRoute: typeof SnippetsSlugRoute
-  ToolsCategoryRoute: typeof ToolsCategoryRoute
   BlogIndexRoute: typeof BlogIndexRoute
   SnippetsIndexRoute: typeof SnippetsIndexRoute
-  ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -223,6 +232,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapIndexDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/posts.json': {
       id: '/api/posts.json'
       path: '/api/posts.json'
@@ -260,20 +276,32 @@ declare module '@tanstack/react-router' {
     }
     '/tools/': {
       id: '/tools/'
-      path: '/tools'
+      path: '/'
       fullPath: '/tools/'
       preLoaderRoute: typeof ToolsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ToolsRoute
     }
     '/tools/$category': {
       id: '/tools/$category'
-      path: '/tools/$category'
+      path: '/$category'
       fullPath: '/tools/$category'
       preLoaderRoute: typeof ToolsCategoryRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ToolsRoute
     }
   }
 }
+
+interface ToolsRouteChildren {
+  ToolsCategoryRoute: typeof ToolsCategoryRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
+}
+
+const ToolsRouteChildren: ToolsRouteChildren = {
+  ToolsCategoryRoute: ToolsCategoryRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
+}
+
+const ToolsRouteWithChildren = ToolsRoute._addFileChildren(ToolsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -281,13 +309,12 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   RssDotxmlRoute: RssDotxmlRoute,
   SitemapIndexDotxmlRoute: SitemapIndexDotxmlRoute,
+  ToolsRoute: ToolsRouteWithChildren,
   ApiPostsDotjsonRoute: ApiPostsDotjsonRoute,
   BlogPostRoute: BlogPostRoute,
   SnippetsSlugRoute: SnippetsSlugRoute,
-  ToolsCategoryRoute: ToolsCategoryRoute,
   BlogIndexRoute: BlogIndexRoute,
   SnippetsIndexRoute: SnippetsIndexRoute,
-  ToolsIndexRoute: ToolsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

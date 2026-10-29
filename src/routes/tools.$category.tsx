@@ -1,5 +1,4 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { ToolsPanel } from "@/components/terminal/panels";
 import { capitalizeString } from "$utils/string-formatter";
 import { categories } from "$content/index";
 import { seo } from "@/lib/seo";
@@ -14,9 +13,5 @@ export const Route = createFileRoute("/tools/$category")({
       description: `Explore the tools I use for ${params.category}.`,
       path: `/tools/${params.category}`,
     }),
-  component: ToolCategory,
+  component: () => null,
 });
-function ToolCategory() {
-  const { category } = Route.useParams();
-  return <ToolsPanel key={category} category={category} />;
-}

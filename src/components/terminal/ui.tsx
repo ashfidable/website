@@ -68,7 +68,7 @@ export function Script({
                   className="type-in"
                   style={
                     {
-                      "--chars": step.command.length,
+                      "--chars": String(step.command.length),
                       "--char-ms": `${CHAR_MS}ms`,
                       "--delay": `${timing[index].start}ms`,
                     } as CSSProperties
@@ -184,12 +184,19 @@ export function PostRows({
 export function ToolRows({ items, query = "" }: { items: Tool[]; query?: string }) {
   return (
     <ul className="grid grid-cols-2 gap-x-6 md:grid-cols-3">
-      {items.map((tool) => (
+      {items.map((tool, index) => (
         <li
           key={tool.id}
           data-tool-row
+          data-reveal-row
           className="min-w-0"
-          style={{ "--vt": `tool-${tool.id}` } as CSSProperties}
+          style={
+            {
+              "--vt": `tool-${tool.id}`,
+              "--tool-row-desktop": String(Math.floor(index / 3)),
+              "--tool-row-mobile": String(Math.floor(index / 2)),
+            } as CSSProperties
+          }
         >
           <a
             href={tool.url}

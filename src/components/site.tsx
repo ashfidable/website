@@ -10,7 +10,7 @@ export function Sprite({
   return (
     <div
       className="character group mx-auto rounded-md"
-      style={{ "--pixel-size": Number(pixelScale) } as React.CSSProperties}
+      style={{ "--pixel-size": String(pixelScale) } as React.CSSProperties}
     >
       <img
         src={spriteSheet}

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { type CSSProperties, type ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { flushSync } from "react-dom";
 import { categories, tools } from "$content/index";
 import { themeNames, useSettings, type ThemeName } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
@@ -113,6 +114,13 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
 }
 
 export function ToolsPanel({ category }: { category?: string }) {
+  const [entering, setEntering] = useState(true);
+  const previousCategory = useRef(category);
+  // The tools layout stays mounted across filters, including browser Back/Forward.
+  useLayoutEffect(() => {
+    if (previousCategory.current !== category) setEntering(false);
+    previousCategory.current = category;
+  }, [category]);
   const selected = category ?? "all";
   const used = categories.filter((item) => tools.some((tool) => tool.categories.includes(item.id)));
   const shown = category ? tools.filter((tool) => tool.categories.includes(category)) : tools;
@@ -127,7 +135,7 @@ export function ToolsPanel({ category }: { category?: string }) {
             className="type-in"
             style={
               {
-                "--chars": command.length,
+                "--chars": String(command.length),
                 "--char-ms": `${CHAR_MS}ms`,
                 "--delay": "60ms",
               } as CSSProperties
@@ -146,6 +154,7 @@ export function ToolsPanel({ category }: { category?: string }) {
               to={id === "all" ? "/tools" : "/tools/$category"}
               params={{ category: id }}
               viewTransition
+              onClick={() => flushSync(() => setEntering(false))}
               resetScroll={false}
               aria-current={selected === id ? "page" : undefined}
               className={`min-h-9 rounded border px-2 py-1 transition-colors sm:min-h-0 sm:py-0.5 duration-200 ${focusRing} ${
@@ -158,7 +167,12 @@ export function ToolsPanel({ category }: { category?: string }) {
             </Link>
           ))}
         </div>
-        <ToolRows items={shown} />
+        <div
+          className={entering ? "stagger-output" : undefined}
+          style={{ "--delay": "60ms" } as CSSProperties}
+        >
+          <ToolRows items={shown} />
+        </div>
         <p aria-live="polite" className="sr-only">
           {shown.length} tools
         </p>
@@ -169,12 +183,14 @@ export function ToolsPanel({ category }: { category?: string }) {
 
 function Choice<T extends string>({
   name,
+  row,
   value,
   options,
   onChange,
   render = (option) => option,
 }: {
   name: string;
+  row: number;
   value: T;
   options: readonly T[];
   onChange: (value: T) => void;
@@ -183,6 +199,8 @@ function Choice<T extends string>({
   return (
     <div
       role="radiogroup"
+      data-reveal-row
+      style={{ "--row": String(row) } as CSSProperties}
       aria-labelledby={`garden-${name}-label`}
       className="flex flex-col gap-1.5 md:flex-row md:items-baseline md:gap-4"
     >
@@ -222,11 +240,13 @@ function ConfigPanel() {
         {
           command: "nano config.toml",
           label: "Config",
+          staggerRows: 5,
           content: (
             <div className="space-y-3">
               <p className="text-site-muted"># pick an option — changes save automatically</p>
               <Choice<ThemeName>
                 name="theme"
+                row={0}
                 value={settings.theme}
                 options={themeNames}
                 onChange={(theme) => {
@@ -247,6 +267,7 @@ function ConfigPanel() {
               />
               <Choice
                 name="shortcuts"
+                row={1}
                 value={settings.shortcuts ? "on" : "off"}
                 options={["on", "off"] as const}
                 onChange={(value) => {
@@ -255,6 +276,7 @@ function ConfigPanel() {
               />
               <Choice
                 name="sound"
+                row={2}
                 value={settings.sound ? "on" : "off"}
                 options={["on", "off"] as const}
                 onChange={(value) => {
@@ -264,6 +286,7 @@ function ConfigPanel() {
               />
               <Choice
                 name="corners"
+                row={3}
                 value={settings.rounded ? "rounded" : "square"}
                 options={["rounded", "square"] as const}
                 onChange={(value) => {
@@ -273,6 +296,7 @@ function ConfigPanel() {
               />
               <Choice
                 name="spoilers"
+                row={4}
                 value={settings.hideSpoilers ? "hide" : "show"}
                 options={["hide", "show"] as const}
                 onChange={(value) => {
@@ -302,6 +326,7 @@ export function TerminalHome({ tab }: { tab: TabId }) {
           {
             command: "ls -lt",
             label: "Blog posts",
+            staggerRows: latestPosts.length,
             content: (
               <>
                 <p className="mb-2 text-site-muted"># thoughts, reviews and deep dives</p>
@@ -321,6 +346,7 @@ export function TerminalHome({ tab }: { tab: TabId }) {
           {
             command: "ls -lt",
             label: "Snippets",
+            staggerRows: latestSnippets.length,
             content: (
               <>
                 <p className="mb-2 text-site-muted"># small, copy-paste-ready bits of code</p>
