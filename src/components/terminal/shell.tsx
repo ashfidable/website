@@ -1,18 +1,18 @@
-import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation, useMatches, useNavigate } from "@tanstack/react-router";
 import {
   Component,
   useEffect,
   useId,
-  useLayoutEffect,
   useRef,
   useState,
+  type CSSProperties,
   type FormEvent,
   type KeyboardEvent,
   type ReactNode,
   type RefObject,
 } from "react";
-import { flushSync } from "react-dom";
-import { CatHideout, type CatTrick } from "../cat-hideout";
+import { createPortal, flushSync } from "react-dom";
+import { CatHideout, sticker, type CatTrick } from "../cat-hideout";
 import { TerminalStatusSlot } from "./status-slot";
 import { CommandInput } from "./command-input";
 import { usePostFind } from "./use-post-find";
@@ -23,7 +23,7 @@ import { playAudio } from "@/utils/play-audio";
 import { themeLabels } from "@/providers/settings-provider";
 import { Sprite } from "../site";
 import { focusRing, latestPosts, latestSnippets, shellUser } from "./data";
-import { tabs, tabPath, type TabId } from "./layout";
+import { tabForPath, tabs, tabPath, type TabId } from "./layout";
 import {
   Kbd,
   MoreLink,
@@ -38,6 +38,19 @@ import {
 
 const primaryTabIds: readonly TabId[] = ["home", "blog", "snippets"];
 const moreTabs = tabs.filter((tab) => !primaryTabIds.includes(tab.id));
+
+/** The active tab's background, split out so it can morph between tabs under their labels. */
+function TabHighlight() {
+  return (
+    <span
+      aria-hidden="true"
+      data-terminal-tab-highlight
+      className="absolute -inset-x-px -top-px bottom-0 rounded-t-md bg-site-heading ring-inset ring-site-card group-focus-visible:ring-2"
+    />
+  );
+}
+
+const tabLabelName = (name: string) => ({ "--tab-vt": `terminal-tab-${name}` }) as CSSProperties;
 
 const COMMANDS = [
   "help",
@@ -187,10 +200,47 @@ class PresenceBoundary extends Component<{ children: ReactNode }, { failed: bool
   }
 }
 
-const statusStyles: Record<string, { label: string; dot: string }> = {
-  online: { label: "Online", dot: "bg-green-500" },
-  idle: { label: "Idle", dot: "bg-yellow-500" },
-  dnd: { label: "Do not disturb", dot: "bg-red-500" },
+const statusStyles: Record<
+  string,
+  { label: string; dot: string; replies?: string[]; catComes?: boolean }
+> = {
+  online: {
+    label: "Online",
+    dot: "bg-green-500",
+    replies: [
+      "yes, i’m here",
+      "hi, you found me",
+      "you could just message me",
+      "still here, still online",
+      "i’m telling the cats you said hi",
+      "the cats say hi back",
+    ],
+  },
+  idle: {
+    label: "Idle",
+    dot: "bg-yellow-500",
+    replies: [
+      "away, back soon",
+      "probably touching grass",
+      "clicking won’t bring me back",
+      "still away, promise",
+      "i left the cats in charge",
+      "the cats are not taking messages",
+    ],
+  },
+  dnd: {
+    label: "Do not disturb",
+    dot: "bg-red-500",
+    catComes: true,
+    replies: [
+      "you’re not supposed to disturb me",
+      "the sign was very clear",
+      "still disturbed, thanks",
+      "okay, now i’m disturbed",
+      "i’m telling the cats",
+      "cats have been notified",
+    ],
+  },
   offline: { label: "Offline", dot: "bg-site-muted" },
 };
 
@@ -201,6 +251,67 @@ const activityVerbs: Record<number, string> = {
   3: "Watching",
   5: "Competing in",
 };
+
+/** A status with something to say, which pushes back a little harder each time it gets clicked. */
+function StatusEgg({
+  label,
+  replies,
+  doing,
+  catComes,
+}: {
+  label: string;
+  replies: string[];
+  doing: string;
+  catComes?: boolean;
+}) {
+  const [clicks, setClicks] = useState(0);
+  const [replying, setReplying] = useState(false);
+  const [catVisit, setCatVisit] = useState(0);
+
+  useEffect(() => {
+    if (!replying) return;
+    const timer = window.setTimeout(() => setReplying(false), 4000);
+    return () => clearTimeout(timer);
+  }, [replying, clicks]);
+
+  return (
+    <>
+      <button
+        type="button"
+        aria-live="polite"
+        onClick={() => {
+          const count = clicks + 1;
+          setClicks(count);
+          setReplying(true);
+          if (!catComes) return;
+          // Load the cat on the last warning so it never arrives half-drawn.
+          if (count === replies.length) new Image().src = sticker(0, 1);
+          if (count > replies.length) setCatVisit(count);
+        }}
+        className={`rounded text-site-foreground hover:text-site-heading ${focusRing}`}
+      >
+        <span key={clicks} className={replying ? "status-nudge inline-block" : undefined}>
+          {replying ? replies[Math.min(clicks, replies.length) - 1] : label}
+        </span>
+      </button>
+      {!replying && doing && ` · ${doing}`}
+      {catVisit > 0 &&
+        createPortal(
+          <img
+            key={catVisit}
+            className="cat-visit"
+            src={sticker(0, 1)}
+            alt=""
+            width={512}
+            height={512}
+            draggable={false}
+            onAnimationEnd={() => setCatVisit(0)}
+          />,
+          document.body,
+        )}
+    </>
+  );
+}
 
 function Presence() {
   const data = useLanyard(site.discordId as `${bigint}`);
@@ -225,7 +336,15 @@ function Presence() {
       />
       <span className="truncate">
         <span className="sr-only">Ashfid is </span>
-        {data ? (
+        {data && status.replies ? (
+          <StatusEgg
+            key={data.discord_status}
+            label={status.label}
+            replies={status.replies}
+            doing={doing}
+            catComes={status.catComes}
+          />
+        ) : data ? (
           <>
             <span className="text-site-foreground">{status.label}</span>
             {doing && ` · ${doing}`}
@@ -346,23 +465,19 @@ export function TerminalShell({ children }: { children: ReactNode }) {
   const baseId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const tablistRef = useRef<HTMLDivElement>(null);
   const dockRef = useRef<HTMLButtonElement>(null);
   const previousMode = useRef<WindowMode>("normal");
   const [windowMode, setWindowMode] = useState<WindowMode>("normal");
   const [catTrick, setCatTrick] = useState<CatTrick | null>(null);
-  const [indicator, setIndicator] = useState<{ left: number; width: number }>();
   const [value, setValue] = useState("");
   const [output, setOutput] = useState<{ id: number; step: Step } | null>(null);
   const [likeSlot, setLikeSlot] = useState<HTMLSpanElement | null>(null);
 
-  const { pathname } = location;
+  // The committed route, not the location: that changes before the view transition's old snapshot,
+  // which would leave the tab highlight with nowhere to morph from.
+  const pathname = useMatches({ select: (matches) => matches.at(-1)!.pathname });
   const isPost = /^\/(blog|snippets)\/[^/]+\/?$/.test(pathname);
-  const active: TabId =
-    tabs.find(
-      (item) =>
-        item.href !== "/" && (pathname === item.href || pathname.startsWith(`${item.href}/`)),
-    )?.id ?? "home";
+  const active = tabForPath(pathname);
   const tab = tabs.find((item) => item.id === active)!;
   const tabId = (id: TabId) => `${baseId}-tab-${id}`;
   const moreId = `${baseId}-more`;
@@ -389,20 +504,6 @@ export function TerminalShell({ children }: { children: ReactNode }) {
     setOutput(null);
     setValue("");
   }, [location.href]);
-
-  // Sliding accent bar under the active tab.
-  useLayoutEffect(() => {
-    const list = tablistRef.current;
-    if (!list) return;
-    const measure = () => {
-      const tabEl = document.getElementById(tabId(active));
-      if (tabEl) setIndicator({ left: tabEl.offsetLeft + 10, width: tabEl.offsetWidth - 20 });
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(list);
-    return () => observer.disconnect();
-  }, [active, windowMode]);
 
   // Maximized: lock page scroll. Minimized: focus the dock; restored from dock: focus the tab.
   useEffect(() => {
@@ -634,21 +735,11 @@ export function TerminalShell({ children }: { children: ReactNode }) {
             onToggleMaximize={() => changeMode(windowMode === "max" ? "normal" : "max")}
           />
           <div
-            ref={tablistRef}
             role="tablist"
             aria-label="Sections"
             onKeyDown={onTabKeyDown}
             className="relative -mb-px flex min-w-0 flex-1 pb-px sm:overflow-x-auto"
           >
-            {/* Accent bar that slides between tabs. */}
-            <span
-              aria-hidden="true"
-              className={`pointer-events-none absolute left-0 top-0 z-10 hidden sm:block h-0.5 rounded-b bg-site-heading transition-[transform,width,opacity] duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${indicator ? "opacity-100" : "opacity-0"}`}
-              style={{
-                width: indicator?.width,
-                transform: `translateX(${indicator?.left ?? 0}px)`,
-              }}
-            />
             {tabs.map((item, index) => {
               const selected = item.id === active;
               const nextSelected = tabs[index + 1]?.id === active;
@@ -661,21 +752,28 @@ export function TerminalShell({ children }: { children: ReactNode }) {
                   aria-selected={selected}
                   aria-controls={`${baseId}-panel`}
                   tabIndex={selected ? 0 : -1}
-                  className={`group relative -mb-px min-h-11 min-w-0 flex-1 ${primaryTabIds.includes(item.id) ? "flex" : "hidden sm:flex"} items-center justify-center gap-1 rounded-t-md border border-b-0 px-0.5 py-2 text-xs sm:min-h-0 sm:flex-none sm:shrink-0 sm:gap-1.5 sm:px-3.5 sm:text-sm outline-none transition-colors duration-200 aria-selected:focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring md:px-4 ${
+                  className={`group relative -mb-px min-h-11 min-w-0 flex-1 ${primaryTabIds.includes(item.id) ? "flex" : "hidden sm:flex"} items-center justify-center rounded-t-md border border-b-0 border-transparent px-0.5 py-2 text-xs sm:min-h-0 sm:flex-none sm:shrink-0 sm:px-3.5 sm:text-sm outline-none transition-colors duration-200 focus-visible:bg-site-heading focus-visible:text-site-card md:px-4 ${
                     selected
-                      ? "border-site-border bg-site-card text-site-foreground"
-                      : "border-transparent text-site-muted hover:bg-site-card/50 hover:text-site-foreground"
+                      ? "text-site-card"
+                      : "text-site-muted hover:bg-site-card/50 hover:text-site-foreground"
                   }`}
                 >
+                  {selected && <TabHighlight />}
                   <span
-                    className={`hidden transition-colors sm:inline ${selected ? "text-site-heading" : "text-site-muted group-hover:text-site-foreground"}`}
+                    data-terminal-tab-label
+                    style={tabLabelName(item.id)}
+                    className="relative flex min-w-0 items-center gap-1 sm:gap-1.5"
                   >
-                    {index + 1}.
-                  </span>
-                  <span
-                    className={`min-w-0 [overflow-wrap:anywhere] ${selected ? "font-semibold" : ""}`}
-                  >
-                    {item.label}
+                    <span
+                      className={`hidden transition-colors sm:inline ${selected ? "" : "text-site-muted group-hover:text-site-foreground group-focus-visible:text-site-card"}`}
+                    >
+                      {index + 1}.
+                    </span>
+                    <span
+                      className={`min-w-0 [overflow-wrap:anywhere] ${selected ? "font-semibold" : ""}`}
+                    >
+                      {item.label}
+                    </span>
                   </span>
                   {!selected && !nextSelected && index < tabs.length - 1 && (
                     <span
@@ -691,10 +789,17 @@ export function TerminalShell({ children }: { children: ReactNode }) {
             type="button"
             popoverTarget={moreId}
             aria-label={moreActive ? `More sections, ${tab.label} selected` : "More sections"}
-            className={`terminal-more-trigger -mb-px flex min-h-11 w-1/4 shrink-0 items-center justify-center gap-1 rounded-t-md border border-b-0 text-xs outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring sm:hidden ${moreActive ? "border-site-border bg-site-card font-semibold text-site-heading" : "border-transparent text-site-muted hover:text-site-heading"}`}
+            className={`terminal-more-trigger group relative -mb-px flex min-h-11 w-1/4 shrink-0 items-center justify-center rounded-t-md border border-b-0 border-transparent text-xs outline-none focus-visible:bg-site-heading focus-visible:text-site-card focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-card sm:hidden ${moreActive ? "font-semibold text-site-card" : "text-site-muted hover:text-site-heading"}`}
           >
-            <span className="min-w-0 [overflow-wrap:anywhere]">More</span>{" "}
-            <span aria-hidden="true">⌄</span>
+            {moreActive && <TabHighlight />}
+            <span
+              data-terminal-tab-label
+              style={tabLabelName("more")}
+              className="relative flex min-w-0 items-center gap-1"
+            >
+              <span className="min-w-0 [overflow-wrap:anywhere]">More</span>{" "}
+              <span aria-hidden="true">⌄</span>
+            </span>
           </button>
         </div>
         <nav
@@ -709,7 +814,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
               to={item.href}
               onClick={() => document.getElementById(moreId)?.hidePopover()}
               aria-current={item.id === active ? "page" : undefined}
-              className={`flex min-h-11 w-full items-center justify-between gap-4 rounded px-3 text-left hover:bg-site-card-hover ${focusRing} ${item.id === active ? "bg-site-button font-semibold text-site-heading" : ""}`}
+              className={`flex min-h-11 w-full items-center justify-between gap-4 rounded px-3 text-left ${focusRing} ${item.id === active ? "bg-site-heading font-semibold text-site-card" : "hover:bg-site-card-hover"}`}
             >
               {item.label}
               {item.id === active && <span aria-hidden="true">✓</span>}

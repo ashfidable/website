@@ -41,6 +41,9 @@ const iconCollections = {
   "svg-spinners": svgSpinners,
 };
 
+/** Light entries from themeNames in settings-provider.tsx; every other theme is dark. */
+const lightThemes = ["light", "ocean", "rose", "mint", "lavender", "peach", "meadow", "sand"];
+
 function siteIcons(): Plugin {
   const virtualId = "\0virtual:site-icons";
   const configPath = fileURLToPath(new URL("./site.config.json", import.meta.url));
@@ -219,7 +222,47 @@ export default defineConfig({
       remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: "frontmatter" }]],
       rehypePlugins: [
         rehypeSlug,
-        [rehypeExpressiveCode, { themes: ["rose-pine", "rose-pine-dawn"] }],
+        [
+          rehypeExpressiveCode,
+          {
+            themes: ["rose-pine", "rose-pine-dawn"],
+            useThemedScrollbars: false,
+            // Follow the site's theme picker rather than the OS, and drop the terminal frame:
+            // these blocks already sit inside one.
+            useDarkModeMediaQuery: false,
+            themeCssSelector: (theme: { type: string }) =>
+              theme.type === "light" &&
+              `:root:is(${lightThemes.map((name) => `[data-theme="${name}"]`).join(",")})`,
+            defaultProps: { frame: "code" },
+            styleOverrides: {
+              borderRadius: "var(--rounded-radius)",
+              borderWidth: "1px",
+              borderColor: "var(--color-border-highlight)",
+              codeBackground: "var(--color-card-background)",
+              codeFontFamily: "var(--font-mono)",
+              codeFontSize: "0.875rem",
+              codeLineHeight: "1.625",
+              codePaddingBlock: "0.75rem",
+              codePaddingInline: "1rem",
+              uiFontFamily: "var(--font-mono)",
+              uiFontSize: "0.75rem",
+              uiPaddingBlock: "0.25rem",
+              uiPaddingInline: "1rem",
+              scrollbarThumbColor: "var(--color-heading-text)",
+              scrollbarThumbHoverColor: "var(--color-heading-text-hover)",
+              frames: {
+                frameBoxShadowCssValue: "none",
+                editorTabBarBackground: "transparent",
+                editorTabBarBorderBottomColor: "var(--color-border-highlight)",
+                editorActiveTabBackground: "transparent",
+                editorActiveTabForeground: "var(--color-body-text-low-contrast)",
+                editorActiveTabIndicatorTopColor: "transparent",
+                editorActiveTabIndicatorBottomColor: "transparent",
+                inlineButtonForeground: "var(--color-body-text-low-contrast)",
+              },
+            },
+          },
+        ],
         // Scrollable code regions need distinct names for landmark navigation.
         () => (tree: any) => {
           let codeBlock = 0;

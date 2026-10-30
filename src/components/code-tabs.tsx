@@ -6,6 +6,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from "react";
+import { focusRing } from "./terminal/data";
 
 export function CodeTab({ children }: { label: string; children: ReactNode }) {
   return children;
@@ -29,18 +30,23 @@ export function CodeTabs({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="tabs-container" onKeyDown={onKeyDown}>
-      <div role="tablist" className="mb-2 flex border-b border-site-border">
+    <div className="my-5" onKeyDown={onKeyDown}>
+      <div role="tablist" className="mb-2 flex gap-1 border-b border-site-border">
         {tabs.map((tab, index) => (
           <button
             key={tab.label}
             id={`${id}-tab-${index}`}
+            type="button"
             role="tab"
             aria-selected={active === index}
             aria-controls={`${id}-panel-${index}`}
             tabIndex={active === index ? 0 : -1}
             onClick={() => setActive(index)}
-            className="px-2 py-1 font-mono aria-selected:border-b aria-selected:border-site-border-hover aria-selected:font-semibold"
+            className={`-mb-px rounded-t-md px-3 py-1 transition-colors ${focusRing} ${
+              active === index
+                ? "bg-site-heading font-semibold text-site-card"
+                : "text-site-muted hover:bg-site-card-hover hover:text-site-foreground"
+            }`}
           >
             {tab.label}
           </button>
@@ -54,6 +60,7 @@ export function CodeTabs({ children }: { children: ReactNode }) {
           aria-labelledby={`${id}-tab-${index}`}
           hidden={active !== index}
           tabIndex={0}
+          className={`rounded-md ${focusRing}`}
         >
           {tab.content}
         </section>

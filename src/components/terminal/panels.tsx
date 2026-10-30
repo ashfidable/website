@@ -85,22 +85,17 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
       label: "Stack",
       staggerRows: sortedSkills.length,
       content: (
-        <dl className="space-y-1.5 md:space-y-1">
+        <dl className="grid gap-6 sm:grid-cols-3 sm:gap-8">
           {sortedSkills.map((skill, index) => (
-            <div
-              key={skill.id}
-              data-reveal-row
-              style={{ "--row": String(index) } as CSSProperties}
-              className="flex flex-col md:flex-row md:gap-4"
-            >
-              <dt className="shrink-0 text-site-heading md:w-24">
+            <div key={skill.id} data-reveal-row style={{ "--row": String(index) } as CSSProperties}>
+              <dt className="mb-2 text-site-heading">
                 <span aria-hidden="true">{stackLabels[skill.id] ?? skill.id}</span>
                 <span className="sr-only">{skill.title}</span>
               </dt>
-              <dd className="flex flex-wrap gap-x-3 gap-y-0.5">
+              <dd className="grid grid-cols-2 gap-x-4 gap-y-2 sm:grid-cols-1">
                 {skill.entries.map((entry) => (
-                  <span key={entry.name} className="inline-flex items-center gap-1">
-                    <Icon name={entry.icon} />
+                  <span key={entry.name} className="inline-flex items-center gap-2">
+                    <Icon name={entry.icon} className="shrink-0" />
                     {entry.name}
                   </span>
                 ))}

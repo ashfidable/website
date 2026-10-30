@@ -19,3 +19,104 @@
     transform: scale(1.16);
   }
 }
+
+.status-nudge {
+  animation: status-nudge 280ms ease-out;
+}
+
+@keyframes status-nudge {
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-nudge {
+    animation: none;
+  }
+}
+
+/* `data-open` is set the moment the card shows and removed the moment it hides, so these
+   transitions are the fade. `translate` holds the position and is set inline. */
+.link-preview {
+  --link-preview-spring: linear(
+    0,
+    0.009,
+    0.035 2.1%,
+    0.141,
+    0.281 6.7%,
+    0.723 12.9%,
+    0.938 16.7%,
+    1.017,
+    1.077,
+    1.121,
+    1.149 24.3%,
+    1.159,
+    1.163,
+    1.161,
+    1.154 29.9%,
+    1.129 32.8%,
+    1.051 39.6%,
+    1.017 43.1%,
+    0.991,
+    0.977 51%,
+    0.974 53.8%,
+    0.975 57.1%,
+    0.997 69.8%,
+    1.003 76.9%,
+    1.004 83.8%,
+    1
+  );
+  inset: 0 auto auto 0;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(var(--link-preview-rise, -8px)) scale(0.9) rotate(-1.5deg);
+  transition:
+    opacity 140ms ease-in,
+    filter 140ms ease-in,
+    transform 140ms ease-in,
+    translate 320ms cubic-bezier(0.22, 1.2, 0.36, 1),
+    height 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-preview[data-open] {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  transition:
+    opacity 180ms ease-out,
+    filter 180ms ease-out,
+    transform 520ms var(--link-preview-spring),
+    translate 320ms cubic-bezier(0.22, 1.2, 0.36, 1),
+    height 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-preview-enter {
+  animation: link-preview-enter 240ms ease-out;
+}
+
+.link-preview-leave {
+  animation: link-preview-leave 180ms ease-in forwards;
+}
+
+@keyframes link-preview-enter {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(4px);
+  }
+}
+
+@keyframes link-preview-leave {
+  to {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(-4px);
+  }
+}

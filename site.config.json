@@ -301,7 +301,7 @@
         },
         {
           "name": "Rust",
-          "icon": "logos:rust"
+          "icon": "simple-icons:rust"
         },
         {
           "name": "Golang",

@@ -11,3 +11,11 @@ export type PanelTab = Exclude<TabId, "home">;
 export function tabPath(id: TabId) {
   return tabs.find((tab) => tab.id === id)!.href;
 }
+
+export function tabForPath(pathname: string): TabId {
+  return (
+    tabs.find(
+      (tab) => tab.href !== "/" && (pathname === tab.href || pathname.startsWith(`${tab.href}/`)),
+    )?.id ?? "home"
+  );
+}

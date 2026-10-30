@@ -1,0 +1,149 @@
+{
+  "https://developers.cloudflare.com/d1/best-practices/local-development/": {
+    "title": "Local development",
+    "description": "Run D1 locally with Wrangler to test your Worker and database before deploying to production.",
+    "image": "/images/link-previews/54a5b305b8bf3411.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://developers.cloudflare.com/d1/reference/migrations/": {
+    "title": "Migrations",
+    "description": "Version your D1 database schema using SQL migration files that you create, list, and apply with Wrangler.",
+    "image": "/images/link-previews/ac42ab09e330aaa0.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://developers.cloudflare.com/workers/languages/typescript/": {
+    "title": "TypeScript",
+    "description": "Use TypeScript with fully typed APIs to build Cloudflare Workers.",
+    "image": "/images/link-previews/355f57c8bb8dd661.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/": {
+    "title": "Rate Limiting",
+    "description": "Define rate limits and interact with them directly from your Cloudflare Worker",
+    "image": "/images/link-previews/10186200cc0a3b1e.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://developers.cloudflare.com/workers/static-assets/": {
+    "title": "Static Assets",
+    "description": "Create full-stack applications deployed to Cloudflare Workers.",
+    "image": "/images/link-previews/8babacbdf620afef.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://developers.cloudflare.com/workers/static-assets/migration-guides/migrate-from-pages/": {
+    "title": "Migrate from Pages to Workers",
+    "description": "A guide for migrating from Cloudflare Pages to Cloudflare Workers. Includes a compatibility matrix for comparing the features of Cloudflare Workers and Pages.",
+    "image": "/images/link-previews/6f4fc632ce9fa253.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://developers.cloudflare.com/workers/vite-plugin/": {
+    "title": "Vite plugin",
+    "description": "A full-featured integration between Vite and the Workers runtime",
+    "image": "/images/link-previews/012ada6692b3f43a.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://developers.cloudflare.com/workers/vite-plugin/reference/static-assets/": {
+    "title": "Static Assets",
+    "description": "Static assets and the Vite plugin",
+    "image": "/images/link-previews/8babacbdf620afef.webp",
+    "favicon": "/images/link-previews/4e9f909782103d06.webp"
+  },
+  "https://expressive-code.com/": {
+    "title": "Expressive Code",
+    "description": "Present your source code on the web, making it easy to understand and visually stunning. All&nbsp;batteries included!",
+    "favicon": "/images/link-previews/7d7bc4480fccf982.webp"
+  },
+  "https://github.com/phineas/lanyard": {
+    "title": "GitHub - Phineas/lanyard: 🏷️ Expose your Discord presence and activities to a RESTful API and WebSocket in less than 1…",
+    "description": "🏷️ Expose your Discord presence and activities to a RESTful API and WebSocket in less than 10 seconds - Phineas/lanyard",
+    "image": "/images/link-previews/4501791213357bcd.webp",
+    "favicon": "/images/link-previews/caa1772461410291.webp"
+  },
+  "https://github.com/shikijs/shiki": {
+    "title": "GitHub - shikijs/shiki: A beautiful yet powerful syntax highlighter",
+    "description": "A beautiful yet powerful syntax highlighter. Contribute to shikijs/shiki development by creating an account on GitHub.",
+    "image": "/images/link-previews/b07e3913e2490678.webp",
+    "favicon": "/images/link-previews/caa1772461410291.webp"
+  },
+  "https://k0stur.dev/": {
+    "title": "Kostur's Art",
+    "description": "Character art and doodles that bite back. The art portfolio of Kostur.",
+    "image": "/images/link-previews/c179b168464f116f.webp",
+    "favicon": "/images/link-previews/04214ee7d6a194bf.webp"
+  },
+  "https://nuro.dev/": {
+    "title": "nuro ─ engineer",
+    "description": "Hey, I'm Ben ─ an engineer",
+    "image": "/images/link-previews/1311a92ec5054751.webp",
+    "favicon": "/images/link-previews/6e63cce0cbc2ccc7.webp"
+  },
+  "https://orm.drizzle.team/docs/drizzle-kit-generate": {
+    "title": "Drizzle ORM - `generate`",
+    "description": "Drizzle ORM is a lightweight and performant TypeScript ORM with developer experience in mind.",
+    "favicon": "/images/link-previews/a83f0760c9acdf3f.webp"
+  },
+  "https://phineas.io/": {
+    "title": "Phin Walton",
+    "description": "Systems & Network Engineer based in Tokyo",
+    "favicon": "/images/link-previews/34499d7d2a8ea4ce.webp"
+  },
+  "https://starship.rs/": {
+    "title": "Starship: Cross-Shell Prompt",
+    "description": "Starship is the minimal, blazing fast, and extremely customizable prompt for any shell! Shows the information you need, while staying sleek and minimal. Quick installation available for Bash, Fish, Z…",
+    "image": "/images/link-previews/55649b4be709a5f1.webp",
+    "favicon": "/images/link-previews/bc540bb2405dda28.webp"
+  },
+  "https://tailwindcss.com/": {
+    "title": "Tailwind CSS - Rapidly build modern websites without ever leaving your HTML.",
+    "description": "Tailwind CSS is a utility-first CSS framework for rapidly building modern websites without ever leaving your HTML.",
+    "image": "/images/link-previews/a7cbd286fb7a46eb.webp",
+    "favicon": "/images/link-previews/04605778f04a45ae.webp"
+  },
+  "https://tanstack.com/query/latest/docs/framework/react/guides/invalidations-from-mutations": {
+    "title": "Invalidations from Mutations | TanStack Query React Docs",
+    "description": "Invalidating queries is only half the battle. Knowing when to invalidate them is the other half. Usually when a mutation in your app succeeds, it's VERY likely that there are related queries in your.…",
+    "image": "/images/link-previews/d9059ea790bb8412.webp",
+    "favicon": "/images/link-previews/6c187d9369065359.webp"
+  },
+  "https://tanstack.com/start/latest": {
+    "title": "TanStack Start | Full-stack React and Solid Framework",
+    "description": "TanStack Start is a full-stack framework for React and Solid, with type-safe routing, server-side rendering, streaming, and server functions.",
+    "image": "/images/link-previews/b4cbfe8affdc23e4.webp",
+    "favicon": "/images/link-previews/6c187d9369065359.webp"
+  },
+  "https://tanstack.com/start/latest/docs/framework/react/guide/server-functions": {
+    "title": "Server Functions | TanStack Start React Docs",
+    "description": "Server functions let you define server-only logic that can be called from anywhere in your application - loaders, components, hooks, or other server functions. They run on the server but can be...",
+    "image": "/images/link-previews/b4cbfe8affdc23e4.webp",
+    "favicon": "/images/link-previews/6c187d9369065359.webp"
+  },
+  "https://tanstack.com/start/latest/docs/framework/react/guide/static-prerendering": {
+    "title": "Static Prerendering | TanStack Start React Docs",
+    "description": "Static prerendering is the process of generating static HTML files for your application. This can be useful for either improving the performance of your application, as it allows you to serve...",
+    "image": "/images/link-previews/b4cbfe8affdc23e4.webp",
+    "favicon": "/images/link-previews/6c187d9369065359.webp"
+  },
+  "https://viteplus.dev/": {
+    "title": "Vite+",
+    "description": "The Unified Toolchain for the Web",
+    "image": "/images/link-previews/70499a39cd769b4a.webp",
+    "favicon": "/images/link-previews/6cdcfc46b38db0d0.webp"
+  },
+  "https://www.fusejs.io/": {
+    "title": "Fuse.js — Lightweight Fuzzy-Search Library",
+    "description": "Powerful, lightweight fuzzy-search library for JavaScript with zero dependencies.",
+    "image": "/images/link-previews/e3494600bef03af1.webp",
+    "favicon": "/images/link-previews/499ba9e96b3a56b6.webp"
+  },
+  "https://www.nerdfonts.com/font-downloads": {
+    "title": "Nerd Fonts - Iconic font aggregator, glyphs/icons collection, & fonts patcher",
+    "description": "Iconic font aggregator, collection, & patcher: 10,000+ glyph/icons, 70+ patched fonts: Hack, Source Code Pro, more. Popular glyph collections: Font Awesome, Octicons, Material Design Icons, and more",
+    "image": "/images/link-previews/708a2ea788822b75.webp",
+    "favicon": "/images/link-previews/540add35db4d5c69.webp"
+  },
+  "https://www.youtube.com/watch?v=JCJUPJ_zDQ4&pp=ygUWdmlldyB0cmFuc2l0aW9uIGdvb2dsZQ%3D%3D": {
+    "title": "Bringing page transitions to the web",
+    "description": "Native apps often feature transitions between states that both look great and help communicate the type of navigation to the user. The bad news: creating tra...",
+    "image": "/images/link-previews/05d9edf54f04578c.webp",
+    "favicon": "/images/link-previews/d93cc61b5dc0c894.webp"
+  }
+}

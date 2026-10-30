@@ -34,7 +34,7 @@ type Pop = {
 type Float = { id: number; x: number; y: number; text: string; big?: boolean };
 export type CatTrick = { kind: "meow" | "pspsps"; id: number };
 
-const sticker = (cat: number, pose: number) => `/images/cats/${names[cat]}${pose}.png`;
+export const sticker = (cat: number, pose: number) => `/images/cats/${names[cat]}${pose}.png`;
 const isLoaf = (pop: Pop) => pop.cat === LOAF[0] && pop.pose === LOAF[1];
 let nextId = 0;
 let audio: AudioContext | undefined;

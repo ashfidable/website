@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { TerminalStatusSlot } from "./status-slot";
 import { getCategory, type Post } from "$content/index";
 import { Icon } from "../icon";
+import { LinkPreviews } from "../link-preview";
 import { extractHeadings, mdxComponents } from "../mdx";
 import { usePostLikes } from "@/features/post-likes/use-post-likes";
 import { focusRing, isoDate, latestPosts, latestSnippets } from "./data";
@@ -76,6 +77,7 @@ export function TerminalPost({ post }: { post: Post }) {
   const likes = usePostLikes(`${post.category}:${post.slug}`);
   const statusSlot = useContext(TerminalStatusSlot);
   const topLike = useRef<HTMLSpanElement>(null);
+  const postBody = useRef<HTMLDivElement>(null);
   const [showStatusLike, setShowStatusLike] = useState(false);
 
   useEffect(() => {
@@ -167,15 +169,18 @@ export function TerminalPost({ post }: { post: Post }) {
                 </header>
 
                 {headings.length > 0 && (
-                  <nav aria-label="Table of contents" className="mt-5">
+                  <nav
+                    aria-label="Table of contents"
+                    className="mt-6 max-w-[72ch] rounded-md border border-site-border bg-site-card px-3 py-2"
+                  >
                     <p className="text-site-heading"># contents</p>
-                    <ol className="mt-1">
+                    <ol className="mt-1 sm:columns-2 sm:gap-6">
                       {headings.map((heading) => (
                         <li
                           key={heading.slug}
-                          className={
+                          className={`break-inside-avoid ${
                             heading.depth === 4 ? "pl-8" : heading.depth === 3 ? "pl-4" : ""
-                          }
+                          }`}
                         >
                           <a
                             href={`#${heading.slug}`}
@@ -202,13 +207,14 @@ export function TerminalPost({ post }: { post: Post }) {
                   </nav>
                 )}
 
-                {/* Body in the reading font for long-form comfort; code blocks keep their mono. */}
                 <div
+                  ref={postBody}
                   data-post-body
-                  className="mt-8 flex max-w-[72ch] snap-y flex-col font-site-body leading-relaxed"
+                  className="mt-10 max-w-[72ch] break-words leading-[1.75]"
                 >
                   <Content components={mdxComponents} />
                 </div>
+                <LinkPreviews container={postBody} />
               </article>
             ),
           },

@@ -319,6 +319,9 @@ importers:
       satori:
         specifier: ^0.33.5
         version: 0.33.5
+      sharp:
+        specifier: ^0.35.3
+        version: 0.35.3(@types/node@24.13.3)
       typeface-manrope:
         specifier: ^1.0.0
         version: 1.0.0

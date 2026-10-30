@@ -1,9 +1,11 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import { useRef, useState, type PointerEvent as ReactPointerEvent, type RefObject } from "react";
 import type { OptimizedImage } from "$content/post-images";
 import { useSettings } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
 import { Icon } from "./icon";
+import { focusRing } from "./terminal/data";
+import { linkClass } from "./terminal/ui";
 
 type ImageGalleryProps = {
   images: OptimizedImage[];
@@ -56,18 +58,136 @@ function ResponsiveImage({
 
 export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: ImageGalleryProps) {
   const settings = useSettings();
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [viewerStart, setViewerStart] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(pageSize ?? images.length);
-  const [zoom, setZoom] = useState(1);
-  const [offset, setOffset] = useState<Point>({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
   const opener = useRef<HTMLButtonElement | null>(null);
-  const dragStart = useRef<{ pointer: Point; offset: Point } | null>(null);
-  const activeImage = activeIndex === null ? null : images[activeIndex];
   const visibleImages = images.slice(0, visibleCount);
   const remainingCount = images.length - visibleImages.length;
   const nextCount = Math.min(pageSize ?? remainingCount, remainingCount);
   const spoilersHidden = spoiler && settings.hideSpoilers;
+
+  if (images.length === 0) return null;
+
+  return (
+    <>
+      <section
+        aria-label={`${altPrefix} gallery`}
+        className="my-6 overflow-hidden rounded-md border border-site-border bg-site-card text-xs"
+      >
+        <header className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-site-border px-3 py-1.5">
+          <p className="tabular-nums text-site-muted" aria-live="polite">
+            <span aria-hidden="true"># </span>
+            {visibleImages.length} of {images.length} images
+          </p>
+          {spoiler && (
+            <button
+              type="button"
+              className={`-mx-1 inline-flex items-center gap-1.5 px-1 py-1 ${linkClass}`}
+              onClick={() => {
+                settings.toggleSpoilers();
+                playAudio("/audio/sound_toggle_on.mp3", settings.sound);
+              }}
+              aria-pressed={settings.hideSpoilers}
+              title={settings.hideSpoilers ? "Show spoilers" : "Hide spoilers"}
+            >
+              <Icon
+                name={settings.hideSpoilers ? "mdi:eye-outline" : "mdi:eye-off-outline"}
+                className="text-sm"
+              />
+              {settings.hideSpoilers ? "show spoilers" : "hide spoilers"}
+            </button>
+          )}
+        </header>
+
+        <div className="grid grid-cols-2 gap-1 p-1 sm:grid-cols-3">
+          {visibleImages.map((src, index) => {
+            const alt = `${altPrefix} ${String(index + 1).padStart(2, "0")}`;
+            return (
+              <button
+                key={src.img.src}
+                type="button"
+                className={`group relative aspect-video overflow-hidden rounded bg-site-page [content-visibility:auto] ${focusRing}`}
+                onClick={(event) => {
+                  opener.current = event.currentTarget;
+                  setViewerStart(index);
+                }}
+                title={`Open ${alt}`}
+              >
+                <ResponsiveImage
+                  image={src}
+                  alt={alt}
+                  loading="lazy"
+                  sizes="(min-width: 640px) 15rem, 50vw"
+                  className={`h-full w-full object-cover ${spoilersHidden ? "scale-110 blur-xl" : "transition-transform duration-300 ease-springy group-hover:scale-[1.025]"}`}
+                />
+                {spoilersHidden && (
+                  <span className="pointer-events-none absolute inset-0 grid place-items-center">
+                    <span className="rounded bg-black/75 px-1.5 py-0.5 text-[0.65rem] text-white/85">
+                      spoiler
+                    </span>
+                  </span>
+                )}
+                <span className="absolute bottom-1 right-1 rounded bg-black/75 px-1.5 py-0.5 text-[0.65rem] tabular-nums text-white/85 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {remainingCount > 0 && (
+          <footer className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-t border-site-border px-3 py-1.5">
+            <button
+              type="button"
+              className={`-mx-1 px-1 py-1 ${linkClass}`}
+              onClick={() => setVisibleCount((count) => Math.min(count + nextCount, images.length))}
+            >
+              <span aria-hidden="true">› </span>load {nextCount} more
+            </button>
+            <button
+              type="button"
+              className={`-mx-1 px-1 py-1 ${linkClass}`}
+              onClick={() => setVisibleCount(images.length)}
+            >
+              load all ({remainingCount} left)
+            </button>
+          </footer>
+        )}
+      </section>
+
+      {viewerStart !== null && (
+        <ImageViewer
+          images={images}
+          altPrefix={altPrefix}
+          startIndex={viewerStart}
+          opener={opener}
+          onClose={() => setViewerStart(null)}
+        />
+      )}
+    </>
+  );
+}
+
+/** Owns zoom and drag state so per-pointer updates never re-render the thumbnail grid. */
+function ImageViewer({
+  images,
+  altPrefix,
+  startIndex,
+  opener,
+  onClose,
+}: {
+  images: OptimizedImage[];
+  altPrefix: string;
+  startIndex: number;
+  opener: RefObject<HTMLButtonElement | null>;
+  onClose: () => void;
+}) {
+  const [index, setIndex] = useState(startIndex);
+  const [zoom, setZoom] = useState(1);
+  const [offset, setOffset] = useState<Point>({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+  const dragStart = useRef<{ pointer: Point; offset: Point } | null>(null);
+  const image = images[index];
 
   function resetView() {
     setZoom(1);
@@ -76,22 +196,8 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
     dragStart.current = null;
   }
 
-  function openImage(index: number, button: HTMLButtonElement) {
-    opener.current = button;
-    setActiveIndex(index);
-    resetView();
-  }
-
-  function closeViewer() {
-    setActiveIndex(null);
-    resetView();
-  }
-
   function showImage(direction: -1 | 1) {
-    setActiveIndex((current) => {
-      if (current === null) return null;
-      return (current + direction + images.length) % images.length;
-    });
+    setIndex((current) => (current + direction + images.length) % images.length);
     resetView();
   }
 
@@ -128,96 +234,8 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
     setDragging(false);
   }
 
-  if (images.length === 0) return null;
-
   return (
-    <Dialog.Root
-      open={activeIndex !== null}
-      onOpenChange={(open) => {
-        if (!open) closeViewer();
-      }}
-    >
-      <div className="group/gallery relative my-6">
-        {spoiler && (
-          <button
-            type="button"
-            className="absolute right-2 top-2 z-20 flex items-center gap-1.5 rounded-md border border-white/15 bg-black/70 px-2.5 py-2 text-xs font-semibold text-white/90 shadow-lg backdrop-blur-md outline-none transition-[background-color,opacity,transform] hover:bg-black/85 focus-visible:ring-2 focus-visible:ring-white/80 sm:translate-y-1 sm:opacity-0 sm:group-hover/gallery:translate-y-0 sm:group-hover/gallery:opacity-100 sm:focus-within:translate-y-0 sm:focus-within:opacity-100"
-            onClick={() => {
-              settings.toggleSpoilers();
-              playAudio("/audio/sound_toggle_on.mp3", settings.sound);
-            }}
-            aria-pressed={settings.hideSpoilers}
-            title={settings.hideSpoilers ? "Show spoilers" : "Hide spoilers"}
-          >
-            <Icon
-              name={settings.hideSpoilers ? "mdi:eye-outline" : "mdi:eye-off-outline"}
-              className="text-base"
-            />
-            {settings.hideSpoilers ? "Show spoilers" : "Hide spoilers"}
-          </button>
-        )}
-
-        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-4">
-          {visibleImages.map((src, index) => {
-            const alt = `${altPrefix} ${String(index + 1).padStart(2, "0")}`;
-            return (
-              <button
-                key={src.img.src}
-                type="button"
-                className="group relative aspect-[16/10] overflow-hidden rounded-md bg-site-card outline-none focus-visible:ring-2 focus-visible:ring-site-ring focus-visible:ring-offset-2 focus-visible:ring-offset-site-page"
-                onClick={(event) => openImage(index, event.currentTarget)}
-                title={`Open ${alt}`}
-              >
-                <ResponsiveImage
-                  image={src}
-                  alt={alt}
-                  loading="lazy"
-                  sizes="(min-width: 1024px) 15rem, (min-width: 640px) 30vw, 50vw"
-                  className={`h-full w-full object-cover transition-[filter,transform] duration-300 ease-springy ${spoilersHidden ? "scale-110 blur-xl group-hover:scale-[1.125]" : "group-hover:scale-[1.025]"}`}
-                />
-                {spoilersHidden && (
-                  <span className="pointer-events-none absolute inset-0 grid place-items-center">
-                    <span className="rounded-md bg-black/65 px-2 py-1 text-xs font-semibold text-white/90 backdrop-blur-sm">
-                      Spoiler hidden
-                    </span>
-                  </span>
-                )}
-                <span className="absolute bottom-1.5 right-1.5 rounded bg-black/65 px-1.5 py-0.5 font-mono text-[0.65rem] tabular-nums text-white/85 opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </button>
-            );
-          })}
-          {remainingCount > 0 && (
-            <div className="flex aspect-[16/10] flex-col overflow-hidden rounded-md border border-site-border bg-site-card">
-              <button
-                type="button"
-                className="group flex min-h-0 flex-1 flex-col items-center justify-center gap-1 px-3 text-site-foreground outline-none transition-colors hover:bg-site-card-hover focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring"
-                onClick={() =>
-                  setVisibleCount((count) => Math.min(count + nextCount, images.length))
-                }
-              >
-                <Icon
-                  name="mdi:image-multiple-outline"
-                  className="text-xl text-site-icon-hover transition-transform duration-150 group-hover:scale-110"
-                />
-                <span className="text-sm font-semibold">Load {nextCount} more</span>
-                <span className="text-xs tabular-nums text-site-muted" aria-live="polite">
-                  {remainingCount} remaining
-                </span>
-              </button>
-              <button
-                type="button"
-                className="border-t border-site-border px-3 py-2 text-xs font-medium text-site-muted outline-none transition-[background-color,color] hover:bg-site-card-hover hover:text-site-foreground focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-site-ring"
-                onClick={() => setVisibleCount(images.length)}
-              >
-                Load All
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
+    <Dialog.Root open onOpenChange={onClose}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm" />
         <Dialog.Content
@@ -236,9 +254,7 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
             event.preventDefault();
           }}
         >
-          <Dialog.Title className="sr-only">
-            {activeIndex === null ? "Image gallery" : `${altPrefix} ${activeIndex + 1}`}
-          </Dialog.Title>
+          <Dialog.Title className="sr-only">{`${altPrefix} ${index + 1}`}</Dialog.Title>
           <Dialog.Description className="sr-only">
             Use the arrow keys to move between images. Use plus and minus to zoom.
           </Dialog.Description>
@@ -248,7 +264,7 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
               className="min-w-20 font-mono text-xs tabular-nums text-white/60"
               aria-live="polite"
             >
-              {activeIndex === null ? 0 : activeIndex + 1} / {images.length}
+              {index + 1} / {images.length}
             </div>
             <div role="group" className="flex items-center gap-1" aria-label="Zoom controls">
               <button
@@ -293,27 +309,25 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
               <Icon name="mdi:chevron-left" className="text-2xl" />
             </button>
 
-            {activeImage && (
-              <ResponsiveImage
-                key={activeImage.img.src}
-                image={activeImage}
-                alt={`${altPrefix} ${activeIndex! + 1}`}
-                sizes="100vw"
-                draggable={false}
-                className={`max-h-[calc(100dvh-5.5rem)] max-w-full touch-none select-none object-contain transition-transform duration-150 ${zoom > 1 ? (dragging ? "cursor-grabbing" : "cursor-grab") : "cursor-zoom-in"}`}
-                style={{
-                  transform: `translate3d(${offset.x}px, ${offset.y}px, 0) scale(${zoom})`,
-                }}
-                onClick={() => {
-                  if (zoom === 1) changeZoom(0.5);
-                }}
-                onDoubleClick={resetView}
-                onPointerDown={startDrag}
-                onPointerMove={dragImage}
-                onPointerUp={stopDrag}
-                onPointerCancel={stopDrag}
-              />
-            )}
+            <ResponsiveImage
+              key={image.img.src}
+              image={image}
+              alt={`${altPrefix} ${index + 1}`}
+              sizes="100vw"
+              draggable={false}
+              className={`max-h-[calc(100dvh-5.5rem)] max-w-full touch-none select-none object-contain ${dragging ? "cursor-grabbing" : `transition-transform duration-150 ${zoom > 1 ? "cursor-grab" : "cursor-zoom-in"}`}`}
+              style={{
+                transform: `translate3d(${offset.x}px, ${offset.y}px, 0) scale(${zoom})`,
+              }}
+              onClick={() => {
+                if (zoom === 1) changeZoom(0.5);
+              }}
+              onDoubleClick={resetView}
+              onPointerDown={startDrag}
+              onPointerMove={dragImage}
+              onPointerUp={stopDrag}
+              onPointerCancel={stopDrag}
+            />
 
             <button
               type="button"

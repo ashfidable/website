@@ -59,10 +59,35 @@
     min-height: 100%;
   }
 
+  /* Thin accent scrollbars. Chrome ignores these pseudos once scrollbar-color is set, so
+     the standard properties are only for browsers without them. */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    background: transparent;
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: var(--color-heading-text);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-heading-text-hover);
+  }
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-heading-text) transparent;
+    }
+  }
+
   code:not(.ec-line code) {
     border-radius: var(--rounded-radius);
     background-color: var(--color-code-background);
-    padding-inline: 0.5rem;
+    padding-inline: 0.25rem;
   }
 }
 
@@ -166,6 +191,44 @@ html[data-search-transition]::view-transition-new(root) {
   }
 }
 
+/* Tab changes: the highlight morphs to the new tab while the rest of the page swaps instantly.
+   Names exist only for this transition, so window transitions never pick them up. Labels get
+   their own layers because named snapshots paint over the page, which would hide them. */
+html:active-view-transition-type(terminal-tab) [data-terminal-tab-highlight] {
+  view-transition-name: terminal-tab-highlight;
+}
+html:active-view-transition-type(terminal-tab) [data-terminal-tab-label] {
+  view-transition-name: var(--tab-vt);
+  view-transition-class: terminal-tab-label;
+}
+html:active-view-transition-type(terminal-tab) [data-tools-panel] [data-tool-row] {
+  view-transition-name: none;
+}
+html:active-view-transition-type(terminal-tab)::view-transition {
+  pointer-events: none;
+}
+html:active-view-transition-type(terminal-tab)::view-transition-group(*) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+::view-transition-group(terminal-tab-highlight) {
+  z-index: 1;
+}
+::view-transition-group(.terminal-tab-label) {
+  z-index: 2;
+}
+::view-transition-old(terminal-tab-highlight),
+::view-transition-new(terminal-tab-highlight) {
+  height: 100%;
+  animation: none;
+}
+
+/* Shorter than the morph so each label has its final colour by the time the highlight arrives. */
+::view-transition-old(.terminal-tab-label),
+::view-transition-new(.terminal-tab-label) {
+  animation-duration: 160ms;
+}
+
 /* Terminal window min/max transitions.
    View-transition names only exist while a transition runs, so route changes are untouched. */
 html[data-calm-transition="window"] [data-terminal-window] {
@@ -213,6 +276,26 @@ html[data-calm-transition="window"]::view-transition-new(terminal-window) {
   background-color: var(--color-body-text);
   color: var(--color-card-background);
   text-decoration: underline;
+}
+
+/* Post body pieces that come from Expressive Code or raw JSX in MDX, so mdxComponents can't style
+   them. Unlayered because Sprite's mx-auto utility would otherwise win. */
+[data-post-body] .expressive-code {
+  margin-block: 1.25rem;
+}
+[data-post-body] [role="tabpanel"] .expressive-code {
+  margin-block: 0;
+}
+[data-post-body] li .expressive-code {
+  margin-block: 0.5rem;
+}
+[data-post-body] > del {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--color-body-text-low-contrast);
+}
+[data-post-body] .character {
+  margin: 1.25rem 0;
 }
 
 /* Print the whole article, including content outside the terminal's scroll viewport. */

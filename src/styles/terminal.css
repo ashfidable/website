@@ -182,7 +182,9 @@
   [data-terminal-post] > header:focus-within,
   [data-terminal-post] > nav:focus-within,
   [data-post-body] > :focus-within {
-    animation: none;
+    /* Skip to the end rather than `animation: none`, which replays the reveal once focus leaves,
+       such as when the focused button unmounts. */
+    animation-delay: -360ms;
   }
 }
 
