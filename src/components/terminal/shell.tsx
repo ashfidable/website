@@ -1,6 +1,8 @@
 import { Link, useLocation, useMatches, useNavigate } from "@tanstack/react-router";
 import {
   Component,
+  lazy,
+  Suspense,
   useEffect,
   useId,
   useRef,
@@ -12,7 +14,7 @@ import {
   type RefObject,
 } from "react";
 import { createPortal, flushSync } from "react-dom";
-import { CatHideout, sticker, type CatTrick } from "../cat-hideout";
+import { sticker, type CatTrick } from "../cat-assets";
 import { TerminalStatusSlot } from "./status-slot";
 import { CommandInput } from "./command-input";
 import { usePostFind } from "./use-post-find";
@@ -26,17 +28,20 @@ import { focusRing, latestPosts, latestSnippets, shellUser } from "./data";
 import { tabForPath, tabs, tabPath, type TabId } from "./layout";
 import {
   Kbd,
-  MoreLink,
   PostRows,
   Prompt,
   Script,
   ToolRows,
   calmTransition,
   filterEntries,
+  linkClass,
   type Step,
 } from "./ui";
 
 const primaryTabIds: readonly TabId[] = ["home", "blog", "snippets"];
+const CatHideout = lazy(() =>
+  import("../cat-hideout").then((module) => ({ default: module.CatHideout })),
+);
 const moreTabs = tabs.filter((tab) => !primaryTabIds.includes(tab.id));
 
 /** The active tab's background, split out so it can morph between tabs under their labels. */
@@ -137,7 +142,10 @@ function WindowControls({
   const glyph =
     "relative h-2 w-2 opacity-0 transition-opacity group-hover/controls:opacity-100 group-focus-within/controls:opacity-100";
   return (
-    <div className="group/controls mb-1.5 hidden shrink-0 items-center gap-0 pl-1 sm:flex">
+    <div
+      data-js-only
+      className="group/controls mb-1.5 hidden shrink-0 items-center gap-0 pl-1 sm:flex"
+    >
       <span aria-hidden="true" title="Close" className={`${dot} before:bg-red-400`}>
         <svg viewBox="0 0 8 8" className={glyph}>
           <path
@@ -401,6 +409,7 @@ function ReadingProgress({
     <button
       type="button"
       onClick={() => panelRef.current?.scrollTo({ top: 0, behavior: "smooth" })}
+      data-js-only
       title="Back to top"
       aria-label={`${progress}% read — back to top`}
       className={`rounded tabular-nums text-site-foreground hover:text-site-heading ${focusRing}`}
@@ -419,7 +428,7 @@ function StatusBar({
 }) {
   return (
     <footer className="flex shrink-0 items-center justify-between gap-4 border-t border-site-border bg-site-button px-4 py-1.5 text-xs text-site-muted md:px-6">
-      <p className="flex min-w-0 items-center gap-2">
+      <p data-js-only className="flex min-w-0 items-center gap-2">
         <PresenceBoundary>
           <Presence />
         </PresenceBoundary>
@@ -444,7 +453,7 @@ function StatusBar({
         >
           ☕ coffee
         </a>
-        <span aria-hidden="true" className="hidden items-center gap-1 md:flex">
+        <span data-js-only aria-hidden="true" className="hidden items-center gap-1 md:flex">
           <Kbd>?</Kbd> help
         </span>
       </nav>
@@ -468,10 +477,13 @@ export function TerminalShell({ children }: { children: ReactNode }) {
   const dockRef = useRef<HTMLButtonElement>(null);
   const previousMode = useRef<WindowMode>("normal");
   const [windowMode, setWindowMode] = useState<WindowMode>("normal");
+  const [catsOpened, setCatsOpened] = useState(false);
   const [catTrick, setCatTrick] = useState<CatTrick | null>(null);
   const [value, setValue] = useState("");
   const [output, setOutput] = useState<{ id: number; step: Step } | null>(null);
   const [likeSlot, setLikeSlot] = useState<HTMLSpanElement | null>(null);
+  const [interactive, setInteractive] = useState(false);
+  useEffect(() => setInteractive(true), []);
 
   // The committed route, not the location: that changes before the view transition's old snapshot,
   // which would leave the tab highlight with nowhere to morph from.
@@ -494,7 +506,10 @@ export function TerminalShell({ children }: { children: ReactNode }) {
     pathname,
   );
 
-  const changeMode = (next: WindowMode) => calmTransition("window", () => setWindowMode(next));
+  const changeMode = (next: WindowMode) => {
+    if (next === "min") setCatsOpened(true);
+    calmTransition("window", () => setWindowMode(next));
+  };
   const openTab = (id: TabId) => {
     void navigate({ to: tabPath(id) });
   };
@@ -679,7 +694,9 @@ export function TerminalShell({ children }: { children: ReactNode }) {
     ) : output ? (
       <div className="space-y-3">
         <Script headingLevel={1} key={output.id} path={tab.path} steps={[output.step]} />
-        <MoreLink onClick={() => setOutput(null)}>← back</MoreLink>
+        <button type="button" onClick={() => setOutput(null)} className={`mt-1 ${linkClass}`}>
+          ← back
+        </button>
       </div>
     ) : null;
 
@@ -723,6 +740,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
           <button
             type="button"
             onClick={() => changeMode("min")}
+            data-js-only
             aria-label="Minimize window"
             title="Minimize and meet the cats"
             className={`mb-1 grid min-h-11 w-9 shrink-0 place-items-center rounded text-site-muted sm:hidden ${focusRing}`}
@@ -751,7 +769,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
                   role="tab"
                   aria-selected={selected}
                   aria-controls={`${baseId}-panel`}
-                  tabIndex={selected ? 0 : -1}
+                  tabIndex={selected || !interactive ? 0 : -1}
                   className={`group relative -mb-px min-h-11 min-w-0 flex-1 ${primaryTabIds.includes(item.id) ? "flex" : "hidden sm:flex"} items-center justify-center rounded-t-md border border-b-0 border-transparent px-0.5 py-2 text-xs sm:min-h-0 sm:flex-none sm:shrink-0 sm:px-3.5 sm:text-sm outline-none transition-colors duration-200 focus-visible:bg-site-heading focus-visible:text-site-card md:px-4 ${
                     selected
                       ? "text-site-card"
@@ -895,6 +913,7 @@ export function TerminalShell({ children }: { children: ReactNode }) {
 
         {/* Prompt */}
         <form
+          data-js-only
           onSubmit={run}
           role="search"
           className="flex shrink-0 flex-wrap items-center gap-1 border-t border-site-border px-4 py-2.5 md:px-6"
@@ -950,7 +969,11 @@ export function TerminalShell({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <CatHideout active={windowMode === "min"} trick={catTrick} />
+      {catsOpened && (
+        <Suspense fallback={null}>
+          <CatHideout active={windowMode === "min"} trick={catTrick} />
+        </Suspense>
+      )}
       {terminal}
     </>
   );

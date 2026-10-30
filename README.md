@@ -26,6 +26,16 @@ Start with [site.config.json](site.config.json) for your name, links, tools, and
 
 Swap out my images and branding, and change whatever you like. If you're deploying your own copy, update [wrangler.jsonc](wrangler.jsonc) with your Cloudflare settings too. `vp run build` creates the production build.
 
+## Automatic production builds
+
+Push source changes; the hosting build runs `vp run build`. It generates social cards, fetches previews for new external links, creates responsive AVIF/WebP images, and pre-renders the pages. No local generation or generated-image commits are required.
+
+Image transforms use `node_modules/.cache/imagetools`, keyed by source bytes and transform options. Social cards use `.cache/og` plus `public/images/og`. These caches are optional: a fresh checkout generates everything automatically. AVIF uses a faster encoder setting while retaining the same quality setting and responsive image sizes.
+
+For Cloudflare Workers Builds, use `vp run build` as the build command and `vp run deploy` as the deploy command. Enable **Settings → Build → Build cache** for dependency caching. Cloudflare's [documented cache support](https://developers.cloudflare.com/workers/ci-cd/builds/build-caching/) does not currently list TanStack Start's custom image/OG directories, so cold builds are optimized too; do not assume those directories survive between Cloudflare builds.
+
+Existing external-link previews are reused, and new links are fetched automatically. A failed third-party preview does not fail the build. To explicitly refresh existing previews, run `vp run generate:link-previews -- --refresh`, locally or in the hosting build command.
+
 ## Contributing
 
 Found a bug or have an idea? Open an issue or send a pull request. For bigger changes, start an issue so we can talk it through first.

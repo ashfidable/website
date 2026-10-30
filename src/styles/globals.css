@@ -42,6 +42,24 @@
 }
 
 @layer base {
+  @media (scripting: none) {
+    [data-js-only] {
+      display: none !important;
+    }
+    .type-in,
+    .fade-in-late,
+    [data-reveal-row],
+    [data-post-body] > *,
+    [data-terminal-post] > header,
+    [data-terminal-post] > nav {
+      animation: none !important;
+    }
+    /* Override Tailwind's important hidden rule within the same layer. */
+    [data-code-tabs] > [role="tabpanel"][hidden] {
+      display: block !important;
+    }
+  }
+
   * {
     border-color: var(--color-border-highlight);
   }

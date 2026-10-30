@@ -3,6 +3,7 @@ dist/
 .tanstack/
 .wrangler/
 public/images/og/
+.cache/og/
 
 # dependencies
 node_modules/

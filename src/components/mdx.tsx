@@ -1,4 +1,5 @@
 import { type ComponentProps, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import type { MDXComponents } from "mdx/types";
 import { Icon } from "./icon";
 import { isExternalLink } from "./link-preview";
@@ -64,6 +65,15 @@ export function PostImage({
 }
 
 function PostLink({ children, ...props }: ComponentProps<"a">) {
+  const className = `underline decoration-site-link/40 hover:decoration-site-link-hover ${linkClass}`;
+  if (props.href?.startsWith("/") && !props.href.startsWith("//") && !props.download) {
+    const { href, ...linkProps } = props;
+    return (
+      <Link {...linkProps} to={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
   const external = isExternalLink(props.href);
   // Nowrap the end of the text so the icon can't drop to a line of its own, without
   // stopping a long URL from wrapping.
@@ -77,7 +87,7 @@ function PostLink({ children, ...props }: ComponentProps<"a">) {
         rel: "noopener noreferrer",
         "data-external-link": "",
       })}
-      className={`underline decoration-site-link/40 hover:decoration-site-link-hover ${linkClass}`}
+      className={className}
     >
       {lead}
       {external && (
@@ -141,24 +151,3 @@ export const mdxComponents: MDXComponents = {
     <PostImage src={typeof props.src === "string" ? props.src : undefined} alt={props.alt} />
   ),
 };
-
-export type Heading = { depth: number; slug: string; text: string };
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/<[^>]*>|[`*_~]/g, "")
-    .replace(/[^\p{L}\p{N}\s-]/gu, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-}
-
-export function extractHeadings(source: string): Heading[] {
-  return source.split(/\r?\n/).flatMap((line) => {
-    const match = /^(#{2,4})\s+(.+)$/.exec(line.trim());
-    if (!match) return [];
-    const text = match[2].replace(/\[([^\]]+)]\([^)]*\)/g, "$1").replace(/[*_`]/g, "");
-    return [{ depth: match[1].length, slug: slugify(text), text }];
-  });
-}

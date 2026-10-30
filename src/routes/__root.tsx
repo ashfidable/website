@@ -1,13 +1,20 @@
-import { HeadContent, Outlet, Scripts, createRootRoute, useLocation } from "@tanstack/react-router";
+import { paletteKeys, themeVariables } from "@/lib/community-theme";
+import {
+  HeadContent,
+  Link,
+  Outlet,
+  Scripts,
+  createRootRoute,
+  useLocation,
+} from "@tanstack/react-router";
 import { useEffect, useRef, type ReactNode } from "react";
 import { TerminalShell } from "@/components/terminal/shell";
 import { HalloweenBackground } from "@/components/halloween-background";
-import { QueryProvider } from "@/providers/query-provider";
 import { SettingsProvider, useSettings } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
 import appCss from "../styles/globals.css?url";
 
-const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','halloween','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true,hideSpoilers:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded)}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`;
+const settingsScript = `(function(){try{var t=['dark','light','dusk','forest','ember','halloween','ocean','rose','mint','lavender','peach','meadow','sand'];var d={theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',rounded:true,sound:true,hideSpoilers:true};var s=localStorage.getItem('settings');if(s)d=Object.assign(d,JSON.parse(s));if(t.indexOf(d.theme)<0)d.theme='dark';document.documentElement.dataset.theme=d.theme;document.documentElement.dataset.rounded=String(d.rounded);var c=d.communityTheme;if(c&&typeof c.id==='string'&&typeof c.name==='string'&&typeof c.source==='string'&&(c.mode==='light'||c.mode==='dark')&&c.colors&&${JSON.stringify(paletteKeys)}.every(function(k){return typeof c.colors[k]==='string'&&/^#[0-9a-f]{6}$/i.test(c.colors[k])})){var r=document.documentElement;r.dataset.theme=c.mode;r.style.colorScheme=c.mode;r.style.setProperty('--color-background-image','none');var v=${JSON.stringify(themeVariables)};Object.keys(v).forEach(function(k){r.style.setProperty('--color-'+k,c.colors[v[k]])})}}catch(e){document.documentElement.dataset.theme='dark';document.documentElement.dataset.rounded='true'}})()`;
 
 export const Route = createRootRoute({
   head: () => ({
@@ -32,16 +39,16 @@ export const Route = createRootRoute({
     <div className="p-8">
       <title>Page not found | Ashfid</title>
       <h1 className="text-2xl font-bold text-site-heading">Page not found</h1>
-      <a href="/" className="underline">
+      <Link to="/" className="underline">
         Return home
-      </a>
+      </Link>
     </div>
   ),
 });
 
 function App() {
   return (
-    <QueryProvider>
+    <>
       <NavigationSound />
       <main
         id="main-content"
@@ -54,7 +61,7 @@ function App() {
           </TerminalShell>
         </div>
       </main>
-    </QueryProvider>
+    </>
   );
 }
 

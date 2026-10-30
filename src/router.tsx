@@ -8,7 +8,6 @@ export function getRouter() {
     scrollRestoration: true,
     scrollToTopSelectors: ["[data-terminal-scroll]"],
     defaultPreload: "intent",
-    defaultPreloadStaleTime: 0,
     // Only a change of tab morphs; everything inside a tab updates in place.
     defaultViewTransition: {
       types: ({ fromLocation, toLocation }) =>

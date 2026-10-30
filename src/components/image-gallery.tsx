@@ -71,6 +71,7 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
   return (
     <>
       <section
+        data-js-only
         aria-label={`${altPrefix} gallery`}
         className="my-6 overflow-hidden rounded-md border border-site-border bg-site-card text-xs"
       >
@@ -154,6 +155,22 @@ export function ImageGallery({ images, altPrefix, pageSize, spoiler = false }: I
           </footer>
         )}
       </section>
+      <noscript>
+        <details className="my-6 rounded border border-site-border p-3">
+          <summary className="cursor-pointer text-site-heading">
+            {altPrefix}: {images.length} images{spoiler ? " (contains spoilers)" : ""}
+          </summary>
+          <ul className="mt-3 space-y-2">
+            {images.map((image, index) => (
+              <li key={image.img.src}>
+                <a href={image.img.src} className={linkClass}>
+                  {altPrefix} {String(index + 1).padStart(2, "0")}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </noscript>
 
       {viewerStart !== null && (
         <ImageViewer

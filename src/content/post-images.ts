@@ -12,7 +12,7 @@ const finalFantasyAvifModules = import.meta.glob<string>(
   {
     eager: true,
     import: "default",
-    query: "?w=480;960;1920&format=avif&quality=50&withoutEnlargement&as=srcset",
+    query: "?w=480;960;1920&format=avif&quality=50&effort=1&withoutEnlargement&as=srcset",
   },
 );
 

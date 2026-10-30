@@ -1,4 +1,6 @@
 import { configSchema, postSchema } from "./src/content/schema";
+import { extractHeadings } from "./src/content/headings";
+import { getReadingTime } from "./src/utils/reading-time";
 import { parse as parseYaml } from "yaml";
 import mdx from "@mdx-js/rollup";
 import { cloudflare } from "@cloudflare/vite-plugin";
@@ -48,14 +50,14 @@ function siteIcons(): Plugin {
   const virtualId = "\0virtual:site-icons";
   const configPath = fileURLToPath(new URL("./site.config.json", import.meta.url));
   const references = new Set<string>();
-  const devIcons = new Map<string, string>();
+  const devSprites = new Map<string, string>();
   let serving = false;
   return {
     name: "site-icons",
     configureServer(server) {
       serving = true;
       server.middlewares.use((request, response, next) => {
-        const svg = devIcons.get(request.url ?? "");
+        const svg = devSprites.get(request.url ?? "");
         if (!svg) return next();
         response.setHeader("Content-Type", "image/svg+xml");
         response.end(svg);
@@ -71,7 +73,13 @@ function siteIcons(): Plugin {
       if (id !== virtualId) return null;
       const sourceRoot = fileURLToPath(new URL("./src", import.meta.url));
       const matches = new Set<string>();
-      const sources = [readFileSync(configPath, "utf8")];
+      const configSource = readFileSync(configPath, "utf8");
+      const config = configSchema.parse(JSON.parse(configSource));
+      const stackIcons = new Set(
+        config.skills.flatMap((skill) => skill.entries.map((entry) => entry.icon)),
+      );
+      const toolIcons = new Set(config.tools.map((tool) => tool.icon));
+      const sources = [configSource];
       for (const relative of readdirSync(sourceRoot, { recursive: true }) as string[]) {
         if (!/\.(tsx?|mdx)$/.test(relative)) continue;
         sources.push(
@@ -88,41 +96,64 @@ function siteIcons(): Plugin {
           matches.add(match[0]);
         }
       }
-      const selected: Record<string, unknown> = {};
+      const groups = new Map<
+        string,
+        { symbols: string[]; icons: Record<string, { id: string; width: number; height: number }> }
+      >();
+      const entries: string[] = [];
+      const assetUrl = (name: string, source: string) => {
+        if (serving) {
+          const path = `/__site-icons/${name}`;
+          devSprites.set(path, source);
+          return JSON.stringify(path);
+        }
+        const reference = this.emitFile({ type: "asset", name, source });
+        references.add(reference);
+        return `import.meta.ROLLUP_FILE_URL_${reference}`;
+      };
       for (const name of matches) {
         const [prefix, iconName] = name.split(":");
         const collection = iconCollections[prefix as keyof typeof iconCollections];
         const icon = collection?.icons[iconName];
-        if (icon) {
-          const width = icon.width ?? collection.width ?? 24;
-          const height = icon.height ?? collection.height ?? 24;
-          const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"><symbol id="icon" viewBox="0 0 ${width} ${height}">${icon.body}</symbol></svg>`;
-          if (serving) {
-            const url = `/__site-icons/${prefix}-${iconName}.svg`;
-            devIcons.set(url, svg);
-            selected[name] = { width, height, url };
-          } else {
-            const reference = this.emitFile({
-              type: "asset",
-              name: `${prefix}-${iconName}.svg`,
-              source: svg,
-            });
-            references.add(reference);
-            selected[name] = { width, height, reference };
-          }
+        if (!icon) continue;
+        // Share artwork without making the homepage download tool-only icons.
+        const groupName = stackIcons.has(name) ? "stack" : toolIcons.has(name) ? "tools" : "ui";
+        let group = groups.get(groupName);
+        if (!group) groups.set(groupName, (group = { symbols: [], icons: {} }));
+        const width = icon.width ?? collection.width ?? 24;
+        const height = icon.height ?? collection.height ?? 24;
+        const symbolId = `${prefix}-${iconName}`;
+        // WebKit drops paint servers in external <use> trees. Render complex brand
+        // artwork as a regular SVG image; keep simple icons in the shared sprites.
+        if (/<(?:linearGradient|radialGradient|filter|mask)\b/.test(icon.body)) {
+          const source = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}">${icon.body}</svg>`;
+          const url = assetUrl(`${symbolId}.svg`, source);
+          entries.push(
+            `${JSON.stringify(name)}:{width:${width},height:${height},url:${url},image:true}`,
+          );
+          continue;
+        }
+        // Definitions from different icons must not collide within a shared SVG.
+        const body = icon.body
+          .replace(/\bid="([^"]+)"/g, `id="${symbolId}-$1"`)
+          .replace(/url\(#([^)]+)\)/g, `url(#${symbolId}-$1)`)
+          .replace(/href="#([^"]+)"/g, `href="#${symbolId}-$1"`);
+        group.symbols.push(
+          `<symbol id="${symbolId}" viewBox="0 0 ${width} ${height}">${body}</symbol>`,
+        );
+        group.icons[name] = { id: symbolId, width, height };
+      }
+      for (const [name, group] of groups) {
+        const source = `<svg xmlns="http://www.w3.org/2000/svg">${group.symbols.join("")}</svg>`;
+        if (Object.keys(group.icons).length === 0) continue;
+        const url = assetUrl(`icons-${name}.svg`, source);
+        for (const [name, icon] of Object.entries(group.icons)) {
+          entries.push(
+            `${JSON.stringify(name)}:{width:${icon.width},height:${icon.height},url:${url}+${JSON.stringify(`#${icon.id}`)}}`,
+          );
         }
       }
-      return `export default {${Object.entries(selected)
-        .map(([name, value]) => {
-          const { width, height, reference, url } = value as {
-            width: number;
-            height: number;
-            reference?: string;
-            url?: string;
-          };
-          return `${JSON.stringify(name)}:{width:${width},height:${height},url:${url ? JSON.stringify(url) : `import.meta.ROLLUP_FILE_URL_${reference}`}}`;
-        })
-        .join(",")}}`;
+      return `export default {${entries.join(",")}}`;
     },
     handleHotUpdate({ file, server }) {
       if (file !== configPath) return;
@@ -147,6 +178,25 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   ssr: { noExternal: true },
+  environments: {
+    client: {
+      build: {
+        rolldownOptions: {
+          output: {
+            codeSplitting: {
+              groups: [
+                {
+                  name: "framework",
+                  test: /node_modules[\\/]@tanstack[\\/]redact[\\/]/,
+                  includeDependenciesRecursively: false,
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+  },
   plugins: lazyPlugins(() => [
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     imagetools({
@@ -158,7 +208,7 @@ export default defineConfig({
           return new URLSearchParams();
         }
 
-        return new URLSearchParams({ format: "webp", quality: "78", effort: "max" });
+        return new URLSearchParams({ format: "webp", quality: "78", effort: "4" });
       },
     }),
     siteIcons(),
@@ -188,6 +238,8 @@ export default defineConfig({
       prerender: {
         enabled: true,
         crawlLinks: true,
+        // Linked gallery images are already built assets, not pages to render.
+        filter: ({ path }) => !path.startsWith("/assets/"),
         autoSubfolderIndex: false,
         failOnError: true,
       },
@@ -208,14 +260,7 @@ export default defineConfig({
         this.addWatchFile(path);
         const source = readFileSync(path, "utf8");
         const frontmatter = parseYaml(/^---\r?\n([\s\S]*?)\r?\n---/.exec(source)?.[1] ?? "");
-        return `export default ${JSON.stringify({ frontmatter: postSchema.parse(frontmatter), source })}`;
-      },
-    },
-    {
-      name: "mdx-source-export",
-      transform(code, id) {
-        if (!id.endsWith(".mdx")) return null;
-        return `${code}\n\nexport const source = ${JSON.stringify(code)}`;
+        return `export default ${JSON.stringify({ frontmatter: postSchema.parse(frontmatter), readingTime: getReadingTime(source), headings: extractHeadings(source) })}`;
       },
     },
     mdx({

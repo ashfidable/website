@@ -127,7 +127,8 @@ function saveFavicon(host) {
 }
 
 async function fetchPreview(url) {
-  const favicon = await saveFavicon(new URL(url).host);
+  // Fetch the favicon alongside the page rather than adding another network round trip.
+  const favicon = saveFavicon(new URL(url).host);
   try {
     const response = await request(url);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -140,10 +141,10 @@ async function fetchPreview(url) {
       (await saveImage(new URL(image, response.url).href, (source) =>
         source.resize(640, 335, { fit: "cover", withoutEnlargement: true }),
       ));
-    return { title, description, image: saved || undefined, favicon };
+    return { title, description, image: saved || undefined, favicon: await favicon };
   } catch (error) {
     console.warn(`link preview skipped: ${url} (${error.message ?? error})`);
-    return { favicon };
+    return { favicon: await favicon };
   }
 }
 

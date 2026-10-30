@@ -1,10 +1,8 @@
 import icons from "virtual:site-icons";
 
-type IconData = { url: string; width: number; height: number; left?: number; top?: number };
-
 export function Icon({ name, className }: { name?: string; className?: string }) {
   if (!name) return null;
-  const icon = (icons as Record<string, IconData>)[name];
+  const icon = icons[name];
   if (!icon) return null;
   return (
     <svg
@@ -15,7 +13,11 @@ export function Icon({ name, className }: { name?: string; className?: string })
       className={className}
       aria-hidden="true"
     >
-      <use href={`${icon.url}#icon`} />
+      {icon.image ? (
+        <image href={icon.url} width={icon.width} height={icon.height} />
+      ) : (
+        <use href={icon.url} />
+      )}
     </svg>
   );
 }

@@ -1,12 +1,12 @@
-import { useNavigate } from "@tanstack/react-router";
 import { useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { TerminalStatusSlot } from "./status-slot";
 import { getCategory, type Post } from "$content/index";
 import { Icon } from "../icon";
 import { LinkPreviews } from "../link-preview";
-import { extractHeadings, mdxComponents } from "../mdx";
+import { mdxComponents } from "../mdx";
 import { usePostLikes } from "@/features/post-likes/use-post-likes";
+import { QueryProvider } from "@/providers/query-provider";
 import { focusRing, isoDate, latestPosts, latestSnippets } from "./data";
 import { MoreLink, PostRows, Script, minutes } from "./ui";
 
@@ -33,6 +33,7 @@ function LikeButton({
   const busy = pending || saving;
   return (
     <button
+      data-js-only
       type="button"
       onClick={sendLike}
       disabled={busy || limited || done}
@@ -72,7 +73,14 @@ function Meta({ label, children }: { label: string; children: ReactNode }) {
 
 /** A blog post or snippet as `cat post.mdx`: frontmatter header, contents, then the article. */
 export function TerminalPost({ post }: { post: Post }) {
-  const navigate = useNavigate();
+  return (
+    <QueryProvider>
+      <PostContent post={post} />
+    </QueryProvider>
+  );
+}
+
+function PostContent({ post }: { post: Post }) {
   const category = getCategory(post.category);
   const likes = usePostLikes(`${post.category}:${post.slug}`);
   const statusSlot = useContext(TerminalStatusSlot);
@@ -98,7 +106,7 @@ export function TerminalPost({ post }: { post: Post }) {
     return () => observer.disconnect();
   }, [post.id]);
 
-  const headings = extractHeadings(post.body);
+  const headings = post.headings;
   const Content = post.Content;
   const folder = post.kind === "blog" ? "~/blog" : "~/snippets";
   const siblings = post.kind === "blog" ? latestPosts : latestSnippets;
@@ -223,13 +231,11 @@ export function TerminalPost({ post }: { post: Post }) {
             label: post.kind === "blog" ? "More posts" : "More snippets",
             content: (
               <div className="space-y-3">
-                <p className="flex flex-wrap items-center gap-2 text-site-muted">
+                <p data-js-only className="flex flex-wrap items-center gap-2 text-site-muted">
                   # enjoyed it? <LikeButton state={likes} />
                 </p>
                 <PostRows items={others} />
-                <MoreLink
-                  onClick={() => navigate({ to: post.kind === "blog" ? "/blog" : "/snippets" })}
-                >
+                <MoreLink to={post.kind === "blog" ? "/blog" : "/snippets"}>
                   → all{" "}
                   {post.kind === "blog"
                     ? `${latestPosts.length} posts`

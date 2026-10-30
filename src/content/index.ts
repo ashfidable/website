@@ -2,12 +2,12 @@ import { createElement, type ComponentType } from "react";
 import type { MDXComponents } from "mdx/types";
 import rawConfig from "virtual:site-config";
 import type { SiteConfig, PostFrontmatter } from "./schema";
+import type { Heading } from "./headings";
 export type { SiteConfig } from "./schema";
 
 type MdxModule = {
   default: ComponentType<{ components?: MDXComponents }>;
   frontmatter: PostFrontmatter;
-  source: string;
 };
 
 export type Category = SiteConfig["categories"][number];
@@ -17,7 +17,8 @@ export type Post = PostFrontmatter & {
   id: string;
   slug: string;
   kind: "blog" | "snippets";
-  body: string;
+  readingTime?: string;
+  headings: Heading[];
   Content: MdxModule["default"];
 };
 
@@ -25,7 +26,7 @@ const postMetadata = import.meta.glob("./posts/**/*.mdx", {
   eager: true,
   query: "?metadata",
   import: "default",
-}) as Record<string, Pick<MdxModule, "frontmatter" | "source">>;
+}) as Record<string, { frontmatter: PostFrontmatter; readingTime?: string; headings: Heading[] }>;
 const postLoaders = import.meta.glob<MdxModule>("./posts/**/*.mdx");
 const loadedContent = new Map<string, MdxModule["default"]>();
 const loadingContent = new Map<string, Promise<void>>();
@@ -58,7 +59,8 @@ export const posts: Post[] = Object.entries(postMetadata).map(([path, module]) =
     id: relative,
     slug: slugParts.join("/"),
     kind,
-    body: module.source,
+    readingTime: module.readingTime,
+    headings: module.headings,
     Content: (props) => {
       const Content = loadedContent.get(path);
       if (!Content) throw loadContent(path);

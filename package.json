@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vp run generate:og && vp dev --port 3000",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
-    "build": "vp run clean && vp run generate:og && vp run generate:link-previews && vp build",
+    "build": "vp run clean && node scripts/generate-og-images.mjs && node scripts/generate-link-previews.mjs && vp build",
     "deploy": "wrangler deploy",
     "generate:og": "node scripts/generate-og-images.mjs",
     "generate:link-previews": "node scripts/generate-link-previews.mjs",
@@ -33,6 +33,8 @@
     "@tanstack/react-start": "^1.168.40",
     "@tanstack/redact": "^0.2.3",
     "drizzle-orm": "^0.45.2",
+    "fflate": "^0.8.3",
+    "jsonc-parser": "^3.3.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "use-lanyard": "^2.0.0",

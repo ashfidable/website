@@ -20,7 +20,7 @@ export const Route = createFileRoute("/snippets/$slug")({
           modified: post.last_modified_time,
           tags: post.tags,
           image: `/images/og/snippets/${post.slug}.png`,
-          imageAlt: post.social_image_alt,
+          imageAlt: `Terminal preview: ${post.title}`,
         })
       : {};
   },

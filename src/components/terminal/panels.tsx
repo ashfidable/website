@@ -1,5 +1,13 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
+import {
+  lazy,
+  Suspense,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { flushSync } from "react-dom";
 import { categories, tools } from "$content/index";
 import { themeNames, useSettings, type ThemeName } from "@/providers/settings-provider";
@@ -8,7 +16,7 @@ import { Icon } from "../icon";
 import { themeLabels } from "@/providers/settings-provider";
 import { Sprite } from "../site";
 import { focusRing, latestPosts, latestSnippets, sortedSkills } from "./data";
-import { tabPath, type PanelTab, type TabId } from "./layout";
+import { type TabId } from "./layout";
 import {
   CHAR_MS,
   MoreLink,
@@ -20,7 +28,7 @@ import {
   type Step,
 } from "./ui";
 
-function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
+function homeSteps(): Step[] {
   return [
     {
       command: "whoami",
@@ -58,7 +66,7 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
         <>
           <PostRows items={latestPosts.slice(0, 3)} />
           {latestPosts.length > 3 && (
-            <MoreLink row={3} onClick={() => openTab("blog")}>
+            <MoreLink row={3} to="/blog">
               → all {latestPosts.length} posts
             </MoreLink>
           )}
@@ -73,7 +81,7 @@ function homeSteps(openTab: (tab: PanelTab) => void): Step[] {
         <>
           <PostRows items={latestSnippets.slice(0, 3)} />
           {latestSnippets.length > 3 && (
-            <MoreLink row={3} onClick={() => openTab("snippets")}>
+            <MoreLink row={3} to="/snippets">
               → all {latestSnippets.length} snippets
             </MoreLink>
           )}
@@ -183,13 +191,15 @@ function Choice<T extends string>({
   options,
   onChange,
   render = (option) => option,
+  children,
 }: {
   name: string;
   row: number;
-  value: T;
+  value: T | undefined;
   options: readonly T[];
   onChange: (value: T) => void;
   render?: (option: T) => ReactNode;
+  children?: ReactNode;
 }) {
   return (
     <div
@@ -218,12 +228,17 @@ function Choice<T extends string>({
             </span>
           </label>
         ))}
+        {children}
       </div>
     </div>
   );
 }
 
+const ThemeBrowser = lazy(() => import("./theme-browser"));
+
 function ConfigPanel() {
+  const [browsing, setBrowsing] = useState(false);
+  const [browserOpened, setBrowserOpened] = useState(false);
   const settings = useSettings();
   const click = (enabled = settings.sound) => playAudio("/audio/sound_toggle_on.mp3", enabled);
 
@@ -238,67 +253,114 @@ function ConfigPanel() {
           staggerRows: 5,
           content: (
             <div className="space-y-3">
-              <p className="text-site-muted"># pick an option — changes save automatically</p>
-              <Choice<ThemeName>
-                name="theme"
-                row={0}
-                value={settings.theme}
-                options={themeNames}
-                onChange={(theme) => {
-                  settings.changeTheme(theme);
-                  click();
-                }}
-                render={(theme) => (
-                  <>
+              <noscript>
+                <p>
+                  Enable JavaScript to change preferences. All pages are still available to read.
+                </p>
+              </noscript>
+              <div data-js-only className="space-y-3">
+                <p className="text-site-muted"># pick an option — changes save automatically</p>
+                <Choice<ThemeName>
+                  name="theme"
+                  row={0}
+                  value={settings.communityTheme ? undefined : settings.theme}
+                  options={themeNames}
+                  onChange={(theme) => {
+                    settings.changeTheme(theme);
+                    click();
+                  }}
+                  render={(theme) => (
+                    <>
+                      <span
+                        data-theme={theme}
+                        aria-hidden="true"
+                        className="h-3 w-3 rounded-full border border-site-border bg-gradient-to-br from-[var(--color-theme-primary)] from-50% to-[var(--color-theme-secondary)] to-50%"
+                      />
+                      <span className="sr-only">{themeLabels[theme]}</span>
+                      <span aria-hidden="true">{theme}</span>
+                    </>
+                  )}
+                >
+                  <button
+                    type="button"
+                    aria-label="Browse themes"
+                    aria-expanded={browsing}
+                    aria-controls="community-themes"
+                    className={`inline-flex min-h-9 items-center gap-1.5 rounded border px-2 py-1 transition-colors hover:border-site-border-hover hover:text-site-foreground focus-visible:ring-2 focus-visible:ring-site-ring sm:min-h-0 sm:py-0.5 ${
+                      settings.communityTheme
+                        ? "border-site-heading text-site-heading"
+                        : "border-site-border text-site-muted"
+                    }`}
+                    onPointerEnter={() => void import("./theme-browser")}
+                    onClick={() => {
+                      setBrowsing(!browsing);
+                      setBrowserOpened(true);
+                    }}
+                  >
+                    {settings.communityTheme?.name ?? "browse"}
                     <span
-                      data-theme={theme}
                       aria-hidden="true"
-                      className="h-3 w-3 rounded-full border border-site-border bg-gradient-to-br from-[var(--color-theme-primary)] from-50% to-[var(--color-theme-secondary)] to-50%"
-                    />
-                    <span className="sr-only">{themeLabels[theme]}</span>
-                    <span aria-hidden="true">{theme}</span>
-                  </>
-                )}
-              />
-              <Choice
-                name="shortcuts"
-                row={1}
-                value={settings.shortcuts ? "on" : "off"}
-                options={["on", "off"] as const}
-                onChange={(value) => {
-                  if ((value === "on") !== settings.shortcuts) settings.toggleShortcuts();
-                }}
-              />
-              <Choice
-                name="sound"
-                row={2}
-                value={settings.sound ? "on" : "off"}
-                options={["on", "off"] as const}
-                onChange={(value) => {
-                  if ((value === "on") !== settings.sound) settings.toggleSound();
-                  click(value === "on");
-                }}
-              />
-              <Choice
-                name="corners"
-                row={3}
-                value={settings.rounded ? "rounded" : "square"}
-                options={["rounded", "square"] as const}
-                onChange={(value) => {
-                  if ((value === "rounded") !== settings.rounded) settings.toggleRounded();
-                  click();
-                }}
-              />
-              <Choice
-                name="spoilers"
-                row={4}
-                value={settings.hideSpoilers ? "hide" : "show"}
-                options={["hide", "show"] as const}
-                onChange={(value) => {
-                  if ((value === "hide") !== settings.hideSpoilers) settings.toggleSpoilers();
-                  click();
-                }}
-              />
+                      className={`text-xs transition-transform motion-reduce:transition-none ${browsing ? "rotate-180" : ""}`}
+                    >
+                      ▾
+                    </span>
+                  </button>
+                </Choice>
+                <div
+                  id="community-themes"
+                  inert={!browsing}
+                  className={`-mt-3 grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none md:ml-28 ${
+                    browsing ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div className="min-h-0 overflow-hidden">
+                    {browserOpened && (
+                      <Suspense fallback={null}>
+                        <ThemeBrowser />
+                      </Suspense>
+                    )}
+                  </div>
+                </div>
+                <Choice
+                  name="shortcuts"
+                  row={1}
+                  value={settings.shortcuts ? "on" : "off"}
+                  options={["on", "off"] as const}
+                  onChange={(value) => {
+                    if ((value === "on") !== settings.shortcuts) settings.toggleShortcuts();
+                  }}
+                />
+                <Choice
+                  name="sound"
+                  row={2}
+                  value={settings.sound ? "on" : "off"}
+                  options={["on", "off"] as const}
+                  onChange={(value) => {
+                    if ((value === "on") !== settings.sound) settings.toggleSound();
+                    click(value === "on");
+                  }}
+                />
+                <Choice
+                  name="corners"
+                  row={3}
+                  value={settings.rounded ? "rounded" : "square"}
+                  options={["rounded", "square"] as const}
+                  onChange={(value) => {
+                    if ((value === "rounded") !== settings.rounded) settings.toggleRounded();
+                    click();
+                  }}
+                />
+                <Choice
+                  name="spoilers"
+                  row={4}
+                  value={settings.hideSpoilers ? "hide" : "show"}
+                  options={["hide", "show"] as const}
+                  onChange={(value) => {
+                    if ((value === "hide") !== settings.hideSpoilers) settings.toggleSpoilers();
+                    click();
+                  }}
+                />
+              </div>
             </div>
           ),
         },
@@ -309,9 +371,6 @@ function ConfigPanel() {
 
 /** Shared terminal panels, each mounted at its own route. */
 export function TerminalHome({ tab }: { tab: TabId }) {
-  const navigate = useNavigate();
-  const openTab = (next: PanelTab) => navigate({ to: tabPath(next) });
-
   if (tab === "blog")
     return (
       <Script
@@ -354,5 +413,5 @@ export function TerminalHome({ tab }: { tab: TabId }) {
     );
   if (tab === "tools") return <ToolsPanel />;
   if (tab === "config") return <ConfigPanel />;
-  return <Script path="~" steps={homeSteps(openTab)} />;
+  return <Script path="~" steps={homeSteps()} />;
 }

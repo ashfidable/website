@@ -2,13 +2,12 @@ import { Link } from "@tanstack/react-router";
 import type { CSSProperties, ReactNode } from "react";
 import { flushSync } from "react-dom";
 import { getCategory, postPath, type Post, type Tool } from "$content/index";
-import { getReadingTime } from "$utils/reading-time";
 import { Icon } from "../icon";
 import { focusRing, isoDate, shellDir, shellUser } from "./data";
 
-export const CHAR_MS = 22;
-const GAP_MS = 140;
-const ROW_GAP_MS = 140;
+export const CHAR_MS = 12;
+const GAP_MS = 70;
+const ROW_GAP_MS = 60;
 
 export const stackLabels: Record<string, string> = {
   "programming-languages": "languages",
@@ -105,7 +104,7 @@ export function Kbd({ children }: { children: ReactNode }) {
 }
 
 export function minutes(post: Post) {
-  return getReadingTime(post.body)?.replace(/s? read$/, "") ?? "";
+  return post.readingTime?.replace(/s? read$/, "") ?? "";
 }
 
 export function filterEntries(items: Post[], needle: string) {
@@ -217,24 +216,23 @@ export function ToolRows({ items, query = "" }: { items: Tool[]; query?: string 
 export const linkClass = `rounded text-site-link underline-offset-4 hover:text-site-link-hover hover:underline ${focusRing}`;
 
 export function MoreLink({
-  onClick,
+  to,
   children,
   row = 0,
 }: {
-  onClick: () => void;
+  to: "/blog" | "/snippets";
   children: ReactNode;
   row?: number;
 }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
+    <Link
+      to={to}
       data-reveal-row
       style={{ "--row": String(row) } as CSSProperties}
-      className={`mt-1 ${linkClass}`}
+      className={`mt-1 inline-block ${linkClass}`}
     >
       {children}
-    </button>
+    </Link>
   );
 }
 

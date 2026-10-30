@@ -1,3 +1,4 @@
+import { applyCommunityTheme, isCommunityTheme, type CommunityTheme } from "@/lib/community-theme";
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 export const themeNames = [
@@ -34,6 +35,7 @@ export const themeLabels: Record<ThemeName, string> = {
 
 type Settings = {
   theme: ThemeName;
+  communityTheme: CommunityTheme | null;
   rounded: boolean;
   sound: boolean;
   hideSpoilers: boolean;
@@ -41,6 +43,7 @@ type Settings = {
 };
 type SettingsContextValue = Settings & {
   changeTheme: (theme: ThemeName) => void;
+  saveCommunityTheme: (theme: CommunityTheme) => void;
   toggleRounded: () => void;
   toggleSound: () => void;
   toggleSpoilers: () => void;
@@ -49,6 +52,7 @@ type SettingsContextValue = Settings & {
 
 const defaults: Settings = {
   theme: "dark",
+  communityTheme: null,
   rounded: true,
   sound: true,
   hideSpoilers: true,
@@ -64,6 +68,7 @@ function readSettings(): Settings {
       const parsed = JSON.parse(saved) as Partial<Settings>;
       return {
         ...defaults,
+        communityTheme: isCommunityTheme(parsed.communityTheme) ? parsed.communityTheme : null,
         rounded: parsed.rounded ?? defaults.rounded,
         sound: parsed.sound ?? defaults.sound,
         hideSpoilers: parsed.hideSpoilers ?? defaults.hideSpoilers,
@@ -93,7 +98,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   }, []);
   useEffect(() => {
     if (!loaded) return;
-    document.documentElement.dataset.theme = settings.theme;
+    document.documentElement.dataset.theme = settings.communityTheme?.mode ?? settings.theme;
+    applyCommunityTheme(settings.communityTheme);
     document.documentElement.dataset.rounded = String(settings.rounded);
     try {
       localStorage.setItem("settings", JSON.stringify(settings));
@@ -105,7 +111,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const value = useMemo<SettingsContextValue>(
     () => ({
       ...settings,
-      changeTheme: (theme) => setSettings((current) => ({ ...current, theme })),
+      changeTheme: (theme) =>
+        setSettings((current) => ({ ...current, theme, communityTheme: null })),
+      saveCommunityTheme: (communityTheme) =>
+        setSettings((current) => ({ ...current, communityTheme })),
       toggleRounded: () => setSettings((current) => ({ ...current, rounded: !current.rounded })),
       toggleSound: () => setSettings((current) => ({ ...current, sound: !current.sound })),
       toggleShortcuts: () =>

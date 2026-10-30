@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useSettings } from "@/providers/settings-provider";
+import { catNames as names, sticker, type CatTrick } from "./cat-assets";
 import "../styles/cats.css";
 
-const names = ["Tundra", "Maple"];
 const words = [
   ["hiss!", "mrrp", "pounce", "!!", "nom?", "mine."],
   ["blep", "mew?", "purr", "rude.", "hm.", "again?"],
@@ -32,9 +32,6 @@ type Pop = {
   state: "in" | "hit" | "out";
 };
 type Float = { id: number; x: number; y: number; text: string; big?: boolean };
-export type CatTrick = { kind: "meow" | "pspsps"; id: number };
-
-export const sticker = (cat: number, pose: number) => `/images/cats/${names[cat]}${pose}.png`;
 const isLoaf = (pop: Pop) => pop.cat === LOAF[0] && pop.pose === LOAF[1];
 let nextId = 0;
 let audio: AudioContext | undefined;

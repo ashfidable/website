@@ -106,14 +106,15 @@
 
 /* Release animation effects after the fade, especially on long scrollable articles. */
 .stagger-output [data-reveal-row] {
-  animation: fade-in 420ms ease-out backwards;
-  animation-delay: calc(var(--delay, 0ms) + var(--row, 0) * var(--row-gap, 140ms));
+  animation: fade-in 200ms ease-out backwards;
+  animation-delay: calc(var(--delay, 0ms) + var(--row, 0) * var(--row-gap, 60ms));
 }
 
 /* Keyboard navigation should never land on an invisible link. */
 .stagger-output [data-reveal-row]:focus-within {
   opacity: 1;
-  animation: none;
+  /* Finish the reveal without removing it, so leaving focus cannot restart it. */
+  animation-delay: -200ms;
 }
 
 @media (max-width: 639px) {
@@ -203,5 +204,74 @@
 @media screen and (max-width: 639px) {
   .fade-in-late:has(> [data-terminal-post]) {
     --delay: 60ms !important;
+  }
+}
+
+/* Do not disturb, clicked once too often: Tundra creeps up, then rushes the screen. */
+.cat-visit {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  width: min(70vmin, 480px);
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  translate: -50% -50%;
+  animation: cat-visit 2600ms linear both;
+}
+@keyframes cat-visit {
+  0% {
+    opacity: 0;
+    scale: 0.03;
+  }
+  6% {
+    opacity: 1;
+    scale: 0.05;
+  }
+  34% {
+    scale: 0.14;
+    rotate: 0deg;
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.6);
+  }
+  43% {
+    scale: 1.7;
+    rotate: -3deg;
+    animation-timing-function: ease-out;
+  }
+  49% {
+    scale: 1.45;
+    rotate: 2deg;
+  }
+  84% {
+    translate: -50% -50%;
+    scale: 1.5;
+    rotate: 0deg;
+    animation-timing-function: ease-in;
+  }
+  100% {
+    translate: -50% 120vh;
+    scale: 1.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-visit {
+    animation-name: cat-visit-calm;
+  }
+}
+@keyframes cat-visit-calm {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+}
+@media print {
+  .cat-visit {
+    display: none !important;
   }
 }
