@@ -31,7 +31,7 @@ function ThemeRow({ pack }: { pack: ThemePack }) {
   const settings = useSettings();
   const [themes, setThemes] = useState<CommunityTheme[]>([]);
   const [selectedId, setSelectedId] = useState("");
-  const [previewing, setPreviewing] = useState(false);
+  const [view, setView] = useState<"preview" | "choose" | null>(null);
   const [pending, setPending] = useState<"preview" | "apply" | null>(null);
   const [error, setError] = useState("");
   const request = useRef<AbortController | null>(null);
@@ -45,6 +45,7 @@ function ThemeRow({ pack }: { pack: ThemePack }) {
     themes.find((theme) => theme.id === active?.id) ??
     themes[0];
   const applied = !!active && (!selected || selected.id === active.id);
+  const highlighted = view === "choose" ? active?.id : selected?.id;
 
   async function load() {
     if (themes.length) return themes;
@@ -63,19 +64,32 @@ function ThemeRow({ pack }: { pack: ThemePack }) {
     }
   }
 
+  // After a reload, the applied pack still needs its versions to offer a change.
+  useEffect(() => {
+    if (active) load();
+  }, [active?.id]);
+
   async function togglePreview() {
-    if (previewing) return setPreviewing(false);
+    if (view === "preview") return setView(null);
     setPending("preview");
-    if ((await load()).length) setPreviewing(true);
+    if ((await load()).length) setView("preview");
     setPending(null);
   }
 
   async function apply() {
+    if (view === "choose") return setView(null);
     setPending("apply");
     const loaded = await load();
     const theme = loaded.find((item) => item.id === selected?.id) ?? loaded[0];
-    if (theme) settings.saveCommunityTheme(theme);
+    // Show a pack's versions instead of applying a default nobody picked.
+    if (loaded.length > 1 && (!view || applied)) setView("choose");
+    else if (theme) settings.saveCommunityTheme(theme);
     setPending(null);
+  }
+
+  function pick(theme: CommunityTheme) {
+    setSelectedId(theme.id);
+    if (view === "choose") settings.saveCommunityTheme(theme);
   }
 
   return (
@@ -89,14 +103,25 @@ function ThemeRow({ pack }: { pack: ThemePack }) {
           <button
             type="button"
             className={control}
-            aria-expanded={previewing}
+            aria-expanded={view === "preview"}
             disabled={!!pending}
             onClick={togglePreview}
           >
-            {pending === "preview" ? "Loading…" : previewing ? "Hide preview" : "Preview"}
+            {pending === "preview" ? "Loading…" : view === "preview" ? "Hide preview" : "Preview"}
           </button>
-          <button type="button" className={primary} disabled={!!pending || applied} onClick={apply}>
-            {pending === "apply" ? "Applying…" : applied ? "Applied ✓" : "Apply"}
+          <button
+            type="button"
+            className={primary}
+            disabled={!!pending || (applied && themes.length < 2)}
+            onClick={apply}
+          >
+            {pending === "apply"
+              ? "Applying…"
+              : applied
+                ? themes.length > 1
+                  ? "Change version"
+                  : "Applied ✓"
+                : "Apply"}
           </button>
         </div>
       </div>
@@ -105,32 +130,41 @@ function ThemeRow({ pack }: { pack: ThemePack }) {
           {error}
         </p>
       )}
-      {previewing && selected && (
+      {view && selected && (
         <div className="space-y-2">
           {themes.length > 1 && (
-            <div className="flex flex-wrap gap-2">
-              {themes.map((theme) => (
-                <button
-                  key={theme.id}
-                  type="button"
-                  aria-pressed={theme.id === selected.id}
-                  className={`${control} ${theme.id === selected.id ? "border-site-heading" : ""}`}
-                  onClick={() => setSelectedId(theme.id)}
-                >
-                  {theme.name}
-                </button>
-              ))}
+            <div className="space-y-1.5">
+              <p className="text-xs text-site-muted">
+                {view === "choose" ? "Choose a version." : "Choose a version to preview."}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {themes.map((theme) => (
+                  <button
+                    key={theme.id}
+                    type="button"
+                    aria-pressed={theme.id === highlighted}
+                    className={`${control} ${theme.id === highlighted ? "border-site-heading" : ""}`}
+                    onClick={() => pick(theme)}
+                  >
+                    {theme.name}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
-          <ThemePreview theme={selected} />
-          <a
-            className="text-xs text-site-link underline"
-            href={`https://open-vsx.org/extension/${selected.source.split("/").map(encodeURIComponent).join("/")}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            View theme & license ↗
-          </a>
+          {view === "preview" && (
+            <>
+              <ThemePreview theme={selected} />
+              <a
+                className="text-xs text-site-link underline"
+                href={`https://open-vsx.org/extension/${selected.source.split("/").map(encodeURIComponent).join("/")}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View theme & license ↗
+              </a>
+            </>
+          )}
         </div>
       )}
     </li>
