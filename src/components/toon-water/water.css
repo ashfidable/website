@@ -1,0 +1,32 @@
+.toon-water {
+  margin: 1.5rem 0 2rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border-highlight);
+  border-radius: 12px;
+}
+.toon-water-stage {
+  position: relative;
+  background: linear-gradient(#6fd2f2, #b4eef0 62%, #eafbe6);
+  color: #174c59;
+}
+.toon-water-canvas {
+  height: clamp(340px, 62vw, 500px);
+}
+.toon-water-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.toon-water-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 22px;
+  font-size: 11px;
+  pointer-events: none;
+}
+.toon-water-status {
+  position: absolute;
+  inset: 40% 24px auto;
+  text-align: center;
+  font-size: 13px;
+}

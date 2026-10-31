@@ -31,7 +31,7 @@ export function CodeTabs({ children }: { children: ReactNode }) {
 
   return (
     <div data-code-tabs className="my-5" onKeyDown={onKeyDown}>
-      <div data-js-only role="tablist" className="mb-2 flex gap-1 border-b border-site-border">
+      <div data-js-only role="tablist" className="flex gap-1 border-b border-site-border">
         {tabs.map((tab, index) => (
           <button
             key={tab.label}
@@ -60,7 +60,7 @@ export function CodeTabs({ children }: { children: ReactNode }) {
           aria-labelledby={`${id}-tab-${index}`}
           hidden={active !== index}
           tabIndex={0}
-          className={`rounded-md ${focusRing}`}
+          className={`space-y-4 rounded-md pt-3 [&>:first-child]:mt-0 [&>:last-child]:mb-0 ${focusRing}`}
         >
           <noscript>
             <h3 className="mb-2 mt-4 text-site-heading">{tab.label}</h3>

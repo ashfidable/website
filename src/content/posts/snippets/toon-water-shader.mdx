@@ -1,0 +1,737 @@
+---
+title: Toon water with a floating crate
+description: Stylized water with flat colors, foam, ripples, and a crate that really floats. Includes code for Three.js, Unity, and Godot.
+published_time: 2026-10-31
+category: development
+tags:
+  - threejs
+  - unity
+  - godot
+  - shaders
+  - gamedev
+  - glsl
+---
+
+import { CodeTab, CodeTabs } from "$components/code-tabs";
+import { ToonWater } from "$components/toon-water";
+
+This is the kind of water I'd use in a small stylized game. Grab the crate and throw it, or hold it under and let go. Tap the water to make ripples, and watch them push the crate around.
+
+<ToonWater />
+
+## How it works
+
+There are four small ideas here, and each one works on its own.
+
+**Flat colors.** Two sine waves move the surface up and down. The shader then picks one of four colors based on height, with no blending between them. Those hard steps are most of what makes it look like a toon.
+
+**Ripples.** A grid of numbers holds how far each point of water is displaced. Every step, each point is pulled toward the average of its neighbors, and that's enough for ripples to spread and bounce off walls. The result goes to the shader along with a second value for foam.
+
+**Foam.** Foam comes from two places. A band follows the line where the water touches the crate, found by measuring how far each water pixel is from a box around it. Fast-moving water also leaves foam behind and it fades over a second or two, which gives you wakes and splashes.
+
+**Floating.** Each corner of the crate checks how deep it is. A corner underwater gets pushed up, and the deeper it goes, the harder the push. Because the push happens at the corners, the crate tips and rights itself without any animation.
+
+## The code
+
+Pick your engine. Each tab has everything you need: the shader, plus a script that runs the ripples and floats the crate.
+
+All three assume the water is a 6 × 6 grid sitting flat at the origin, and a crate about one unit wide. The foam around the crate uses half-widths of `0.55`, so change that value if your object is a different size. The island is a circle set by its X, Z, and radius. It adds a beach ring and blocks ripples, so move it off the grid if you don't want one.
+
+<CodeTabs>
+<CodeTab label="Three.js">
+
+Save the shaders next to your code. In a Vite project, the `?raw` suffix imports them as strings.
+
+```glsl file="src/components/toon-water/water.vert.glsl" title="water.vert.glsl"
+
+```
+
+```glsl file="src/components/toon-water/water.frag.glsl" title="water.frag.glsl"
+
+```
+
+This is the simulation behind the preview: ripples, foam, and the crate's movement. It only needs `three` for vectors and quaternions.
+
+```ts file="src/components/toon-water/physics.ts" title="physics.ts"
+
+```
+
+Then connect it to your scene. Your crate mesh copies the position and rotation from the simulation each frame.
+
+```ts title="main.ts"
+import * as THREE from "three";
+import vertexShader from "./water.vert.glsl?raw";
+import fragmentShader from "./water.frag.glsl?raw";
+import { createPhysics, ISLAND, SEGMENTS, SIZE } from "./physics";
+
+const physics = createPhysics(() => {});
+physics.drop(0.7, 0.8);
+
+const geometry = new THREE.PlaneGeometry(SIZE, SIZE, SEGMENTS, SEGMENTS);
+geometry.rotateX(-Math.PI / 2);
+const ripple = new THREE.BufferAttribute(physics.height, 1);
+const foam = new THREE.BufferAttribute(physics.foam, 1);
+geometry.setAttribute("aRipple", ripple);
+geometry.setAttribute("aFoam", foam);
+
+const uniforms = {
+  uTime: { value: 0 },
+  uWaves: { value: 0.14 },
+  uFoam: { value: 0.8 },
+  uIsland: { value: new THREE.Vector3(ISLAND.x, ISLAND.z, ISLAND.radius) },
+  uWaterToCrate: { value: new THREE.Matrix4() },
+};
+const water = new THREE.Mesh(
+  geometry,
+  new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms, transparent: true }),
+);
+scene.add(water);
+
+let pending = 0;
+function update(deltaSeconds: number) {
+  pending += Math.min(deltaSeconds, 0.05);
+  while (pending >= physics.STEP) {
+    physics.step();
+    pending -= physics.STEP;
+  }
+  crate.position.copy(physics.position);
+  crate.quaternion.copy(physics.rotation);
+  crate.updateMatrixWorld(true);
+  water.updateMatrixWorld(true);
+
+  uniforms.uTime.value = physics.state.time;
+  uniforms.uWaterToCrate.value.copy(crate.matrixWorld).invert().multiply(water.matrixWorld);
+  ripple.needsUpdate = true;
+  foam.needsUpdate = true;
+}
+```
+
+Call `physics.poke(x, z, 0.014)` to make a ripple, for example where the player clicks.
+
+</CodeTab>
+<CodeTab label="Unity">
+
+This is for URP. Create a material from the shader, then add the script to an empty GameObject along with a Mesh Filter and a Mesh Renderer using that material. The script builds its own grid mesh. Drag a crate with a Rigidbody and a mass of about `1` into the `Crate` field.
+
+```shaderlab title="ToonWater.shader"
+Shader "Custom/ToonWater"
+{
+    Properties
+    {
+        _Waves ("Wave Height", Range(0, 0.3)) = 0.14
+        _Foam ("Foam", Range(0, 1)) = 0.8
+        _Island ("Island (X, Z, Radius)", Vector) = (-1.55, -1.55, 1.1, 0)
+        _RippleMap ("Ripple (R) Foam (G)", 2D) = "black" {}
+    }
+
+    SubShader
+    {
+        Tags
+        {
+            "RenderType" = "Transparent"
+            "Queue" = "Transparent"
+            "RenderPipeline" = "UniversalPipeline"
+        }
+
+        Pass
+        {
+            Blend SrcAlpha OneMinusSrcAlpha
+
+            HLSLPROGRAM
+            #pragma vertex Vertex
+            #pragma fragment Fragment
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+
+            TEXTURE2D(_RippleMap);
+            SAMPLER(sampler_RippleMap);
+            float _Waves;
+            float _Foam;
+            float4 _Island;
+            float4x4 _WaterToCrate;
+
+            struct Attributes
+            {
+                float4 position : POSITION;
+                float2 uv : TEXCOORD0;
+            };
+
+            struct Varyings
+            {
+                float4 position : SV_POSITION;
+                float2 flatPosition : TEXCOORD0;
+                float height : TEXCOORD1;
+                float foam : TEXCOORD2;
+            };
+
+            Varyings Vertex(Attributes input)
+            {
+                float2 sim = SAMPLE_TEXTURE2D_LOD(_RippleMap, sampler_RippleMap, input.uv, 0).rg;
+                float3 p = input.position.xyz;
+                float t = _Time.y;
+                p.y = sim.r + _Waves * (sin(p.x * 2.2 + t * 1.3) * 0.65
+                    + cos(p.z * 2.8 - t) * 0.35);
+
+                Varyings output;
+                output.position = TransformObjectToHClip(p);
+                output.flatPosition = p.xz;
+                output.height = p.y;
+                output.foam = sim.g;
+                return output;
+            }
+
+            float2 Hash(float2 p)
+            {
+                p = float2(dot(p, float2(127.1, 311.7)), dot(p, float2(269.5, 183.3)));
+                return frac(sin(p) * 43758.5453);
+            }
+
+            // Voronoi border distance: the wobbling net of light on stylized water.
+            float Caustics(float2 p)
+            {
+                float2 cell = floor(p);
+                float2 f = frac(p);
+                float nearest = 8.0;
+                float second = 8.0;
+                for (int y = -1; y <= 1; y++)
+                {
+                    for (int x = -1; x <= 1; x++)
+                    {
+                        float2 g = float2(x, y);
+                        float2 o = 0.5 + 0.5 * sin(_Time.y * 0.7 + 6.2831 * Hash(cell + g));
+                        float d = length(g + o - f);
+                        if (d < nearest)
+                        {
+                            second = nearest;
+                            nearest = d;
+                        }
+                        else if (d < second)
+                        {
+                            second = d;
+                        }
+                    }
+                }
+                return second - nearest;
+            }
+
+            float4 Fragment(Varyings input) : SV_Target
+            {
+                float2 p = input.flatPosition;
+                float t = _Time.y;
+
+                // Hard color steps give the surface its illustrated look.
+                float band = input.height / 0.1;
+                float3 color = lerp(float3(0.03, 0.5, 0.82), float3(0.04, 0.66, 0.86), step(-0.5, band));
+                color = lerp(color, float3(0.12, 0.8, 0.84), step(0.5, band));
+                color = lerp(color, float3(0.36, 0.91, 0.84), step(1.3, band));
+
+                // The sea floor shelves up around the island.
+                float shore = length(p - _Island.xy) - _Island.z;
+                color = lerp(color, float3(0.42, 0.93, 0.8), 1.0 - step(0.42, shore));
+                float alpha = lerp(0.56, 0.8, smoothstep(0.0, 0.8, shore));
+
+                // A thin net of light drifts across everything.
+                float2 warp = p + 0.2 * sin(p.yx * 2.4 + t * 0.5);
+                float net = 1.0 - step(0.055, Caustics(warp * 1.7));
+                color = lerp(color, float3(0.74, 0.98, 0.92), net * 0.55);
+
+                // The crate shades the water straight below it.
+                float3 local = mul(_WaterToCrate, float4(p.x, input.height, p.y, 1.0)).xyz;
+                float2 under = abs(local.xz) - 0.5;
+                color *= 1.0 - 0.2 * step(max(under.x, under.y), 0.0) * step(local.y, -0.5);
+
+                // Distance from this water pixel to the box around the crate.
+                float3 q = abs(local) - 0.55;
+                float distanceToCrate = length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
+                float noise = sin(p.x * 17.0 + t * 1.6) * sin(p.y * 15.0 - t * 1.1);
+                float contact = 1.0 - step(_Foam * (0.14 + 0.05 * noise), distanceToCrate);
+
+                // Foam left by the simulation: wakes, splashes, and breaking crests.
+                float trail = step(0.62 - 0.62 * Caustics(p * 3.4), input.foam * _Foam * 1.25);
+
+                // Two rings lap at the beach.
+                float lap = step(0.8, sin(shore * 13.0 - t * 1.4 + noise)) * (1.0 - step(0.34, shore));
+                float beach = 1.0 - step(0.07 + 0.035 * noise, shore);
+
+                float foam = max(contact, max(trail, max(lap, beach))) * step(0.001, _Foam);
+                color = lerp(color, float3(0.95, 1.0, 0.97), foam);
+
+                // The colors above are sRGB; URP blends in linear space.
+                return float4(FastSRGBToLinear(color), max(alpha, foam));
+            }
+            ENDHLSL
+        }
+    }
+}
+```
+
+```csharp title="ToonWater.cs"
+using UnityEngine;
+
+[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
+public class ToonWater : MonoBehaviour
+{
+    const int Size = 65;
+    const float Width = 6f;
+    const float Cell = Width / (Size - 1);
+
+    public Rigidbody crate;
+    public float waves = 0.14f;
+    public float lift = 5.2f;
+    public float drag = 0.9f;
+    public Vector3 island = new Vector3(-1.55f, -1.55f, 1.1f);
+
+    readonly float[] height = new float[Size * Size];
+    readonly float[] velocity = new float[Size * Size];
+    readonly float[] foam = new float[Size * Size];
+    readonly bool[] land = new bool[Size * Size];
+    readonly float[] texels = new float[Size * Size * 2];
+    readonly Vector3[] corners = new Vector3[8];
+    Texture2D rippleMap;
+    Material material;
+
+    void Awake()
+    {
+        material = GetComponent<MeshRenderer>().material;
+        GetComponent<MeshFilter>().mesh = BuildGrid();
+        rippleMap = new Texture2D(Size, Size, TextureFormat.RGFloat, false, true)
+        {
+            wrapMode = TextureWrapMode.Clamp,
+            filterMode = FilterMode.Bilinear,
+        };
+        material.SetTexture("_RippleMap", rippleMap);
+        material.SetFloat("_Waves", waves);
+        material.SetVector("_Island", island);
+
+        for (int z = 0; z < Size; z++)
+        {
+            for (int x = 0; x < Size; x++)
+            {
+                var offset = new Vector2(ToWorld(x) - island.x, ToWorld(z) - island.y);
+                land[z * Size + x] = offset.magnitude < island.z;
+            }
+        }
+
+        int corner = 0;
+        for (int x = -1; x <= 1; x += 2)
+            for (int y = -1; y <= 1; y += 2)
+                for (int z = -1; z <= 1; z += 2)
+                    corners[corner++] = new Vector3(x, y, z) * 0.5f;
+    }
+
+    static float ToWorld(int index) => index * Cell - Width / 2f;
+
+    Mesh BuildGrid()
+    {
+        const int Segments = 96;
+        var vertices = new Vector3[(Segments + 1) * (Segments + 1)];
+        var uvs = new Vector2[vertices.Length];
+        var triangles = new int[Segments * Segments * 6];
+        for (int z = 0, i = 0; z <= Segments; z++)
+        {
+            for (int x = 0; x <= Segments; x++, i++)
+            {
+                uvs[i] = new Vector2(x, z) / Segments;
+                vertices[i] = new Vector3(uvs[i].x - 0.5f, 0f, uvs[i].y - 0.5f) * Width;
+            }
+        }
+        for (int z = 0, t = 0; z < Segments; z++)
+        {
+            for (int x = 0; x < Segments; x++)
+            {
+                int a = z * (Segments + 1) + x;
+                int b = a + Segments + 1;
+                triangles[t++] = a;
+                triangles[t++] = b;
+                triangles[t++] = a + 1;
+                triangles[t++] = a + 1;
+                triangles[t++] = b;
+                triangles[t++] = b + 1;
+            }
+        }
+        var mesh = new Mesh { indexFormat = UnityEngine.Rendering.IndexFormat.UInt32 };
+        mesh.vertices = vertices;
+        mesh.uv = uvs;
+        mesh.triangles = triangles;
+        mesh.bounds = new Bounds(Vector3.zero, new Vector3(Width, 4f, Width));
+        return mesh;
+    }
+
+    float BaseWave(float x, float z)
+    {
+        float t = Time.timeSinceLevelLoad;
+        return waves * (Mathf.Sin(x * 2.2f + t * 1.3f) * 0.65f + Mathf.Cos(z * 2.8f - t) * 0.35f);
+    }
+
+    float RippleAt(float x, float z)
+    {
+        int i = Mathf.Clamp(Mathf.RoundToInt((x + Width / 2f) / Cell), 0, Size - 1);
+        int j = Mathf.Clamp(Mathf.RoundToInt((z + Width / 2f) / Cell), 0, Size - 1);
+        return height[j * Size + i];
+    }
+
+    public void Poke(float x, float z, float strength, float radius = 0.34f)
+    {
+        int reach = Mathf.CeilToInt(radius / Cell);
+        int centerX = Mathf.RoundToInt((x + Width / 2f) / Cell);
+        int centerZ = Mathf.RoundToInt((z + Width / 2f) / Cell);
+        for (int j = Mathf.Max(1, centerZ - reach); j <= Mathf.Min(Size - 2, centerZ + reach); j++)
+        {
+            for (int i = Mathf.Max(1, centerX - reach); i <= Mathf.Min(Size - 2, centerX + reach); i++)
+            {
+                int index = j * Size + i;
+                float distance = new Vector2(ToWorld(i) - x, ToWorld(j) - z).magnitude;
+                if (land[index] || distance > radius) continue;
+                float falloff = 1f - distance / radius;
+                velocity[index] -= strength * falloff * falloff;
+                foam[index] = Mathf.Min(1f, foam[index] + strength * 50f * falloff);
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        FloatCrate();
+        StepRipples();
+    }
+
+    void FloatCrate()
+    {
+        if (!crate) return;
+        foreach (Vector3 corner in corners)
+        {
+            Vector3 point = crate.transform.TransformPoint(corner);
+            Vector3 local = transform.InverseTransformPoint(point);
+            float depth = BaseWave(local.x, local.z) + RippleAt(local.x, local.z) * 0.5f - local.y;
+            if (depth <= 0f) continue;
+
+            float submerged = Mathf.Min(depth, 0.85f);
+            Vector3 pointVelocity = crate.GetPointVelocity(point);
+            Vector3 force = Vector3.up * (lift * submerged) - pointVelocity * (drag * submerged);
+            crate.AddForceAtPosition(force * crate.mass, point);
+        }
+
+        // Fast movement pushes water around, which makes the wake.
+        Vector3 center = transform.InverseTransformPoint(crate.position);
+        float speed = crate.linearVelocity.magnitude;
+        if (speed > 0.7f && Mathf.Abs(center.y) < 0.85f)
+            Poke(center.x, center.z, -crate.linearVelocity.y * Time.fixedDeltaTime * 0.012f, 0.72f);
+    }
+
+    void StepRipples()
+    {
+        const float Speed = 0.45f;
+        float total = 0f;
+        int wet = 0;
+        for (int z = 1; z < Size - 1; z++)
+        {
+            for (int x = 1; x < Size - 1; x++)
+            {
+                int i = z * Size + x;
+                if (land[i]) continue;
+                float neighbors = (land[i - 1] ? height[i] : height[i - 1])
+                    + (land[i + 1] ? height[i] : height[i + 1])
+                    + (land[i - Size] ? height[i] : height[i - Size])
+                    + (land[i + Size] ? height[i] : height[i + Size]);
+                velocity[i] += Speed * Speed * (neighbors - 4f * height[i]);
+                velocity[i] *= 0.99f;
+            }
+        }
+        for (int i = 0; i < height.Length; i++)
+        {
+            if (land[i]) continue;
+            height[i] = Mathf.Clamp(height[i] + velocity[i], -0.7f, 0.7f);
+            total += height[i];
+            wet++;
+            float churn = Mathf.Max(0f, Mathf.Abs(velocity[i]) - 0.02f) * 9f;
+            foam[i] = Mathf.Min(1f, foam[i] * 0.98f + churn);
+        }
+        // Pokes add or remove water, so hold the mean level at zero.
+        float mean = total / wet;
+        for (int i = 0; i < height.Length; i++)
+        {
+            if (!land[i]) height[i] -= mean;
+            texels[i * 2] = height[i];
+            texels[i * 2 + 1] = foam[i];
+        }
+        rippleMap.SetPixelData(texels, 0);
+        rippleMap.Apply(false);
+
+        if (crate)
+        {
+            // Crate space, as seen from a point on the water.
+            material.SetMatrix("_WaterToCrate",
+                crate.transform.worldToLocalMatrix * transform.localToWorldMatrix);
+        }
+    }
+}
+```
+
+Call `Poke(x, z, 0.03f)` to make a ripple. In Unity 2022 or older, change `linearVelocity` to `velocity`. Unity's Rigidbody already handles gravity, collisions, and tumbling, so the script only adds buoyancy.
+
+</CodeTab>
+<CodeTab label="Godot">
+
+This is for Godot 4. Add a `MeshInstance3D` with a `PlaneMesh` sized `6 × 6`, and set both subdivide values to `96`. Give it a `ShaderMaterial` using the shader, attach the script, and assign a `RigidBody3D` with a mass of about `1` to `crate`.
+
+```gdshader title="toon_water.gdshader"
+shader_type spatial;
+render_mode unshaded, blend_mix;
+
+uniform float sim_time = 0.0;
+uniform float waves = 0.14;
+uniform float foam_amount = 0.8;
+uniform vec3 island = vec3(-1.55, -1.55, 1.1);
+uniform mat4 water_to_crate;
+uniform sampler2D ripple_map : hint_default_black, filter_linear, repeat_disable;
+
+varying vec2 flat_position;
+varying float surface_height;
+varying float simulated_foam;
+
+void vertex() {
+  vec2 sim = textureLod(ripple_map, UV, 0.0).rg;
+  flat_position = VERTEX.xz;
+  simulated_foam = sim.g;
+  VERTEX.y = sim.r + waves * (sin(VERTEX.x * 2.2 + sim_time * 1.3) * 0.65
+    + cos(VERTEX.z * 2.8 - sim_time) * 0.35);
+  surface_height = VERTEX.y;
+}
+
+vec2 hash(vec2 p) {
+  p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+  return fract(sin(p) * 43758.5453);
+}
+
+// Voronoi border distance: the wobbling net of light on stylized water.
+float caustics(vec2 p) {
+  vec2 cell = floor(p);
+  vec2 f = fract(p);
+  float nearest = 8.0;
+  float second = 8.0;
+  for (int y = -1; y <= 1; y++) {
+    for (int x = -1; x <= 1; x++) {
+      vec2 g = vec2(float(x), float(y));
+      vec2 o = 0.5 + 0.5 * sin(sim_time * 0.7 + 6.2831 * hash(cell + g));
+      float d = length(g + o - f);
+      if (d < nearest) {
+        second = nearest;
+        nearest = d;
+      } else if (d < second) {
+        second = d;
+      }
+    }
+  }
+  return second - nearest;
+}
+
+void fragment() {
+  vec2 p = flat_position;
+  float t = sim_time;
+
+  // Hard color steps give the surface its illustrated look.
+  float band = surface_height / 0.1;
+  vec3 color = mix(vec3(0.03, 0.5, 0.82), vec3(0.04, 0.66, 0.86), step(-0.5, band));
+  color = mix(color, vec3(0.12, 0.8, 0.84), step(0.5, band));
+  color = mix(color, vec3(0.36, 0.91, 0.84), step(1.3, band));
+
+  // The sea floor shelves up around the island.
+  float shore = length(p - island.xy) - island.z;
+  color = mix(color, vec3(0.42, 0.93, 0.8), 1.0 - step(0.42, shore));
+  float water_alpha = mix(0.56, 0.8, smoothstep(0.0, 0.8, shore));
+
+  // A thin net of light drifts across everything.
+  vec2 warp = p + 0.2 * sin(p.yx * 2.4 + t * 0.5);
+  float net = 1.0 - step(0.055, caustics(warp * 1.7));
+  color = mix(color, vec3(0.74, 0.98, 0.92), net * 0.55);
+
+  // The crate shades the water straight below it.
+  vec3 local = (water_to_crate * vec4(p.x, surface_height, p.y, 1.0)).xyz;
+  vec2 under = abs(local.xz) - 0.5;
+  color *= 1.0 - 0.2 * step(max(under.x, under.y), 0.0) * step(local.y, -0.5);
+
+  // Distance from this water pixel to the box around the crate.
+  vec3 q = abs(local) - vec3(0.55);
+  float distance_to_crate = length(max(q, vec3(0.0)))
+    + min(max(q.x, max(q.y, q.z)), 0.0);
+  float noise = sin(p.x * 17.0 + t * 1.6) * sin(p.y * 15.0 - t * 1.1);
+  float contact = 1.0 - step(foam_amount * (0.14 + 0.05 * noise), distance_to_crate);
+
+  // Foam left by the simulation: wakes, splashes, and breaking crests.
+  float trail = step(0.62 - 0.62 * caustics(p * 3.4), simulated_foam * foam_amount * 1.25);
+
+  // Two rings lap at the beach.
+  float lap = step(0.8, sin(shore * 13.0 - t * 1.4 + noise)) * (1.0 - step(0.34, shore));
+  float beach = 1.0 - step(0.07 + 0.035 * noise, shore);
+
+  float foam = max(contact, max(trail, max(lap, beach))) * step(0.001, foam_amount);
+  color = mix(color, vec3(0.95, 1.0, 0.97), foam);
+
+  // The colors above are sRGB; Godot expects linear values here.
+  ALBEDO = pow(color, vec3(2.2));
+  ALPHA = max(water_alpha, foam);
+}
+```
+
+```gdscript title="toon_water.gd"
+extends MeshInstance3D
+
+const SIZE := 65
+const WIDTH := 6.0
+const CELL := WIDTH / (SIZE - 1)
+const SPEED := 0.4
+const LIFT := 5.2
+const DRAG := 0.9
+
+@export var crate: RigidBody3D
+@export var waves := 0.14
+@export var island := Vector3(-1.55, -1.55, 1.1)
+
+var height := PackedFloat32Array()
+var velocity := PackedFloat32Array()
+var foam := PackedFloat32Array()
+var land := PackedByteArray()
+var texels := PackedFloat32Array()
+var corners: Array[Vector3] = []
+var ripple_texture: ImageTexture
+var sim_time := 0.0
+
+
+func _ready() -> void:
+	var cells := SIZE * SIZE
+	height.resize(cells)
+	velocity.resize(cells)
+	foam.resize(cells)
+	land.resize(cells)
+	texels.resize(cells * 2)
+	height.fill(0.0)
+	velocity.fill(0.0)
+	foam.fill(0.0)
+
+	for z in SIZE:
+		for x in SIZE:
+			var offset := Vector2(to_world(x) - island.x, to_world(z) - island.y)
+			land[z * SIZE + x] = 1 if offset.length() < island.z else 0
+
+	for x in [-0.5, 0.5]:
+		for y in [-0.5, 0.5]:
+			for z in [-0.5, 0.5]:
+				corners.append(Vector3(x, y, z))
+
+	var image := Image.create_empty(SIZE, SIZE, false, Image.FORMAT_RGF)
+	ripple_texture = ImageTexture.create_from_image(image)
+	var material := get_active_material(0) as ShaderMaterial
+	material.set_shader_parameter("ripple_map", ripple_texture)
+	material.set_shader_parameter("waves", waves)
+	material.set_shader_parameter("island", island)
+
+
+func to_world(index: int) -> float:
+	return index * CELL - WIDTH / 2.0
+
+
+func base_wave(x: float, z: float) -> float:
+	return waves * (sin(x * 2.2 + sim_time * 1.3) * 0.65 + cos(z * 2.8 - sim_time) * 0.35)
+
+
+func ripple_at(x: float, z: float) -> float:
+	var i := clampi(roundi((x + WIDTH / 2.0) / CELL), 0, SIZE - 1)
+	var j := clampi(roundi((z + WIDTH / 2.0) / CELL), 0, SIZE - 1)
+	return height[j * SIZE + i]
+
+
+func poke(x: float, z: float, strength: float, radius := 0.34) -> void:
+	var reach := ceili(radius / CELL)
+	var center_x := roundi((x + WIDTH / 2.0) / CELL)
+	var center_z := roundi((z + WIDTH / 2.0) / CELL)
+	for j in range(maxi(1, center_z - reach), mini(SIZE - 1, center_z + reach + 1)):
+		for i in range(maxi(1, center_x - reach), mini(SIZE - 1, center_x + reach + 1)):
+			var index := j * SIZE + i
+			var distance := Vector2(to_world(i) - x, to_world(j) - z).length()
+			if land[index] == 1 or distance > radius:
+				continue
+			var falloff := 1.0 - distance / radius
+			velocity[index] -= strength * falloff * falloff
+			foam[index] = minf(1.0, foam[index] + strength * 50.0 * falloff)
+
+
+func _physics_process(delta: float) -> void:
+	sim_time += delta
+	float_crate(delta)
+	step_ripples()
+	upload()
+
+
+func float_crate(delta: float) -> void:
+	if not crate:
+		return
+	for corner in corners:
+		var point := crate.global_transform * corner
+		var local := global_transform.affine_inverse() * point
+		var depth := base_wave(local.x, local.z) + ripple_at(local.x, local.z) * 0.5 - local.y
+		if depth <= 0.0:
+			continue
+		var submerged := minf(depth, 0.85)
+		var arm := point - crate.global_position
+		var point_velocity := crate.linear_velocity + crate.angular_velocity.cross(arm)
+		var force := Vector3.UP * LIFT * submerged - point_velocity * DRAG * submerged
+		crate.apply_force(force * crate.mass, arm)
+
+	# Fast movement pushes water around, which makes the wake.
+	var center := global_transform.affine_inverse() * crate.global_position
+	if crate.linear_velocity.length() > 0.7 and absf(center.y) < 0.85:
+		poke(center.x, center.z, -crate.linear_velocity.y * delta * 0.012, 0.72)
+
+
+func step_ripples() -> void:
+	for z in range(1, SIZE - 1):
+		for x in range(1, SIZE - 1):
+			var i := z * SIZE + x
+			if land[i] == 1:
+				continue
+			var here := height[i]
+			var neighbors := (here if land[i - 1] == 1 else height[i - 1]) \
+				+ (here if land[i + 1] == 1 else height[i + 1]) \
+				+ (here if land[i - SIZE] == 1 else height[i - SIZE]) \
+				+ (here if land[i + SIZE] == 1 else height[i + SIZE])
+			velocity[i] = (velocity[i] + SPEED * SPEED * (neighbors - 4.0 * here)) * 0.99
+
+	var total := 0.0
+	var wet := 0
+	for i in height.size():
+		if land[i] == 1:
+			continue
+		height[i] = clampf(height[i] + velocity[i], -0.7, 0.7)
+		total += height[i]
+		wet += 1
+		var churn := maxf(0.0, absf(velocity[i]) - 0.02) * 9.0
+		foam[i] = minf(1.0, foam[i] * 0.98 + churn)
+
+	# Pokes add or remove water, so hold the mean level at zero.
+	var mean := total / wet
+	for i in height.size():
+		if land[i] == 0:
+			height[i] -= mean
+
+
+func upload() -> void:
+	for i in height.size():
+		texels[i * 2] = height[i]
+		texels[i * 2 + 1] = foam[i]
+	var bytes := texels.to_byte_array()
+	var image := Image.create_from_data(SIZE, SIZE, false, Image.FORMAT_RGF, bytes)
+	ripple_texture.update(image)
+
+	var material := get_active_material(0) as ShaderMaterial
+	material.set_shader_parameter("sim_time", sim_time)
+	if crate:
+		var crate_space := crate.global_transform.affine_inverse() * global_transform
+		material.set_shader_parameter("water_to_crate", Projection(crate_space))
+```
+
+Call `poke(x, z, 0.03)` to make a ripple. Godot's `RigidBody3D` already handles gravity, collisions, and tumbling, so the script only adds buoyancy.
+
+</CodeTab>
+</CodeTabs>
+
+The Three.js tab is exactly what runs in the preview. The Unity and Godot versions are hand ports of the same shader and physics, simplified a little: the ripple grid is coarser, and the side walls are left out.

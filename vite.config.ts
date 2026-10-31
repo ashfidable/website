@@ -46,6 +46,22 @@ const iconCollections = {
 /** Light entries from themeNames in settings-provider.tsx; every other theme is dark. */
 const lightThemes = ["light", "ocean", "rose", "mint", "lavender", "peach", "meadow", "sand"];
 
+/** Fills a fenced block from disk, so posts can highlight source files: ```glsl file="src/a.glsl" */
+function remarkCodeFile() {
+  return (tree: any) => {
+    const visit = (node: any) => {
+      const file = node.type === "code" && /\bfile="([^"]+)"/.exec(node.meta ?? "");
+      if (file) {
+        const path = fileURLToPath(new URL(`./${file[1]}`, import.meta.url));
+        node.value = readFileSync(path, "utf8").trimEnd();
+        node.meta = node.meta.replace(file[0], "").trim();
+      }
+      node.children?.forEach(visit);
+    };
+    visit(tree);
+  };
+}
+
 function siteIcons(): Plugin {
   const virtualId = "\0virtual:site-icons";
   const configPath = fileURLToPath(new URL("./site.config.json", import.meta.url));
@@ -264,7 +280,11 @@ export default defineConfig({
       },
     },
     mdx({
-      remarkPlugins: [remarkFrontmatter, [remarkMdxFrontmatter, { name: "frontmatter" }]],
+      remarkPlugins: [
+        remarkFrontmatter,
+        [remarkMdxFrontmatter, { name: "frontmatter" }],
+        remarkCodeFile,
+      ],
       rehypePlugins: [
         rehypeSlug,
         [
@@ -278,7 +298,7 @@ export default defineConfig({
             themeCssSelector: (theme: { type: string }) =>
               theme.type === "light" &&
               `:root:is(${lightThemes.map((name) => `[data-theme="${name}"]`).join(",")})`,
-            defaultProps: { frame: "code" },
+            defaultProps: { frame: "code", wrap: true },
             styleOverrides: {
               borderRadius: "var(--rounded-radius)",
               borderWidth: "1px",
