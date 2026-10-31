@@ -17,6 +17,7 @@ import { themeLabels } from "@/providers/settings-provider";
 import { Sprite } from "../site";
 import { focusRing, latestPosts, latestSnippets, sortedSkills } from "./data";
 import { type TabId } from "./layout";
+import { Supporters } from "./supporters";
 import {
   CHAR_MS,
   MoreLink,
@@ -112,6 +113,11 @@ function homeSteps(): Step[] {
           ))}
         </dl>
       ),
+    },
+    {
+      command: "cat supporters.json",
+      label: "Supporters",
+      content: <Supporters />,
     },
   ];
 }
