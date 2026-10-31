@@ -36,9 +36,132 @@
   }
 }
 
+.like-pop {
+  animation: like-pop 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes like-pop {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0.25rem) scale(0.7);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(-50%, -1rem) scale(1.25);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -2.25rem) scale(1);
+  }
+}
+
+.like-spark {
+  animation: like-spark 500ms ease-out both;
+}
+
+@keyframes like-spark {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--spark-x)), calc(-50% + var(--spark-y))) rotate(90deg);
+  }
+}
+
+/* These timings follow the rain and heartbeats in like-celebration.tsx. */
+.like-thump {
+  animation: like-thump 4.5s linear both;
+}
+
+@keyframes like-thump {
+  0%,
+  31%,
+  36%,
+  38%,
+  43%,
+  58%,
+  63%,
+  65%,
+  70%,
+  100% {
+    transform: none;
+  }
+  33%,
+  40%,
+  60%,
+  67% {
+    transform: scale(1.02);
+  }
+}
+
+.like-thanks {
+  animation: like-thanks 4.5s linear both;
+}
+
+@keyframes like-thanks {
+  0%,
+  27% {
+    opacity: 0;
+    scale: 0.8;
+  }
+  30% {
+    opacity: 1;
+    scale: 1.05;
+  }
+  32%,
+  80% {
+    opacity: 1;
+    scale: 1;
+  }
+  84%,
+  100% {
+    opacity: 0;
+    scale: 1;
+  }
+}
+
+.like-type {
+  animation: like-type 300ms steps(16) backwards;
+}
+
+@keyframes like-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+.like-caret {
+  animation: like-caret 800ms steps(1) infinite;
+}
+
+@keyframes like-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.like-scanlines {
+  background: repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / 0.12) 2px 3px);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .like-heart-hit,
+  .like-thump,
+  .like-thanks,
+  .like-type,
+  .like-caret,
   .status-nudge {
     animation: none;
+  }
+
+  .like-pop,
+  .like-spark {
+    display: none;
   }
 }
 

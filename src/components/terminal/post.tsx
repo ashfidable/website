@@ -1,10 +1,11 @@
-import { useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { useContext, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { TerminalStatusSlot } from "./status-slot";
 import { getCategory, type Post } from "$content/index";
 import { Icon } from "../icon";
 import { LinkPreviews } from "../link-preview";
 import { mdxComponents } from "../mdx";
+import { LikeCelebration } from "@/features/post-likes/like-celebration";
 import { usePostLikes } from "@/features/post-likes/use-post-likes";
 import { QueryProvider } from "@/providers/query-provider";
 import { focusRing, formatDate, latestPosts, latestSnippets } from "./data";
@@ -21,6 +22,16 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
+const combos = ["+1", "x2", "x3!", "x4!!", "MAX!"];
+const sparks = [
+  ["♥", -30, -22],
+  ["*", 30, -24],
+  ["+", -38, 6],
+  ["♥", 36, 8],
+  ["*", -14, -36],
+  ["+", 14, -34],
+] as const;
+
 /** Like controls shared by the article header and reading status bar. */
 function LikeButton({
   state,
@@ -29,33 +40,75 @@ function LikeButton({
   state: ReturnType<typeof usePostLikes>;
   compact?: boolean;
 }) {
-  const { likes, sendLike, done, pending, saving, limited } = state;
-  const busy = pending || saving;
+  const { likes, sendLike, done, pending, saving, limited, error } = state;
+  // The status bar button mounts mid-read, and shouldn't replay the last tap.
+  const [tapsOnMount] = useState(likes.taps);
+  const remaining = 5 - likes.taps;
+  const hint = limited
+    ? "try again in 1 min"
+    : error
+      ? "retry like"
+      : done
+        ? saving
+          ? "saving…"
+          : "all 5 sent!"
+        : likes.taps
+          ? `${remaining} more!`
+          : "+1";
   return (
     <button
       data-js-only
       type="button"
       onClick={sendLike}
-      disabled={busy || limited || done}
-      aria-busy={busy}
-      aria-label={`${pending ? "…" : likes.total}${compact ? "" : limited ? " try again in 1 min" : done ? " thanks!" : " +1"}. ${limited ? "Try again in 1 minute" : done ? "Five likes sent" : "Like this post"}`}
-      className={`group inline-flex items-center gap-2 rounded disabled:cursor-default ${
+      disabled={pending || limited || done}
+      aria-label={`${likes.total} likes. ${likes.taps} of 5 hearts given. ${limited ? "Try again in one minute" : error ? "Could not save. Try again" : done ? (saving ? "Saving likes" : "All five likes sent. Thank you") : `Like this post, ${remaining} remaining`}`}
+      className={`group relative min-h-10 items-center rounded py-1 transition-colors disabled:cursor-default ${
         compact
-          ? "-my-1.5 h-10 px-1 motion-safe:[&:enabled:hover_svg]:scale-110 motion-safe:[&:enabled:active_svg]:scale-95"
-          : "border border-site-border px-2 transition-colors hover:border-site-border-hover"
+          ? "-my-1 inline-flex gap-1 px-1"
+          : `inline-flex flex-wrap gap-x-2 gap-y-1 border px-2 hover:bg-site-card-hover ${likes.taps ? "border-red-500/60" : "border-site-border hover:border-site-border-hover"}`
       } ${focusRing}`}
     >
-      <Icon
-        key={likes.taps}
-        name="mdi:heart"
-        className={`text-red-500 ${compact ? "text-2xl motion-safe:transition-transform motion-safe:duration-150" : ""} ${busy ? "animate-pulse" : likes.taps > 0 ? "like-heart-hit" : ""}`}
-      />
-      <span className="tabular-nums" aria-live="polite">
+      {/* One heart that fills from the bottom with each tap. */}
+      <span
+        key={`heart-${likes.taps}`}
+        aria-hidden="true"
+        className={`relative inline-flex text-red-500 ${compact ? "text-xl" : "text-lg"} ${likes.taps > tapsOnMount ? "like-heart-hit" : ""}`}
+      >
+        <Icon name="mdi:heart-outline" />
+        <span
+          className="absolute inset-0"
+          style={{ clipPath: `inset(${100 - likes.taps * 20}% 0 0 0)` }}
+        >
+          <Icon name="mdi:heart" className="block" />
+        </span>
+      </span>
+      <span
+        key={`count-${likes.total}`}
+        className={`inline-block tabular-nums ${likes.taps > tapsOnMount ? "like-heart-hit" : ""}`}
+      >
         {pending ? "…" : likes.total}
       </span>
-      {!compact && (
-        <span className="text-site-muted group-hover:text-site-foreground">
-          {limited ? "try again in 1 min" : done ? "thanks!" : "+1"}
+      {(!compact || limited || error) && (
+        <span
+          className={`text-site-muted group-hover:text-site-foreground ${compact ? "text-xs" : ""}`}
+        >
+          {hint}
+        </span>
+      )}
+      {likes.taps > tapsOnMount && (
+        <span key={`pop-${likes.taps}`} aria-hidden="true" className="pointer-events-none">
+          <span className="like-pop absolute bottom-full left-1/2 font-bold text-red-500">
+            {combos[likes.taps - 1]}
+          </span>
+          {sparks.slice(0, likes.taps + 1).map(([glyph, x, y], index) => (
+            <span
+              key={index}
+              className="like-spark absolute left-1/2 top-1/2 text-red-500"
+              style={{ "--spark-x": `${x}px`, "--spark-y": `${y}px` } as CSSProperties}
+            >
+              {glyph}
+            </span>
+          ))}
         </span>
       )}
     </button>
@@ -75,7 +128,7 @@ function Meta({ label, children }: { label: string; children: ReactNode }) {
 export function TerminalPost({ post }: { post: Post }) {
   return (
     <QueryProvider>
-      <PostContent post={post} />
+      <PostContent key={post.id} post={post} />
     </QueryProvider>
   );
 }
@@ -114,6 +167,16 @@ function PostContent({ post }: { post: Post }) {
 
   return (
     <>
+      <LikeCelebration state={likes} anchor={topLike} />
+      <span role="status" className="sr-only">
+        {likes.error
+          ? "Could not save your likes. Please try again."
+          : likes.limited
+            ? "Like limit reached. Try again in one minute."
+            : likes.likes.taps > 0
+              ? `${likes.likes.taps} of 5 hearts given. ${5 - likes.likes.taps} remaining.`
+              : ""}
+      </span>
       {statusSlot &&
         showStatusLike &&
         createPortal(<LikeButton state={likes} compact />, statusSlot)}

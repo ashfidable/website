@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp run generate:og && vp dev --port 3000",
+    "dev": "vp run db:migrate:local && vp run generate:og && vp dev --port 3000",
     "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
     "build": "vp run clean && node scripts/generate-og-images.mjs && node scripts/generate-link-previews.mjs && vp build",
     "deploy": "wrangler deploy",

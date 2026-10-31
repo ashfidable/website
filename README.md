@@ -14,11 +14,12 @@ Fork or clone the repo, then run these from the project folder with Vite+ instal
 
 ```sh
 vp install
-vp run db:migrate:local
 vp run dev
 ```
 
-Open [localhost:3000](http://localhost:3000). The database step sets up local storage for post likes; you only need it on the first run or when the database changes.
+Open [localhost:3000](http://localhost:3000). The dev command applies any pending migrations to Wrangler's local D1 database before starting the site. Local likes stay in `.wrangler/state` and do not affect the live site.
+
+To try the likes animation, open a post and tap its heart button. Five likes trigger the celebration after saving; fewer likes trigger it after a two-second pause. Refresh the page to reset the five-heart control. The local rate limiter allows five likes per post per minute, so wait a minute or switch posts before trying again. You can also run `vp run db:migrate:local` while an existing dev server is running.
 
 ## Make it yours
 
