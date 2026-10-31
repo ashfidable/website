@@ -66,6 +66,8 @@
 
   html {
     min-height: 100%;
+    /* Repeated taps activate controls without zooming; scrolling and pinch zoom still work. */
+    touch-action: manipulation;
     scrollbar-gutter: stable;
     background: var(--color-background);
     background-image: var(--color-background-image);

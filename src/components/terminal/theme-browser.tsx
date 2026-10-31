@@ -221,7 +221,7 @@ export default function ThemeBrowser() {
           value={text}
           onChange={(event) => setText(event.target.value)}
           placeholder="Search themes, e.g. Nord"
-          className="w-full rounded border border-site-border bg-site-input px-2 py-1 text-sm text-site-foreground focus-visible:outline-2 focus-visible:outline-site-ring"
+          className="w-full rounded border border-site-border bg-site-input px-2 py-1 text-base text-site-foreground focus-visible:outline-2 focus-visible:outline-site-ring md:text-sm"
         />
       </div>
       <p role="status" className="text-sm text-site-muted empty:hidden">
