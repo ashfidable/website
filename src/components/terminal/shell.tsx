@@ -24,6 +24,7 @@ import { themeNames, useSettings } from "@/providers/settings-provider";
 import { playAudio } from "@/utils/play-audio";
 import { themeLabels } from "@/providers/settings-provider";
 import { Sprite } from "../site";
+import { Icon } from "../icon";
 import { focusRing, latestPosts, latestSnippets, shellUser } from "./data";
 import { tabForPath, tabs, tabPath, type TabId } from "./layout";
 import {
@@ -440,18 +441,23 @@ function StatusBar({
           <a
             key={social.name}
             href={social.url}
-            className={`hidden rounded hover:text-site-heading sm:inline ${focusRing}`}
+            title={social.name}
+            className={`inline-flex min-h-7 min-w-7 items-center justify-center gap-1.5 rounded hover:text-site-heading ${focusRing}`}
           >
-            {social.name.toLowerCase()}
+            <Icon name={social.icon} className="shrink-0 text-base" />
+            <span className="sr-only sm:not-sr-only">{social.name.toLowerCase()}</span>
           </a>
         ))}
         <a
           href={site.supportUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={`rounded hover:text-site-heading ${focusRing}`}
+          aria-label="Buy me a coffee"
+          title="Buy me a coffee"
+          className={`inline-flex min-h-7 min-w-7 items-center justify-center gap-1.5 rounded hover:text-site-heading ${focusRing}`}
         >
-          ☕ coffee
+          <Icon name="simple-icons:buymeacoffee" className="shrink-0 text-base" />
+          <span className="hidden sm:inline">coffee</span>
         </a>
         <span data-js-only aria-hidden="true" className="hidden items-center gap-1 md:flex">
           <Kbd>?</Kbd> help
