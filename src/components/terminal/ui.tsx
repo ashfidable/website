@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 import { getCategory, postPath, type Post, type Tool } from "$content/index";
 import { Icon } from "../icon";
-import { focusRing, isoDate, shellDir, shellUser } from "./data";
+import { focusRing, formatDate, latestPosts, latestSnippets, shellDir, shellUser } from "./data";
 
 export const CHAR_MS = 12;
 const GAP_MS = 70;
@@ -131,6 +131,30 @@ export function Highlight({ text, query }: { text: string; query: string }) {
   );
 }
 
+function NewPostBadge({ post }: { post: Post }) {
+  const [isNew, setIsNew] = useState(false);
+  const publishedAt = post.published_time.getTime();
+
+  useEffect(() => {
+    const week = 7 * 24 * 60 * 60 * 1000;
+    const age = Date.now() - publishedAt;
+    const recent = age >= 0 && age < week;
+    setIsNew(recent);
+    if (!recent) return;
+
+    // Expire the badge even if the reader leaves this page open.
+    const timeout = window.setTimeout(() => setIsNew(false), week - age);
+    return () => window.clearTimeout(timeout);
+  }, [publishedAt]);
+
+  if (!isNew) return null;
+  return (
+    <span className="shrink-0 rounded border border-site-heading/40 bg-site-heading/10 px-1.5 py-0.5 text-xs font-medium text-site-heading">
+      {post.kind === "blog" ? "New post" : "New snippet"}
+    </span>
+  );
+}
+
 export function PostRows({
   items,
   query = "",
@@ -148,17 +172,22 @@ export function PostRows({
           <li key={post.id} data-reveal-row style={{ "--row": String(index) } as CSSProperties}>
             <Link
               to={postPath(post) as any}
-              className={`group -mx-2 flex flex-col rounded px-2 py-2 transition-colors hover:bg-site-card-hover md:grid md:grid-cols-[6.5rem_minmax(0,1fr)_7.5rem_3.5rem] md:items-baseline md:gap-x-4 md:py-1 ${focusRing}`}
+              className={`group -mx-2 flex flex-col rounded px-2 py-2 transition-colors hover:bg-site-card-hover md:grid md:grid-cols-[7.5rem_minmax(0,1fr)_7.5rem_3.5rem] md:items-baseline md:gap-x-4 md:py-1 ${focusRing}`}
             >
               <time
                 dateTime={post.published_time.toISOString()}
                 className="hidden text-site-datetime md:block"
               >
-                {isoDate(post.published_time)}
+                {formatDate(post.published_time)}
               </time>
               <span className="min-w-0">
-                <span className="font-semibold group-hover:text-site-heading md:block md:truncate">
-                  <Highlight text={post.title} query={query} />
+                <span className="flex items-baseline gap-2">
+                  <span className="min-w-0 font-semibold group-hover:text-site-heading md:truncate">
+                    <Highlight text={post.title} query={query} />
+                  </span>
+                  {(post.id === latestPosts[0]?.id || post.id === latestSnippets[0]?.id) && (
+                    <NewPostBadge post={post} />
+                  )}
                 </span>
                 {detailed && (
                   <span className="mt-0.5 line-clamp-2 text-site-muted md:line-clamp-1">
@@ -167,7 +196,7 @@ export function PostRows({
                 )}
               </span>
               <span className="text-site-muted md:hidden">
-                {isoDate(post.published_time)}
+                {formatDate(post.published_time)}
                 <span className="hidden sm:inline"> · {category?.id}</span> · {minutes(post)}
               </span>
               <span className="hidden truncate text-site-muted md:block">{category?.id}</span>

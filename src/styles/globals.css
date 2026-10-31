@@ -372,6 +372,12 @@ html[data-calm-transition="window"]::view-transition-new(terminal-window) {
     overflow: visible !important;
     white-space: pre-wrap !important;
   }
+  [data-terminal-post] .ec-section > .content-lines {
+    display: block !important;
+  }
+  [data-terminal-post] .ec-section > details {
+    display: none !important;
+  }
   [data-terminal-post] h1,
   [data-terminal-post] h2,
   [data-terminal-post] h3 {

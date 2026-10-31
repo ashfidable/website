@@ -9,8 +9,15 @@ export const sortedSkills = [...skills].sort((a, b) => b.entries.length - a.entr
 export const focusRing =
   "outline-none focus-visible:ring-2 focus-visible:ring-site-ring focus-visible:ring-offset-2 focus-visible:ring-offset-site-page";
 
-export function isoDate(date: Date) {
-  return date.toISOString().slice(0, 10);
+const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+export function formatDate(date: Date) {
+  return dateFormatter.format(date);
 }
 
 /** `user@host`, from the "terminal" block in site.config.json. */

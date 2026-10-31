@@ -9,6 +9,7 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { redact } from "@tanstack/redact/vite";
 import viteReact from "@vitejs/plugin-react";
 import rehypeExpressiveCode from "rehype-expressive-code";
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import rehypeSlug from "rehype-slug";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
@@ -55,6 +56,20 @@ function remarkCodeFile() {
         const path = fileURLToPath(new URL(`./${file[1]}`, import.meta.url));
         node.value = readFileSync(path, "utf8").trimEnd();
         node.meta = node.meta.replace(file[0], "").trim();
+      }
+      node.children?.forEach(visit);
+    };
+    visit(tree);
+  };
+}
+
+/** Preview eight lines of long blocks; explicit collapse ranges take precedence. */
+function remarkCodePreview() {
+  return (tree: any) => {
+    const visit = (node: any) => {
+      if (node.type === "code" && !/\bcollapse\s*=/.test(node.meta ?? "")) {
+        const lines = node.value.split("\n").length;
+        if (lines > 8) node.meta = `${node.meta ?? ""} collapse={9-${lines}}`.trim();
       }
       node.children?.forEach(visit);
     };
@@ -284,12 +299,14 @@ export default defineConfig({
         remarkFrontmatter,
         [remarkMdxFrontmatter, { name: "frontmatter" }],
         remarkCodeFile,
+        remarkCodePreview,
       ],
       rehypePlugins: [
         rehypeSlug,
         [
           rehypeExpressiveCode,
           {
+            plugins: [pluginCollapsibleSections()],
             themes: ["rose-pine", "rose-pine-dawn"],
             useThemedScrollbars: false,
             // Follow the site's theme picker rather than the OS, and drop the terminal frame:
@@ -298,7 +315,7 @@ export default defineConfig({
             themeCssSelector: (theme: { type: string }) =>
               theme.type === "light" &&
               `:root:is(${lightThemes.map((name) => `[data-theme="${name}"]`).join(",")})`,
-            defaultProps: { frame: "code", wrap: true },
+            defaultProps: { frame: "code", wrap: true, collapseStyle: "collapsible-end" },
             styleOverrides: {
               borderRadius: "var(--rounded-radius)",
               borderWidth: "1px",

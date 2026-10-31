@@ -7,7 +7,7 @@ import { LinkPreviews } from "../link-preview";
 import { mdxComponents } from "../mdx";
 import { usePostLikes } from "@/features/post-likes/use-post-likes";
 import { QueryProvider } from "@/providers/query-provider";
-import { focusRing, isoDate, latestPosts, latestSnippets } from "./data";
+import { focusRing, formatDate, latestPosts, latestSnippets } from "./data";
 import { MoreLink, PostRows, Script, minutes } from "./ui";
 
 function Stars({ rating }: { rating: number }) {
@@ -135,14 +135,14 @@ function PostContent({ post }: { post: Post }) {
                   <dl className="grid grid-cols-[5rem_minmax(0,1fr)] gap-y-1 sm:grid-cols-[6.5rem_minmax(0,1fr)]">
                     <Meta label="date">
                       <time dateTime={post.published_time.toISOString()}>
-                        {isoDate(post.published_time)}
+                        {formatDate(post.published_time)}
                       </time>
                       {post.last_modified_time && (
                         <span className="text-site-muted">
                           {" "}
                           · updated{" "}
                           <time dateTime={post.last_modified_time.toISOString()}>
-                            {isoDate(post.last_modified_time)}
+                            {formatDate(post.last_modified_time)}
                           </time>
                         </span>
                       )}
