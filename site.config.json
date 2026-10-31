@@ -66,7 +66,7 @@
       "title": "Apple Notes",
       "description": "Capture thoughts and keep them up to date across Apple devices and the web.",
       "url": "https://www.icloud.com/notes",
-      "categories": ["productivity", "note-taking"],
+      "categories": ["note-taking"],
       "icon": "mdi:notebook-edit-outline"
     },
     {
@@ -78,19 +78,11 @@
       "icon": "custom:craft"
     },
     {
-      "id": "discord",
-      "title": "Discord",
-      "description": "Community chat, voice, and collaboration.",
-      "url": "https://discord.com",
-      "categories": ["entertainment", "development"],
-      "icon": "logos:discord-icon"
-    },
-    {
       "id": "edge",
       "title": "Microsoft Edge",
       "description": "Microsoft's cross-platform web browser.",
       "url": "https://microsoft.com/edge",
-      "categories": ["development", "productivity", "entertainment"],
+      "categories": ["development", "productivity"],
       "icon": "logos:microsoft-edge"
     },
     {
@@ -98,15 +90,31 @@
       "title": "Figma",
       "description": "Design, prototype, develop, and collect feedback in one place.",
       "url": "https://www.figma.com/",
-      "categories": ["development", "productivity"],
+      "categories": ["development"],
       "icon": "logos:figma"
+    },
+    {
+      "id": "firefox",
+      "title": "Firefox",
+      "description": "Mozilla's web browser for everyday browsing and web development.",
+      "url": "https://www.firefox.com/",
+      "categories": ["development", "productivity"],
+      "icon": "logos:firefox"
+    },
+    {
+      "id": "ghostty",
+      "title": "Ghostty",
+      "description": "A GPU-accelerated terminal with a native interface on macOS and Linux.",
+      "url": "https://ghostty.org/",
+      "categories": ["development"],
+      "icon": "simple-icons:ghostty"
     },
     {
       "id": "github",
       "title": "GitHub Mobile",
       "description": "Review and manage development work on the go.",
       "url": "https://github.com/mobile",
-      "categories": ["development", "productivity"],
+      "categories": ["development"],
       "icon": "simple-icons:github"
     },
     {
@@ -114,24 +122,24 @@
       "title": "Godot",
       "description": "A free, open-source 2D and 3D game engine.",
       "url": "https://godotengine.org",
-      "categories": ["development", "productivity"],
+      "categories": ["development"],
       "icon": "logos:godot-icon"
+    },
+    {
+      "id": "herdr",
+      "title": "Herdr",
+      "description": "A workspace for running and managing AI coding agents.",
+      "url": "https://herdr.dev/",
+      "categories": ["development", "productivity"],
+      "icon": "mdi:robot-outline"
     },
     {
       "id": "icloud",
       "title": "iCloud",
       "description": "Apple's cloud storage and device synchronization service.",
       "url": "https://www.icloud.com/",
-      "categories": ["development", "productivity", "entertainment"],
+      "categories": ["productivity"],
       "icon": "simple-icons:icloud"
-    },
-    {
-      "id": "instagram",
-      "title": "Instagram",
-      "description": "Photo and video sharing.",
-      "url": "https://www.instagram.com/",
-      "categories": ["entertainment"],
-      "icon": "simple-icons:instagram"
     },
     {
       "id": "netflix",
@@ -170,7 +178,7 @@
       "title": "PowerToys",
       "description": "Windows utilities for power users and custom workflows.",
       "url": "https://github.com/microsoft/PowerToys",
-      "categories": ["development", "productivity"],
+      "categories": ["productivity"],
       "icon": "mdi:power-settings"
     },
     {
@@ -206,14 +214,6 @@
       "icon": "simple-icons:windowsterminal"
     },
     {
-      "id": "threads",
-      "title": "Threads",
-      "description": "A text-focused social network from Instagram.",
-      "url": "https://www.threads.net/login",
-      "categories": ["entertainment"],
-      "icon": "simple-icons:threads"
-    },
-    {
       "id": "todoist",
       "title": "Todoist",
       "description": "A to-do list and task manager for work and life.",
@@ -226,7 +226,7 @@
       "title": "Unity",
       "description": "A cross-platform engine for interactive 2D and 3D experiences.",
       "url": "https://unity.com",
-      "categories": ["development", "productivity"],
+      "categories": ["development"],
       "icon": "simple-icons:unity"
     },
     {
@@ -234,7 +234,7 @@
       "title": "Unreal Engine",
       "description": "Epic's real-time 3D creation and game engine.",
       "url": "https://www.unrealengine.com",
-      "categories": ["development", "productivity"],
+      "categories": ["development"],
       "icon": "simple-icons:unrealengine"
     },
     {
@@ -242,24 +242,8 @@
       "title": "Visual Studio Code",
       "description": "A lightweight, extensible source code editor.",
       "url": "https://code.visualstudio.com/",
-      "categories": ["development", "productivity", "note-taking"],
+      "categories": ["development"],
       "icon": "logos:visual-studio-code"
-    },
-    {
-      "id": "waze",
-      "title": "Waze",
-      "description": "Community-powered navigation and live traffic information.",
-      "url": "https://waze.com",
-      "categories": ["entertainment", "productivity"],
-      "icon": "simple-icons:waze"
-    },
-    {
-      "id": "whatsapp",
-      "title": "WhatsApp",
-      "description": "Private messaging, voice, and video calls.",
-      "url": "https://web.whatsapp.com",
-      "categories": ["productivity"],
-      "icon": "logos:whatsapp-icon"
     },
     {
       "id": "youtube",
